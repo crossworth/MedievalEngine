@@ -2,16 +2,24 @@
 
 using namespace ME;
 
-gameEngine * gameEngine::getInstance(){
-    static gameEngine *gm = new gameEngine;
+gameEngine * gameEngine::getInstance(int argc,char **argv){
+    static gameEngine *gm = new gameEngine(argc,argv);
     return gm;
 }
 
-gameEngine::gameEngine()
+
+int gameEngine::onExit(){
+    return returnCode;
+}
+
+gameEngine::gameEngine(int argc,char **argv)
 {
+    returnCode = 0;
+
     dbg = Debugger::getInstance();
 
     mWindow = renderWindow::getInstance();
+    mEditor = editor::getInstance();
 
     CFGParser windowConfg;
     windowConfg.readFile("config.cfg");

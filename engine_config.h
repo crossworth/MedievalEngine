@@ -82,6 +82,35 @@ typedef sf::Mouse Mouse;
 typedef sf::Joystick Joystick;
 
 
+//Map
+enum TileType { SOLID , EVENT , NORMAL  };
+struct Coord{
+    int x;
+    int y;
+};
+struct TileSize{
+    int width;
+    int height;
+};
+struct Tile{
+    int id;
+    int layer;
+    char textureName[200];
+    Coord pos;
+    TileSize size;
+    TileType type;
+    char eventScript[200];
+};
+
+struct MapFile{
+    char mapName[200];
+    int numberTile;
+    Tile tiles[10*10];
+};
+
+
+
+
 enum Key
     {
         Unknown = -1, ///< Unhandled key
@@ -201,6 +230,10 @@ enum Key
 #define NOT_WARNING
 #endif
 
+
+#ifndef nullptr
+#define nullptr 0
+#endif
 
 
 

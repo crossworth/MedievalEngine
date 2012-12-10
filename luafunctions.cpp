@@ -58,7 +58,7 @@ void registerAllLuaFunctions(){
 
     // Sprite
     mLua->registerFunction("spriteLoad",spriteLoad);
-    mLua->registerFunction("spriteLoadFromTexture",spriteLoadFromTexture);
+    mLua->registerFunction("spriteSetTexture",spriteSetTexture);
     mLua->registerFunction("spriteDraw",spriteDraw);
     mLua->registerFunction("spriteRotate",spriteRotate);
     mLua->registerFunction("spriteGetRotate",spriteGetRotate);
@@ -75,6 +75,8 @@ void registerAllLuaFunctions(){
     mLua->registerFunction("spriteGetLocalBounds",spriteGetLocalBounds);
     mLua->registerFunction("spriteGetSize",spriteGetSize);
     mLua->registerFunction("spriteGetScale",spriteGetScale);
+    mLua->registerFunction("spriteSetRect",spriteSetRect);
+
 
 
     // Music

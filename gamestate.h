@@ -16,6 +16,7 @@ public:
     virtual void init()=0;
     virtual void play()=0;
     virtual void pause()=0;
+    virtual void restart()=0;
     bool isRunning();
     void registerGameEngine(gameEngine *gm);
     virtual void render()=0;

@@ -1,6 +1,7 @@
 #ifndef MAINSTATE_H
 #define MAINSTATE_H
 #include "gamestate.h"
+#include "editor.h"
 
 namespace ME{
 
@@ -14,7 +15,13 @@ public:
     void update();
     void play();
     void pause();
+    void restart();
     ~mainState();
+private:
+    editor *mEditor;
+    std::vector<Coord> tiles;
+    MapFile *mMap;
+    bool open;
 };
 
 }

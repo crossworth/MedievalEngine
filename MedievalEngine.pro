@@ -15,7 +15,9 @@ SOURCES += main.cpp \
     renderwindow.cpp \
     gameengine.cpp \
     luafunctions.cpp \
-    converter.cpp
+    converter.cpp \
+    map.cpp \
+    editor.cpp
 
 HEADERS += \
     debugger.h \
@@ -29,7 +31,9 @@ HEADERS += \
     renderwindow.h \
     gameengine.h \
     luafunctions.h \
-    converter.h
+    converter.h \
+    map.h \
+    editor.h
 
 LIBS += -L "/usr/local/lib" -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system -llua
 
