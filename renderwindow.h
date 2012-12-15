@@ -28,6 +28,7 @@ public:
      bool isValidWindow(const windowInformation winInfos);
      windowInformation getWindowInformation();
      sf::RenderWindow *getRenderWindow();
+     Coord getCameraPosition(const std::string &name);
 private:
     Debugger *dbg;
     renderWindow();

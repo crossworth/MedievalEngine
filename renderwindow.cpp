@@ -6,6 +6,12 @@ renderWindow::renderWindow() : mWindowInfomation(0,0,32,false,"Medieval Engine")
    dbg = Debugger::getInstance();
 
 }
+Coord renderWindow::getCameraPosition(const std::string &name){
+    Coord tmp;
+    tmp.x = getCamera(name)->getCenter().x - getCamera(name)->getSize().x/2;
+    tmp.y = getCamera(name)->getCenter().y - getCamera(name)->getSize().y/2;
+    return tmp;
+}
 
 void renderWindow::createWindow(const windowInformation winInfos,int frameLimit, bool Sync){
 

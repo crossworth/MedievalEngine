@@ -95,17 +95,17 @@ struct TileSize{
 struct Tile{
     int id;
     int layer;
-    char textureName[200];
+    char textureName[300];
     Coord pos;
     TileSize size;
     TileType type;
-    char eventScript[200];
+    char eventScript[300];
 };
 
 struct MapFile{
-    char mapName[200];
+    char mapName[300];
     int numberTile;
-    Tile tiles[10*10];
+    Tile tiles[100*100];
 };
 
 

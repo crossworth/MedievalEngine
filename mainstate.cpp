@@ -24,10 +24,6 @@ void mainState::render(){
        assets->getAssetSprite("tile")->setPosition(tiles.at(i).x,tiles.at(i).y);
         mRender->draw(*assets->getAssetSprite("tile"));
    }
-   sf::Vector2i pos = sf::Mouse::getPosition(*mRender->getRenderWindow());
-   assets->getAssetSprite("tile")->setPosition(pos.x,pos.y);
-   mRender->draw(*assets->getAssetSprite("tile"));
-
    if ( open ){
        for(int i=0;i<mMap->numberTile;i++){
            assets->getAssetSprite(mMap->tiles[i].textureName)->setPosition(mMap->tiles[i].pos.x,mMap->tiles[i].pos.y);
@@ -35,6 +31,12 @@ void mainState::render(){
        }
 
    }
+
+    mRender->getRenderWindow()->setView(mRender->getRenderWindow()->getDefaultView());
+    sf::Vector2i pos = sf::Mouse::getPosition(*mRender->getRenderWindow());
+    assets->getAssetSprite("tile")->setPosition(pos.x,pos.y);
+    assets->getAssetSprite("tile")->setOrigin(assets->getAssetSprite("tile")->getTexture()->getSize().x/2,assets->getAssetSprite("tile")->getTexture()->getSize().y/2);
+    mRender->draw(*assets->getAssetSprite("tile"));
 
    mRender->display();
 }
@@ -58,10 +60,11 @@ void mainState::handleEvents(){
         if ( mEvent.type == sf::Event::KeyPressed){
             if ( mEvent.key.code == sf::Keyboard::L){
                 //this->restart();
+                mMap = nullptr;
                 mMap = mEditor->open("assets/teste.map");
 
-                //std::cout << "  " << mMap->numberTile ;
-                //std::cout << "Number of tiles" << std::endl;
+                std::cout << "  " << mMap->numberTile ;
+                std::cout << " Number of tiles" << std::endl;
 
 
                 for(int i=0;i< mMap->numberTile;i++){
@@ -87,13 +90,15 @@ void mainState::handleEvents(){
             t.pos.x = pos.x;
             t.pos.y = pos.y;
             Coord tmp;
-            tmp.x = pos.x;
-            tmp.y = pos.y;
+            tmp.x = pos.x + mRender->getCameraPosition("teste").x;
+            tmp.y = pos.y + mRender->getCameraPosition("teste").y;
             tiles.push_back(tmp);
             t.size.width = assets->getAssetSprite("tile")->getTexture()->getSize().x;
             t.size.height = assets->getAssetSprite("tile")->getTexture()->getSize().y;
             mEditor->insertTile(t);
             mLua->doFile("scripts/mainState/mouseButtonPressed.lua");
+
+
         }
         if ( mEvent.type == sf::Event::MouseButtonReleased){
             mLua->doFile("scripts/mainState/mouseButtonReleased.lua");
@@ -110,7 +115,6 @@ mainState::~mainState(){
 
 void mainState::update(){
     mLua->doFile("scripts/mainState/update.lua");
-
 }
 
 

@@ -24,7 +24,7 @@ void editor::insertTile(Tile &tile){
     strcpy(mTiles[Index].textureName,"assets/tile.png");
     mTiles[Index].type =  NORMAL;
     Index++;
-    cout << "Tile inserido na posicao " << tile.pos.x << " " << tile.pos.y << endl;
+    cout << "Tile inserido na posicao " << tile.pos.x << " " << tile.pos.y <<  " Index:"  << Index << endl;
 }
 
 
@@ -33,7 +33,7 @@ void editor::create(const std::string &name){
     MapFile map;
     map.numberTile = Index;
     strcpy(map.mapName,"TesteMapa");
-    for (int i =0;i < 10*10;i++)
+    for (int i =0;i < 100*100;i++)
         map.tiles[i] = mTiles[i];
 
     ofstream file;
