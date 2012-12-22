@@ -1,0 +1,1 @@
+g++ *.cpp -llua -lsfml-graphcis -lsfml-window -lsfml-audio

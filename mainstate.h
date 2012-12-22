@@ -18,10 +18,6 @@ public:
     void restart();
     ~mainState();
 private:
-    editor *mEditor;
-    std::vector<Coord> tiles;
-    MapFile *mMap;
-    bool open;
 };
 
 }

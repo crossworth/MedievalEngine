@@ -29,6 +29,8 @@ public:
      windowInformation getWindowInformation();
      sf::RenderWindow *getRenderWindow();
      Coord getCameraPosition(const std::string &name);
+
+     bool hasFocus;
 private:
     Debugger *dbg;
     renderWindow();

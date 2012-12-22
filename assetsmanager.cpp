@@ -18,6 +18,8 @@ AssetsManager::~AssetsManager(){
     std::map<std::string, CFGParser*>::iterator itCFGParser = mConfigFiles.begin();
     std::map<std::string, Font*>::iterator itFonts = mFonts.begin();
     std::map<std::string,RectangleShape*>::iterator itRectangleShape = mRectangleShapes.begin();
+    std::map<std::string,Text*>::iterator itText = mTexts.begin();
+
 
     mImages.clear();
 
@@ -62,6 +64,12 @@ AssetsManager::~AssetsManager(){
         delete itRectangleShape->second;
     }
     mRectangleShapes.clear();
+
+
+    for(; itText != mTexts.end();itText++){
+        delete itText->second;
+    }
+    mTexts.clear();
 
     dbg->log(WARNING,1,"Todos os assets foram liberados");
 }
@@ -199,6 +207,18 @@ RectangleShape* AssetsManager::loadAssetRectangle(const std::string &name, const
     return mRectangleShapes[name];
 }
 
+Text* AssetsManager::loadAssetText(const std::string &name,const Text &text){
+    if ( mTexts.find(name) != mTexts.end()){
+        if ( ShowAssetLoadingDebug )
+            dbg->log(WARNING,1,("Text: [" + name+  "] ja carregada na memoria, retornando recurso ja alocado").c_str());
+        return mTexts[name];
+    }
+    if ( ShowAssetLoadingDebug )
+        dbg->log(WARNING,1,("Carregado Text: "+ name).c_str());
+
+    mTexts.insert( std::make_pair(name,new Text(text)) );
+    return mTexts[name];
+}
 
 
 Texture* AssetsManager::getAssetTexture(const std::string &name){
@@ -283,6 +303,17 @@ RectangleShape* AssetsManager::getAssetRectangle(const std::string &name){
     }
 }
 
+Text* AssetsManager::getAssetText(const std::string &name){
+    if (mTexts.find(name) != mTexts.end() ){
+        return mTexts[name];
+    }else{
+     dbg->log(CRITICAL,1,("Impossivel encontrar Text recurso: [" + name+  "]").c_str());
+     Text *tmp = new sf::Text;
+     return tmp;
+    }
+}
+
+
 
 int AssetsManager::removeAsset(const std::string &name,files_types type){
     if ( type == IMAGE ){
@@ -343,5 +374,16 @@ int AssetsManager::removeAsset(const std::string &name,files_types type){
         }
     }
 
-    return 0;
+    if ( type == TEXT){
+        std::map<std::string,Text*>::iterator p = mTexts.find(name);
+        if ( mTexts.end() != p){
+            delete mTexts[name];
+            mTexts.erase(p);
+        }
+    }
+
+    return nullptr;
 }
+
+
+

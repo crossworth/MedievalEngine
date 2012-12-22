@@ -121,7 +121,7 @@ void renderWindow::setCamera(const Camera &cam){
 
 
 
-Camera * renderWindow::getDefaultCamera(){
+Camera* renderWindow::getDefaultCamera(){
     return (Camera*)&Window->getDefaultView();
 }
 

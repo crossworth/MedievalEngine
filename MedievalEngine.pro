@@ -1,7 +1,8 @@
 TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
-CONFIG -= qt
+CONFIG += qt
+
 
 SOURCES += main.cpp \
     debugger.cpp \
@@ -17,7 +18,9 @@ SOURCES += main.cpp \
     luafunctions.cpp \
     converter.cpp \
     map.cpp \
-    editor.cpp
+    editor.cpp \
+    texthandle.cpp \
+    gui.cpp
 
 HEADERS += \
     debugger.h \
@@ -33,7 +36,9 @@ HEADERS += \
     luafunctions.h \
     converter.h \
     map.h \
-    editor.h
+    editor.h \
+    texthandle.h \
+    gui.h
 
 LIBS += -L "/usr/local/lib" -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system -llua
 

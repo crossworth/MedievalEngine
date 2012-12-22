@@ -18,6 +18,10 @@
 #include <SFML/OpenGL.hpp>
 #include <assert.h>
 #include <exception>
+#include <QDir>
+#include <QtCore/qstring.h>
+#include <QtCore/qfileinfo.h>
+#include <QtCore/qstringlist.h>
 
 namespace ME{
 
@@ -26,6 +30,8 @@ class gameEngine;
 
 //global
 const std::string engine_name = "Medieval Engine";
+const QDir global_dir;
+const std::string globalPath = global_dir.absolutePath().toStdString() + "/";
 
 // Debug
 const bool DEBUG = true;
@@ -34,7 +40,7 @@ enum debug_type { WARNING = 0, CRITICAL, FATAL };
 
 
 // Assets Manager
-const bool ShowAssetLoadingDebug = true;
+const bool ShowAssetLoadingDebug = false;
 enum load_type { NOW=0, QUEUE};
 enum files_types { TEXTURE =0, SPRITE, SOUND, MUSIC, IMAGE, FONT, CONFIG_FILE, TEXT, BINARY, CFGPARSER, RECTANGLESHAPE};
 
@@ -46,6 +52,7 @@ typedef sf::Image Image;
 typedef sf::Font Font;
 typedef sf::Text Text;
 typedef sf::RectangleShape RectangleShape;
+
 
 // Profiler
 const bool ShowProfilerDebug = true;
@@ -99,13 +106,15 @@ struct Tile{
     Coord pos;
     TileSize size;
     TileType type;
+    float rotate;
+    float scale;
     char eventScript[300];
 };
 
 struct MapFile{
     char mapName[300];
     int numberTile;
-    Tile tiles[100*100];
+    Tile tiles[10000];
 };
 
 

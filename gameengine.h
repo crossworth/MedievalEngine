@@ -36,7 +36,7 @@ private:
     std::map<std::string,gameState*> mGamesStates;
     AssetsManager *assets;
     renderWindow *mWindow;
-    editor *mEditor;
+    Editor *mEditor;
 };
 
 }

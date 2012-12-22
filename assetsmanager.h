@@ -10,7 +10,7 @@ namespace ME{
 class AssetsManager
 {
 public:
-    static AssetsManager * getInstance();
+    static AssetsManager* getInstance();
     ~AssetsManager();
 
     // LoadAsset
@@ -22,7 +22,7 @@ public:
     CFGParser* loadAssetCFGParser(const std::string &name, const std::string &fileName, load_type loadType = NOW);
     Font* loadAssetFont(const std::string &name, const std::string &fileName, load_type loadType = NOW);
     RectangleShape* loadAssetRectangle(const std::string &name,  const float & width,const float &height, load_type loadType = NOW);
-
+    Text* loadAssetText(const std::string &name,const Text &text);
 
 
     //GetAsset
@@ -35,6 +35,7 @@ public:
     CFGParser* getAssetCFGParser(const std::string &name);
     Font* getAssetFont(const std::string &name);
     RectangleShape* getAssetRectangle(const std::string &name);
+    Text* getAssetText(const std::string &name);
 
 
     // implemente that in the future
@@ -44,6 +45,7 @@ public:
 
     // return null pointer
     int removeAsset(const std::string &name,files_types type);
+
 
 
 private:
@@ -60,7 +62,8 @@ private:
     std::map<std::string,Image> mImages;
     std::map<std::string, CFGParser*> mConfigFiles;
     std::map<std::string, Font*> mFonts;
-     std::map<std::string, RectangleShape*> mRectangleShapes;
+    std::map<std::string, RectangleShape*> mRectangleShapes;
+    std::map<std::string, Text*> mTexts;
 
 };
 

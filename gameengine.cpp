@@ -19,7 +19,6 @@ gameEngine::gameEngine(int argc,char **argv)
     dbg = Debugger::getInstance();
 
     mWindow = renderWindow::getInstance();
-    mEditor = editor::getInstance();
 
     CFGParser windowConfg;
     windowConfg.readFile("config.cfg");
@@ -50,9 +49,28 @@ gameEngine::gameEngine(int argc,char **argv)
 
     assets = AssetsManager::getInstance();
     registerAllLuaFunctions();
+
+
+    mEditor = Editor::getInstance();
+
+    //TODO: verify by the command line arguments if any editor flag was passed
+    mEditor->setEditMode(true);
+   // mEditor->openMap("assets/teste.map");
+
+
+   Camera map(*mWindow->getDefaultCamera());
+   Camera fixed(*mWindow->getDefaultCamera());
+   mWindow->createCamera("fixed",fixed);
+   mWindow->createCamera("map",map);
+
+
 }
 
 void gameEngine::init(){
+
+    //TODO: define which one game state will be enable by some configuration file
+    //or list of some kind
+
     mGamesStates.insert( std::make_pair("main",new mainState) );
     mGamesStates["main"]->init();
     mGamesStates["main"]->registerGameEngine(this);
@@ -61,9 +79,13 @@ void gameEngine::init(){
 
 void gameEngine::run(){
     while(mWindow->isOpen()){
+        mWindow->clear();
         mGamesStates[gameStateEnable]->handleEvents();
         mGamesStates[gameStateEnable]->update();
+        mEditor->render(*mWindow->getRenderWindow());
         mGamesStates[gameStateEnable]->render();
+        mWindow->display();
+
     }
 }
 
@@ -79,7 +101,7 @@ void gameEngine::changeGameState(const std::string &name){
     if( mGamesStates.find(name) != mGamesStates.end())
         gameStateEnable = name;
     else
-        dbg->log(CRITICAL,1,("O gameState: " + name + " não foi encontrado.").c_str());
+        dbg->log(FATAL,1,("O gameState: " + name + " não foi encontrado.").c_str());
 
 }
 gameState * gameEngine::getGameStateEnable(){
