@@ -1,4 +1,4 @@
-MediavelEngine - Engine para jogos 2D feita em C++ e LUA.
+Medieval - Engine para jogos 2D feita em C++ e LUA.
 
 
 Pedro Henrique
