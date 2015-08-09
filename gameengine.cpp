@@ -73,10 +73,11 @@ gameEngine::gameEngine(int argc, char** argv) {
     registerFunctions();
 
 
-    Image *icon           = assets->loadImage("icon_engine", "icon.png", true);
-    sf::Vector2u iconSize = icon->getSize();
-
-    mWindow->setIcon(iconSize.x, iconSize.y, *icon);
+    Image *icon = assets->loadImage("icon_engine", "icon.png", true);
+    if(icon != nullptr) {
+        sf::Vector2u iconSize = icon->getSize();
+        mWindow->setIcon(iconSize.x, iconSize.y, *icon);
+    }
 
 
 }
@@ -91,7 +92,6 @@ void gameEngine::init() {
     if (!gameStatesList.contains(QFileInfo("main"))) {
         dbg->log(CRITICAL, 1, ("[gameEngine::init] Game State not found on folder " + gameStateDir.absolutePath().toStdString()).c_str());
     }
-
 
     for (int i = 0; i < gameStatesList.size(); i++) {
         std::string gameStateName = gameStatesList.at(i).fileName().toStdString();
