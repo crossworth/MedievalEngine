@@ -3,20 +3,20 @@
 using namespace ME;
 
 gameState::gameState() : running(false) {
-    assets= AssetsManager::getInstance();
+    assets  = AssetsManager::getInstance();
     mRender = renderWindow::getInstance();
-    mLua = Lua::getInstace();
+    mLua    = LuaEngine::getInstace();
 }
 
-bool gameState::isRunning(){
+bool gameState::isRunning() {
     return running;
 }
 
 
-gameState::~gameState(){
+gameState::~gameState() {
 
 }
 
-void gameState::registerGameEngine(gameEngine *gm){
+void gameState::registerGameEngine(gameEngine *gm) {
     mGameEngine = gm;
 }

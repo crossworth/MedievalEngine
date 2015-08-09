@@ -2,43 +2,45 @@ TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
 CONFIG += qt
-
+INCLUDEPATH += "C:\Program Files (x86)\SFML\include"
+INCLUDEPATH += "C:\Program Files (x86)\lua\include"
 
 SOURCES += main.cpp \
     debugger.cpp \
-    engine_config.cpp \
     assetsmanager.cpp \
     cfgparser.cpp \
     profiler.cpp \
-    lua.cpp \
     gamestate.cpp \
-    mainstate.cpp \
     renderwindow.cpp \
     gameengine.cpp \
     luafunctions.cpp \
-    converter.cpp \
     map.cpp \
     editor.cpp \
     texthandle.cpp \
-    gui.cpp
+    gui.cpp \
+    TO.cpp \
+    luaengine.cpp \
+    luastate.cpp
 
 HEADERS += \
     debugger.h \
-    engine_config.h \
     assetsmanager.h \
     cfgparser.h \
     profiler.h \
-    lua.h \
     gamestate.h \
-    mainstate.h \
     renderwindow.h \
     gameengine.h \
     luafunctions.h \
-    converter.h \
     map.h \
     editor.h \
     texthandle.h \
-    gui.h
+    gui.h \
+    TO.h \
+    config.h \
+    luaengine.h \
+    key.h \
+    luastate.h
 
-LIBS += -L "/usr/local/lib" -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system -llua
-
+QMAKE_CXXFLAGS += -std=gnu++1y
+LIBS += -L"C:\Program Files (x86)\SFML\lib" -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
+LIBS += -L"C:\Program Files (x86)\lua" -llua53

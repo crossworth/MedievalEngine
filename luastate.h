@@ -3,12 +3,11 @@
 #include "gamestate.h"
 #include "editor.h"
 
-namespace ME{
+namespace ME {
 
-class mainState : public gameState
-{
+class luaState : public gameState {
 public:
-    mainState();
+    luaState(std::string name, std::string path);
     void init();
     void render();
     void handleEvents();
@@ -16,8 +15,12 @@ public:
     void play();
     void pause();
     void restart();
-    ~mainState();
+    void onEnableTransition();
+    void onDisableTransition();
+    ~luaState();
 private:
+    std::string name;
+    std::string path;
 };
 
 }

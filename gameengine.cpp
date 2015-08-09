@@ -2,113 +2,142 @@
 
 using namespace ME;
 
-gameEngine * gameEngine::getInstance(int argc,char **argv){
+gameEngine * gameEngine::getInstance(int argc,char **argv) {
     static gameEngine *gm = new gameEngine(argc,argv);
     return gm;
 }
 
 
-int gameEngine::onExit(){
+int gameEngine::onExit() {
     return returnCode;
 }
 
-gameEngine::gameEngine(int argc,char **argv)
-{
-    returnCode = 0;
+gameEngine::gameEngine(int argc, char** argv) {
+    returnCode = 0; // Define o código de retorno padrão
 
-    dbg = Debugger::getInstance();
-
+    dbg     = Debugger::getInstance();
     mWindow = renderWindow::getInstance();
 
-    CFGParser windowConfg;
-    windowConfg.readFile("config.cfg");
+    CFGParser configurations;
+    configurations.readFile(ENGINE_DEFAULTS::CONFIG_FILE);
+
+    // Verifica as informações do arquivo de configuração
+    // e cria a janela com base nelas ou com base nas defaults
+    windowInformation mWindowInformation;
+
+    std::string tmpBitsPerPixel, tmpHeight, tmpWidth, tmpFullScreen, tmpWindowName;
+
+    tmpBitsPerPixel = configurations.getKey("bits_per_pixel");
+    tmpHeight       = configurations.getKey("height");
+    tmpWidth        = configurations.getKey("width");
+    tmpFullScreen   = configurations.getKey("fullscreen");
+    tmpWindowName   = configurations.getKey("engine_name");
 
 
-    windowInformation mWindowInformation(0,0,32,false,"Medieval Engine");
+    if(tmpBitsPerPixel != "") {
+        mWindowInformation.bitsPerPixel = TO::str_to_int(tmpBitsPerPixel);
+    }
 
-    mWindowInformation.bitsPerPixel = windowConfg.getKey<int>("bitsPerPixel");
-    mWindowInformation.height = windowConfg.getKey<int>("height");
-    mWindowInformation.width = windowConfg.getKey<int>("width");
-    mWindowInformation.fullScreen = Converter::str_to_bool(windowConfg.getKey<std::string>("fullScreen"));
-    mWindowInformation.windowName = "Medieval Engine";
+    if(tmpHeight != "") {
+        mWindowInformation.height = TO::str_to_int(tmpHeight);
+    }
 
+    if(tmpWidth != "") {
+        mWindowInformation.width = TO::str_to_int(tmpWidth);
+    }
 
+    if(tmpFullScreen != "") {
+        mWindowInformation.fullScreen = TO::str_to_bool(tmpFullScreen);
+    }
+
+    if (tmpWindowName != "") {
+        mWindowInformation.windowName = tmpWindowName;
+    }
 
     mWindow->createWindow(mWindowInformation);
 
-
-    if ( !mWindow->isValidWindow(mWindowInformation)){
+    // Caso não seja uma janela válida cria um arquivo com as informações válidas para janela
+    if (!mWindow->isValidWindow(mWindowInformation)) {
         windowInformation validWindow = mWindow->getWindowInformation();
-        windowConfg.clear();
-        windowConfg.add("bitsPerPixel",Converter::int_to_str(validWindow.bitsPerPixel));
-        windowConfg.add("height",Converter::int_to_str(validWindow.height));
-        windowConfg.add("width",Converter::int_to_str(validWindow.width));
-        windowConfg.add("fullScreen",Converter::bool_to_str(validWindow.fullScreen));
-        windowConfg.saveFile("config.cfg");
+        configurations.add("bits_per_pixel", TO::int_to_str(validWindow.bitsPerPixel));
+        configurations.add("height", TO::int_to_str(validWindow.height));
+        configurations.add("width", TO::int_to_str(validWindow.width));
+        configurations.add("fullscreen", TO::bool_to_str(validWindow.fullScreen));
+        configurations.saveFile(ENGINE_DEFAULTS::CONFIG_FILE);
     }
 
+    // Inicia o AssetsManager
     assets = AssetsManager::getInstance();
-    registerAllLuaFunctions();
+
+    // Registra as funções da LuaEngine
+    registerFunctions();
 
 
-    mEditor = Editor::getInstance();
+    Image *icon           = assets->loadImage("icon_engine", "icon.png", true);
+    sf::Vector2u iconSize = icon->getSize();
 
-    //TODO: verify by the command line arguments if any editor flag was passed
-    mEditor->setEditMode(true);
-   // mEditor->openMap("assets/teste.map");
-
-
-   Camera map(*mWindow->getDefaultCamera());
-   Camera fixed(*mWindow->getDefaultCamera());
-   mWindow->createCamera("fixed",fixed);
-   mWindow->createCamera("map",map);
+    mWindow->setIcon(iconSize.x, iconSize.y, *icon);
 
 
 }
 
-void gameEngine::init(){
+void gameEngine::init() {
 
-    //TODO: define which one game state will be enable by some configuration file
-    //or list of some kind
+    QDir gameStateDir;
+    gameStateDir.setCurrent(QString((GLOBAL_PATH + "data/state").c_str()));
+    gameStateDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks);
+    QFileInfoList gameStatesList = gameStateDir.entryInfoList();
 
-    mGamesStates.insert( std::make_pair("main",new mainState) );
-    mGamesStates["main"]->init();
-    mGamesStates["main"]->registerGameEngine(this);
+    if (!gameStatesList.contains(QFileInfo("main"))) {
+        dbg->log(CRITICAL, 1, ("[gameEngine::init] Game State not found on folder " + gameStateDir.absolutePath().toStdString()).c_str());
+    }
+
+
+    for (int i = 0; i < gameStatesList.size(); i++) {
+        std::string gameStateName = gameStatesList.at(i).fileName().toStdString();
+        std::string gameStatePath = gameStatesList.at(i).absolutePath().toStdString();
+        gameStatePath             = gameStatePath + "/" + gameStateName;
+
+        mGamesStates.insert(std::make_pair(gameStateName, new luaState(gameStateName, gameStatePath)));
+        mGamesStates[gameStateName]->registerGameEngine(this);
+
+        dbg->log(VERBOSE, 1, ("[gameEngine::init] Game State (" + gameStateName + ") added").c_str());
+    }
+
     gameStateEnable = "main";
+    mGamesStates[gameStateEnable]->init();
 }
 
-void gameEngine::run(){
-    while(mWindow->isOpen()){
+void gameEngine::run() {
+
+    while(mWindow->isOpen()) {
         mWindow->clear();
         mGamesStates[gameStateEnable]->handleEvents();
         mGamesStates[gameStateEnable]->update();
-        mEditor->render(*mWindow->getRenderWindow());
         mGamesStates[gameStateEnable]->render();
         mWindow->display();
-
     }
 }
 
-
-
-void gameEngine::clear(){
+void gameEngine::clear() {
     mWindow->~renderWindow();
     assets->~AssetsManager();
 }
 
-
-void gameEngine::changeGameState(const std::string &name){
-    if( mGamesStates.find(name) != mGamesStates.end())
+void gameEngine::changeGameState(const std::string &name) {
+    if( mGamesStates.find(name) != mGamesStates.end()) {
         gameStateEnable = name;
-    else
-        dbg->log(FATAL,1,("O gameState: " + name + " não foi encontrado.").c_str());
-
+        mGamesStates[gameStateEnable]->init();
+    } else {
+        dbg->log(CRITICAL, 1 ,("[gameEngine::changeGameState] GameState (" + name + ") not found.").c_str());
+    }
 }
-gameState * gameEngine::getGameStateEnable(){
+
+gameState * gameEngine::getActiveGameState() {
     return mGamesStates[gameStateEnable];
 }
 
 
-gameEngine::~gameEngine(){
+gameEngine::~gameEngine() {
 
 }

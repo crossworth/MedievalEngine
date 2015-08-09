@@ -1,70 +1,63 @@
 #ifndef ASSETSMANAGER_H
 #define ASSETSMANAGER_H
 #include "debugger.h"
-#include "engine_config.h"
-#include "converter.h"
+#include "config.h"
+#include "TO.h"
 #include "cfgparser.h"
 
-namespace ME{
+namespace ME {
 
-class AssetsManager
-{
+class AssetsManager {
 public:
     static AssetsManager* getInstance();
     ~AssetsManager();
 
-    // LoadAsset
-    Image* loadAssetImage(const std::string &name, const std::string &fileName, load_type loadType = NOW);
-    Music* loadAssetMusic(const std::string &name, const std::string &fileName, load_type loadType = NOW);
-    Texture* loadAssetTexture(const std::string &name, const std::string &fileName, load_type loadType = NOW);
-    Sprite* loadAssetSprite(const std::string &name, const Sprite &sprite, load_type loadType = NOW);
-    Sound* loadAssetSound(const std::string &name, const std::string &fileName, load_type loadType = NOW);
-    CFGParser* loadAssetCFGParser(const std::string &name, const std::string &fileName, load_type loadType = NOW);
-    Font* loadAssetFont(const std::string &name, const std::string &fileName, load_type loadType = NOW);
-    RectangleShape* loadAssetRectangle(const std::string &name,  const float & width,const float &height, load_type loadType = NOW);
-    Text* loadAssetText(const std::string &name,const Text &text);
+    // Carrega da memória
+    Image* loadImage(const std::string &name, const std::string &fileName, bool persist = true);
+    Music* loadMusic(const std::string &name, const std::string &fileName, bool persist = false);
+    Texture* loadTexture(const std::string &name, const std::string &fileName, bool persist = false);
+    Sound* loadSound(const std::string &name, const std::string &fileName, bool persist = false);
+    Font* loadFont(const std::string &name, const std::string &fileName, bool persist = false);
 
 
-    //GetAsset
-    // return null if not found
-    Texture* getAssetTexture(const std::string &name);
-    Sprite* getAssetSprite(const std::string &name);
-    Sound* getAssetSound(const std::string &name);
-    Music* getAssetMusic(const std::string &name);
-    Image* getAssetImage(const std::string &name);
-    CFGParser* getAssetCFGParser(const std::string &name);
-    Font* getAssetFont(const std::string &name);
-    RectangleShape* getAssetRectangle(const std::string &name);
-    Text* getAssetText(const std::string &name);
+    // Criação de assets
+    RectangleShape* createRectangle(const std::string &name, const float & width, const float &height, bool persist = false);
+    Text* createText(const std::string &name, const Text &text, bool persist = false);
+    Sprite* createSprite(const std::string &name, const Sprite &sprite, bool persist = false);
 
 
-    // implemente that in the future
-    void processQueue();
-    int getQueueNumber();
+    // Retorna um asset como ponteiro ou nullptr
+    Texture* getTexture(const std::string &name);
+    Sprite* getSprite(const std::string &name);
+    Sound* getSound(const std::string &name);
+    Music* getMusic(const std::string &name);
+    Image* getImage(const std::string &name);
+    Font* getFont(const std::string &name);
 
 
-    // return null pointer
-    int removeAsset(const std::string &name,files_types type);
+    RectangleShape* getRectangleShape(const std::string &name);
+    Text* getText(const std::string &name);
 
+    // Retorna nullptr
+    int remove(const std::string &name, ASSETS_TYPE type);
+
+    void clearNonPersistent();
 
 
 private:
+    std::string ASSETS_PATH;
     AssetsManager();
-
     Debugger *dbg;
 
-    bool _processQueue;
-    std::queue<std::string> mQueue;
-    std::map<std::string, Texture*> mTextures;
-    std::map<std::string, Sprite*> mSprites;
-    std::map<std::string, Sound*> mSounds;
-    std::map<std::string, Music*> mMusic;
-    std::map<std::string,Image> mImages;
-    std::map<std::string, CFGParser*> mConfigFiles;
-    std::map<std::string, Font*> mFonts;
-    std::map<std::string, RectangleShape*> mRectangleShapes;
-    std::map<std::string, Text*> mTexts;
+    std::map<std::string, TextureAsset> mTextures;
+    std::map<std::string, SpriteAsset> mSprites;
+    std::map<std::string, SoundAsset> mSounds;
+    std::map<std::string, MusicAsset> mMusics;
+    std::map<std::string, ImageAsset> mImages;
+    std::map<std::string, FontAsset> mFonts;
 
+    std::map<std::string, RectangleShapeAsset> mRectangleShapes;
+    std::map<std::string, TextAsset> mTexts;
 };
 
 }

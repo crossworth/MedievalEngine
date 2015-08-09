@@ -1,11 +1,9 @@
 #include "gameengine.h"
 
-int main(int argc,char **argv)
-{
+int main(int argc,char **argv) {
 
     ProfileInit();
     ProfileStart();
-
 
     ME::gameEngine *app = ME::gameEngine::getInstance(argc,argv);
     app->init();
@@ -15,7 +13,7 @@ int main(int argc,char **argv)
     int EXIT_CODE = app->onExit();
 
 
-    ProfileEnd("Execucao total Engine");
+    ProfileEnd("GameEngine total");
 
     return EXIT_CODE;
 }

@@ -1,21 +1,21 @@
 #ifndef PROFILER_H
 #define PROFILER_H
-#include "engine_config.h"
-#include "time.h"
+#include "config.h"
+#include <time.h>
 #include "debugger.h"
-#include "converter.h"
+#include "TO.h"
 
 
-namespace ME{
+namespace ME {
 
-class Profiler
-{
+class Profiler {
 public:
     static time_t profileStart();
-    static void profileEnd(const std::string &name, time_t &timeProfile);
+    static void profileEnd(std::string what, time_t &timeProfile);
 private:
     Profiler();
 };
 
 }
+
 #endif // PROFILER_H

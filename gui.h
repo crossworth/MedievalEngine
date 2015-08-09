@@ -1,6 +1,6 @@
 #ifndef GUI_H
 #define GUI_H
-#include "engine_config.h"
+#include "config.h"
 #include "renderwindow.h"
 #include "assetsmanager.h"
 #include "texthandle.h"

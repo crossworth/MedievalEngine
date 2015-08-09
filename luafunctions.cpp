@@ -2,10 +2,10 @@
 
 
 
-void registerAllLuaFunctions(){
+void registerFunctions() {
     // Global
-    mLua->registerFunction("log",log);
-    mLua->registerFunction("getWindowInfo",getWindowInfo);
+    mLua->registerFunction("log", log);
+    mLua->registerFunction("getWindowInfo", getWindowInfo);
 
     //Events
     mLua->registerFunction("getMouseGlobalPosition",getMouseGlobalPosition);
@@ -52,30 +52,26 @@ void registerAllLuaFunctions(){
     mLua->registerFunction("rectangleScale",rectangleScale);
     mLua->registerFunction("rectangleRotate",rectangleRotate);
 
-
-
-
-
     // Sprite
-    mLua->registerFunction("spriteLoad",spriteLoad);
-    mLua->registerFunction("spriteSetTexture",spriteSetTexture);
-    mLua->registerFunction("spriteDraw",spriteDraw);
-    mLua->registerFunction("spriteRotate",spriteRotate);
-    mLua->registerFunction("spriteGetRotate",spriteGetRotate);
-    mLua->registerFunction("spriteMove",spriteMove);
-    mLua->registerFunction("spriteSetPosition",spriteSetPosition);
-    mLua->registerFunction("spriteGetPosition",spriteGetPosition);
-    mLua->registerFunction("spriteSetScale",spriteSetScale);
-    mLua->registerFunction("spriteScale",spriteScale);
-    mLua->registerFunction("spriteSetOrigin",spriteSetOrigin);
-    mLua->registerFunction("spriteGetOrigin",spriteGetOrigin);
-    mLua->registerFunction("spriteSetColor",spriteSetColor);
-    mLua->registerFunction("spriteGetColor",spriteGetColor);
-    mLua->registerFunction("spriteGetGlobalBounds",spriteGetGlobalBounds);
-    mLua->registerFunction("spriteGetLocalBounds",spriteGetLocalBounds);
-    mLua->registerFunction("spriteGetSize",spriteGetSize);
-    mLua->registerFunction("spriteGetScale",spriteGetScale);
-    mLua->registerFunction("spriteSetRect",spriteSetRect);
+    mLua->registerFunction("spriteCreate", spriteCreate);
+    mLua->registerFunction("spriteSetTexture", spriteSetTexture);
+    mLua->registerFunction("spriteDraw", spriteDraw);
+    mLua->registerFunction("spriteRotate", spriteRotate);
+    mLua->registerFunction("spriteGetRotation", spriteGetRotation);
+    mLua->registerFunction("spriteMove", spriteMove);
+    mLua->registerFunction("spriteSetPosition", spriteSetPosition);
+    mLua->registerFunction("spriteGetPosition", spriteGetPosition);
+    mLua->registerFunction("spriteSetScale", spriteSetScale);
+    mLua->registerFunction("spriteScale", spriteScale);
+    mLua->registerFunction("spriteSetOrigin", spriteSetOrigin);
+    mLua->registerFunction("spriteGetOrigin", spriteGetOrigin);
+    mLua->registerFunction("spriteSetColor", spriteSetColor);
+    mLua->registerFunction("spriteGetColor", spriteGetColor);
+    mLua->registerFunction("spriteGetGlobalBounds", spriteGetGlobalBounds);
+    mLua->registerFunction("spriteGetLocalBounds", spriteGetLocalBounds);
+    mLua->registerFunction("spriteGetSize", spriteGetSize);
+    mLua->registerFunction("spriteGetScale", spriteGetScale);
+    mLua->registerFunction("spriteSetRect", spriteSetRect);
 
 
 
@@ -92,4 +88,8 @@ void registerAllLuaFunctions(){
     mLua->registerFunction("musicSetPlayingOffset",musicSetPlayingOffset);
 
 
+
+
+    Debugger *dbg = Debugger::getInstance();
+    dbg->log(VERBOSE, 1,"[registerFunctions] Lua functions registered");
 }

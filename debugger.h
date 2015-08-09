@@ -1,12 +1,11 @@
 #ifndef DEBUGGER_H
 #define DEBUGGER_H
-#include "engine_config.h"
+#include "config.h"
 #include <stdarg.h>
 
-namespace ME{
+namespace ME {
 
-class Debugger
-{
+class Debugger {
 public:
     static Debugger * getInstance();
     void log(const debug_type &type,int numArgs,...);

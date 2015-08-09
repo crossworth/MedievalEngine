@@ -4,20 +4,19 @@
 #include "renderwindow.h"
 #include "profiler.h"
 #include "assetsmanager.h"
-#include "lua.h"
-#include "engine_config.h"
+#include "luaengine.h"
+#include "config.h"
 #include "gamestate.h"
-#include "converter.h"
+#include "TO.h"
 #include "cfgparser.h"
-#include "mainstate.h"
+#include "luastate.h"
 #include "luafunctions.h"
-#include "editor.h"
 
 
-namespace ME{
 
-class gameEngine
-{
+namespace ME {
+
+class gameEngine {
 public:
     static gameEngine* getInstance(int argc = 0,char **argv = nullptr);
     void init();
@@ -25,7 +24,7 @@ public:
     void clear();
     void changeGameState(const std::string &name);
     int onExit();
-    gameState *getGameStateEnable();
+    gameState *getActiveGameState();
     ~gameEngine();
 protected:
     int returnCode;
@@ -33,10 +32,9 @@ private:
     gameEngine(int argc,char **argv);
     Debugger *dbg;
     std::string gameStateEnable;
-    std::map<std::string,gameState*> mGamesStates;
+    std::map<std::string, gameState*> mGamesStates;
     AssetsManager *assets;
     renderWindow *mWindow;
-    Editor *mEditor;
 };
 
 }

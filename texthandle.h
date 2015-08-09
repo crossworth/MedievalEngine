@@ -1,6 +1,6 @@
 #ifndef TEXTHANDLE_H
 #define TEXTHANDLE_H
-#include "engine_config.h"
+#include "config.h"
 #include "assetsmanager.h"
 #include "renderwindow.h"
 

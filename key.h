@@ -1,127 +1,9 @@
-#ifndef ENGINE_CONFIG_H
-#define ENGINE_CONFIG_H
-#include <iostream>
-#include <fstream>
-#include <time.h>
-#include <string>
-#include <sstream>
-#include <cstdlib>
-#include <cstdio>
-#include <map>
-#include <vector>
-#include <algorithm>
-#include <queue>
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/System.hpp>
-#include <SFML/OpenGL.hpp>
-#include <assert.h>
-#include <exception>
-#include <QDir>
-#include <QtCore/qstring.h>
-#include <QtCore/qfileinfo.h>
-#include <QtCore/qstringlist.h>
+#ifndef KEY_H
+#define KEY_H
 
-namespace ME{
+namespace ME {
 
-class gameEngine;
-
-
-//global
-const std::string engine_name = "Medieval Engine";
-const QDir global_dir;
-const std::string globalPath = global_dir.absolutePath().toStdString() + "/";
-
-// Debug
-const bool DEBUG = true;
-const std::string debugFile = "";
-enum debug_type { WARNING = 0, CRITICAL, FATAL };
-
-
-// Assets Manager
-const bool ShowAssetLoadingDebug = false;
-enum load_type { NOW=0, QUEUE};
-enum files_types { TEXTURE =0, SPRITE, SOUND, MUSIC, IMAGE, FONT, CONFIG_FILE, TEXT, BINARY, CFGPARSER, RECTANGLESHAPE};
-
-typedef sf::Texture Texture;
-typedef sf::Sprite Sprite;
-typedef sf::Music Music;
-typedef sf::Sound Sound;
-typedef sf::Image Image;
-typedef sf::Font Font;
-typedef sf::Text Text;
-typedef sf::RectangleShape RectangleShape;
-
-
-// Profiler
-const bool ShowProfilerDebug = true;
-#define ProfileInit() time_t _ME_profile_ =0;
-#define ProfileStart() _ME_profile_ = ME::Profiler::profileStart();
-#define ProfileEnd(x) ME::Profiler::profileEnd(x,_ME_profile_);
-
-
-// Render
-typedef sf::View Camera;
-typedef sf::FloatRect FloatRect;
-typedef sf::Event Event;
-
-struct windowInformation{
-    int width;
-    int height;
-    int bitsPerPixel;
-    bool fullScreen;
-    std::string windowName;
-    windowInformation();
-    windowInformation(int w,int h,int b,bool f,std::string name){
-        width = w;
-        height = h;
-        bitsPerPixel = b;
-        fullScreen = f;
-        windowName = name;
-    }
-};
-
-
-//Events
-typedef sf::Keyboard Keyboard;
-typedef sf::Mouse Mouse;
-typedef sf::Joystick Joystick;
-
-
-//Map
-enum TileType { SOLID , EVENT , NORMAL  };
-struct Coord{
-    int x;
-    int y;
-};
-struct TileSize{
-    int width;
-    int height;
-};
-struct Tile{
-    int id;
-    int layer;
-    char textureName[300];
-    Coord pos;
-    TileSize size;
-    TileType type;
-    float rotate;
-    float scale;
-    char eventScript[300];
-};
-
-struct MapFile{
-    char mapName[300];
-    int numberTile;
-    Tile tiles[10000];
-};
-
-
-
-
-enum Key
-    {
+enum KEY {
         Unknown = -1, ///< Unhandled key
         A = 0,        ///< The A key
         B,            ///< The B key
@@ -224,28 +106,10 @@ enum Key
         F14,          ///< The F14 key
         F15,          ///< The F15 key
         Pause,        ///< The Pause key
-
         KeyCount      ///< Keep last -- the total number of keyboard keys
-   };
-
-
-
-
-
-// Remove Warning os unsed variables
-#ifdef __GNUC__
-#define NOT_WARNING __attribute__ ((unused))
-#else
-#define NOT_WARNING
-#endif
-
-
-#ifndef nullptr
-#define nullptr 0
-#endif
-
-
+};
 
 }
 
-#endif // ENGINE_CONFIG_H
+#endif // KEY_H
+

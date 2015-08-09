@@ -1,8 +1,8 @@
 #ifndef EDITOR_H
 #define EDITOR_H
-#include "engine_config.h"
+#include "config.h"
 #include "debugger.h"
-#include "converter.h"
+#include "TO.h"
 #include "assetsmanager.h"
 #include "renderwindow.h"
 #include "texthandle.h"
