@@ -8,22 +8,22 @@ void registerFunctions() {
     mLua->registerFunction("getWindowInfo", getWindowInfo);
 
     //Events
-    mLua->registerFunction("getMouseGlobalPosition",getMouseGlobalPosition);
-    mLua->registerFunction("getMouseLocalPosition",getMouseLocalPosition);
-    mLua->registerFunction("isKeyPress",isKeyPress);
+    mLua->registerFunction("getMouseGlobalPosition", getMouseGlobalPosition);
+    mLua->registerFunction("getMouseLocalPosition", getMouseLocalPosition);
+    mLua->registerFunction("isKeyPress", isKeyPress);
 
 
     //Camera
-    mLua->registerFunction("cameraMove",cameraMove);
-    mLua->registerFunction("cameraSet",cameraSet);
-    mLua->registerFunction("cameraCreate",cameraCreate);
-    mLua->registerFunction("cameraSetRotation",cameraSetRotation);
-    mLua->registerFunction("cameraZoom",cameraZoom);
-    mLua->registerFunction("cameraRotate",cameraRotate);
-    mLua->registerFunction("cameraGetRotation",cameraGetRotation);
-    mLua->registerFunction("cameraGetPosition",cameraGetPosition);
-    mLua->registerFunction("cameraReset",cameraReset);
-    mLua->registerFunction("cameraSetDefault",cameraSetDefault);
+    mLua->registerFunction("cameraMove", cameraMove);
+    mLua->registerFunction("cameraSet", cameraSet);
+    mLua->registerFunction("cameraCreate", cameraCreate);
+    mLua->registerFunction("cameraSetRotation", cameraSetRotation);
+    mLua->registerFunction("cameraZoom", cameraZoom);
+    mLua->registerFunction("cameraRotate", cameraRotate);
+    mLua->registerFunction("cameraGetRotation", cameraGetRotation);
+    mLua->registerFunction("cameraGetPosition", cameraGetPosition);
+    mLua->registerFunction("cameraReset", cameraReset);
+    mLua->registerFunction("cameraSetDefault", cameraSetDefault);
 
 
     //RectangleShape
@@ -76,16 +76,16 @@ void registerFunctions() {
 
 
     // Music
-    mLua->registerFunction("musicLoad",musicLoad);
-    mLua->registerFunction("musicPlay",musicPlay);
+    mLua->registerFunction("musicLoad", musicLoad);
+    mLua->registerFunction("musicPlay", musicPlay);
     mLua->registerFunction("musicPause",musicPause);
-    mLua->registerFunction("musicStop",musicStop);
-    mLua->registerFunction("isPlayingMusic",isPlayingMusic);
-    mLua->registerFunction("musicGetDuration",musicGetDuration);
-    mLua->registerFunction("musicGetVolume",musicGetVolume);
-    mLua->registerFunction("musicSetVolume",musicSetVolume);
-    mLua->registerFunction("musicGetPlayingOffset",musicGetPlayingOffset);
-    mLua->registerFunction("musicSetPlayingOffset",musicSetPlayingOffset);
+    mLua->registerFunction("musicStop", musicStop);
+    mLua->registerFunction("isPlayingMusic", isPlayingMusic);
+    mLua->registerFunction("musicGetDuration", musicGetDuration);
+    mLua->registerFunction("musicGetVolume", musicGetVolume);
+    mLua->registerFunction("musicSetVolume", musicSetVolume);
+    mLua->registerFunction("musicGetPlayingOffset", musicGetPlayingOffset);
+    mLua->registerFunction("musicSetPlayingOffset", musicSetPlayingOffset);
 
 
 

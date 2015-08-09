@@ -1189,8 +1189,8 @@ ENGINE_UNUSED static int rectangleCreate(lua_State *l) {
     float width               = lua_tonumber(l, 2);
     float height              = lua_tonumber(l, 3);
     bool persist              = lua_toboolean(l, 4);
+    AssetsManager *assets     = AssetsManager::getInstance();
 
-    AssetsManager *assets = AssetsManager::getInstance();
     assets->createRectangle(rectangleName, width, height, persist);
     return 0;
 }
@@ -1202,10 +1202,10 @@ ENGINE_UNUSED static int rectangleSetPosition(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    float x = lua_tonumber(l,2);
-    float y = lua_tonumber(l,3);
-    AssetsManager *assets = AssetsManager::getInstance();
+    std::string rectangleName = lua_tostring(l, 1);
+    float x                   = lua_tonumber(l, 2);
+    float y                   = lua_tonumber(l, 3);
+    AssetsManager *assets     = AssetsManager::getInstance();
     assets->getRectangleShape(rectangleName)->setPosition(x,y);
     return 0;
 }
