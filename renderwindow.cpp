@@ -87,12 +87,14 @@ Camera* renderWindow::createCamera(const std::string &name, const Camera &cam) {
     return mCameras[name];
 }
 
-Camera * renderWindow::getCamera(const std::string &name) {
-    if ( mCameras.find(name) != mCameras.end()) {
+Camera* renderWindow::getCamera(const std::string &name) {
+    if (name.compare("default")) {
+        return  getDefaultCamera();
+    } else if (mCameras.find(name) != mCameras.end()) {
         return mCameras[name];
     } else {
         dbg->log(WARNING, 1, ("[renderWindow::getCamera] Camera ("+ name + ") not found").c_str());
-        return new Camera();
+        return nullptr;
     }
 }
 
