@@ -240,7 +240,7 @@ ENGINE_UNUSED static int spriteSetRect(lua_State *l) {
     float height           = lua_tointeger(l, 5);
 
     AssetsManager *asset = AssetsManager::getInstance();
-    if (asset->getSprite(spriteName != nullptr)) {
+    if (asset->getSprite(spriteName) != nullptr) {
       asset->getSprite(spriteName)->setTextureRect(sf::IntRect(left, top, width, height));
     }
     return 0;
