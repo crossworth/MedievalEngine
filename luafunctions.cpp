@@ -6,6 +6,13 @@ void registerFunctions() {
     // Global
     mLua->registerFunction("log", log);
     mLua->registerFunction("getWindowInfo", getWindowInfo);
+    mLua->registerFunction("changeGameState", changeGameState);
+    mLua->registerFunction("setState", setState);
+    mLua->registerFunction("getState", getState);
+
+    // Effects
+    mLua->registerFunction("fadeIn", fadeIn);
+    mLua->registerFunction("fadeOut", fadeOut);
 
     //Events
     mLua->registerFunction("getMouseGlobalPosition", getMouseGlobalPosition);
@@ -72,6 +79,9 @@ void registerFunctions() {
     mLua->registerFunction("spriteGetSize", spriteGetSize);
     mLua->registerFunction("spriteGetScale", spriteGetScale);
     mLua->registerFunction("spriteSetRect", spriteSetRect);
+
+    // Texture
+    mLua->registerFunction("textureCreate", textureCreate);
 
 
 

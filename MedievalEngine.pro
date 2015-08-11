@@ -20,7 +20,9 @@ SOURCES += main.cpp \
     gui.cpp \
     TO.cpp \
     luaengine.cpp \
-    luastate.cpp
+    luastate.cpp \
+    effects.cpp \
+    fade.cpp
 
 HEADERS += \
     debugger.h \
@@ -39,7 +41,9 @@ HEADERS += \
     config.h \
     luaengine.h \
     key.h \
-    luastate.h
+    luastate.h \
+    effects.h \
+    fade.h
 
 QMAKE_CXXFLAGS += -std=gnu++1y
 LIBS += -L"C:\Program Files (x86)\SFML\lib" -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system

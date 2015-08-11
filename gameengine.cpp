@@ -1,9 +1,16 @@
 #include "gameengine.h"
+#include "luaengine.h"
+#include "luastate.h"
+#include "luafunctions.h"
 
 using namespace ME;
 
-gameEngine * gameEngine::getInstance(int argc,char **argv) {
-    static gameEngine *gm = new gameEngine(argc,argv);
+gameEngine* gameEngine::gm = nullptr;
+
+gameEngine* gameEngine::getInstance(int argc, char **argv) {
+    if (gm == nullptr) {
+        gm = new gameEngine(argc, argv);
+    }
     return gm;
 }
 
@@ -13,10 +20,12 @@ int gameEngine::onExit() {
 }
 
 gameEngine::gameEngine(int argc, char** argv) {
-    returnCode = 0; // Define o código de retorno padrão
+    returnCode       = 0; // Define o código de retorno padrão
+    _startedMainLoop = false;
 
     dbg     = Debugger::getInstance();
     mWindow = renderWindow::getInstance();
+    mLua    = LuaEngine::getInstace();
 
     CFGParser configurations;
     configurations.readFile(ENGINE_DEFAULTS::CONFIG_FILE);
@@ -69,20 +78,18 @@ gameEngine::gameEngine(int argc, char** argv) {
     // Inicia o AssetsManager
     assets = AssetsManager::getInstance();
 
-    // Registra as funções da LuaEngine
-    registerFunctions();
-
-
     Image *icon = assets->loadImage("icon_engine", "icon.png", true);
     if(icon != nullptr) {
         sf::Vector2u iconSize = icon->getSize();
         mWindow->setIcon(iconSize.x, iconSize.y, *icon);
     }
 
-
 }
 
 void gameEngine::init() {
+
+    // Registra as funções da LuaEngine
+    registerFunctions();
 
     QDir gameStateDir;
     gameStateDir.setCurrent(QString((GLOBAL_PATH + "data/state").c_str()));
@@ -104,12 +111,11 @@ void gameEngine::init() {
         dbg->log(VERBOSE, 1, ("[gameEngine::init] Game State (" + gameStateName + ") added").c_str());
     }
 
-    gameStateEnable = "main";
-    mGamesStates[gameStateEnable]->init();
+    changeGameState("main");
 }
 
 void gameEngine::run() {
-
+    _startedMainLoop = true;
     while(mWindow->isOpen()) {
         mWindow->clear();
         mGamesStates[gameStateEnable]->handleEvents();
@@ -125,15 +131,22 @@ void gameEngine::clear() {
 }
 
 void gameEngine::changeGameState(const std::string &name) {
-    if( mGamesStates.find(name) != mGamesStates.end()) {
-        gameStateEnable = name;
-        mGamesStates[gameStateEnable]->init();
+    gameEngine* gm = gameEngine::getInstance();
+
+    if (gm->mGamesStates.find(name) != gm->mGamesStates.end()) {
+        if (gm->_startedMainLoop) {
+            gm->mGamesStates[gm->gameStateEnable]->onDisableTransition();
+        }
+
+        gm->gameStateEnable = name;
+        gm->mGamesStates[gm->gameStateEnable]->init();
+        gm->mGamesStates[gm->gameStateEnable]->onEnableTransition();
     } else {
-        dbg->log(CRITICAL, 1 ,("[gameEngine::changeGameState] GameState (" + name + ") not found.").c_str());
+        gm->dbg->log(CRITICAL, 1 ,("[gameEngine::changeGameState] GameState (" + name + ") not found.").c_str());
     }
 }
 
-gameState * gameEngine::getActiveGameState() {
+gameState* gameEngine::getActiveGameState() {
     return mGamesStates[gameStateEnable];
 }
 

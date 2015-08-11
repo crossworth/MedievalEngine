@@ -6,6 +6,8 @@
 #include "renderwindow.h"
 #include "assetsmanager.h"
 #include "luaengine.h"
+#include "gameengine.h"
+#include "effects.h"
 
 /*
 * Aqui definimos um ponto importante da GameEngine
@@ -22,6 +24,7 @@
 
 namespace ME{
 
+
 class gameState {
 public:
     gameState();
@@ -37,13 +40,28 @@ public:
     virtual void onEnableTransition() = 0;
     virtual void onDisableTransition() = 0;
     virtual ~gameState() = 0;
+
+
+    GAME_STATE getState();
+    std::string getStateString();
+    void setState(const GAME_STATE &state);
+    void setState(const std::string &state);
+
+    float getTime();
+    void restartTime();
+
+    void addEffect(Effects *effect);
+
 protected:
     bool running;
+    std::vector<Effects*> mEffects;
     AssetsManager *assets;
     renderWindow *mRender;
     Event mEvent;
     gameEngine *mGameEngine;
     LuaEngine *mLua;
+    sf::Clock mClock;
+    GAME_STATE mState;
 };
 
 }

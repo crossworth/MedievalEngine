@@ -32,12 +32,16 @@ Debugger::Debugger() : debugToFile(false) , enableDebug(false) {
     }
 }
 
+Debugger* Debugger::dbg = nullptr;
+
 Debugger * Debugger::getInstance() {
-    static Debugger *dbg = new Debugger();
+    if (dbg == nullptr) {
+        dbg = new Debugger();
+    }
     return dbg;
 }
 
-void Debugger::log(const debug_type &type,int numArgs,...) {
+void Debugger::log(const DEBUG_TYPE &type, int numArgs,...) {
     if (enableDebug) {
         va_list va;
         va_start(va, numArgs);

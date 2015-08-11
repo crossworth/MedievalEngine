@@ -28,7 +28,6 @@ namespace ME {
 
 class gameEngine;
 
-
 namespace ENGINE_DEFAULTS {
 
     // GLOBAL
@@ -53,7 +52,7 @@ const std::string GLOBAL_PATH = GLOBAL_DIR.absolutePath().toStdString() + "/";
 const bool DEBUG             = true;
 const std::string DEBUG_FILE = "";
 const bool DEBUG_LUA_VERBOSE = false;
-enum debug_type {LUA_VERBOSE = 0, VERBOSE, WARNING, CRITICAL };
+enum DEBUG_TYPE {LUA_VERBOSE = 0, VERBOSE, WARNING, CRITICAL };
 
 // ASSETS MANAGER
 const bool DEBUG_LOADING_ASSETS = false;
@@ -123,7 +122,11 @@ typedef sf::Keyboard Keyboard;
 typedef sf::Mouse Mouse;
 typedef sf::Joystick Joystick;
 
+// Game State
+enum GAME_STATE {INIT, RENDER, ENABLE_TRANSITION, DISABLE_TRANSITION, PLAY, PAUSE};
 
+// Effects
+enum FADE_TYPE {FADEIN, FADEOUT};
 
 // PROFILER
 const bool SHOW_PROFILER_INFO             = true;

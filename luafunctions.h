@@ -6,10 +6,10 @@
 #include "debugger.h"
 #include "config.h"
 #include "gameengine.h"
+#include "fade.h"
 
 // Verifica o número de argumentos passados
-#define checkLuaArgumentsNumber() if ((n = lua_gettop(l)) != need) { \
-    Debugger *dbg = Debugger::getInstance(); \
+#define checkLuaArgumentsNumber() if ((n = lua_gettop(l)) < need) { \
     dbg->log(WARNING, 1, ("[LuaScript::" + std::string(__FUNCTION__) + "] needs " + TO::int_to_str(need) +" arguments, " + TO::int_to_str(n) + " arguments informed").c_str()); \
     return 0; }
 
@@ -44,6 +44,118 @@ ENGINE_UNUSED static int log(lua_State *l) {
     return 0;
 }
 
+/*
+*
+* Altera entre gameStates
+*
+* void changeGameState(string game_state)
+*
+*/
+ENGINE_UNUSED static int changeGameState(lua_State *l) {
+    int n    = 0;
+    int need = 1;
+    luaLog();
+    checkLuaArgumentsNumber();
+    checkLuaArguments();
+
+    std::string gameState      = lua_tostring(l, 1);
+    ME::gameEngine::changeGameState(gameState);
+
+    return 0;
+}
+
+/*
+*
+* Altera entre states
+*
+* void setState(string state)
+*
+*/
+ENGINE_UNUSED static int setState(lua_State *l) {
+    int n    = 0;
+    int need = 1;
+    luaLog();
+    checkLuaArgumentsNumber();
+    checkLuaArguments();
+
+    std::string state      = lua_tostring(l, 1);
+    gameState* gameState   = ME::gameEngine::getInstance()->getActiveGameState();
+    gameState->setState(state);
+
+    return 0;
+}
+
+/*
+*
+* Aplica um efeito de fadein em um sprite
+*
+* void fadeIn(string sprite_name, float secondsTime)
+*
+*/
+ENGINE_UNUSED static int fadeIn(lua_State *l) {
+    int n    = 0;
+    int need = 2;
+    luaLog();
+    checkLuaArgumentsNumber();
+    checkLuaArguments();
+
+    std::string spriteName = lua_tostring(l, 1);
+    float timeSeconds      = lua_tonumber(l, 2);
+    gameState* gameState   = ME::gameEngine::getInstance()->getActiveGameState();
+    AssetsManager *asset   = AssetsManager::getInstance();
+
+    if (asset->getSprite(spriteName) != nullptr) {
+        gameState->addEffect(new Fade(asset->getSprite(spriteName), FADEIN, timeSeconds, spriteName));
+    }
+
+    return 0;
+}
+
+/*
+*
+* Aplica um efeito de fadeout em um sprite
+*
+* void fadeOut(string sprite_name, float secondsTime)
+*
+*/
+ENGINE_UNUSED static int fadeOut(lua_State *l) {
+    int n    = 0;
+    int need = 2;
+    luaLog();
+    checkLuaArgumentsNumber();
+    checkLuaArguments();
+
+    std::string spriteName = lua_tostring(l, 1);
+    float timeSeconds      = lua_tonumber(l, 2);
+    gameState* gameState   = ME::gameEngine::getInstance()->getActiveGameState();
+    AssetsManager *asset   = AssetsManager::getInstance();
+
+    if (asset->getSprite(spriteName) != nullptr) {
+        gameState->addEffect(new Fade(asset->getSprite(spriteName), FADEOUT, timeSeconds, spriteName));
+    }
+
+    return 0;
+}
+
+/*
+*
+* Retorna o State atual
+*
+* string getState()
+*
+*/
+ENGINE_UNUSED static int getState(lua_State *l) {
+    int n    = 0;
+    int need = 0;
+    luaLog();
+    checkLuaArgumentsNumber();
+    checkLuaArguments();
+
+    gameState* gameState   = ME::gameEngine::getInstance()->getActiveGameState();
+    lua_pushstring(l, gameState->getStateString().c_str());
+
+    return 1;
+}
 
 /*
 *
@@ -90,7 +202,7 @@ ENGINE_UNUSED static int spriteSetTexture(lua_State *l) {
     std::string textureName = lua_tostring(l, 2);
 
     AssetsManager *asset = AssetsManager::getInstance();
-    if (asset->getSprite(spriteName) != nullptr) {
+    if (asset->getSprite(spriteName) != nullptr && asset->getTexture(textureName) != nullptr) {
         asset->getSprite(spriteName)->setTexture(*asset->getTexture(textureName));
     }
     return 0;
@@ -582,6 +694,22 @@ ENGINE_UNUSED static int spriteGetSize(lua_State *l) {
     lua_pushinteger(l, size.y);
     lua_setfield(l, -2, "y");
     return 1;
+}
+
+
+ENGINE_UNUSED static int textureCreate(lua_State *l) {
+    int n    = 0;
+    int need = 2;
+    luaLog();
+    checkLuaArgumentsNumber();
+    checkLuaArguments();
+
+    std::string textureName  = lua_tostring(l, 1);
+    std::string textureFile  = lua_tostring(l, 2);
+    AssetsManager *asset     = AssetsManager::getInstance();
+
+    asset->loadTexture(textureName, textureFile, true);
+    return 0;
 }
 
 /*
@@ -1242,7 +1370,11 @@ ENGINE_UNUSED static int rectangleDraw(lua_State *l) {
 
     AssetsManager *assets  = AssetsManager::getInstance();
     renderWindow *mWindow  = renderWindow::getInstance();
-    mWindow->draw(*assets->getRectangleShape(rectangleName));
+
+    if(assets->getRectangleShape(rectangleName) != nullptr) {
+        mWindow->draw(*assets->getRectangleShape(rectangleName));
+    }
+
     return 0;
 }
 

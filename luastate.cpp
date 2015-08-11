@@ -1,5 +1,6 @@
 #include "luastate.h"
 #include "gameengine.h"
+#include "fade.h"
 
 using namespace ME;
 
@@ -9,11 +10,40 @@ luaState::luaState(std::string name, std::string path) {
 }
 
 void luaState::init() {
+    gameState::setState(INIT);
     mLua->doFile(path + "/scripts/init.lua");
+    running = true;
 }
 
 void luaState::render() {
-   mLua->doFile(path + "/scripts/render.lua");
+    renderWindow* mWindow = renderWindow::getInstance();
+    mWindow->getRenderWindow()->setTitle(ENGINE_DEFAULTS::ENGINE_NAME + " - State: " + gameState::getStateString());
+
+    for(unsigned int i = 0; i < mEffects.size(); i++) {
+        mEffects.at(i)->draw();
+    }
+
+    switch (gameState::getState()) {
+    case RENDER:
+        mLua->doFile(path + "/scripts/render.lua");
+        break;
+    case PLAY:
+        mLua->doFile(path + "/scripts/play.lua");
+        break;
+    case PAUSE:
+        mLua->doFile(path + "/scripts/pause.lua");
+        break;
+    case ENABLE_TRANSITION:
+        mLua->doFile(path + "/scripts/enable_transition.lua");
+        break;
+    case DISABLE_TRANSITION:
+        mLua->doFile(path + "/scripts/disable_transition.lua");
+        break;
+    default:
+        break;
+    }
+
+
 }
 
 
@@ -35,8 +65,6 @@ void luaState::handleEvents() {
             mLua->doFile(path + "/scripts/events/key_released.lua");
         }
         if (mEvent.type == sf::Event::KeyPressed) {
-
-
             mLua->doFile(path + "/scripts/events/key_pressed.lua");
         }
         if (mEvent.type == sf::Event::MouseButtonPressed ){
@@ -56,15 +84,31 @@ luaState::~luaState() {
 }
 
 void luaState::update() {
-    mLua->doFile(path + "/scripts/update.lua");
+    if (running) {
+        mLua->doFile(path + "/scripts/update.lua");
+
+
+        for(auto it = mEffects.begin(); it != mEffects.end(); it++) {
+            if ((*it)->done()) {
+                mLua->callFunction("effectDone", (*it)->getSpriteName(), (*it)->getEffectName());
+                delete *it;
+                std::cout << mEffects.size() << std::endl;
+            } else {
+                (*it)->update();
+            }
+        }
+
+
+
+    }
 }
 
 void luaState::onEnableTransition() {
-    mLua->doFile(path + "/scripts/enable_transition.lua");
+    gameState::setState(ENABLE_TRANSITION);
 }
 
 void luaState::onDisableTransition() {
-    mLua->doFile(path + "/scripts/disable_transition.lua");
+    gameState::setState(DISABLE_TRANSITION);
 }
 
 void luaState::restart() {
@@ -72,9 +116,11 @@ void luaState::restart() {
 }
 
 void luaState::play() {
+    gameState::setState(PLAY);
     running = true;
 }
 
 void luaState::pause() {
+    gameState::setState(PAUSE);
     running = false;
 }

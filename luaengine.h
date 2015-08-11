@@ -10,19 +10,20 @@ extern "C" {
     #include <lauxlib.h>
 }
 
-namespace ME{
+namespace ME {
 
-class LuaEngine
-{
+class LuaEngine {
 public:
     static LuaEngine* getInstace();
     void registerFunction(const std::string &name, int (*func)(lua_State *l));
     ~LuaEngine();
     void doFile(const std::string &fileName);
     static bool assertValue(lua_State *l, int argumentsNeed, const char *functionName);
+    void callFunction(const std::string &funcName, const std::string &data1, const std::string &data2);
 private:
     lua_State* L;
     LuaEngine();
+    static LuaEngine* instance;
 };
 
 }

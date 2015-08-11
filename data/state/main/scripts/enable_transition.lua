@@ -1,0 +1,10 @@
+rectangleDraw("loading")
+
+
+
+
+
+
+
+
+changeState("render")

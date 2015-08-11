@@ -64,10 +64,11 @@ int TO::bool_to_int(const bool &b) {
 }
 
 std::string TO::bool_to_str(const bool &b) {
-    if ( b == true )
+    if (b == true) {
         return "true";
-    else
+    } else {
         return "false";
+    }
 }
 
 std::string TO::int_to_str(const int &i) {

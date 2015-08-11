@@ -61,8 +61,8 @@ bool renderWindow::isOpen() {
     return Window->isOpen();
 }
 
-void renderWindow::clear(const sf::Color &c) {
-    Window->clear(c);
+void renderWindow::clear(const sf::Color &color) {
+    Window->clear(color);
 }
 
 void renderWindow::display() {
@@ -77,6 +77,15 @@ void renderWindow::close() {
     Window->close();
 }
 
+float renderWindow::getTime() {
+    sf::Time seconds = mClock.getElapsedTime();
+    return seconds.asSeconds();
+}
+
+void renderWindow::restartTime() {
+    mClock.restart();
+}
+
 Camera* renderWindow::createCamera(const std::string &name, const FloatRect &rect) {
     mCameras.insert(std::make_pair(name, new Camera(rect)));
     return mCameras[name];
@@ -88,7 +97,7 @@ Camera* renderWindow::createCamera(const std::string &name, const Camera &cam) {
 }
 
 Camera* renderWindow::getCamera(const std::string &name) {
-    if (name.compare("default")) {
+    if (name == "default") {
         return  getDefaultCamera();
     } else if (mCameras.find(name) != mCameras.end()) {
         return mCameras[name];
@@ -114,9 +123,13 @@ Camera* renderWindow::getDefaultCamera() {
     return (Camera*)&Window->getDefaultView();
 }
 
+renderWindow* renderWindow::instance = nullptr;
+
 renderWindow* renderWindow::getInstance() {
-    static renderWindow* renderInstance = new renderWindow();
-    return renderInstance;
+    if (instance == nullptr) {
+        instance = new renderWindow();
+    }
+    return instance;
 }
 
 renderWindow::~renderWindow() {

@@ -8,7 +8,7 @@ namespace ME {
 class Debugger {
 public:
     static Debugger * getInstance();
-    void log(const debug_type &type,int numArgs,...);
+    void log(const DEBUG_TYPE &type,int numArgs,...);
     ~Debugger();
 private:
     std::string fileName;
@@ -16,6 +16,7 @@ private:
     bool enableDebug;
     std::ofstream mFile;
     Debugger();
+    static Debugger* dbg;
     void write_to_file(char * str);
 };
 

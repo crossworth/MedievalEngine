@@ -2,14 +2,31 @@
 
 using namespace ME;
 
+LuaEngine* LuaEngine::instance = nullptr;
+
 LuaEngine* LuaEngine::getInstace() {
-    static LuaEngine* instace = new LuaEngine();
-    return instace;
+    if (instance == nullptr) {
+        instance = new LuaEngine();
+    }
+    return instance;
 }
 
 LuaEngine::LuaEngine() {
     L = luaL_newstate();
     luaL_openlibs(L);
+}
+
+void LuaEngine::callFunction(const std::string &funcName, const std::string &data1, const std::string &data2) {
+    lua_getglobal(L, funcName.c_str());
+
+    if(lua_isfunction(L, -1)) {
+        lua_pushstring(L, data1.c_str());
+        lua_pushstring(L, data2.c_str());
+        lua_call(L, 2, 0);
+    }
+
+
+
 }
 
 void LuaEngine::doFile(const std::string &fileName) {

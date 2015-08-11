@@ -118,9 +118,13 @@ void AssetsManager::clearNonPersistent() {
     }
 }
 
+AssetsManager* AssetsManager::instace = nullptr;
+
 AssetsManager* AssetsManager::getInstance() {
-    static AssetsManager *mAssets = new AssetsManager;
-    return mAssets;
+    if(instace == nullptr) {
+        instace = new AssetsManager();
+    }
+    return instace;
 }
 
 /*
@@ -185,7 +189,7 @@ Texture* AssetsManager::loadTexture(const std::string &name, const std::string &
 
     mTextures[name].data = new Texture;
 
-    if (!mTextures[name].data->loadFromFile(fileName)) {
+    if (!mTextures[name].data->loadFromFile(ASSETS_PATH + fileName)) {
         dbg->log(WARNING, 1, ("[AssetsManager::loadTexture] Texture (" + name +  " - " + fileName + ") error while opening").c_str());
         return nullptr;
     }

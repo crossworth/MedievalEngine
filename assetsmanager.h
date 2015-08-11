@@ -47,6 +47,7 @@ public:
 private:
     std::string ASSETS_PATH;
     AssetsManager();
+    static AssetsManager* instace;
     Debugger *dbg;
 
     std::map<std::string, TextureAsset> mTextures;
