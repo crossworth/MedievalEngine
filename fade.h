@@ -16,8 +16,7 @@ private:
     float mTimeAn;
     Sprite *mSprite;
     FADE_TYPE mType;
-    int mFadeCounter;
-    float mStep;
+    float mFadeCounter;
 };
 
 }

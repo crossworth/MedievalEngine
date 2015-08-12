@@ -39,8 +39,26 @@ ENGINE_UNUSED static int log(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string logMessage = lua_tostring(l, 1);
+    std::string logMessage = "unknow type";
+
+    if (lua_isstring(l, 1)) {
+        logMessage = lua_tostring(l, 1);
+    }
+
+    if (lua_isnumber(l, 1)) {
+        logMessage = TO::float_to_string(lua_tonumber(l, 1));
+    }
+
+    if (lua_isinteger(l, 1)) {
+        logMessage = TO::int_to_str(lua_tointeger(l, 1));
+    }
+
+    if (lua_isboolean(l, 1)) {
+        logMessage = TO::bool_to_str(lua_toboolean(l, 1));
+    }
+
     dbg->log(VERBOSE, 1, ("[LuaFile::log] " + logMessage).c_str());
+
     return 0;
 }
 
@@ -81,6 +99,28 @@ ENGINE_UNUSED static int setState(lua_State *l) {
     std::string state      = lua_tostring(l, 1);
     gameState* gameState   = ME::gameEngine::getInstance()->getActiveGameState();
     gameState->setState(state);
+
+    return 0;
+}
+
+/*
+*
+* Registra uma função em callback para ser executa no tempo definido
+*
+* void registerCallBack(string function_name, float seconds)
+*
+*/
+ENGINE_UNUSED static int registerCallBack(lua_State *l) {
+    int n    = 0;
+    int need = 2;
+    luaLog();
+    checkLuaArgumentsNumber();
+    checkLuaArguments();
+
+    std::string functionName = lua_tostring(l, 1);
+    float timeSeconds        = lua_tonumber(l, 2);
+    gameState* gameState     = ME::gameEngine::getInstance()->getActiveGameState();
+    gameState->addCallBack(new CallBack(functionName, timeSeconds));
 
     return 0;
 }
@@ -137,6 +177,49 @@ ENGINE_UNUSED static int fadeOut(lua_State *l) {
     return 0;
 }
 
+
+/*
+*
+* Retorna o tempo do GameSate em segundos
+*
+* float getTimer()
+*
+*/
+ENGINE_UNUSED static int getTimer(lua_State *l) {
+    int n    = 0;
+    int need = 0;
+    luaLog();
+    checkLuaArgumentsNumber();
+    checkLuaArguments();
+
+    gameState* gameState   = ME::gameEngine::getInstance()->getActiveGameState();
+
+    lua_pushnumber(l, gameState->getTime());
+
+    return 1;
+}
+
+
+/*
+*
+* Reseta o timer do Game State
+*
+* void resetTimer()
+*
+*/
+ENGINE_UNUSED static int resetTimer(lua_State *l) {
+    int n    = 0;
+    int need = 0;
+    luaLog();
+    checkLuaArgumentsNumber();
+    checkLuaArguments();
+
+    gameState* gameState   = ME::gameEngine::getInstance()->getActiveGameState();
+    gameState->restartTime();
+
+    return 0;
+}
+
 /*
 *
 * Retorna o State atual
@@ -161,26 +244,30 @@ ENGINE_UNUSED static int getState(lua_State *l) {
 *
 * Cria um Sprite com base em uma textura previamente carregada
 *
-* void spriteCreate(string sprite_name, string texture_name)
+* void spriteCreate(string sprite_name, string texture_name optional)
 *
 */
 ENGINE_UNUSED static int spriteCreate(lua_State *l) {
     int n    = 0;
-    int need = 2;
+    int need = 1;
     luaLog();
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
     std::string spriteName  = lua_tostring(l, 1);
-    std::string textureName = lua_tostring(l, 2);
+    AssetsManager *asset    = AssetsManager::getInstance();
 
-
-    AssetsManager *asset = AssetsManager::getInstance();
     Sprite mSprite;
     asset->createSprite(spriteName, mSprite);
-    if (asset->getTexture(textureName) != nullptr) {
-        asset->getSprite(spriteName)->setTexture(*asset->getTexture(textureName));
+
+    if (lua_gettop(l) == 2) {
+        std::string textureName = lua_tostring(l, 2);
+
+        if (asset->getTexture(textureName) != nullptr) {
+            asset->getSprite(spriteName)->setTexture(*asset->getTexture(textureName));
+        }
     }
+
     return 0;
 }
 
@@ -646,7 +733,7 @@ ENGINE_UNUSED static int spriteGetLocalBounds(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string spriteName = lua_tostring(l,1);
+    std::string spriteName = lua_tostring(l, 1);
     AssetsManager *asset   = AssetsManager::getInstance();
     sf::FloatRect localBounds;
 
@@ -696,7 +783,13 @@ ENGINE_UNUSED static int spriteGetSize(lua_State *l) {
     return 1;
 }
 
-
+/*
+*
+* Carrega uma textura do disco
+*
+* void textureCreate(string texture_name, string texture_file)
+*
+*/
 ENGINE_UNUSED static int textureCreate(lua_State *l) {
     int n    = 0;
     int need = 2;
@@ -716,7 +809,7 @@ ENGINE_UNUSED static int textureCreate(lua_State *l) {
 *
 * Carrega uma música do disco
 *
-* void musicLoad(string name, string fileName, bool persist optional)
+* void musicLoad(string music_name, string fileName, bool persist optional)
 *
 */
 ENGINE_UNUSED static int musicLoad(lua_State *l) {
@@ -743,7 +836,7 @@ ENGINE_UNUSED static int musicLoad(lua_State *l) {
 *
 * Inicia uma música já carregada
 *
-* void musicPlay(string name)
+* void musicPlay(string music_name)
 *
 */
 ENGINE_UNUSED static int musicPlay(lua_State *l) {
@@ -767,7 +860,7 @@ ENGINE_UNUSED static int musicPlay(lua_State *l) {
 *
 * Pausa uma música já carregada
 *
-* void musicPause(string name)
+* void musicPause(string music_name)
 *
 */
 ENGINE_UNUSED static int musicPause(lua_State *l) {
@@ -791,7 +884,7 @@ ENGINE_UNUSED static int musicPause(lua_State *l) {
 *
 * Para uma música já carregada
 *
-* void musicStop(string name)
+* void musicStop(string music_name)
 *
 */
 ENGINE_UNUSED static int musicStop(lua_State *l) {
@@ -815,7 +908,7 @@ ENGINE_UNUSED static int musicStop(lua_State *l) {
 *
 * Retorna se uma música está tocando ou não
 *
-* bool isPlayingMusic(string name)
+* bool isPlayingMusic(string music_name)
 *
 */
 ENGINE_UNUSED static int isPlayingMusic(lua_State *l) {
@@ -1306,6 +1399,13 @@ ENGINE_UNUSED static int cameraGetPosition(lua_State *l) {
     return 1;
 }
 
+/*
+*
+* Cria um rectangleShape
+*
+* void rectangleCreate(string name, float width, float height, bool persist opitional)
+*
+*/
 ENGINE_UNUSED static int rectangleCreate(lua_State *l) {
     int n    = 0;
     int need = 4;
@@ -1316,13 +1416,25 @@ ENGINE_UNUSED static int rectangleCreate(lua_State *l) {
     std::string rectangleName = lua_tostring(l, 1);
     float width               = lua_tonumber(l, 2);
     float height              = lua_tonumber(l, 3);
-    bool persist              = lua_toboolean(l, 4);
-    AssetsManager *assets     = AssetsManager::getInstance();
+    bool persist              = false;
 
+    if (lua_gettop(l) == 4) {
+        persist = lua_toboolean(l, 4);
+    }
+
+    AssetsManager *assets     = AssetsManager::getInstance();
     assets->createRectangle(rectangleName, width, height, persist);
     return 0;
 }
 
+
+/*
+*
+* Define a posição de um rectangleShape
+*
+* void rectangleSetPosition(string name, float width, float height, bool persist opitional)
+*
+*/
 ENGINE_UNUSED static int rectangleSetPosition(lua_State *l) {
     int n    = 0;
     int need = 3;
@@ -1334,11 +1446,21 @@ ENGINE_UNUSED static int rectangleSetPosition(lua_State *l) {
     float x                   = lua_tonumber(l, 2);
     float y                   = lua_tonumber(l, 3);
     AssetsManager *assets     = AssetsManager::getInstance();
-    assets->getRectangleShape(rectangleName)->setPosition(x,y);
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        assets->getRectangleShape(rectangleName)->setPosition(x, y);
+    }
+
     return 0;
 }
 
-
+/*
+*
+* Define a cor de preenchimento de um rectangleShape
+*
+* void rectangleSetFillColor(string name, int red, int green, int blue, int alpha optional)
+*
+*/
 ENGINE_UNUSED static int rectangleSetFillColor(lua_State *l) {
     int n    = 0;
     int need = 4;
@@ -1346,19 +1468,32 @@ ENGINE_UNUSED static int rectangleSetFillColor(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    int r = lua_tointeger(l,2);
-    int g = lua_tointeger(l,3);
-    int b = lua_tointeger(l,4);
-    int a = 255;
-    if ( lua_gettop(l) == 5 )
-        a = lua_tointeger(l,5);
+    std::string rectangleName = lua_tostring(l, 1);
+    int red                   = lua_tointeger(l, 2);
+    int green                 = lua_tointeger(l, 3);
+    int blue                  = lua_tointeger(l, 4);
+    int alpha                 = 255;
+
+    if (lua_gettop(l) == 5) {
+        alpha = lua_tointeger(l, 5);
+    }
+
     AssetsManager *assets = AssetsManager::getInstance();
-    assets->getRectangleShape(rectangleName)->setFillColor(sf::Color(r,g,b,a));
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        assets->getRectangleShape(rectangleName)->setFillColor(sf::Color(red, green, blue, alpha));
+    }
+
     return 0;
 }
 
-
+/*
+*
+* Desenha um rectangleShape na tela
+*
+* void rectangleDraw(string name)
+*
+*/
 ENGINE_UNUSED static int rectangleDraw(lua_State *l) {
     int n    = 0;
     int need = 1;
@@ -1366,10 +1501,9 @@ ENGINE_UNUSED static int rectangleDraw(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-
-    AssetsManager *assets  = AssetsManager::getInstance();
-    renderWindow *mWindow  = renderWindow::getInstance();
+    std::string rectangleName = lua_tostring(l, 1);
+    AssetsManager *assets     = AssetsManager::getInstance();
+    renderWindow *mWindow     = renderWindow::getInstance();
 
     if(assets->getRectangleShape(rectangleName) != nullptr) {
         mWindow->draw(*assets->getRectangleShape(rectangleName));
@@ -1378,7 +1512,13 @@ ENGINE_UNUSED static int rectangleDraw(lua_State *l) {
     return 0;
 }
 
-
+/*
+*
+* Define a cor de contorno de um rectangleShape
+*
+* void rectangleSetOutlineColor(string name, int red, int green, int blue, int alpha optional)
+*
+*/
 ENGINE_UNUSED static int rectangleSetOutlineColor(lua_State *l) {
     int n    = 0;
     int need = 4;
@@ -1386,19 +1526,32 @@ ENGINE_UNUSED static int rectangleSetOutlineColor(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    int r = lua_tointeger(l,2);
-    int g = lua_tointeger(l,3);
-    int b = lua_tointeger(l,4);
-    int a = 255;
-    if ( lua_gettop(l) == 5 )
-        a = lua_tointeger(l,5);
+    std::string rectangleName = lua_tostring(l, 1);
+    int red                   = lua_tointeger(l, 2);
+    int green                 = lua_tointeger(l, 3);
+    int blue                  = lua_tointeger(l, 4);
+    int alpha                 = 255;
+
+    if (lua_gettop(l) == 5) {
+        alpha = lua_tointeger(l, 5);
+    }
+
     AssetsManager *assets = AssetsManager::getInstance();
-    assets->getRectangleShape(rectangleName)->setOutlineColor(sf::Color(r,g,b,a));
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        assets->getRectangleShape(rectangleName)->setOutlineColor(sf::Color(red, green, blue, alpha));
+    }
+
     return 0;
 }
 
-
+/*
+*
+* Define a espessura da borda de um rectangleShape
+*
+* void rectangleSetOutlineThickness(string name, float factor)
+*
+*/
 ENGINE_UNUSED static int rectangleSetOutlineThickness(lua_State *l) {
     int n    = 0;
     int need = 2;
@@ -1406,15 +1559,24 @@ ENGINE_UNUSED static int rectangleSetOutlineThickness(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    float factor = lua_tonumber(l,2);
+    std::string rectangleName = lua_tostring(l, 1);
+    float factor              = lua_tonumber(l, 2);
+    AssetsManager *assets     = AssetsManager::getInstance();
 
-    AssetsManager *assets = AssetsManager::getInstance();
-    assets->getRectangleShape(rectangleName)->setOutlineThickness(factor);
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        assets->getRectangleShape(rectangleName)->setOutlineThickness(factor);
+    }
+
     return 0;
 }
 
-
+/*
+*
+* Define o ponto de origem de um rectangleShape
+*
+* void rectangleSetOrigin(string name, float x, float y)
+*
+*/
 ENGINE_UNUSED static int rectangleSetOrigin(lua_State *l) {
     int n    = 0;
     int need = 3;
@@ -1422,14 +1584,24 @@ ENGINE_UNUSED static int rectangleSetOrigin(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    float x = lua_tonumber(l,2);
-    float y = lua_tonumber(l,3);
-    AssetsManager *assets = AssetsManager::getInstance();
-    assets->getRectangleShape(rectangleName)->setOrigin(sf::Vector2f(x,y));
+    std::string rectangleName = lua_tostring(l, 1);
+    float x                   = lua_tonumber(l, 2);
+    float y                   = lua_tonumber(l, 3);
+    AssetsManager *assets     = AssetsManager::getInstance();
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        assets->getRectangleShape(rectangleName)->setOrigin(sf::Vector2f(x, y));
+    }
     return 0;
 }
 
+/*
+*
+* Define a rotação de um rectangleShape
+*
+* void rectangleSetRotation(string name, float angle)
+*
+*/
 ENGINE_UNUSED static int rectangleSetRotation(lua_State *l) {
     int n    = 0;
     int need = 2;
@@ -1437,14 +1609,24 @@ ENGINE_UNUSED static int rectangleSetRotation(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    float angle = lua_tonumber(l,2);
-    AssetsManager *assets = AssetsManager::getInstance();
-    assets->getRectangleShape(rectangleName)->setRotation(angle);
+    std::string rectangleName = lua_tostring(l, 1);
+    float angle               = lua_tonumber(l, 2);
+    AssetsManager *assets     = AssetsManager::getInstance();
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        assets->getRectangleShape(rectangleName)->setRotation(angle);
+    }
+
     return 0;
 }
 
-
+/*
+*
+* Define a escala de um rectangleShape
+*
+* void rectangleSetScale(string name, float x, float y)
+*
+*/
 ENGINE_UNUSED static int rectangleSetScale(lua_State *l) {
     int n    = 0;
     int need = 3;
@@ -1452,14 +1634,25 @@ ENGINE_UNUSED static int rectangleSetScale(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    float x = lua_tonumber(l,2);
-    float y = lua_tonumber(l,3);
-    AssetsManager *assets = AssetsManager::getInstance();
-    assets->getRectangleShape(rectangleName)->setScale(sf::Vector2f(x,y));
+    std::string rectangleName = lua_tostring(l, 1);
+    float x                   = lua_tonumber(l, 2);
+    float y                   = lua_tonumber(l, 3);
+    AssetsManager *assets     = AssetsManager::getInstance();
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        assets->getRectangleShape(rectangleName)->setScale(sf::Vector2f(x, y));
+    }
+
     return 0;
 }
 
+/*
+*
+* Define o tamanho de um rectangleShape
+*
+* void rectangleSetScale(string name, float width, float height)
+*
+*/
 ENGINE_UNUSED static int rectangleSetSize(lua_State *l) {
     int n    = 0;
     int need = 3;
@@ -1467,16 +1660,25 @@ ENGINE_UNUSED static int rectangleSetSize(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    float w = lua_tonumber(l,2);
-    float h = lua_tonumber(l,3);
-    AssetsManager *assets = AssetsManager::getInstance();
-    assets->getRectangleShape(rectangleName)->setSize(sf::Vector2f(w,h));
+    std::string rectangleName = lua_tostring(l, 1);
+    float width               = lua_tonumber(l, 2);
+    float height              = lua_tonumber(l, 3);
+    AssetsManager *assets     = AssetsManager::getInstance();
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        assets->getRectangleShape(rectangleName)->setSize(sf::Vector2f(width, height));
+    }
+
     return 0;
 }
 
-
-
+/*
+*
+* Carrega e define a textura de um rectangleShape
+*
+* void rectangleSetTexture(string name, string texture_name)
+*
+*/
 ENGINE_UNUSED static int rectangleSetTexture(lua_State *l) {
     int n    = 0;
     int need = 2;
@@ -1484,15 +1686,24 @@ ENGINE_UNUSED static int rectangleSetTexture(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    std::string textureName = lua_tostring(l,2);
-    AssetsManager *assets = AssetsManager::getInstance();
-    assets->getRectangleShape(rectangleName)->setTexture(assets->loadTexture(rectangleName,textureName));
+    std::string rectangleName = lua_tostring(l, 1);
+    std::string textureName   = lua_tostring(l, 2);
+    AssetsManager *assets     = AssetsManager::getInstance();
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        assets->getRectangleShape(rectangleName)->setTexture(assets->getTexture(textureName));
+    }
+
     return 0;
 }
 
-
-
+/*
+*
+* Retorna a posição de um rectangleShape
+*
+* table[x, y] rectangleGetPosition(string name)
+*
+*/
 ENGINE_UNUSED static int rectangleGetPosition(lua_State *l) {
     int n    = 0;
     int need = 1;
@@ -1500,18 +1711,30 @@ ENGINE_UNUSED static int rectangleGetPosition(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    AssetsManager *assets = AssetsManager::getInstance();
-    sf::Vector2f pos  = assets->getRectangleShape(rectangleName)->getPosition();
+    std::string rectangleName = lua_tostring(l, 1);
+    AssetsManager *assets     = AssetsManager::getInstance();
+
+    sf::Vector2f pos;
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        pos = assets->getRectangleShape(rectangleName)->getPosition();
+    }
+
     lua_newtable(l);
-    lua_pushnumber(l,pos.x);
-    lua_setfield(l,-2,"x");
-    lua_pushnumber(l,pos.y);
-    lua_setfield(l,-2,"y");
+    lua_pushnumber(l, pos.x);
+    lua_setfield(l, -2, "x");
+    lua_pushnumber(l, pos.y);
+    lua_setfield(l, -2, "y");
     return 1;
 }
 
-
+/*
+*
+* Retorna a cor de preenchimento de um rectangleShape
+*
+* table[red, green, blue, alpha] rectangleGetFillColor(string name)
+*
+*/
 ENGINE_UNUSED static int rectangleGetFillColor(lua_State *l) {
     int n    = 0;
     int need = 1;
@@ -1519,22 +1742,34 @@ ENGINE_UNUSED static int rectangleGetFillColor(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    AssetsManager *assets = AssetsManager::getInstance();
-    sf::Color c  = assets->getRectangleShape(rectangleName)->getFillColor();
+    std::string rectangleName = lua_tostring(l, 1);
+    AssetsManager *assets     = AssetsManager::getInstance();
+
+    sf::Color color;
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        color = assets->getRectangleShape(rectangleName)->getFillColor();
+    }
+
     lua_newtable(l);
-    lua_pushnumber(l,c.r);
-    lua_setfield(l,-2,"r");
-    lua_pushnumber(l,c.g);
-    lua_setfield(l,-2,"g");
-    lua_pushnumber(l,c.b);
-    lua_setfield(l,-2,"b");
-    lua_pushnumber(l,c.a);
-    lua_setfield(l,-2,"a");
+    lua_pushnumber(l, color.r);
+    lua_setfield(l, -2, "red");
+    lua_pushnumber(l, color.g);
+    lua_setfield(l, -2, "green");
+    lua_pushnumber(l, color.b);
+    lua_setfield(l, -2, "blue");
+    lua_pushnumber(l, color.a);
+    lua_setfield(l, -2, "alpha");
     return 1;
 }
 
-
+/*
+*
+* Retorna a cor da borda de um rectangleShape
+*
+* table[red, green, blue, alpha] rectangleGetOutlineColor(string name)
+*
+*/
 ENGINE_UNUSED static int rectangleGetOutlineColor(lua_State *l) {
     int n    = 0;
     int need = 1;
@@ -1542,23 +1777,33 @@ ENGINE_UNUSED static int rectangleGetOutlineColor(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    AssetsManager *assets = AssetsManager::getInstance();
-    sf::Color c  = assets->getRectangleShape(rectangleName)->getOutlineColor();
+    std::string rectangleName = lua_tostring(l, 1);
+    AssetsManager *assets     = AssetsManager::getInstance();
+    sf::Color color;
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        color = assets->getRectangleShape(rectangleName)->getOutlineColor();
+    }
+
     lua_newtable(l);
-    lua_pushnumber(l,c.r);
-    lua_setfield(l,-2,"r");
-    lua_pushnumber(l,c.g);
-    lua_setfield(l,-2,"g");
-    lua_pushnumber(l,c.b);
-    lua_setfield(l,-2,"b");
-    lua_pushnumber(l,c.a);
-    lua_setfield(l,-2,"a");
+    lua_pushnumber(l, color.r);
+    lua_setfield(l, -2, "red");
+    lua_pushnumber(l, color.g);
+    lua_setfield(l, -2, "green");
+    lua_pushnumber(l, color.b);
+    lua_setfield(l, -2, "blue");
+    lua_pushnumber(l, color.a);
+    lua_setfield(l, -2, "alpha");
     return 1;
 }
 
-
-
+/*
+*
+* Retorna a espessura da borda de um rectangleShape
+*
+* float rectangleGetOutlineThickness(string name)
+*
+*/
 ENGINE_UNUSED static int rectangleGetOutlineThickness(lua_State *l) {
     int n    = 0;
     int need = 1;
@@ -1566,13 +1811,25 @@ ENGINE_UNUSED static int rectangleGetOutlineThickness(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    AssetsManager *assets = AssetsManager::getInstance();
-    float thickness = assets->getRectangleShape(rectangleName)->getOutlineThickness();
-    lua_pushnumber(l,thickness);
+    std::string rectangleName = lua_tostring(l, 1);
+    AssetsManager *assets     = AssetsManager::getInstance();
+    float thickness           = 0.0f;
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        thickness = assets->getRectangleShape(rectangleName)  ->getOutlineThickness();
+    }
+
+    lua_pushnumber(l, thickness);
     return 1;
 }
 
+/*
+*
+* Retorna os bounds globais de um rectangleShape
+*
+* table[width, height, top, left] rectangleGetGlobalBounds(string name)
+*
+*/
 ENGINE_UNUSED static int rectangleGetGlobalBounds(lua_State *l) {
     int n    = 0;
     int need = 1;
@@ -1580,23 +1837,33 @@ ENGINE_UNUSED static int rectangleGetGlobalBounds(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    AssetsManager *assets = AssetsManager::getInstance();
-    sf::FloatRect globalBounds = assets->getRectangleShape(rectangleName)->getGlobalBounds();
+    std::string rectangleName = lua_tostring(l, 1);
+    AssetsManager *assets     = AssetsManager::getInstance();
+    sf::FloatRect globalBounds;
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        globalBounds = assets->getRectangleShape(rectangleName)->getGlobalBounds();
+    }
 
     lua_newtable(l);
-    lua_pushnumber(l,globalBounds.height);
-    lua_setfield(l,-2,"height");
-    lua_pushnumber(l,globalBounds.left);
-    lua_setfield(l,-2,"left");
-    lua_pushnumber(l,globalBounds.top);
-    lua_setfield(l,-2,"top");
-    lua_pushnumber(l,globalBounds.width);
-    lua_setfield(l,-2,"width");
+    lua_pushnumber(l, globalBounds.height);
+    lua_setfield(l, -2, "height");
+    lua_pushnumber(l, globalBounds.left);
+    lua_setfield(l, -2, "left");
+    lua_pushnumber(l, globalBounds.top);
+    lua_setfield(l, -2, "top");
+    lua_pushnumber(l, globalBounds.width);
+    lua_setfield(l, -2, "width");
     return 1;
 }
 
-
+/*
+*
+* Retorna os bounds locais de um rectangleShape
+*
+* table[width, height, top, left] rectangleGetLocalBounds(string name)
+*
+*/
 ENGINE_UNUSED static int rectangleGetLocalBounds(lua_State *l) {
     int n    = 0;
     int need = 1;
@@ -1604,24 +1871,33 @@ ENGINE_UNUSED static int rectangleGetLocalBounds(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    AssetsManager *assets = AssetsManager::getInstance();
-    sf::FloatRect localBounds = assets->getRectangleShape(rectangleName)->getLocalBounds();
+    std::string rectangleName = lua_tostring(l, 1);
+    AssetsManager *assets     = AssetsManager::getInstance();
+    sf::FloatRect localBounds;
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        localBounds = assets->getRectangleShape(rectangleName)->getLocalBounds();
+    }
 
     lua_newtable(l);
-    lua_pushnumber(l,localBounds.height);
-    lua_setfield(l,-2,"height");
-    lua_pushnumber(l,localBounds.left);
-    lua_setfield(l,-2,"left");
-    lua_pushnumber(l,localBounds.top);
-    lua_setfield(l,-2,"top");
-    lua_pushnumber(l,localBounds.width);
-    lua_setfield(l,-2,"width");
+    lua_pushnumber(l, localBounds.height);
+    lua_setfield(l, -2, "height");
+    lua_pushnumber(l, localBounds.left);
+    lua_setfield(l, -2, "left");
+    lua_pushnumber(l, localBounds.top);
+    lua_setfield(l, -2, "top");
+    lua_pushnumber(l, localBounds.width);
+    lua_setfield(l, -2, "width");
     return 1;
 }
 
-
-
+/*
+*
+* Retorna o ponto de origem rectangleShape
+*
+* table[x, y] rectangleGetOrigin(string name)
+*
+*/
 ENGINE_UNUSED static int rectangleGetOrigin(lua_State *l) {
     int n    = 0;
     int need = 1;
@@ -1629,18 +1905,29 @@ ENGINE_UNUSED static int rectangleGetOrigin(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    AssetsManager *assets = AssetsManager::getInstance();
-    sf::Vector2f origin = assets->getRectangleShape(rectangleName)->getOrigin();
+    std::string rectangleName = lua_tostring(l, 1);
+    AssetsManager *assets     = AssetsManager::getInstance();
+    sf::Vector2f origin;
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        origin = assets->getRectangleShape(rectangleName)->getOrigin();
+    }
+
     lua_newtable(l);
-    lua_pushnumber(l,origin.x);
-    lua_setfield(l,-2,"x");
-    lua_pushnumber(l,origin.y);
-    lua_setfield(l,-2,"y");
+    lua_pushnumber(l, origin.x);
+    lua_setfield(l, -2, "x");
+    lua_pushnumber(l, origin.y);
+    lua_setfield(l, -2, "y");
     return 1;
 }
 
-
+/*
+*
+* Retorna a rotação de um rectangleShape
+*
+* float rectangleGetRotation(string name)
+*
+*/
 ENGINE_UNUSED static int rectangleGetRotation(lua_State *l) {
     int n    = 0;
     int need = 1;
@@ -1648,13 +1935,25 @@ ENGINE_UNUSED static int rectangleGetRotation(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    AssetsManager *assets = AssetsManager::getInstance();
-    float angle = assets->getRectangleShape(rectangleName)->getRotation();
-    lua_pushnumber(l,angle);
+    std::string rectangleName = lua_tostring(l, 1);
+    AssetsManager *assets     = AssetsManager::getInstance();
+    float angle               = 0.0f;
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        angle = assets->getRectangleShape(rectangleName)->getRotation();
+    }
+
+    lua_pushnumber(l, angle);
     return 1;
 }
 
+/*
+*
+* Retorna a escala de um rectangleShape
+*
+* table[x, y] rectangleGetScale(string name)
+*
+*/
 ENGINE_UNUSED static int rectangleGetScale(lua_State *l) {
     int n    = 0;
     int need = 1;
@@ -1662,18 +1961,29 @@ ENGINE_UNUSED static int rectangleGetScale(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    AssetsManager *assets = AssetsManager::getInstance();
-    sf::Vector2f scale = assets->getRectangleShape(rectangleName)->getScale();
+    std::string rectangleName = lua_tostring(l, 1);
+    AssetsManager *assets     = AssetsManager::getInstance();
+    sf::Vector2f scale;
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        scale = assets->getRectangleShape(rectangleName)->getScale();
+    }
+
     lua_newtable(l);
-    lua_pushnumber(l,scale.x);
-    lua_setfield(l,-2,"x");
-    lua_pushnumber(l,scale.y);
-    lua_setfield(l,-2,"y");
+    lua_pushnumber(l, scale.x);
+    lua_setfield(l, -2, "x");
+    lua_pushnumber(l, scale.y);
+    lua_setfield(l, -2, "y");
     return 1;
 }
 
-
+/*
+*
+* Retorna o tamanho de um rectangleShape
+*
+* table[x, y] rectangleGetSize(string name)
+*
+*/
 ENGINE_UNUSED static int rectangleGetSize(lua_State *l) {
     int n    = 0;
     int need = 1;
@@ -1681,19 +1991,29 @@ ENGINE_UNUSED static int rectangleGetSize(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    AssetsManager *assets = AssetsManager::getInstance();
-    sf::Vector2f size = assets->getRectangleShape(rectangleName)->getSize();
+    std::string rectangleName = lua_tostring(l, 1);
+    AssetsManager *assets     = AssetsManager::getInstance();
+    sf::Vector2f size;
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        size = assets->getRectangleShape(rectangleName)->getSize();
+    }
+
     lua_newtable(l);
-    lua_pushnumber(l,size.x);
-    lua_setfield(l,-2,"x");
-    lua_pushnumber(l,size.y);
-    lua_setfield(l,-2,"y");
+    lua_pushnumber(l, size.x);
+    lua_setfield(l, -2, "x");
+    lua_pushnumber(l, size.y);
+    lua_setfield(l, -2, "y");
     return 1;
 }
 
-
-
+/*
+*
+* Move um rectangleShape relativamente a sua posição
+*
+* void rectangleMove(string name, float x, float y)
+*
+*/
 ENGINE_UNUSED static int rectangleMove(lua_State *l) {
     int n    = 0;
     int need = 3;
@@ -1701,16 +2021,25 @@ ENGINE_UNUSED static int rectangleMove(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    float x = lua_tonumber(l,2);
-    float y = lua_tonumber(l,3);
+    std::string rectangleName = lua_tostring(l, 1);
+    float x                   = lua_tonumber(l, 2);
+    float y                   = lua_tonumber(l, 3);
+    AssetsManager *assets     = AssetsManager::getInstance();
 
-    AssetsManager *assets = AssetsManager::getInstance();
-    assets->getRectangleShape(rectangleName)->move(sf::Vector2f(x,y));
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        assets->getRectangleShape(rectangleName)->move(sf::Vector2f(x, y));
+    }
+
     return 0;
 }
 
-
+/*
+*
+* Rotaciona um rectangleShape
+*
+* void rectangleRotate(string name, float angle)
+*
+*/
 ENGINE_UNUSED static int rectangleRotate(lua_State *l) {
     int n    = 0;
     int need = 2;
@@ -1718,13 +2047,24 @@ ENGINE_UNUSED static int rectangleRotate(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    float angle = lua_tonumber(l,2);
-    AssetsManager *assets = AssetsManager::getInstance();
-    assets->getRectangleShape(rectangleName)->rotate(angle);
+    std::string rectangleName = lua_tostring(l, 1);
+    float angle               = lua_tonumber(l, 2);
+    AssetsManager *assets     = AssetsManager::getInstance();
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        assets->getRectangleShape(rectangleName)->rotate(angle);
+    }
+
     return 0;
 }
 
+/*
+*
+* Define a escala de um rectangleShape
+*
+* void rectangleScale(string name, float angle)
+*
+*/
 ENGINE_UNUSED static int rectangleScale(lua_State *l) {
     int n    = 0;
     int need = 3;
@@ -1732,27 +2072,26 @@ ENGINE_UNUSED static int rectangleScale(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string rectangleName = lua_tostring(l,1);
-    float x = lua_tonumber(l,2);
-    float y = lua_tonumber(l,2);
-    AssetsManager *assets = AssetsManager::getInstance();
-    assets->getRectangleShape(rectangleName)->scale(sf::Vector2f(x,y));
+    std::string rectangleName = lua_tostring(l, 1);
+    float x                   = lua_tonumber(l, 2);
+    float y                   = lua_tonumber(l, 3);
+    AssetsManager *assets     = AssetsManager::getInstance();
+
+    if (assets->getRectangleShape(rectangleName) != nullptr) {
+        assets->getRectangleShape(rectangleName)->scale(sf::Vector2f(x, y));
+    }
+
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-ENGINE_UNUSED static int isKeyPress(lua_State *l) {
+/*
+*
+* Retrona true se determinada tecla está sendo precionada
+*
+* bool isKeyPressed(string name, float angle)
+*
+*/
+ENGINE_UNUSED static int isKeyPressed(lua_State *l) {
     int n    = 0;
     int need = 1;
     luaLog();
@@ -1760,14 +2099,13 @@ ENGINE_UNUSED static int isKeyPress(lua_State *l) {
     checkLuaArguments();
 
     ME::KEY key;
-
     if (!lua_isnumber(l, 1)) {
         key = TO::str_to_KEY(lua_tostring(l, 1));
     } else {
         key = (ME::KEY)lua_tointeger(l, 1);
     }
 
-    if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key)key)) {
+    if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(key))) {
         lua_pushboolean(l, true);
     } else {
         lua_pushboolean(l, false);
@@ -1776,12 +2114,6 @@ ENGINE_UNUSED static int isKeyPress(lua_State *l) {
     return 1;
 }
 
-
-
-
-
 void registerFunctions();
-
-
 
 #endif // LUAFUNCTIONS_H

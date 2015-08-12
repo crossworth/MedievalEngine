@@ -51,6 +51,9 @@ void gameState::addEffect(Effects *effect) {
     mEffects.push_back(effect);
 }
 
+void gameState::addCallBack(CallBack *callBack) {
+    mCallBacks.push_back(callBack);
+}
 
 void gameState::setState(const std::string &state) {
     std::string tmp = state;
@@ -76,7 +79,8 @@ void gameState::setState(const std::string &state) {
         mState = RENDER;
     }
 
-    std::cout << "setState called: " << state << " real: " << mState << " - " << getStateString() << std::endl;
+    Debugger *dbg = Debugger::getInstance();
+    dbg->log(VERBOSE, 1, ("[gameState::setState] " + getStateString()).c_str());
 }
 
 gameState::~gameState() {

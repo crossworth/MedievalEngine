@@ -1,24 +1,25 @@
 #include "luafunctions.h"
 
-
-
 void registerFunctions() {
+
     // Global
-    mLua->registerFunction("log", log);
-    mLua->registerFunction("getWindowInfo", getWindowInfo);
+    mLua->registerFunction("log", log); //ok
+    mLua->registerFunction("getWindowInfo", getWindowInfo); // ok
     mLua->registerFunction("changeGameState", changeGameState);
-    mLua->registerFunction("setState", setState);
-    mLua->registerFunction("getState", getState);
+    mLua->registerFunction("setState", setState); // ok
+    mLua->registerFunction("getState", getState); // ok
+    mLua->registerFunction("getTimer", getTimer); // ok
+    mLua->registerFunction("resetTimer", resetTimer); // ok
+    mLua->registerFunction("registerCallBack", registerCallBack); // ok
 
     // Effects
-    mLua->registerFunction("fadeIn", fadeIn);
-    mLua->registerFunction("fadeOut", fadeOut);
+    mLua->registerFunction("fadeIn", fadeIn); // ok
+    mLua->registerFunction("fadeOut", fadeOut); // ok
 
     //Events
-    mLua->registerFunction("getMouseGlobalPosition", getMouseGlobalPosition);
-    mLua->registerFunction("getMouseLocalPosition", getMouseLocalPosition);
-    mLua->registerFunction("isKeyPress", isKeyPress);
-
+    mLua->registerFunction("getMouseGlobalPosition", getMouseGlobalPosition); // ok
+    mLua->registerFunction("getMouseLocalPosition", getMouseLocalPosition); // ok
+    mLua->registerFunction("isKeyPressed", isKeyPressed); // ok
 
     //Camera
     mLua->registerFunction("cameraMove", cameraMove);
@@ -32,37 +33,36 @@ void registerFunctions() {
     mLua->registerFunction("cameraReset", cameraReset);
     mLua->registerFunction("cameraSetDefault", cameraSetDefault);
 
-
     //RectangleShape
-    mLua->registerFunction("rectangleCreate",rectangleCreate);
-    mLua->registerFunction("rectangleSetPosition",rectangleSetPosition);
-    mLua->registerFunction("rectangleSetFillColor",rectangleSetFillColor);
-    mLua->registerFunction("rectangleDraw",rectangleDraw);
-    mLua->registerFunction("rectangleSetOutlineColor",rectangleSetOutlineColor);
-    mLua->registerFunction("rectangleSetOutlineThickness",rectangleSetOutlineThickness);
-    mLua->registerFunction("rectangleSetOrigin",rectangleSetOrigin);
-    mLua->registerFunction("rectangleSetRotation",rectangleSetRotation);
-    mLua->registerFunction("rectangleSetScale",rectangleSetScale);
-    mLua->registerFunction("rectangleSetSize",rectangleSetSize);
-    mLua->registerFunction("rectangleSetTexture",rectangleSetTexture);
-    mLua->registerFunction("rectangleGetPosition",rectangleGetPosition);
-    mLua->registerFunction("rectangleGetFillColor",rectangleGetFillColor);
-    mLua->registerFunction("rectangleGetOutlineColor",rectangleGetOutlineColor);
-    mLua->registerFunction("rectangleGetOutlineThickness",rectangleGetOutlineThickness);
-    mLua->registerFunction("rectangleGetGlobalBounds",rectangleGetGlobalBounds);
-    mLua->registerFunction("rectangleGetLocalBounds",rectangleGetLocalBounds);
-    mLua->registerFunction("rectangleGetOrigin",rectangleGetOrigin);
-    mLua->registerFunction("rectangleGetRotation",rectangleGetRotation);
-    mLua->registerFunction("rectangleGetScale",rectangleGetScale);
-    mLua->registerFunction("rectangleGetSize",rectangleGetSize);
-    mLua->registerFunction("rectangleMove",rectangleMove);
-    mLua->registerFunction("rectangleScale",rectangleScale);
-    mLua->registerFunction("rectangleRotate",rectangleRotate);
+    mLua->registerFunction("rectangleCreate", rectangleCreate); // ok
+    mLua->registerFunction("rectangleSetPosition", rectangleSetPosition); // ok
+    mLua->registerFunction("rectangleSetFillColor", rectangleSetFillColor); // ok
+    mLua->registerFunction("rectangleDraw", rectangleDraw); // ok
+    mLua->registerFunction("rectangleSetOutlineColor", rectangleSetOutlineColor); // ok
+    mLua->registerFunction("rectangleSetOutlineThickness", rectangleSetOutlineThickness); // ok
+    mLua->registerFunction("rectangleSetOrigin", rectangleSetOrigin); // ok
+    mLua->registerFunction("rectangleSetRotation", rectangleSetRotation); // ok
+    mLua->registerFunction("rectangleSetScale", rectangleSetScale); // ok
+    mLua->registerFunction("rectangleSetSize", rectangleSetSize); // ok
+    mLua->registerFunction("rectangleSetTexture", rectangleSetTexture); // ok
+    mLua->registerFunction("rectangleGetPosition", rectangleGetPosition); // ok
+    mLua->registerFunction("rectangleGetFillColor", rectangleGetFillColor); // ok
+    mLua->registerFunction("rectangleGetOutlineColor", rectangleGetOutlineColor); // ok
+    mLua->registerFunction("rectangleGetOutlineThickness", rectangleGetOutlineThickness); // ok
+    mLua->registerFunction("rectangleGetGlobalBounds", rectangleGetGlobalBounds); // ok
+    mLua->registerFunction("rectangleGetLocalBounds", rectangleGetLocalBounds); // ok
+    mLua->registerFunction("rectangleGetOrigin", rectangleGetOrigin); // ok
+    mLua->registerFunction("rectangleGetRotation", rectangleGetRotation); // ok
+    mLua->registerFunction("rectangleGetScale", rectangleGetScale); //  ok
+    mLua->registerFunction("rectangleGetSize", rectangleGetSize); // ok
+    mLua->registerFunction("rectangleMove", rectangleMove); // ok
+    mLua->registerFunction("rectangleScale", rectangleScale); // ok
+    mLua->registerFunction("rectangleRotate", rectangleRotate); // ok
 
     // Sprite
-    mLua->registerFunction("spriteCreate", spriteCreate);
+    mLua->registerFunction("spriteCreate", spriteCreate); // ok
     mLua->registerFunction("spriteSetTexture", spriteSetTexture);
-    mLua->registerFunction("spriteDraw", spriteDraw);
+    mLua->registerFunction("spriteDraw", spriteDraw); // ok
     mLua->registerFunction("spriteRotate", spriteRotate);
     mLua->registerFunction("spriteGetRotation", spriteGetRotation);
     mLua->registerFunction("spriteMove", spriteMove);
@@ -81,23 +81,19 @@ void registerFunctions() {
     mLua->registerFunction("spriteSetRect", spriteSetRect);
 
     // Texture
-    mLua->registerFunction("textureCreate", textureCreate);
-
-
+    mLua->registerFunction("textureCreate", textureCreate); // ok
 
     // Music
-    mLua->registerFunction("musicLoad", musicLoad);
-    mLua->registerFunction("musicPlay", musicPlay);
-    mLua->registerFunction("musicPause",musicPause);
-    mLua->registerFunction("musicStop", musicStop);
-    mLua->registerFunction("isPlayingMusic", isPlayingMusic);
-    mLua->registerFunction("musicGetDuration", musicGetDuration);
-    mLua->registerFunction("musicGetVolume", musicGetVolume);
-    mLua->registerFunction("musicSetVolume", musicSetVolume);
-    mLua->registerFunction("musicGetPlayingOffset", musicGetPlayingOffset);
-    mLua->registerFunction("musicSetPlayingOffset", musicSetPlayingOffset);
-
-
+    mLua->registerFunction("musicLoad", musicLoad); // ok
+    mLua->registerFunction("musicPlay", musicPlay); // ok
+    mLua->registerFunction("musicPause",musicPause); // ok
+    mLua->registerFunction("musicStop", musicStop); // ok
+    mLua->registerFunction("isPlayingMusic", isPlayingMusic); // ok
+    mLua->registerFunction("musicGetDuration", musicGetDuration); // ok
+    mLua->registerFunction("musicGetVolume", musicGetVolume); // ok
+    mLua->registerFunction("musicSetVolume", musicSetVolume); // ok
+    mLua->registerFunction("musicGetPlayingOffset", musicGetPlayingOffset); // ok
+    mLua->registerFunction("musicSetPlayingOffset", musicSetPlayingOffset); // ok
 
 
     Debugger *dbg = Debugger::getInstance();

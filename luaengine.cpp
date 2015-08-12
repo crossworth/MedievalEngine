@@ -24,9 +24,14 @@ void LuaEngine::callFunction(const std::string &funcName, const std::string &dat
         lua_pushstring(L, data2.c_str());
         lua_call(L, 2, 0);
     }
+}
 
+void LuaEngine::callRegistredFunction(const std::string &funcName) {
+    lua_getglobal(L, funcName.c_str());
 
-
+    if(lua_isfunction(L, -1)) {
+        lua_call(L, 0, 0);
+    }
 }
 
 void LuaEngine::doFile(const std::string &fileName) {

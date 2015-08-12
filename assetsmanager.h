@@ -15,16 +15,14 @@ public:
     // Carrega da memória
     Image* loadImage(const std::string &name, const std::string &fileName, bool persist = true);
     Music* loadMusic(const std::string &name, const std::string &fileName, bool persist = false);
-    Texture* loadTexture(const std::string &name, const std::string &fileName, bool persist = false);
+    Texture* loadTexture(const std::string &name, const std::string &fileName, bool persist = true);
     Sound* loadSound(const std::string &name, const std::string &fileName, bool persist = false);
-    Font* loadFont(const std::string &name, const std::string &fileName, bool persist = false);
-
+    Font* loadFont(const std::string &name, const std::string &fileName, bool persist = true);
 
     // Criação de assets
     RectangleShape* createRectangle(const std::string &name, const float & width, const float &height, bool persist = false);
     Text* createText(const std::string &name, const Text &text, bool persist = false);
     Sprite* createSprite(const std::string &name, const Sprite &sprite, bool persist = false);
-
 
     // Retorna um asset como ponteiro ou nullptr
     Texture* getTexture(const std::string &name);
@@ -42,7 +40,6 @@ public:
     int remove(const std::string &name, ASSETS_TYPE type);
 
     void clearNonPersistent();
-
 
 private:
     std::string ASSETS_PATH;

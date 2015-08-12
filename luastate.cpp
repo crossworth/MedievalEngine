@@ -19,8 +19,8 @@ void luaState::render() {
     renderWindow* mWindow = renderWindow::getInstance();
     mWindow->getRenderWindow()->setTitle(ENGINE_DEFAULTS::ENGINE_NAME + " - State: " + gameState::getStateString());
 
-    for(unsigned int i = 0; i < mEffects.size(); i++) {
-        mEffects.at(i)->draw();
+    for(std::vector<Effects*>::iterator it = mEffects.begin(); it != mEffects.end(); it++) {
+        (*it)->draw();
     }
 
     switch (gameState::getState()) {
@@ -42,16 +42,13 @@ void luaState::render() {
     default:
         break;
     }
-
-
 }
-
 
 void luaState::handleEvents() {
     while(mRender->pollEvent(mEvent)) {
-        if (mEvent.type == sf::Event::Closed || ( mEvent.type == sf::Event::KeyPressed && mEvent.key.code == sf::Keyboard::Escape )) {
+        if (mEvent.type == sf::Event::Closed) {
             mLua->doFile(path + "/scripts/events/close.lua");
-            mRender->close();
+            mRender->close(); // Aguardar close do close.lua ?
         }
         if (mEvent.type == sf::Event::GainedFocus) {
             mLua->doFile(path + "/scripts/events/gained_focus.lua");
@@ -87,19 +84,36 @@ void luaState::update() {
     if (running) {
         mLua->doFile(path + "/scripts/update.lua");
 
+        std::vector<Effects*>::iterator itEffects = mEffects.begin();
 
-        for(auto it = mEffects.begin(); it != mEffects.end(); it++) {
-            if ((*it)->done()) {
-                mLua->callFunction("effectDone", (*it)->getSpriteName(), (*it)->getEffectName());
-                delete *it;
-                std::cout << mEffects.size() << std::endl;
+        for(uint i = 0; i < mEffects.size(); i++) {
+            if ((*itEffects)->done()) {
+
+                // Chama a função effectDone no arquivo update.lua após finalizar um efeito em algum objeto
+                // void effectDone (string sprite_name, string effect_name)
+                mLua->callFunction("effectDone", (*itEffects)->getSpriteName(), (*itEffects)->getEffectName());
+                delete *itEffects;
+                mEffects.erase(itEffects);
             } else {
-                (*it)->update();
+                (*itEffects)->update();
             }
+            itEffects++;
         }
 
+        std::vector<CallBack*>::iterator itCallBack = mCallBacks.begin();
 
+        for(uint i = 0; i < mCallBacks.size(); i++) {
+            if ((*itCallBack)->execute()) {
 
+                // Chama a função registrada em callBack
+                mLua->callRegistredFunction((*itCallBack)->getFunctionName().c_str());
+                delete *itCallBack;
+                mCallBacks.erase(itCallBack);
+            } else {
+                (*itCallBack)->update();
+            }
+            itCallBack++;
+        }
     }
 }
 

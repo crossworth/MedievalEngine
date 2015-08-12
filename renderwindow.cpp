@@ -26,6 +26,15 @@ void renderWindow::createWindow(const windowInformation winInfos, int frameLimit
 
     Window->setFramerateLimit(frameLimit);
     Window->setVerticalSyncEnabled(vsync);
+    // Deixa tela preta enquanto carrega o resto dos recursos e inicia os sistemas
+    Window->clear();
+    Window->display();
+
+    mWindowInfomation.bitsPerPixel = winInfos.bitsPerPixel;
+    mWindowInfomation.fullScreen   = winInfos.fullScreen;
+    mWindowInfomation.height       = winInfos.height;
+    mWindowInfomation.width        = winInfos.width;
+    mWindowInfomation.windowName   = winInfos.windowName;
 
     dbg->log(VERBOSE, 1, "[renderWindow::createWindow] Window created");
 
@@ -44,7 +53,7 @@ windowInformation renderWindow::getWindowInformation() {
 }
 
 bool renderWindow::isValidWindow(const windowInformation winInfos) {
-return true;
+
     // Funciona somente em modo FullScreen
     if (!winInfos.fullScreen)
         return true;

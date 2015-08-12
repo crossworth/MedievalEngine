@@ -8,6 +8,7 @@
 #include "luaengine.h"
 #include "gameengine.h"
 #include "effects.h"
+#include "callback.h"
 
 /*
 * Aqui definimos um ponto importante da GameEngine
@@ -51,10 +52,12 @@ public:
     void restartTime();
 
     void addEffect(Effects *effect);
+    void addCallBack(CallBack *callBack);
 
 protected:
     bool running;
     std::vector<Effects*> mEffects;
+    std::vector<CallBack*> mCallBacks;
     AssetsManager *assets;
     renderWindow *mRender;
     Event mEvent;

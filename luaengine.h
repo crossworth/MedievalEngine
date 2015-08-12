@@ -20,6 +20,7 @@ public:
     void doFile(const std::string &fileName);
     static bool assertValue(lua_State *l, int argumentsNeed, const char *functionName);
     void callFunction(const std::string &funcName, const std::string &data1, const std::string &data2);
+    void callRegistredFunction(const std::string &funcName);
 private:
     lua_State* L;
     LuaEngine();
