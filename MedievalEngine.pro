@@ -2,6 +2,9 @@ TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
 CONFIG += qt
+CONFIG += warn_off
+
+OBJECTS_DIR = tmp
 
 win32 {
     QMAKE_CXXFLAGS += -std=gnu++1y
@@ -19,8 +22,6 @@ macx {
     INCLUDEPATH += /usr/include
 
     LIBS += -L "/usr/local/lib" -lsfml-graphics-s -lsfml-audio-s -lsfml-window-s -lsfml-system-s -llua -ljpeg -framework freetype -framework ogg -framework FLAC -framework vorbis -framework vorbisenc -framework vorbisfile -framework OpenAL -framework CoreFoundation -framework CoreServices -framework Carbon -framework Cocoa -framework ApplicationServices -framework OpenGL -framework IOKit
-
-
 }
 
 SOURCES += main.cpp \
