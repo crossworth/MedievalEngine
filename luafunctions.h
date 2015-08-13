@@ -1,12 +1,12 @@
 #ifndef LUAFUNCTIONS_H
 #define LUAFUNCTIONS_H
-#include "luaengine.h"
+#include "LuaEngine.h"
 #include "assetsmanager.h"
-#include "renderwindow.h"
-#include "debugger.h"
-#include "config.h"
-#include "gameengine.h"
-#include "fade.h"
+#include "RenderWindow.h"
+#include "Debugger.h"
+#include "Config.h"
+#include "GameEngine.h"
+#include "Fade.h"
 
 // Verifica o número de argumentos passados
 #define checkLuaArgumentsNumber() if ((n = lua_gettop(l)) < need) { \
@@ -76,8 +76,8 @@ ENGINE_UNUSED static int changeGameState(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string gameState      = lua_tostring(l, 1);
-    ME::gameEngine::changeGameState(gameState);
+    std::string gameState = lua_tostring(l, 1);
+    ME::GameEngine::changeGameState(gameState);
 
     return 0;
 }
@@ -96,8 +96,8 @@ ENGINE_UNUSED static int setState(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string state      = lua_tostring(l, 1);
-    gameState* gameState   = ME::gameEngine::getInstance()->getActiveGameState();
+    std::string state    = lua_tostring(l, 1);
+    GameState* gameState = ME::GameEngine::getInstance()->getActiveGameState();
     gameState->setState(state);
 
     return 0;
@@ -119,7 +119,7 @@ ENGINE_UNUSED static int registerCallBack(lua_State *l) {
 
     std::string functionName = lua_tostring(l, 1);
     float timeSeconds        = lua_tonumber(l, 2);
-    gameState* gameState     = ME::gameEngine::getInstance()->getActiveGameState();
+    GameState* gameState     = ME::GameEngine::getInstance()->getActiveGameState();
     gameState->addCallBack(new CallBack(functionName, timeSeconds));
 
     return 0;
@@ -141,7 +141,7 @@ ENGINE_UNUSED static int fadeIn(lua_State *l) {
 
     std::string spriteName = lua_tostring(l, 1);
     float timeSeconds      = lua_tonumber(l, 2);
-    gameState* gameState   = ME::gameEngine::getInstance()->getActiveGameState();
+    GameState* gameState   = ME::GameEngine::getInstance()->getActiveGameState();
     AssetsManager *asset   = AssetsManager::getInstance();
 
     if (asset->getSprite(spriteName) != nullptr) {
@@ -167,7 +167,7 @@ ENGINE_UNUSED static int fadeOut(lua_State *l) {
 
     std::string spriteName = lua_tostring(l, 1);
     float timeSeconds      = lua_tonumber(l, 2);
-    gameState* gameState   = ME::gameEngine::getInstance()->getActiveGameState();
+    GameState* gameState   = ME::GameEngine::getInstance()->getActiveGameState();
     AssetsManager *asset   = AssetsManager::getInstance();
 
     if (asset->getSprite(spriteName) != nullptr) {
@@ -176,7 +176,6 @@ ENGINE_UNUSED static int fadeOut(lua_State *l) {
 
     return 0;
 }
-
 
 /*
 *
@@ -192,7 +191,7 @@ ENGINE_UNUSED static int getTimer(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    gameState* gameState   = ME::gameEngine::getInstance()->getActiveGameState();
+    GameState* gameState   = ME::GameEngine::getInstance()->getActiveGameState();
 
     lua_pushnumber(l, gameState->getTime());
 
@@ -214,7 +213,7 @@ ENGINE_UNUSED static int resetTimer(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    gameState* gameState   = ME::gameEngine::getInstance()->getActiveGameState();
+    GameState* gameState   = ME::GameEngine::getInstance()->getActiveGameState();
     gameState->restartTime();
 
     return 0;
@@ -234,7 +233,7 @@ ENGINE_UNUSED static int getState(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    gameState* gameState   = ME::gameEngine::getInstance()->getActiveGameState();
+    GameState* gameState   = ME::GameEngine::getInstance()->getActiveGameState();
     lua_pushstring(l, gameState->getStateString().c_str());
 
     return 1;
@@ -313,7 +312,7 @@ ENGINE_UNUSED static int spriteDraw(lua_State *l) {
     std::string spriteName = lua_tostring(l, 1);
 
     AssetsManager *asset         = AssetsManager::getInstance();
-    renderWindow * mRenderWindow = renderWindow::getInstance();
+    RenderWindow * mRenderWindow = RenderWindow::getInstance();
 
     if (asset->getSprite(spriteName) != nullptr) {
         mRenderWindow->draw(*asset->getSprite(spriteName));
@@ -1099,7 +1098,7 @@ ENGINE_UNUSED static int getMouseLocalPosition(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    renderWindow * mRenderWindow = renderWindow::getInstance();
+    RenderWindow * mRenderWindow = RenderWindow::getInstance();
     sf::Vector2i pos             = sf::Mouse::getPosition(*(mRenderWindow->getRenderWindow()));
     lua_newtable(l);
     lua_pushinteger(l, pos.x);
@@ -1123,7 +1122,7 @@ ENGINE_UNUSED static int getWindowInfo(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    renderWindow *mRenderWindow = renderWindow::getInstance();
+    RenderWindow *mRenderWindow = RenderWindow::getInstance();
     windowInformation infos     = mRenderWindow->getWindowInformation();
     lua_newtable(l);
     lua_pushinteger(l, infos.width);
@@ -1152,7 +1151,7 @@ ENGINE_UNUSED static int cameraSet(lua_State *l) {
     checkLuaArguments();
 
      std::string cameraName      = lua_tostring(l, 1);
-     renderWindow *mRenderWindow = renderWindow::getInstance();
+     RenderWindow *mRenderWindow = RenderWindow::getInstance();
      mRenderWindow->setCamera(cameraName);
      return 0;
 }
@@ -1174,7 +1173,7 @@ ENGINE_UNUSED static int cameraMove(lua_State *l) {
     std::string cameraName      = lua_tostring(l, 1);
     float x                     = lua_tonumber(l, 2);
     float y                     = lua_tonumber(l, 3);
-    renderWindow *mRenderWindow = renderWindow::getInstance();
+    RenderWindow *mRenderWindow = RenderWindow::getInstance();
 
     if (cameraName == "default") {
         mRenderWindow->getDefaultCamera()->move(x, y);
@@ -1202,10 +1201,9 @@ ENGINE_UNUSED static int cameraCreate(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string cameraName = lua_tostring(l, 1);
-    std::string cameraTipo = lua_tostring(l, 2);
-
-    renderWindow *mRenderWindow = renderWindow::getInstance();
+    std::string cameraName      = lua_tostring(l, 1);
+    std::string cameraTipo      = lua_tostring(l, 2);
+    RenderWindow *mRenderWindow = RenderWindow::getInstance();
 
     if (cameraTipo == "default") {
         mRenderWindow->createCamera(cameraName, *mRenderWindow->getDefaultCamera());
@@ -1237,10 +1235,9 @@ ENGINE_UNUSED static int cameraSetRotation(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    std::string cameraName = lua_tostring(l, 1);
-    float angle            = lua_tonumber(l, 2);
-
-    renderWindow *mRenderWindow = renderWindow::getInstance();
+    std::string cameraName      = lua_tostring(l, 1);
+    float angle                 = lua_tonumber(l, 2);
+    RenderWindow *mRenderWindow = RenderWindow::getInstance();
 
     if(mRenderWindow->getCamera(cameraName) != nullptr) {
         mRenderWindow->getCamera(cameraName)->setRotation(angle);
@@ -1265,7 +1262,7 @@ ENGINE_UNUSED static int cameraZoom(lua_State *l) {
 
     std::string cameraName      = lua_tostring(l, 1);
     float factor                = lua_tonumber(l, 2);
-    renderWindow *mRenderWindow = renderWindow::getInstance();
+    RenderWindow *mRenderWindow = RenderWindow::getInstance();
 
     if (mRenderWindow->getCamera(cameraName) != nullptr) {
         mRenderWindow->getCamera(cameraName)->zoom(factor);
@@ -1290,7 +1287,7 @@ ENGINE_UNUSED static int cameraRotate(lua_State *l) {
 
     std::string cameraName      = lua_tostring(l, 1);
     float angle                 = lua_tonumber(l, 2);
-    renderWindow *mRenderWindow = renderWindow::getInstance();
+    RenderWindow *mRenderWindow = RenderWindow::getInstance();
 
     if (mRenderWindow->getCamera(cameraName) != nullptr) {
         mRenderWindow->getCamera(cameraName)->rotate(angle);
@@ -1315,7 +1312,7 @@ ENGINE_UNUSED static int cameraReset(lua_State *l) {
 
 
     std::string cameraName      = lua_tostring(l, 1);
-    renderWindow *mRenderWindow = renderWindow::getInstance();
+    RenderWindow *mRenderWindow = RenderWindow::getInstance();
 
     if(mRenderWindow->getCamera(cameraName)) {
         mRenderWindow->getCamera(cameraName)->reset(sf::FloatRect(0, 0, mRenderWindow->getWindowInformation().width, mRenderWindow->getWindowInformation().height));
@@ -1338,7 +1335,7 @@ ENGINE_UNUSED static int cameraSetDefault(lua_State *l) {
     checkLuaArgumentsNumber();
     checkLuaArguments();
 
-    renderWindow *mRenderWindow = renderWindow::getInstance();
+    RenderWindow *mRenderWindow = RenderWindow::getInstance();
     mRenderWindow->setCamera(*mRenderWindow->getDefaultCamera());
     return 0;
 }
@@ -1358,7 +1355,7 @@ ENGINE_UNUSED static int cameraGetRotation(lua_State *l) {
     checkLuaArguments();
 
     std::string cameraName      = lua_tostring(l, 1);
-    renderWindow *mRenderWindow = renderWindow::getInstance();
+    RenderWindow *mRenderWindow = RenderWindow::getInstance();
     float angle                 = 0.0f;
 
     if (mRenderWindow->getCamera(cameraName) != nullptr) {
@@ -1384,7 +1381,7 @@ ENGINE_UNUSED static int cameraGetPosition(lua_State *l) {
     checkLuaArguments();
 
     std::string cameraName      = lua_tostring(l, 1);
-    renderWindow *mRenderWindow = renderWindow::getInstance();
+    RenderWindow *mRenderWindow = RenderWindow::getInstance();
     sf::Vector2f view(0.0f, 0.0f);
 
     if (mRenderWindow->getCamera(cameraName) != nullptr) {
@@ -1503,7 +1500,7 @@ ENGINE_UNUSED static int rectangleDraw(lua_State *l) {
 
     std::string rectangleName = lua_tostring(l, 1);
     AssetsManager *assets     = AssetsManager::getInstance();
-    renderWindow *mWindow     = renderWindow::getInstance();
+    RenderWindow *mWindow     = RenderWindow::getInstance();
 
     if(assets->getRectangleShape(rectangleName) != nullptr) {
         mWindow->draw(*assets->getRectangleShape(rectangleName));

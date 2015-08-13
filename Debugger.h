@@ -1,6 +1,6 @@
 #ifndef DEBUGGER_H
 #define DEBUGGER_H
-#include "config.h"
+#include "Config.h"
 #include <stdarg.h>
 
 namespace ME {

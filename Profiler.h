@@ -1,8 +1,8 @@
 #ifndef PROFILER_H
 #define PROFILER_H
-#include "config.h"
+#include "Config.h"
 #include <time.h>
-#include "debugger.h"
+#include "Debugger.h"
 #include "TO.h"
 
 

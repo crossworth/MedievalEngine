@@ -1,6 +1,8 @@
 #ifndef CALLBACK_H
 #define CALLBACK_H
-#include "config.h"
+#include "Config.h"
+
+namespace ME {
 
 class CallBack {
 public:
@@ -17,5 +19,7 @@ private:
     bool mExecute;
 
 };
+
+}
 
 #endif // CALLBACK_H

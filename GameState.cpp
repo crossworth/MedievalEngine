@@ -1,23 +1,23 @@
-#include "gamestate.h"
+#include "GameState.h"
 
 using namespace ME;
 
-gameState::gameState() : running(false) {
+GameState::GameState() : running(false) {
     mState  = INIT;
     assets  = AssetsManager::getInstance();
-    mRender = renderWindow::getInstance();
+    mRender = RenderWindow::getInstance();
     mLua    = LuaEngine::getInstace();
 }
 
-bool gameState::isRunning() {
+bool GameState::isRunning() {
     return running;
 }
 
-GAME_STATE gameState::getState() {
+GAME_STATE GameState::getState() {
     return mState;
 }
 
-std::string gameState::getStateString() {
+std::string GameState::getStateString() {
     switch (mState) {
     case INIT:
         return "init";
@@ -43,22 +43,21 @@ std::string gameState::getStateString() {
     }
 }
 
-void gameState::setState(const GAME_STATE &state) {
+void GameState::setState(const GAME_STATE &state) {
     mState = state;
 }
 
-void gameState::addEffect(Effects *effect) {
+void GameState::addEffect(Effects *effect) {
     mEffects.push_back(effect);
 }
 
-void gameState::addCallBack(CallBack *callBack) {
+void GameState::addCallBack(CallBack *callBack) {
     mCallBacks.push_back(callBack);
 }
 
-void gameState::setState(const std::string &state) {
+void GameState::setState(const std::string &state) {
     std::string tmp = state;
     std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
-
 
     if (state == "init") {
         mState = INIT;
@@ -83,19 +82,19 @@ void gameState::setState(const std::string &state) {
     dbg->log(VERBOSE, 1, ("[gameState::setState] " + getStateString()).c_str());
 }
 
-gameState::~gameState() {
+GameState::~GameState() {
 
 }
 
-float gameState::getTime() {
+float GameState::getTime() {
     sf::Time seconds = mClock.getElapsedTime();
     return seconds.asSeconds();
 }
 
-void gameState::restartTime() {
+void GameState::restartTime() {
     mClock.restart();
 }
 
-void gameState::registerGameEngine(gameEngine *gm) {
+void GameState::registerGameEngine(GameEngine *gm) {
     mGameEngine = gm;
 }

@@ -1,15 +1,15 @@
 #ifndef RENDERWINDOW_H
 #define RENDERWINDOW_H
 #include "TO.h"
-#include "debugger.h"
-#include "profiler.h"
-#include "config.h"
+#include "Debugger.h"
+#include "Profiler.h"
+#include "Config.h"
 
 namespace ME {
 
-class renderWindow {
+class RenderWindow {
 public:
-    static renderWindow* getInstance();
+    static RenderWindow* getInstance();
     void createWindow(const windowInformation winInfos, int frameLimit = ENGINE_DEFAULTS::FRAME_LIMIT, bool vysnc = ENGINE_DEFAULTS::VSYNC);
     void clear(const sf::Color &color = sf::Color(0,0,0,255));
     bool isOpen();
@@ -32,17 +32,17 @@ public:
     float getTime();
     void restartTime();
 
-    ~renderWindow();
+    ~RenderWindow();
 
     bool hasFocus;
 private:
     Debugger *dbg;
-    renderWindow();
-    static renderWindow* instance;
+    RenderWindow();
+    static RenderWindow* instance;
     windowInformation mWindowInfomation;
-    renderWindow(const windowInformation rederInfo);
+    RenderWindow(const windowInformation rederInfo);
     sf::RenderWindow *Window;
-    std::map<std::string,Camera*> mCameras;
+    std::map<std::string, Camera*> mCameras;
     sf::Clock mClock;
 };
 

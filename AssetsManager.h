@@ -1,9 +1,9 @@
 #ifndef ASSETSMANAGER_H
 #define ASSETSMANAGER_H
-#include "debugger.h"
-#include "config.h"
+#include "Debugger.h"
+#include "Config.h"
 #include "TO.h"
-#include "cfgparser.h"
+#include "CFGParser.h"
 
 namespace ME {
 

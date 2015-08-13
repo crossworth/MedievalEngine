@@ -1,4 +1,4 @@
-#include "fade.h"
+#include "Fade.h"
 
 using namespace ME;
 

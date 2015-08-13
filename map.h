@@ -1,11 +1,11 @@
 #ifndef MAP_H
 #define MAP_H
-#include "config.h"
-#include "debugger.h"
-#include "assetsmanager.h"
+#include "Config.h"
+#include "Debugger.h"
+#include "AssetsManager.h"
 #include "TO.h"
-#include "renderwindow.h"
-#include "profiler.h"
+#include "RenderWindow.h"
+#include "Profiler.h"
 
 namespace ME{
 
@@ -18,7 +18,7 @@ public:
     void renderMap();
 private:
     std::string mapName;
-    renderWindow *mWindow;
+    RenderWindow *mWindow;
     AssetsManager *mAssets;
     Debugger *dbg;
 };

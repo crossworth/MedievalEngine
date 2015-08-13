@@ -1,8 +1,8 @@
 #ifndef GUI_H
 #define GUI_H
-#include "config.h"
-#include "renderwindow.h"
-#include "assetsmanager.h"
+#include "Config.h"
+#include "RenderWindow.h"
+#include "AssetsManager.h"
 #include "texthandle.h"
 
 namespace ME{

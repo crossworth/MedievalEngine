@@ -1,8 +1,8 @@
 #ifndef TEXTHANDLE_H
 #define TEXTHANDLE_H
-#include "config.h"
-#include "assetsmanager.h"
-#include "renderwindow.h"
+#include "Config.h"
+#include "AssetsManager.h"
+#include "RenderWindow.h"
 
 namespace ME{
 

@@ -1,6 +1,6 @@
 #ifndef EFFECTS_H
 #define EFFECTS_H
-#include "config.h"
+#include "Config.h"
 
 namespace ME {
 

@@ -1,6 +1,6 @@
 #ifndef FADE_H
 #define FADE_H
-#include "effects.h"
+#include "Effects.h"
 
 namespace ME {
 

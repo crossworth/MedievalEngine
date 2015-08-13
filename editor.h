@@ -1,10 +1,10 @@
 #ifndef EDITOR_H
 #define EDITOR_H
-#include "config.h"
-#include "debugger.h"
+#include "Config.h"
+#include "Debugger.h"
 #include "TO.h"
 #include "assetsmanager.h"
-#include "renderwindow.h"
+#include "RenderWindow.h"
 #include "texthandle.h"
 #include "gui.h"
 
@@ -43,7 +43,7 @@ protected:
     MapFile mMap;
     Debugger *mDebugger;
     AssetsManager *mAssets;
-    renderWindow* mRender;
+    RenderWindow* mRender;
 };
 
 

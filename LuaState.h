@@ -1,13 +1,13 @@
 #ifndef MAINSTATE_H
 #define MAINSTATE_H
-#include "gamestate.h"
+#include "GameState.h"
 #include "editor.h"
 
 namespace ME {
 
-class luaState : public gameState {
+class LuaState : public GameState {
 public:
-    luaState(std::string name, std::string path);
+    LuaState(std::string name, std::string path);
     void init();
     void render();
     void handleEvents();
@@ -17,7 +17,7 @@ public:
     void restart();
     void onEnableTransition();
     void onDisableTransition();
-    ~luaState();
+    ~LuaState();
 private:
     std::string name;
     std::string path;

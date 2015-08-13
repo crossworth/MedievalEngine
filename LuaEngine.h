@@ -1,8 +1,8 @@
 #ifndef LUA_H
 #define LUA_H
-#include "debugger.h"
+#include "Debugger.h"
 #include "TO.h"
-#include "config.h"
+#include "Config.h"
 
 extern "C" {
     #include <lua.h>

@@ -1,4 +1,4 @@
-#include "effects.h"
+#include "Effects.h"
 
 using namespace ME;
 

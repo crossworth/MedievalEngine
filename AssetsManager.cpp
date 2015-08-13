@@ -1,4 +1,4 @@
-#include "assetsmanager.h"
+#include "AssetsManager.h"
 
 using namespace ME;
 

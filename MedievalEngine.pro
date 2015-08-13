@@ -2,49 +2,66 @@ TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
 CONFIG += qt
-INCLUDEPATH += "C:\Program Files (x86)\SFML\include"
-INCLUDEPATH += "C:\Program Files (x86)\lua\include"
+
+win32 {
+    QMAKE_CXXFLAGS += -std=gnu++1y
+
+    INCLUDEPATH += "C:\Program Files (x86)\SFML\include"
+    INCLUDEPATH += "C:\Program Files (x86)\lua\include"
+
+    LIBS += -L"C:\Program Files (x86)\SFML\lib" -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
+    LIBS += -L"C:\Program Files (x86)\lua" -llua53
+}
+
+macx {
+    QMAKE_LFLAGS   += -F/Library/Frameworks/
+
+    INCLUDEPATH += /usr/include
+
+    LIBS += -L "/usr/local/lib" -lsfml-graphics-s -lsfml-audio-s -lsfml-window-s -lsfml-system-s -llua -ljpeg -framework freetype -framework ogg -framework FLAC -framework vorbis -framework vorbisenc -framework vorbisfile -framework OpenAL -framework CoreFoundation -framework CoreServices -framework Carbon -framework Cocoa -framework ApplicationServices -framework OpenGL -framework IOKit
+
+
+}
 
 SOURCES += main.cpp \
-    debugger.cpp \
-    assetsmanager.cpp \
-    cfgparser.cpp \
-    profiler.cpp \
-    gamestate.cpp \
-    renderwindow.cpp \
-    gameengine.cpp \
     luafunctions.cpp \
     map.cpp \
     editor.cpp \
     texthandle.cpp \
     gui.cpp \
     TO.cpp \
-    luaengine.cpp \
-    luastate.cpp \
-    effects.cpp \
-    fade.cpp
+    AssetsManager.cpp \
+    GameEngine.cpp \
+    CallBack.cpp \
+    CFGParser.cpp \
+    Debugger.cpp \
+    Effects.cpp \
+    Fade.cpp \
+    GameState.cpp \
+    LuaEngine.cpp \
+    Profiler.cpp \
+    RenderWindow.cpp \
+    LuaState.cpp
 
 HEADERS += \
-    debugger.h \
-    assetsmanager.h \
-    cfgparser.h \
-    profiler.h \
-    gamestate.h \
-    renderwindow.h \
-    gameengine.h \
     luafunctions.h \
     map.h \
     editor.h \
     texthandle.h \
     gui.h \
     TO.h \
-    config.h \
-    luaengine.h \
     key.h \
-    luastate.h \
-    effects.h \
-    fade.h
+    AssetsManager.h \
+    GameEngine.h \
+    CallBack.h \
+    CFGParser.h \
+    Config.h \
+    Debugger.h \
+    Effects.h \
+    Fade.h \
+    GameState.h \
+    LuaEngine.h \
+    LuaState.h \
+    Profiler.h \
+    RenderWindow.h
 
-QMAKE_CXXFLAGS += -std=gnu++1y
-LIBS += -L"C:\Program Files (x86)\SFML\lib" -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
-LIBS += -L"C:\Program Files (x86)\lua" -llua53

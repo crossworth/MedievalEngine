@@ -26,7 +26,7 @@
 
 namespace ME {
 
-class gameEngine;
+class GameEngine;
 
 namespace ENGINE_DEFAULTS {
 

@@ -1,29 +1,29 @@
-#include "luastate.h"
-#include "gameengine.h"
-#include "fade.h"
+#include "LuaState.h"
+#include "GameEngine.h"
+#include "Fade.h"
 
 using namespace ME;
 
-luaState::luaState(std::string name, std::string path) {
+LuaState::LuaState(std::string name, std::string path) {
     this->name = name;
     this->path = path;
 }
 
-void luaState::init() {
-    gameState::setState(INIT);
+void LuaState::init() {
+    GameState::setState(INIT);
     mLua->doFile(path + "/scripts/init.lua");
     running = true;
 }
 
-void luaState::render() {
-    renderWindow* mWindow = renderWindow::getInstance();
-    mWindow->getRenderWindow()->setTitle(ENGINE_DEFAULTS::ENGINE_NAME + " - State: " + gameState::getStateString());
+void LuaState::render() {
+    RenderWindow* mWindow = RenderWindow::getInstance();
+    mWindow->getRenderWindow()->setTitle(ENGINE_DEFAULTS::ENGINE_NAME + " - State: " + GameState::getStateString());
 
     for(std::vector<Effects*>::iterator it = mEffects.begin(); it != mEffects.end(); it++) {
         (*it)->draw();
     }
 
-    switch (gameState::getState()) {
+    switch (GameState::getState()) {
     case RENDER:
         mLua->doFile(path + "/scripts/render.lua");
         break;
@@ -44,7 +44,7 @@ void luaState::render() {
     }
 }
 
-void luaState::handleEvents() {
+void LuaState::handleEvents() {
     while(mRender->pollEvent(mEvent)) {
         if (mEvent.type == sf::Event::Closed) {
             mLua->doFile(path + "/scripts/events/close.lua");
@@ -76,11 +76,11 @@ void luaState::handleEvents() {
     }
 }
 
-luaState::~luaState() {
+LuaState::~LuaState() {
 
 }
 
-void luaState::update() {
+void LuaState::update() {
     if (running) {
         mLua->doFile(path + "/scripts/update.lua");
 
@@ -117,24 +117,24 @@ void luaState::update() {
     }
 }
 
-void luaState::onEnableTransition() {
-    gameState::setState(ENABLE_TRANSITION);
+void LuaState::onEnableTransition() {
+    GameState::setState(ENABLE_TRANSITION);
 }
 
-void luaState::onDisableTransition() {
-    gameState::setState(DISABLE_TRANSITION);
+void LuaState::onDisableTransition() {
+    GameState::setState(DISABLE_TRANSITION);
 }
 
-void luaState::restart() {
+void LuaState::restart() {
     this->init();
 }
 
-void luaState::play() {
-    gameState::setState(PLAY);
+void LuaState::play() {
+    GameState::setState(PLAY);
     running = true;
 }
 
-void luaState::pause() {
-    gameState::setState(PAUSE);
+void LuaState::pause() {
+    GameState::setState(PAUSE);
     running = false;
 }

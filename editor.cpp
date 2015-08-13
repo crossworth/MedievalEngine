@@ -13,7 +13,7 @@ Editor::Editor()
     Index = 0;
     mDebugger = Debugger::getInstance();
     mAssets = AssetsManager::getInstance();
-    mRender = renderWindow::getInstance();
+    mRender = RenderWindow::getInstance();
     mapOpen = false;
     editModeEnable = false;
     assetsLoaded = false;

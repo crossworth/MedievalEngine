@@ -1,14 +1,14 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
-#include "debugger.h"
-#include "config.h"
-#include "profiler.h"
-#include "renderwindow.h"
-#include "assetsmanager.h"
-#include "luaengine.h"
-#include "gameengine.h"
-#include "effects.h"
-#include "callback.h"
+#include "Debugger.h"
+#include "Config.h"
+#include "Profiler.h"
+#include "RenderWindow.h"
+#include "AssetsManager.h"
+#include "LuaEngine.h"
+#include "GameEngine.h"
+#include "Effects.h"
+#include "CallBack.h"
 
 /*
 * Aqui definimos um ponto importante da GameEngine
@@ -26,21 +26,21 @@
 namespace ME{
 
 
-class gameState {
+class GameState {
 public:
-    gameState();
+    GameState();
     virtual void init() = 0;
     virtual void play() = 0;
     virtual void pause() = 0;
     virtual void restart() = 0;
     bool isRunning();
-    void registerGameEngine(gameEngine *gm);
+    void registerGameEngine(GameEngine *gm);
     virtual void render() = 0;
     virtual void update() = 0;
     virtual void handleEvents() = 0;
     virtual void onEnableTransition() = 0;
     virtual void onDisableTransition() = 0;
-    virtual ~gameState() = 0;
+    virtual ~GameState() = 0;
 
 
     GAME_STATE getState();
@@ -59,9 +59,9 @@ protected:
     std::vector<Effects*> mEffects;
     std::vector<CallBack*> mCallBacks;
     AssetsManager *assets;
-    renderWindow *mRender;
+    RenderWindow *mRender;
     Event mEvent;
-    gameEngine *mGameEngine;
+    GameEngine *mGameEngine;
     LuaEngine *mLua;
     sf::Clock mClock;
     GAME_STATE mState;

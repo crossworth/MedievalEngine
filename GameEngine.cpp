@@ -1,30 +1,30 @@
-#include "gameengine.h"
-#include "luaengine.h"
-#include "luastate.h"
+#include "GameEngine.h"
+#include "LuaEngine.h"
+#include "LuaState.h"
 #include "luafunctions.h"
 
 using namespace ME;
 
-gameEngine* gameEngine::gm = nullptr;
+GameEngine* GameEngine::gm = nullptr;
 
-gameEngine* gameEngine::getInstance(int argc, char **argv) {
+GameEngine* GameEngine::getInstance(int argc, char **argv) {
     if (gm == nullptr) {
-        gm = new gameEngine(argc, argv);
+        gm = new GameEngine(argc, argv);
     }
     return gm;
 }
 
 
-int gameEngine::onExit() {
+int GameEngine::onExit() {
     return returnCode;
 }
 
-gameEngine::gameEngine(int argc, char** argv) {
+GameEngine::GameEngine(int argc, char** argv) {
     returnCode       = 0; // Define o código de retorno padrão
     _startedMainLoop = false;
 
     dbg     = Debugger::getInstance();
-    mWindow = renderWindow::getInstance();
+    mWindow = RenderWindow::getInstance();
     mLua    = LuaEngine::getInstace();
 
     CFGParser configurations;
@@ -86,7 +86,7 @@ gameEngine::gameEngine(int argc, char** argv) {
 
 }
 
-void gameEngine::init() {
+void GameEngine::init() {
 
     // Registra as funções da LuaEngine
     registerFunctions();
@@ -105,7 +105,7 @@ void gameEngine::init() {
         std::string gameStatePath = gameStatesList.at(i).absolutePath().toStdString();
         gameStatePath             = gameStatePath + "/" + gameStateName;
 
-        mGamesStates.insert(std::make_pair(gameStateName, new luaState(gameStateName, gameStatePath)));
+        mGamesStates.insert(std::make_pair(gameStateName, new LuaState(gameStateName, gameStatePath)));
         mGamesStates[gameStateName]->registerGameEngine(this);
 
         dbg->log(VERBOSE, 1, ("[gameEngine::init] Game State (" + gameStateName + ") added").c_str());
@@ -114,7 +114,7 @@ void gameEngine::init() {
     changeGameState("main");
 }
 
-void gameEngine::run() {
+void GameEngine::run() {
     _startedMainLoop = true;
     while(mWindow->isOpen()) {
         mWindow->clear();
@@ -125,13 +125,13 @@ void gameEngine::run() {
     }
 }
 
-void gameEngine::clear() {
-    mWindow->~renderWindow();
+void GameEngine::clear() {
+    mWindow->~RenderWindow();
     assets->~AssetsManager();
 }
 
-void gameEngine::changeGameState(const std::string &name) {
-    gameEngine* gm = gameEngine::getInstance();
+void GameEngine::changeGameState(const std::string &name) {
+    GameEngine* gm = GameEngine::getInstance();
 
     if (gm->mGamesStates.find(name) != gm->mGamesStates.end()) {
         if (gm->_startedMainLoop) {
@@ -146,11 +146,11 @@ void gameEngine::changeGameState(const std::string &name) {
     }
 }
 
-gameState* gameEngine::getActiveGameState() {
+GameState* GameEngine::getActiveGameState() {
     return mGamesStates[gameStateEnable];
 }
 
 
-gameEngine::~gameEngine() {
+GameEngine::~GameEngine() {
 
 }

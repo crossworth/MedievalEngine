@@ -1,11 +1,11 @@
-#include "gameengine.h"
+#include "GameEngine.h"
 
 int main(int argc,char **argv) {
 
     ProfileInit();
     ProfileStart();
 
-    ME::gameEngine *app = ME::gameEngine::getInstance(argc,argv);
+    ME::GameEngine *app = ME::GameEngine::getInstance(argc,argv);
     app->init();
 
     app->run();

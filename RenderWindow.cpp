@@ -1,20 +1,20 @@
-#include "renderwindow.h"
+#include "RenderWindow.h"
 
 using namespace ME;
 
-renderWindow::renderWindow() : mWindowInfomation(ENGINE_DEFAULTS::WIDTH_WINDOW, ENGINE_DEFAULTS::HEIGHT_WINDOW, ENGINE_DEFAULTS::BITS_PER_PIXEL_WINDOW, ENGINE_DEFAULTS::FULLSCREEN_WINDOW, ENGINE_DEFAULTS::ENGINE_NAME) {
+RenderWindow::RenderWindow() : mWindowInfomation(ENGINE_DEFAULTS::WIDTH_WINDOW, ENGINE_DEFAULTS::HEIGHT_WINDOW, ENGINE_DEFAULTS::BITS_PER_PIXEL_WINDOW, ENGINE_DEFAULTS::FULLSCREEN_WINDOW, ENGINE_DEFAULTS::ENGINE_NAME) {
    dbg = Debugger::getInstance();
 
 }
 
-Coord renderWindow::getCameraPosition(const std::string &name) {
+Coord RenderWindow::getCameraPosition(const std::string &name) {
     Coord tmp;
     tmp.x = getCamera(name)->getCenter().x - getCamera(name)->getSize().x/2;
     tmp.y = getCamera(name)->getCenter().y - getCamera(name)->getSize().y/2;
     return tmp;
 }
 
-void renderWindow::createWindow(const windowInformation winInfos, int frameLimit, bool vsync) {
+void RenderWindow::createWindow(const windowInformation winInfos, int frameLimit, bool vsync) {
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
 
@@ -40,19 +40,19 @@ void renderWindow::createWindow(const windowInformation winInfos, int frameLimit
 
 }
 
-void renderWindow::setIcon(int width, int height, Image icon) {
+void RenderWindow::setIcon(int width, int height, Image icon) {
     Window->setIcon(width, height, icon.getPixelsPtr());
 }
 
-bool renderWindow::pollEvent(Event &evt) {
+bool RenderWindow::pollEvent(Event &evt) {
     return Window->pollEvent(evt);
 }
 
-windowInformation renderWindow::getWindowInformation() {
+windowInformation RenderWindow::getWindowInformation() {
     return mWindowInfomation;
 }
 
-bool renderWindow::isValidWindow(const windowInformation winInfos) {
+bool RenderWindow::isValidWindow(const windowInformation winInfos) {
 
     // Funciona somente em modo FullScreen
     if (!winInfos.fullScreen)
@@ -62,50 +62,50 @@ bool renderWindow::isValidWindow(const windowInformation winInfos) {
     return  tmp.isValid();
 }
 
-sf::RenderWindow * renderWindow::getRenderWindow() {
+sf::RenderWindow * RenderWindow::getRenderWindow() {
     return Window;
 }
 
-bool renderWindow::isOpen() {
+bool RenderWindow::isOpen() {
     return Window->isOpen();
 }
 
-void renderWindow::clear(const sf::Color &color) {
+void RenderWindow::clear(const sf::Color &color) {
     Window->clear(color);
 }
 
-void renderWindow::display() {
+void RenderWindow::display() {
     Window->display();
 }
 
-void renderWindow::draw(const sf::Drawable &draw) {
+void RenderWindow::draw(const sf::Drawable &draw) {
     Window->draw(draw);
 }
 
-void renderWindow::close() {
+void RenderWindow::close() {
     Window->close();
 }
 
-float renderWindow::getTime() {
+float RenderWindow::getTime() {
     sf::Time seconds = mClock.getElapsedTime();
     return seconds.asSeconds();
 }
 
-void renderWindow::restartTime() {
+void RenderWindow::restartTime() {
     mClock.restart();
 }
 
-Camera* renderWindow::createCamera(const std::string &name, const FloatRect &rect) {
+Camera* RenderWindow::createCamera(const std::string &name, const FloatRect &rect) {
     mCameras.insert(std::make_pair(name, new Camera(rect)));
     return mCameras[name];
 }
 
-Camera* renderWindow::createCamera(const std::string &name, const Camera &cam) {
+Camera* RenderWindow::createCamera(const std::string &name, const Camera &cam) {
     mCameras.insert( std::make_pair(name, new Camera(cam)));
     return mCameras[name];
 }
 
-Camera* renderWindow::getCamera(const std::string &name) {
+Camera* RenderWindow::getCamera(const std::string &name) {
     if (name == "default") {
         return  getDefaultCamera();
     } else if (mCameras.find(name) != mCameras.end()) {
@@ -116,7 +116,7 @@ Camera* renderWindow::getCamera(const std::string &name) {
     }
 }
 
-void renderWindow::setCamera(const std::string &name) {
+void RenderWindow::setCamera(const std::string &name) {
     if (mCameras.find(name) != mCameras.end()) {
         Window->setView(*mCameras[name]);
     } else {
@@ -124,24 +124,24 @@ void renderWindow::setCamera(const std::string &name) {
     }
 }
 
-void renderWindow::setCamera(const Camera &cam) {
+void RenderWindow::setCamera(const Camera &cam) {
     Window->setView(cam);
 }
 
-Camera* renderWindow::getDefaultCamera() {
+Camera* RenderWindow::getDefaultCamera() {
     return (Camera*)&Window->getDefaultView();
 }
 
-renderWindow* renderWindow::instance = nullptr;
+RenderWindow* RenderWindow::instance = nullptr;
 
-renderWindow* renderWindow::getInstance() {
+RenderWindow* RenderWindow::getInstance() {
     if (instance == nullptr) {
-        instance = new renderWindow();
+        instance = new RenderWindow();
     }
     return instance;
 }
 
-renderWindow::~renderWindow() {
+RenderWindow::~RenderWindow() {
     std::map<std::string,Camera*>::iterator it = mCameras.begin();
     for(; it != mCameras.end();it++) {
         delete it->second;
