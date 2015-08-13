@@ -1,6 +1,7 @@
+.DS_Store
 bin/
 *.o
 *.exe
-MedievalEngine.pro.user
-MedievalEngine.pro.user
 *.user
+*.pro.user
+MedievalEngine.pro.user
