@@ -26,10 +26,6 @@ macx {
 
 SOURCES += main.cpp \
     luafunctions.cpp \
-    map.cpp \
-    editor.cpp \
-    texthandle.cpp \
-    gui.cpp \
     TO.cpp \
     AssetsManager.cpp \
     GameEngine.cpp \
@@ -46,10 +42,6 @@ SOURCES += main.cpp \
 
 HEADERS += \
     luafunctions.h \
-    map.h \
-    editor.h \
-    texthandle.h \
-    gui.h \
     TO.h \
     key.h \
     AssetsManager.h \
