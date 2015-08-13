@@ -235,7 +235,7 @@ Sound* AssetsManager::loadSound(const std::string &name, const std::string &file
     mSounds[name].data = new Sound;
     mSounds[name].data->setBuffer(buffer);
 
-    if (!buffer.loadFromFile(fileName)) {
+    if (!buffer.loadFromFile(ASSETS_PATH + fileName)) {
         dbg->log(WARNING, 1, ("[AssetsManager::loadSound] Sound (" + name +  " - " + fileName + ") error while opening").c_str());
         return nullptr;
     }
@@ -259,7 +259,7 @@ Font* AssetsManager::loadFont(const std::string &name, const std::string &fileNa
 
     mFonts[name].data = new Font;
 
-    if (!mFonts[name].data->loadFromFile(fileName)) {
+    if (!mFonts[name].data->loadFromFile(ASSETS_PATH + fileName)) {
         dbg->log(WARNING, 1, ("[AssetsManager::loadFont] Font (" + name +  " - " + fileName + ") error while opening").c_str());
         return nullptr;
     }

@@ -1,7 +1,8 @@
 #ifndef MAINSTATE_H
 #define MAINSTATE_H
 #include "GameState.h"
-#include "editor.h"
+#include "GUI.h"
+#include "TextObject.h"
 
 namespace ME {
 
@@ -21,6 +22,8 @@ public:
 private:
     std::string name;
     std::string path;
+
+    GUI mGUI;
 };
 
 }

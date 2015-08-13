@@ -38,7 +38,10 @@ SOURCES += main.cpp \
     LuaEngine.cpp \
     Profiler.cpp \
     RenderWindow.cpp \
-    LuaState.cpp
+    LuaState.cpp \
+    GUI.cpp \
+    GUIObject.cpp \
+    TextObject.cpp
 
 HEADERS += \
     luafunctions.h \
@@ -56,5 +59,8 @@ HEADERS += \
     LuaEngine.h \
     LuaState.h \
     Profiler.h \
-    RenderWindow.h
+    RenderWindow.h \
+    GUI.h \
+    GUIObject.h \
+    TextObject.h
 

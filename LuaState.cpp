@@ -7,12 +7,16 @@ using namespace ME;
 LuaState::LuaState(std::string name, std::string path) {
     this->name = name;
     this->path = path;
+
+    mGUI.addObject("testText", new TextObject("Teste", 30));
 }
 
 void LuaState::init() {
     GameState::setState(INIT);
     mLua->doFile(path + "/scripts/init.lua");
     running = true;
+
+
 }
 
 void LuaState::render() {
@@ -26,6 +30,7 @@ void LuaState::render() {
     switch (GameState::getState()) {
     case RENDER:
         mLua->doFile(path + "/scripts/render.lua");
+        mGUI.draw();
         break;
     case PLAY:
         mLua->doFile(path + "/scripts/play.lua");
@@ -46,6 +51,8 @@ void LuaState::render() {
 
 void LuaState::handleEvents() {
     while(mRender->pollEvent(mEvent)) {
+        mGUI.processEvents(mEvent);
+
         if (mEvent.type == sf::Event::Closed) {
             mLua->doFile(path + "/scripts/events/close.lua");
             mRender->close(); // Aguardar close do close.lua ?
@@ -83,6 +90,8 @@ LuaState::~LuaState() {
 void LuaState::update() {
     if (running) {
         mLua->doFile(path + "/scripts/update.lua");
+
+        mGUI.update();
 
         std::vector<Effects*>::iterator itEffects = mEffects.begin();
 
