@@ -1,6 +1,6 @@
 #ifndef CFGPARSER_H
 #define CFGPARSER_H
-#include "Debugger.h"
+#include "Log.h"
 #include "TO.h"
 #include "Config.h"
 

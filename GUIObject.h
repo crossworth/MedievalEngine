@@ -2,7 +2,7 @@
 #define GUIOBJECT_H
 #include "Config.h"
 #include "RenderWindow.h"
-#include "Debugger.h"
+#include "Log.h"
 #include "AssetsManager.h"
 
 namespace ME {

@@ -3,7 +3,7 @@
 #include "LuaEngine.h"
 #include "assetsmanager.h"
 #include "RenderWindow.h"
-#include "Debugger.h"
+#include "Log.h"
 #include "Config.h"
 #include "GameEngine.h"
 #include "Fade.h"

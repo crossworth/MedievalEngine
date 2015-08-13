@@ -31,7 +31,6 @@ SOURCES += main.cpp \
     GameEngine.cpp \
     CallBack.cpp \
     CFGParser.cpp \
-    Debugger.cpp \
     Effects.cpp \
     Fade.cpp \
     GameState.cpp \
@@ -44,7 +43,9 @@ SOURCES += main.cpp \
     TextObject.cpp \
     Drawable.cpp \
     ID.cpp \
-    Asset.cpp
+    Asset.cpp \
+    Texture.cpp \
+    Log.cpp
 
 HEADERS += \
     luafunctions.h \
@@ -55,7 +56,6 @@ HEADERS += \
     CallBack.h \
     CFGParser.h \
     Config.h \
-    Debugger.h \
     Effects.h \
     Fade.h \
     GameState.h \
@@ -68,5 +68,7 @@ HEADERS += \
     TextObject.h \
     Drawable.h \
     ID.h \
-    Asset.h
+    Asset.h \
+    Texture.h \
+    Log.h
 

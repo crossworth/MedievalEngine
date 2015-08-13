@@ -2,7 +2,7 @@
 #define PROFILER_H
 #include "Config.h"
 #include <time.h>
-#include "Debugger.h"
+#include "Log.h"
 #include "TO.h"
 
 

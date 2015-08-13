@@ -1,6 +1,6 @@
 #ifndef LUA_H
 #define LUA_H
-#include "Debugger.h"
+#include "Log.h"
 #include "TO.h"
 #include "Config.h"
 

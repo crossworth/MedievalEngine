@@ -1,6 +1,6 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
-#include "Debugger.h"
+#include "Log.h"
 #include "Config.h"
 #include "Profiler.h"
 #include "RenderWindow.h"

@@ -2,7 +2,7 @@
 #define GUI_H
 #include "Config.h"
 #include "GUIObject.h"
-#include "Debugger.h"
+#include "Log.h"
 
 namespace ME {
 

@@ -2,9 +2,9 @@
 
 using namespace ME;
 
-unsigned int ID::id = 0;
+MEid ID::id = 0;
 
-unsigned int ID::get() {
+MEid ID::get() {
     return id++;
 }
 

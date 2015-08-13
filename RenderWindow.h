@@ -1,7 +1,7 @@
 #ifndef RENDERWINDOW_H
 #define RENDERWINDOW_H
 #include "TO.h"
-#include "Debugger.h"
+#include "Log.h"
 #include "Profiler.h"
 #include "Config.h"
 

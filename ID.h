@@ -4,11 +4,13 @@
 
 namespace ME {
 
+typedef unsigned int MEid;
+
 class ID {
 public:
-    static unsigned int get();
+    static MEid get();
 private:
-    static unsigned int id;
+    static MEid id;
     ID();
 };
 

@@ -1,6 +1,6 @@
 #ifndef GAMEENGINE_H
 #define GAMEENGINE_H
-#include "Debugger.h"
+#include "Log.h"
 #include "RenderWindow.h"
 #include "Profiler.h"
 #include "AssetsManager.h"

@@ -61,14 +61,7 @@ enum ASSETS_TYPE { TEXTURE = 0, SPRITE, SOUND, MUSIC, IMAGE, FONT, RECTANGLESHAP
 // DECOUPLING SFML
 
 // Tipos de assets
-typedef sf::Texture Texture;
-typedef sf::Sprite Sprite;
-typedef sf::Music Music;
-typedef sf::Sound Sound;
-typedef sf::Image Image;
-typedef sf::Font Font;
-typedef sf::Text Text;
-typedef sf::RectangleShape RectangleShape;
+
 
 typedef sf::Color Color;
 
