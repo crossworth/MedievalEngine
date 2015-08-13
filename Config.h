@@ -70,6 +70,8 @@ typedef sf::Font Font;
 typedef sf::Text Text;
 typedef sf::RectangleShape RectangleShape;
 
+typedef sf::Color Color;
+
 // Estruturas com informações de cada asset
 
 struct TextureAsset {

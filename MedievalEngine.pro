@@ -41,7 +41,10 @@ SOURCES += main.cpp \
     LuaState.cpp \
     GUI.cpp \
     GUIObject.cpp \
-    TextObject.cpp
+    TextObject.cpp \
+    Drawable.cpp \
+    ID.cpp \
+    Asset.cpp
 
 HEADERS += \
     luafunctions.h \
@@ -62,5 +65,8 @@ HEADERS += \
     RenderWindow.h \
     GUI.h \
     GUIObject.h \
-    TextObject.h
+    TextObject.h \
+    Drawable.h \
+    ID.h \
+    Asset.h
 
