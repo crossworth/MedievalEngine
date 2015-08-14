@@ -11,15 +11,13 @@ MedievalEngine* MedievalEngine::getInstance(int argc, char **argv) {
     return mInstance;
 }
 
-MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr) , mArguments(argc, argv) {
+MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr), mArguments(argc, argv) {
 
     if (mArguments.hasArgument("config")) {
         mConfigurations.readFile(mArguments.getArgument("config"));
     } else {
         mConfigurations.readFile(ENGINE_DEFAULTS::CONFIG_FILE);
     }
-
-
 
     WindowInfo mWindowInfo;
 
@@ -52,22 +50,14 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr) 
         mWindowInfo.windowName = tmpWindowName;
     }
 
-    // parse info from file
-    // handle argc and argv
-
     mWindow.create(mWindowInfo);
     mAssetsManager = AssetsManager::getInstance();
 
 }
 
 void MedievalEngine::init() {
+    // Where we start our game state and handle all the gamestate things
 
-
-
-
-
-        // Verifica as informações do arquivo de configuração
-        // e cria a janela com base nelas ou com base nas defaults
 }
 
 void MedievalEngine::run() {

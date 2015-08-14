@@ -35,7 +35,6 @@ SOURCES += main.cpp \
     Engine/GameState.cpp \
     Engine/LuaState.cpp \
     Graphics/Drawable.cpp \
-    Graphics/RenderWindow.cpp \
     GUI/GUI.cpp \
     GUI/GUIObject.cpp \
     GUI/TextObject.cpp \
@@ -66,7 +65,6 @@ HEADERS += \
     Engine/GameState.h \
     Engine/LuaState.h \
     Graphics/Drawable.h \
-    Graphics/RenderWindow.h \
     GUI/GUI.h \
     GUI/GUIObject.h \
     GUI/TextObject.h \
