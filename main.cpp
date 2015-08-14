@@ -1,6 +1,5 @@
 #include <Headers.h>
 #include <Helper/Profiler.h>
-#include <unistd.h>
 
 int main(int argc,char **argv) {
 
@@ -13,6 +12,13 @@ int main(int argc,char **argv) {
 //    app->run();
 //    app->clear();
 //    int EXIT_CODE = app->onExit();
+
+    ME::AssetsManager* assets = ME::AssetsManager::getInstance();
+
+    assert(assets != nullptr);
+
+    ME::MEid mID = assets->loadTexture("icon.png");
+
 
     ProfileEnd("GameEngine total");
 

@@ -5,3 +5,5 @@ bin/
 *.user
 *.pro.user
 MedievalEngine.pro.user
+
+*.user

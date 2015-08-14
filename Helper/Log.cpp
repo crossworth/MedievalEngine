@@ -16,7 +16,7 @@ Log* Log::getInstance(const bool &logToFile, const std::string &fileName, const 
 Log::Log(const bool &logToFile, const std::string &fileName, const bool &logTime) : mCoutStream(std::cout) {
 
     if (logToFile) {
-        mOfStream.open(fileName, std::ios_base::app);
+        mOfStream.open(fileName.c_str(), std::ios_base::app);
         outStream = &mOfStream;
     } else {
         outStream = &mCoutStream;

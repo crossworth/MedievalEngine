@@ -1,19 +1,18 @@
-//#ifndef ASSET_H
-//#define ASSET_H
-//#include <iostream>
+#ifndef ASSET_H
+#define ASSET_H
+#include <iostream>
 
-//namespace ME {
+namespace ME {
 
-//class Asset {
-//public:
-//    Asset();
+class Asset {
+public:
+    Asset();
+    std::string getType();
 
-//    std::string getType();
+protected:
+    std::string mType;
+};
 
-//private:
-//    std::string mType;
-//};
+}
 
-//}
-
-//#endif // ASSET_H
+#endif // ASSET_H

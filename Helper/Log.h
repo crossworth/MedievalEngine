@@ -31,6 +31,13 @@ public:
         return *this;
     }
 
+    Log &operator<<(const unsigned int &number) {
+        std::stringstream ss;
+        ss << number;
+        *outStream << ss.str();
+        return *this;
+    }
+
     Log &operator<<(const float &number) {
         std::stringstream ss;
         ss << number;

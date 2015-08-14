@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <Helper/Dir.h>
 
 namespace ME {
 
@@ -22,6 +23,10 @@ namespace ENGINE_DEFAULTS {
     const int FRAME_LIMIT           = 60;
     const bool VSYNC                = true;
     const std::string CONFIG_FILE   = "config.cfg";
+
+    const std::string GLOBAL_PATH   = Dir::getCurrentPath();
+    const std::string DATA_PATH     = GLOBAL_PATH + "/data";
+    const std::string ASSETS_PATH   = DATA_PATH + "/assets/";
 }
 
 const bool _LOG_WRITE_TO_FILE    = false;

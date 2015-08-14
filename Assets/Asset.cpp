@@ -1,12 +1,12 @@
-//#include "Asset.h"
+#include <Assets/Asset.h>
 
-//using namespace ME;
+using namespace ME;
 
-//Asset::Asset() {
+Asset::Asset() {
 
-//}
+}
 
-//std::string Asset::getType() {
-//    return mType;
-//}
+std::string Asset::getType() {
+    return mType;
+}
 

@@ -1,23 +1,27 @@
-//#include "AssetsManager.h"
+#include <Assets/AssetsManager.h>
 
-//using namespace ME;
+using namespace ME;
 
-//AssetsManager::AssetsManager() {
-//    dbg = Debugger::getInstance();
-//    dbg->log(VERBOSE, 1,"[AssetsManager::AssetsManager] AssetsManager created");
 
-//    ASSETS_PATH = GLOBAL_PATH + "data/assets/";
-//}
+AssetsManager* AssetsManager::mInstance = nullptr;
 
-//MEid AssetsManager::loadTexture(const std::string &fileName) {
-//    sf::Texture* tmpTexture;
+AssetsManager* AssetsManager::getInstance() {
+    if (!mInstance) {
+        mInstance = new AssetsManager;
+    }
+    return mInstance;
+}
 
-//    if (tmpTexture->loadFromFile(ASSETS_PATH + fileName)) {
-//        dbg->log(VERBOSE, 1, ("[AssetsManager::loadTexture] Erro while opening texture: " + ASSETS_PATH + fileName).c_str());
-//    }
+AssetsManager::AssetsManager() {
+    LOG << Log::VERBOSE << "[AssetsManager::AssetsManager] AssetsManager created" << std::endl;
+}
 
-//    MEid textureID = ID::get();
+MEid AssetsManager::loadTexture(const std::string &fileName) {
+    MEid textureID     = ID::get();
+    mAssets[textureID] = new Texture(fileName);
+    return textureID;
+}
 
-//    mAssets.insert(textureID, tmpTexture);
-//    return textureID;
-//}
+AssetsManager::~AssetsManager() {
+    LOG << Log::VERBOSE << "[AssetsManager::~AssetsManager] AssetsManager cleaned" << std::endl;
+}

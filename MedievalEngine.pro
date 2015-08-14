@@ -49,7 +49,8 @@ SOURCES += main.cpp \
     Helper/Vect2.cpp \
     Helper/Vect3.cpp \
     Graphics/WindowInfo.cpp \
-    Graphics/Window.cpp
+    Graphics/Window.cpp \
+    Helper/Dir.cpp
 
 HEADERS += \
     Assets/Asset.h \
@@ -79,5 +80,6 @@ HEADERS += \
     Graphics/WindowInfo.h \
     Config.h \
     Headers.h \
-    Graphics/Window.h
+    Graphics/Window.h \
+    Helper/Dir.h
 
