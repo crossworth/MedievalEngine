@@ -11,10 +11,15 @@ MedievalEngine* MedievalEngine::getInstance(int argc, char **argv) {
     return mInstance;
 }
 
-MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr) {
-    // handle argc and argv
+MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr) , mArguments(argc, argv) {
 
-    mConfigurations.readFile(ENGINE_DEFAULTS::CONFIG_FILE);
+    if (mArguments.hasArgument("config")) {
+        mConfigurations.readFile(mArguments.getArgument("config"));
+    } else {
+        mConfigurations.readFile(ENGINE_DEFAULTS::CONFIG_FILE);
+    }
+
+
 
     WindowInfo mWindowInfo;
 
@@ -68,6 +73,8 @@ void MedievalEngine::init() {
 void MedievalEngine::run() {
     while(mWindow.isOpen()) {
         mWindow.clear();
+
+
 
         mWindow.display();
     }

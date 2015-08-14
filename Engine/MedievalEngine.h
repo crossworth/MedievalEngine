@@ -18,6 +18,7 @@ private:
     Window mWindow;
     AssetsManager *mAssetsManager;
     CFGParser mConfigurations;
+    ArgumentsParser mArguments;
     static MedievalEngine* mInstance;
     MedievalEngine(int argc, char **argv);
 };

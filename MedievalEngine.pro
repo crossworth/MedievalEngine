@@ -52,7 +52,8 @@ SOURCES += main.cpp \
     Graphics/Window.cpp \
     Helper/Dir.cpp \
     Helper/Color.cpp \
-    Engine/MedievalEngine.cpp
+    Engine/MedievalEngine.cpp \
+    Helper/ArgumentsParser.cpp
 
 HEADERS += \
     Assets/Asset.h \
@@ -85,5 +86,6 @@ HEADERS += \
     Graphics/Window.h \
     Helper/Dir.h \
     Helper/Color.h \
-    Engine/MedievalEngine.h
+    Engine/MedievalEngine.h \
+    Helper/ArgumentsParser.h
 

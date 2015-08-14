@@ -50,7 +50,7 @@ void Window::clear() {
 }
 
 void Window::draw(Drawable &obj) {
-    mWindow->draw(obj.getObject());
+    mWindow->draw(*obj.getObject());
 }
 
 void Window::close() {
