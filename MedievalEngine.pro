@@ -50,7 +50,9 @@ SOURCES += main.cpp \
     Helper/Vect3.cpp \
     Graphics/WindowInfo.cpp \
     Graphics/Window.cpp \
-    Helper/Dir.cpp
+    Helper/Dir.cpp \
+    Helper/Color.cpp \
+    Engine/MedievalEngine.cpp
 
 HEADERS += \
     Assets/Asset.h \
@@ -81,5 +83,7 @@ HEADERS += \
     Config.h \
     Headers.h \
     Graphics/Window.h \
-    Helper/Dir.h
+    Helper/Dir.h \
+    Helper/Color.h \
+    Engine/MedievalEngine.h
 

@@ -1,29 +1,29 @@
-//#ifndef DRAWABLE_H
-//#define DRAWABLE_H
-//#include "Config.h"
+#ifndef DRAWABLE_H
+#define DRAWABLE_H
+#include <Headers.h>
 
-//namespace ME {
+namespace ME {
 
-//class Drawable {
-//public:
-//    Drawable();
+class Drawable {
+public:
+    Drawable();
 
-//    virtual void draw() = 0;
+    virtual sf::Drawable getObject() = 0;
 
-//    virtual void setPosition(const Coord &pos) = 0;
-//    virtual Coord getPosition() = 0;
+    virtual void setPosition(const Vect2f &pos) = 0;
+    virtual Vect2f getPosition() = 0;
 
-//    virtual void setSize(const Coord &size) = 0;
-//    virtual Coord getSize() = 0;
+    virtual void setSize(const Vect2f &size) = 0;
+    virtual Vect2f getSize() = 0;
 
-//    virtual void setColor(const Color &color) = 0;
-//    virtual Color getColor() = 0;
+    virtual void setColor(const ME::Color &color) = 0;
+    virtual ME::Color getColor() = 0;
 
-//protected:
+protected:
 
 
-//};
+};
 
-//}
+}
 
-//#endif // DRAWABLE_H
+#endif // DRAWABLE_H

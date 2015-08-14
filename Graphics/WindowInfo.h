@@ -1,37 +1,26 @@
-//#ifndef WINDOWINFO_H
-//#define WINDOWINFO_H
+#ifndef WINDOWINFO_H
+#define WINDOWINFO_H
+#include <iostream>
+#include <Config.h>
 
-//namespace ME {
+namespace ME {
 
+class WindowInfo {
+public:
 
-//// Refatorar isso
-//struct windowInformation{
-//    int width;
-//    int height;
-//    int bitsPerPixel;
-//    bool fullScreen;
-//    std::string windowName;
-//    windowInformation() {
-//        width        = ENGINE_DEFAULTS::WIDTH_WINDOW;
-//        height       = ENGINE_DEFAULTS::HEIGHT_WINDOW;
-//        bitsPerPixel = ENGINE_DEFAULTS::BITS_PER_PIXEL_WINDOW;
-//        fullScreen   = ENGINE_DEFAULTS::FULLSCREEN_WINDOW;
-//        windowName   = ENGINE_DEFAULTS::ENGINE_NAME;
-//    }
-//    windowInformation(int w, int h, int b, bool f, std::string name) {
-//        width        = w;
-//        height       = h;
-//        bitsPerPixel = b;
-//        fullScreen   = f;
-//        windowName   = name;
-//    }
-//};
+    WindowInfo();
 
-//class WindowInfo {
-//public:
-//    WindowInfo();
-//};
+    WindowInfo(int w, int h, int b, bool f, std::string name);
 
-//}
+    int width;
+    int height;
+    int bitsPerPixel;
+    int frameLimit;
+    bool vsync;
+    bool fullScreen;
+    std::string windowName;
+};
 
-//#endif // WINDOWINFO_H
+}
+
+#endif // WINDOWINFO_H

@@ -8,7 +8,7 @@ namespace ME {
 class Window {
 public:
     Window();
-    void create();
+    void create(const WindowInfo &info);
     void close();
     bool isOpen();
     bool pollEvent(sf::Event &event);
@@ -22,7 +22,17 @@ public:
 
     void setVisible(const bool &visible);
 
+    void clear();
+    void draw(Drawable &obj);
     void display();
+
+    ~Window();
+protected:
+    bool isValidWindow(const WindowInfo &info);
+
+private:
+    sf::RenderWindow *mWindow;
+    WindowInfo mWindowInfo;
 };
 
 }

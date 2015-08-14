@@ -16,10 +16,15 @@
 #include <Helper/Log.h>
 #include <Helper/CFGParser.h>
 #include <Helper/Dir.h>
+#include <Helper/Color.h>
 
 #include <Assets/Asset.h>
 #include <Assets/AssetsManager.h>
 #include <Assets/Texture.h>
+
+#include <Graphics/Drawable.h>
+#include <Graphics/WindowInfo.h>
+#include <Graphics/Window.h>
 
 
 #define LOG *ME::Log::getInstance(ME::_LOG_WRITE_TO_FILE, ME::_LOG_FILE_NAME, ME::_LOG_LOG_TIME)

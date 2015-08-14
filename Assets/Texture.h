@@ -1,6 +1,5 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
-#include <Assets/Asset.h>
 #include <Headers.h>
 
 
