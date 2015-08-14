@@ -25,50 +25,59 @@ macx {
 }
 
 SOURCES += main.cpp \
-    luafunctions.cpp \
-    TO.cpp \
-    AssetsManager.cpp \
-    GameEngine.cpp \
-    CallBack.cpp \
-    CFGParser.cpp \
-    Effects.cpp \
-    Fade.cpp \
-    GameState.cpp \
-    LuaEngine.cpp \
-    Profiler.cpp \
-    RenderWindow.cpp \
-    LuaState.cpp \
-    GUI.cpp \
-    GUIObject.cpp \
-    TextObject.cpp \
-    Drawable.cpp \
-    ID.cpp \
-    Asset.cpp \
-    Texture.cpp \
-    Log.cpp
+    Assets/Asset.cpp \
+    Assets/AssetsManager.cpp \
+    Assets/Texture.cpp \
+    Helper/Log.cpp \
+    Effects/Effects.cpp \
+    Effects/Fade.cpp \
+    Engine/GameEngine.cpp \
+    Engine/GameState.cpp \
+    Engine/LuaState.cpp \
+    Graphics/Drawable.cpp \
+    Graphics/RenderWindow.cpp \
+    GUI/GUI.cpp \
+    GUI/GUIObject.cpp \
+    GUI/TextObject.cpp \
+    Helper/CFGParser.cpp \
+    Helper/ID.cpp \
+    Helper/Profiler.cpp \
+    Lua/CallBack.cpp \
+    Lua/LuaEngine.cpp \
+    Lua/luafunctions.cpp \
+    Helper/Data2.cpp \
+    Helper/Vect2.cpp \
+    Helper/Vect3.cpp \
+    Graphics/WindowInfo.cpp \
+    Graphics/Window.cpp
 
 HEADERS += \
-    luafunctions.h \
-    TO.h \
-    key.h \
-    AssetsManager.h \
-    GameEngine.h \
-    CallBack.h \
-    CFGParser.h \
+    Assets/Asset.h \
+    Assets/AssetsManager.h \
+    Assets/Texture.h \
+    Helper/Log.h \
+    Effects/Effects.h \
+    Effects/Fade.h \
+    Engine/GameEngine.h \
+    Engine/GameState.h \
+    Engine/LuaState.h \
+    Graphics/Drawable.h \
+    Graphics/RenderWindow.h \
+    GUI/GUI.h \
+    GUI/GUIObject.h \
+    GUI/TextObject.h \
+    Helper/CFGParser.h \
+    Helper/ID.h \
+    Helper/Key.h \
+    Helper/Profiler.h \
+    Lua/CallBack.h \
+    Lua/LuaEngine.h \
+    Lua/luafunctions.h \
+    Helper/Vect2.h \
+    Helper/Vect3.h \
+    Helper/Data2.h \
+    Graphics/WindowInfo.h \
     Config.h \
-    Effects.h \
-    Fade.h \
-    GameState.h \
-    LuaEngine.h \
-    LuaState.h \
-    Profiler.h \
-    RenderWindow.h \
-    GUI.h \
-    GUIObject.h \
-    TextObject.h \
-    Drawable.h \
-    ID.h \
-    Asset.h \
-    Texture.h \
-    Log.h
+    Headers.h \
+    Graphics/Window.h
 
