@@ -4,6 +4,7 @@ using namespace ME;
 
 SpriteAnimation::SpriteAnimation() {
     mType = "sprite_animation";
+    _isPlaying = true;
 }
 
 void SpriteAnimation::addFrame(const int32_t &time, Texture *texture) {
@@ -13,10 +14,22 @@ void SpriteAnimation::addFrame(const int32_t &time, Texture *texture) {
     mSprite.setTexture(*mFramesIT->second->getResourcePointer());
 }
 
+void SpriteAnimation::play() {
+    _isPlaying = true;
+}
+
+void SpriteAnimation::pause() {
+    _isPlaying = false;
+}
+
+bool SpriteAnimation::isPlaing() {
+    return _isPlaying;
+}
+
 void SpriteAnimation::draw(sf::RenderWindow *renderWindow) {
     renderWindow->draw(mSprite);
 
-    if (sf::Time(mClock.getElapsedTime()).asMilliseconds() > mFramesIT->first) {
+    if (isPlaing() && sf::Time(mClock.getElapsedTime()).asMilliseconds() > mFramesIT->first) {
         mFramesIT++;
 
         if (mFramesIT == mFrames.end()) {

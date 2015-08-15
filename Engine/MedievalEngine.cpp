@@ -90,7 +90,13 @@ void MedievalEngine::run() {
     while(mWindow.isOpen()) {
         sf::Event evt;
         while(mWindow.pollEvent(evt)){
-
+            if(evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Space) {
+                if(marioSptAn->isPlaing()) {
+                    marioSptAn->pause();
+                } else {
+                    marioSptAn->play();
+                }
+            }
         }
         mWindow.clear();
         mWindow.draw(spriteObj);

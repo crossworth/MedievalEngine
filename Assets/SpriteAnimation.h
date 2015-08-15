@@ -17,6 +17,9 @@ public:
     SpriteAnimation();
 
     void addFrame(const int32_t &time, Texture *texture);
+    void play();
+    void pause();
+    bool isPlaing();
 
     void draw(sf::RenderWindow *renderWindow);
 
@@ -30,6 +33,7 @@ public:
     Color getColor();
 
 private:
+    bool _isPlaying;
     sf::Sprite mSprite;
     std::vector<std::pair<unsigned int, Texture*>> mFrames;
     std::vector<std::pair<unsigned int, Texture*> >::iterator mFramesIT;
