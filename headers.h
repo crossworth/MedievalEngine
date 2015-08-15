@@ -27,6 +27,7 @@
 
 
 #include <Effects/Fade.h>
+#include <Effects/Strobe.h>
 
 
 #endif // HEADERS_H

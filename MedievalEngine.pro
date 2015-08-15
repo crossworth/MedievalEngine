@@ -60,7 +60,8 @@ SOURCES += main.cpp \
     Tests/HelperTests.cpp \
     Assets/Music.cpp \
     Audio/Audible.cpp \
-    Assets/Sound.cpp
+    Assets/Sound.cpp \
+    Effects/Strobe.cpp
 
 HEADERS += \
     Assets/Asset.h \
@@ -102,5 +103,6 @@ HEADERS += \
     ThirdParty/Catch.h \
     Assets/Music.h \
     Audio/Audible.h \
-    Assets/Sound.h
+    Assets/Sound.h \
+    Effects/Strobe.h
 

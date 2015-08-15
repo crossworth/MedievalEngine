@@ -77,6 +77,7 @@ void MedievalEngine::init() {
 
 //    marioSptAn->playEffects();
 //    marioSptAn->pauseEffects();
+//    marioSptAn->removeEffect("strobe")
 //    marioSptAn->removeAllEffects();
 
     MEid mTex = mAssetsManager->loadTexture("state/main/bg.jpg");
@@ -107,6 +108,7 @@ void MedievalEngine::run() {
             }
             if(evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Space) {
                 static_cast<Sound*>(mAssetsManager->getAsset(idSound))->play();
+                spriteObj->addEffect(new Strobe(3, 0.3));
             }
 
             if(evt.key.code == sf::Keyboard::Right) {
