@@ -3,6 +3,7 @@
 #include <Helper/Vect2.h>
 #include <SFML/Graphics.hpp>
 #include <Helper/Color.h>
+#include <LogInc.h>
 
 namespace ME {
 
@@ -22,7 +23,18 @@ public:
     virtual void setColor(const Color &color) = 0;
     virtual Color getColor() = 0;
 
-    // TODO: implement rotate, getOrigin, setOrigin, get bounds
+    virtual float getRotation() = 0;
+    virtual void setRotation(const float &angle) = 0;
+    virtual void rotate(const float &angle) = 0;
+
+    virtual Vect2f getOrigin() = 0;
+    virtual void setOrigin(const Vect2f &origin) = 0;
+    void setOriginCenter();
+
+    void setOpacity(float opacity);
+    float getOpacity();
+
+    // TODO: implement, get bounds
 
 protected:
 

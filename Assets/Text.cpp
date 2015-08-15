@@ -93,6 +93,26 @@ void Text::move(const Vect2f &pos) {
     mText.move(pos.x, pos.y);
 }
 
+float Text::getRotation() {
+    return mText.getRotation();
+}
+
+void Text::setRotation(const float &angle) {
+    mText.setRotation(angle);
+}
+
+void Text::rotate(const float &angle) {
+    mText.rotate(angle);
+}
+
+Vect2f Text::getOrigin() {
+    return Vect2f(mText.getOrigin().x, mText.getOrigin().y);
+}
+
+void Text::setOrigin(const Vect2f &origin) {
+    mText.setOrigin(origin.x, origin.y);
+}
+
 void Text::setPosition(const Vect2f &pos) {
     mText.setPosition(pos.x, pos.y);
 }

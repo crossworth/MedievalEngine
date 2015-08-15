@@ -11,6 +11,26 @@ void SpriteAnimation::move(const Vect2f &pos) {
     mSprite.move(pos.x, pos.y);
 }
 
+float SpriteAnimation::getRotation() {
+    return mSprite.getRotation();
+}
+
+void SpriteAnimation::setRotation(const float &angle) {
+    mSprite.setRotation(angle);
+}
+
+void SpriteAnimation::rotate(const float &angle) {
+    mSprite.rotate(angle);
+}
+
+Vect2f SpriteAnimation::getOrigin() {
+    return Vect2f(mSprite.getOrigin().x, mSprite.getOrigin().y);
+}
+
+void SpriteAnimation::setOrigin(const Vect2f &origin) {
+    mSprite.setOrigin(origin.x, origin.y);
+}
+
 void SpriteAnimation::addFrame(const int32_t &time, Texture *texture) {
     mFrames.push_back(std::make_pair(time, texture));
     mFramesIT = mFrames.begin();

@@ -71,6 +71,7 @@ void MedievalEngine::init() {
     marioSptAn->addFrame(100, static_cast<Texture*>(mAssetsManager->getAsset(idAn4)));
 
     marioSptAn->setPosition(Vect2f((mWindow.getSize().x/2)-(marioSptAn->getSize().x/2), mWindow.getSize().y-marioSptAn->getSize().y));
+    marioSptAn->setOriginCenter();
 
     MEid mTex = mAssetsManager->loadTexture("state/main/bg.jpg");
     MEid mSpr = mAssetsManager->createSprite(mTex);
@@ -86,7 +87,7 @@ void MedievalEngine::init() {
 
 
     MEid idMusic = mAssetsManager->loadMusic("music.ogg");
-    static_cast<Music*>(mAssetsManager->getAsset(idMusic))->play();
+//    static_cast<Music*>(mAssetsManager->getAsset(idMusic))->play();
 
     idSound = mAssetsManager->loadMusic("sound.ogg");
 }
@@ -109,11 +110,21 @@ void MedievalEngine::run() {
             if(evt.key.code == sf::Keyboard::Left) {
                 marioSptAn->move(Vect2f(-5.f, 0.0f));
             }
+
+            if(evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Up) {
+               marioSptAn->setOpacity(marioSptAn->getOpacity() + 0.1f);
+            }
+
+            if(evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Down) {
+                marioSptAn->setOpacity(marioSptAn->getOpacity() - 0.1f);
+            }
         }
         mWindow.clear();
         mWindow.draw(spriteObj);
         mWindow.draw(textObj);
         mWindow.draw(marioSptAn);
+
+        marioSptAn->rotate(1.0f);
 
         mWindow.display();
     }

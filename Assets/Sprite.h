@@ -30,6 +30,13 @@ public:
     void setColor(const Color &color);
     Color getColor();
 
+    float getRotation();
+    void setRotation(const float &angle);
+    void rotate(const float &angle);
+
+    Vect2f getOrigin();
+    void setOrigin(const Vect2f &origin);
+
 private:
     sf::Sprite mSprite;
 };

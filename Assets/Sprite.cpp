@@ -18,6 +18,26 @@ void Sprite::move(const Vect2f &pos) {
     mSprite.move(pos.x, pos.y);
 }
 
+float Sprite::getRotation() {
+    return mSprite.getRotation();
+}
+
+void Sprite::setRotation(const float &angle) {
+    mSprite.setRotation(angle);
+}
+
+void Sprite::rotate(const float &angle) {
+    mSprite.rotate(angle);
+}
+
+Vect2f Sprite::getOrigin() {
+    return Vect2f(mSprite.getOrigin().x, mSprite.getOrigin().y);
+}
+
+void Sprite::setOrigin(const Vect2f &origin) {
+    mSprite.setOrigin(origin.x, origin.y);
+}
+
 void Sprite::setPosition(const Vect2f &pos) {
     mSprite.setPosition(pos.x, pos.y);
 }
