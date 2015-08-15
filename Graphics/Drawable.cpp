@@ -1,10 +1,17 @@
 #include "Drawable.h"
+#include <Effects/Effects.h>
 
 using namespace ME;
 
-Drawable::Drawable() {
+Drawable::Drawable() : _mEffectPlay(true) {
 
 }
+
+void Drawable::addEffect(Effects *effect) {
+    LOG << Log::VERBOSE << ("[Drawable::addEffect] Effect " +  effect->getType() + " added").c_str() << std::endl;
+    mEffects.push_back(effect);
+}
+
 
 void Drawable::setOriginCenter() {
     setOrigin(Vect2f(getSize().x/2, getSize().y/2));

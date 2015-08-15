@@ -51,6 +51,21 @@ bool SpriteAnimation::isPlaing() {
 }
 
 void SpriteAnimation::draw(sf::RenderWindow *renderWindow) {
+    if(_mEffectPlay) {
+        std::vector<Effects*>::iterator it = mEffects.begin();
+
+        for(int i = 0 ; i < mEffects.size(); i++) {
+            (*it)->update(this);
+
+            if ((*it)->done()) {
+                // Call Lua Function done effects?
+                delete *it;
+                mEffects.erase(it);
+            }
+            it++;
+        }
+    }
+
     renderWindow->draw(mSprite);
 
     if (isPlaing() && sf::Time(mClock.getElapsedTime()).asMilliseconds() > mFramesIT->first) {

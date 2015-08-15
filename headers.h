@@ -26,6 +26,8 @@
 #include <Graphics/Window.h>
 
 
+#include <Effects/Fade.h>
+
 
 #endif // HEADERS_H
 

@@ -1,20 +1,11 @@
-//#include "Effects.h"
+#include "Effects.h"
 
-//using namespace ME;
+using namespace ME;
 
-//Effects::Effects() {
+Effects::Effects() : mDone(false) {
 
-//}
+}
 
-//std::string Effects::getSpriteName() {
-//    return mSpriteName;
-//}
-
-//std::string Effects::getEffectName() {
-//    return mEffectName;
-//}
-
-
-//Effects::~Effects() {
-
-//}
+std::string Effects::getType() {
+    return mType;
+}

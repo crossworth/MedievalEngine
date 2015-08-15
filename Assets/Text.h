@@ -5,6 +5,7 @@
 #include <Assets/Asset.h>
 #include <Graphics/Drawable.h>
 #include <Assets/Font.h>
+#include <Effects/Effects.h>
 
 namespace ME {
 
@@ -46,6 +47,7 @@ public:
 
     Vect2f getOrigin();
     void setOrigin(const Vect2f &origin);
+
 
 private:
     Color mTextShadow;

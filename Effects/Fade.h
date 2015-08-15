@@ -1,24 +1,23 @@
-//#ifndef FADE_H
-//#define FADE_H
-//#include "Effects.h"
+#ifndef FADE_H
+#define FADE_H
+#include <Effects/Effects.h>
 
-//namespace ME {
+namespace ME {
 
-//class Fade : public Effects {
-//public:
-//    Fade(Sprite *sprite, const FADE_TYPE &type, float timeSeconds, const std::string &spriteName);
-//    void draw();
-//    void update();
-//    bool done();
+enum FADE_TYPE {FADEIN, FADEOUT};
 
-//    ~Fade();
-//private:
-//    float mTimeAn;
-//    Sprite *mSprite;
-//    FADE_TYPE mType;
-//    float mFadeCounter;
-//};
+class Fade : public Effects {
+public:
+    Fade(float time, const FADE_TYPE &type);
+    void update(Drawable *object);
+    bool done();
 
-//}
+private:
+    float mTimeAn;
+    FADE_TYPE _mTypeFade;
+    float mFadeCounter;
+};
 
-//#endif // FADE_H
+}
+
+#endif // FADE_H

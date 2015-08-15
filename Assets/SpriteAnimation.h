@@ -9,6 +9,7 @@
 #include <LogInc.h>
 #include <vector>
 #include <utility>
+#include <Effects/Effects.h>
 
 namespace ME {
 

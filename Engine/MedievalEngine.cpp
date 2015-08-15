@@ -70,8 +70,14 @@ void MedievalEngine::init() {
     marioSptAn->addFrame(100, static_cast<Texture*>(mAssetsManager->getAsset(idAn3)));
     marioSptAn->addFrame(100, static_cast<Texture*>(mAssetsManager->getAsset(idAn4)));
 
-    marioSptAn->setPosition(Vect2f((mWindow.getSize().x/2)-(marioSptAn->getSize().x/2), mWindow.getSize().y-marioSptAn->getSize().y));
+    marioSptAn->setPosition(Vect2f((mWindow.getSize().x/2)-(marioSptAn->getSize().x/2), mWindow.getSize().y-(marioSptAn->getSize().y/2)));
     marioSptAn->setOriginCenter();
+
+//    marioSptAn->addEffect(new Fade(3, FADE_OUT));
+
+//    marioSptAn->playEffects();
+//    marioSptAn->pauseEffects();
+//    marioSptAn->removeAllEffects();
 
     MEid mTex = mAssetsManager->loadTexture("state/main/bg.jpg");
     MEid mSpr = mAssetsManager->createSprite(mTex);
@@ -112,11 +118,11 @@ void MedievalEngine::run() {
             }
 
             if(evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Up) {
-               marioSptAn->setOpacity(marioSptAn->getOpacity() + 0.1f);
+                textObj->addEffect(new Fade(0.5f, FADEOUT));
             }
 
             if(evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Down) {
-                marioSptAn->setOpacity(marioSptAn->getOpacity() - 0.1f);
+                textObj->addEffect(new Fade(0.5f, FADEIN));
             }
         }
         mWindow.clear();
@@ -124,7 +130,7 @@ void MedievalEngine::run() {
         mWindow.draw(textObj);
         mWindow.draw(marioSptAn);
 
-        marioSptAn->rotate(1.0f);
+//        marioSptAn->rotate(1.0f);
 
         mWindow.display();
     }

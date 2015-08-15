@@ -7,6 +7,7 @@
 #include <Helper/Color.h>
 #include <SFML/Graphics.hpp>
 #include <LogInc.h>
+#include <Effects/Effects.h>
 
 namespace ME {
 

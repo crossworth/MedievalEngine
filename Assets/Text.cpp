@@ -74,8 +74,9 @@ void Text::setStyle(const FONT_STYLE &style) {
 
 void Text::draw(sf::RenderWindow *renderWindow) {
     if (_hasTextShadow) {
-        Color tmpColor = getColor();
-        Vect2f tmpPos  = getPosition();
+        Color tmpColor    = getColor();
+        Vect2f tmpPos     = getPosition();
+        mTextShadow.alpha = tmpColor.alpha;
 
         setColor(mTextShadow);
         setPosition(Vect2f(getPosition().x, getPosition().y + mTextShadowFactor));
@@ -84,6 +85,21 @@ void Text::draw(sf::RenderWindow *renderWindow) {
 
         setColor(tmpColor);
         setPosition(tmpPos);
+    }
+
+    if(_mEffectPlay) {
+        std::vector<Effects*>::iterator it = mEffects.begin();
+
+        for(int i = 0 ; i < mEffects.size(); i++) {
+            (*it)->update(this);
+
+            if ((*it)->done()) {
+                // Call Lua Function done effects?
+                delete *it;
+                mEffects.erase(it);
+            }
+            it++;
+        }
     }
 
     renderWindow->draw(mText);

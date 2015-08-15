@@ -4,8 +4,11 @@
 #include <SFML/Graphics.hpp>
 #include <Helper/Color.h>
 #include <LogInc.h>
+#include <vector>
 
 namespace ME {
+
+class Effects;
 
 class Drawable {
 public:
@@ -34,10 +37,12 @@ public:
     void setOpacity(float opacity);
     float getOpacity();
 
+    void addEffect(Effects* effect);
+
     // TODO: implement, get bounds
-
 protected:
-
+    std::vector<Effects*> mEffects;
+    bool _mEffectPlay;
 
 };
 
