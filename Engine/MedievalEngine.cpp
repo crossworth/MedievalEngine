@@ -95,13 +95,19 @@ void MedievalEngine::run() {
     while(mWindow.isOpen()) {
         sf::Event evt;
         while(mWindow.pollEvent(evt)){
+            if(evt.type == sf::Event::Closed) {
+                close();
+            }
             if(evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Space) {
                 static_cast<Sound*>(mAssetsManager->getAsset(idSound))->play();
-                if(marioSptAn->isPlaing()) {
-                    marioSptAn->pause();
-                } else {
-                    marioSptAn->play();
-                }
+            }
+
+            if(evt.key.code == sf::Keyboard::Right) {
+                marioSptAn->move(Vect2f(5.f, 0.0f));
+            }
+
+            if(evt.key.code == sf::Keyboard::Left) {
+                marioSptAn->move(Vect2f(-5.f, 0.0f));
             }
         }
         mWindow.clear();
@@ -115,8 +121,6 @@ void MedievalEngine::run() {
 
 void MedievalEngine::close() {
     mWindow.close();
-    mWindow.~Window();
-    mAssetsManager->~AssetsManager();
 }
 
 Window* MedievalEngine::getWindow() {

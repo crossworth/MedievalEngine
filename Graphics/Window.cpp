@@ -7,8 +7,7 @@ Window::Window() {
 }
 
 Window::~Window() {
-    delete mWindow;
-    mWindow = nullptr;
+
 }
 
 void Window::create(const WindowInfo &info) {

@@ -14,6 +14,10 @@ void Sprite::draw(sf::RenderWindow *renderWindow) {
     renderWindow->draw(mSprite);
 }
 
+void Sprite::move(const Vect2f &pos) {
+    mSprite.move(pos.x, pos.y);
+}
+
 void Sprite::setPosition(const Vect2f &pos) {
     mSprite.setPosition(pos.x, pos.y);
 }

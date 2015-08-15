@@ -89,6 +89,10 @@ void Text::draw(sf::RenderWindow *renderWindow) {
     renderWindow->draw(mText);
 }
 
+void Text::move(const Vect2f &pos) {
+    mText.move(pos.x, pos.y);
+}
+
 void Text::setPosition(const Vect2f &pos) {
     mText.setPosition(pos.x, pos.y);
 }

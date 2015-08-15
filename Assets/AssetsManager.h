@@ -4,6 +4,7 @@
 #include <LogInc.h>
 #include <Assets/Asset.h>
 #include <Helper/ID.h>
+#include <Helper/Data2.h>
 #include <Assets/Texture.h>
 #include <Assets/Sprite.h>
 #include <Assets/Font.h>
@@ -12,12 +13,12 @@
 #include <Assets/Music.h>
 #include <Assets/Sound.h>
 
+
 namespace ME {
 
 class AssetsManager {
 public:
     static AssetsManager* getInstance();
-    ~AssetsManager();
 
     MEid loadTexture(const std::string &fileName);
     MEid loadFont(const std::string &fileName);

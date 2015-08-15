@@ -32,6 +32,7 @@ public:
 
     void setPosition(const Vect2f &pos);
     Vect2f getPosition();
+    void move(const Vect2f &pos);
 
     void setSize(const Vect2f &size);
     Vect2f getSize();

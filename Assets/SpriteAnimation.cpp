@@ -7,6 +7,10 @@ SpriteAnimation::SpriteAnimation() {
     _isPlaying = true;
 }
 
+void SpriteAnimation::move(const Vect2f &pos) {
+    mSprite.move(pos.x, pos.y);
+}
+
 void SpriteAnimation::addFrame(const int32_t &time, Texture *texture) {
     mFrames.push_back(std::make_pair(time, texture));
     mFramesIT = mFrames.begin();
