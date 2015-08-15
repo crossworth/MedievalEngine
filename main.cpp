@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
     int resultCode = 0;
 
     #ifdef TEST
-    resultCode = Catch::Session().run( argc, argv);
+    resultCode = Catch::Session().run(argc, argv);
     #endif
 
     ProfileInit();

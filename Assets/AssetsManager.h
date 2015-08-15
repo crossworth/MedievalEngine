@@ -9,6 +9,8 @@
 #include <Assets/Font.h>
 #include <Assets/Text.h>
 #include <Assets/SpriteAnimation.h>
+#include <Assets/Music.h>
+#include <Assets/Sound.h>
 
 namespace ME {
 
@@ -19,6 +21,8 @@ public:
 
     MEid loadTexture(const std::string &fileName);
     MEid loadFont(const std::string &fileName);
+    MEid loadMusic(const std::string &fileName);
+    MEid loadSound(const std::string &fileName);
 
     MEid createSprite(const MEid &texture);
     MEid createText(const std::string &text, const unsigned int &fontSize, const MEid &font);

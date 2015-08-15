@@ -3,6 +3,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <Assets/Asset.h>
+#include <LogInc.h>
 
 namespace ME {
 

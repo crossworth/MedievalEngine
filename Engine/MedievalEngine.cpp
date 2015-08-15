@@ -29,7 +29,6 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr),
     tmpFullScreen   = mConfigurations.getKey("fullscreen");
     tmpWindowName   = mConfigurations.getKey("engine_name");
 
-
     if(tmpBitsPerPixel != "") {
         mWindowInfo.bitsPerPixel = Data2::str_to_int(tmpBitsPerPixel);
     }
@@ -84,6 +83,12 @@ void MedievalEngine::init() {
     textObj = static_cast<Text*>(mAssetsManager->getAsset(idText));
     textObj->setTextShadow(2.0f);
     textObj->setPosition(Vect2f((mWindow.getSize().x/2)-(textObj->getSize().x/2), 50.0f));
+
+
+    MEid idMusic = mAssetsManager->loadMusic("music.ogg");
+    static_cast<Music*>(mAssetsManager->getAsset(idMusic))->play();
+
+    idSound = mAssetsManager->loadMusic("sound.ogg");
 }
 
 void MedievalEngine::run() {
@@ -91,6 +96,7 @@ void MedievalEngine::run() {
         sf::Event evt;
         while(mWindow.pollEvent(evt)){
             if(evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Space) {
+                static_cast<Sound*>(mAssetsManager->getAsset(idSound))->play();
                 if(marioSptAn->isPlaing()) {
                     marioSptAn->pause();
                 } else {

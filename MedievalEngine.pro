@@ -57,7 +57,10 @@ SOURCES += main.cpp \
     Assets/Font.cpp \
     Assets/Text.cpp \
     Assets/SpriteAnimation.cpp \
-    Tests/HelperTests.cpp
+    Tests/HelperTests.cpp \
+    Assets/Music.cpp \
+    Audio/Audible.cpp \
+    Assets/Sound.cpp
 
 HEADERS += \
     Assets/Asset.h \
@@ -96,5 +99,8 @@ HEADERS += \
     Assets/Font.h \
     Assets/Text.h \
     Assets/SpriteAnimation.h \
-    ThirdParty/Catch.h
+    ThirdParty/Catch.h \
+    Assets/Music.h \
+    Audio/Audible.h \
+    Assets/Sound.h
 

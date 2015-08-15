@@ -28,6 +28,18 @@ MEid AssetsManager::loadFont(const std::string &fileName) {
     return fontID;
 }
 
+MEid AssetsManager::loadMusic(const std::string &fileName) {
+    MEid musicID     = ID::get();
+    mAssets[musicID] = new Music(fileName);
+    return musicID;
+}
+
+MEid AssetsManager::loadSound(const std::string &fileName) {
+    MEid soundID     = ID::get();
+    mAssets[soundID] = new Sound(fileName);
+    return soundID;
+}
+
 MEid AssetsManager::createSprite(const MEid &texture) {
     MEid spriteID     = ID::get();
     mAssets[spriteID] = new Sprite();
