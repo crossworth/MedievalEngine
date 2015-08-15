@@ -35,6 +35,12 @@ MEid AssetsManager::createSprite(const MEid &texture) {
     return spriteID;
 }
 
+MEid AssetsManager::createSpriteAnimation() {
+    MEid spriteAnID     = ID::get();
+    mAssets[spriteAnID] = new SpriteAnimation();
+    return spriteAnID;
+}
+
 MEid AssetsManager::createText(const std::string &text, const unsigned int &fontSize, const MEid &font) {
     MEid textID     = ID::get();
     mAssets[textID] = new Text();

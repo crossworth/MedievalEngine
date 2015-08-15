@@ -17,6 +17,7 @@ public:
 private:
     Sprite* spriteObj;
     Text* textObj;
+    SpriteAnimation* marioSptAn;
     Window mWindow;
     AssetsManager *mAssetsManager;
     CFGParser mConfigurations;

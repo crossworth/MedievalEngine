@@ -58,6 +58,21 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr),
 void MedievalEngine::init() {
     // Where we start our game state and handle all the gamestate things
 
+    MEid idMarioSptAn = mAssetsManager->createSpriteAnimation();
+    marioSptAn = static_cast<SpriteAnimation*>(mAssetsManager->getAsset(idMarioSptAn));
+
+    MEid idAn1 = mAssetsManager->loadTexture("/animation/1.png");
+    MEid idAn2 = mAssetsManager->loadTexture("/animation/2.png");
+    MEid idAn3 = mAssetsManager->loadTexture("/animation/3.png");
+    MEid idAn4 = mAssetsManager->loadTexture("/animation/4.png");
+
+    marioSptAn->addFrame(100, static_cast<Texture*>(mAssetsManager->getAsset(idAn1)));
+    marioSptAn->addFrame(100, static_cast<Texture*>(mAssetsManager->getAsset(idAn2)));
+    marioSptAn->addFrame(100, static_cast<Texture*>(mAssetsManager->getAsset(idAn3)));
+    marioSptAn->addFrame(100, static_cast<Texture*>(mAssetsManager->getAsset(idAn4)));
+
+    marioSptAn->setPosition(Vect2f((mWindow.getSize().x/2)-(marioSptAn->getSize().x/2), mWindow.getSize().y-marioSptAn->getSize().y));
+
     MEid mTex = mAssetsManager->loadTexture("state/main/bg.jpg");
     MEid mSpr = mAssetsManager->createSprite(mTex);
     spriteObj = static_cast<Sprite*>(mAssetsManager->getAsset(mSpr));
@@ -80,6 +95,7 @@ void MedievalEngine::run() {
         mWindow.clear();
         mWindow.draw(spriteObj);
         mWindow.draw(textObj);
+        mWindow.draw(marioSptAn);
 
         mWindow.display();
     }

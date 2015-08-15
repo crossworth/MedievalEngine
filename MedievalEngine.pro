@@ -55,7 +55,8 @@ SOURCES += main.cpp \
     Helper/ArgumentsParser.cpp \
     Assets/Sprite.cpp \
     Assets/Font.cpp \
-    Assets/Text.cpp
+    Assets/Text.cpp \
+    Assets/SpriteAnimation.cpp
 
 HEADERS += \
     Assets/Asset.h \
@@ -92,5 +93,6 @@ HEADERS += \
     Assets/Sprite.h \
     LogInc.h \
     Assets/Font.h \
-    Assets/Text.h
+    Assets/Text.h \
+    Assets/SpriteAnimation.h
 
