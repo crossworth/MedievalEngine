@@ -16,6 +16,7 @@ public:
     AssetsManager* getAssetsManager();
 private:
     Sprite* spriteObj;
+    Text* textObj;
     Window mWindow;
     AssetsManager *mAssetsManager;
     CFGParser mConfigurations;

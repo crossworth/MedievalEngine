@@ -8,6 +8,7 @@ public:
     enum COLORS { WHITE, BLACK, RED, BLUE, GREEN };
 public:
     Color();
+    Color(const Color& other);
     Color(const COLORS &color);
     Color(const int &red, const int &green, const int &blue, const int &alpha = 255);
 

@@ -63,12 +63,23 @@ void MedievalEngine::init() {
     spriteObj = static_cast<Sprite*>(mAssetsManager->getAsset(mSpr));
     spriteObj->setSize(Vect2f(ENGINE_DEFAULTS::WIDTH_WINDOW, ENGINE_DEFAULTS::HEIGHT_WINDOW));
 
+    MEid idFont = mAssetsManager->loadFont("font/YanoneKaffeesatz-Regular.ttf");
+    MEid idText = mAssetsManager->createText("MedievalEngine", 76, idFont);
+
+    textObj = static_cast<Text*>(mAssetsManager->getAsset(idText));
+    textObj->setTextShadow(2.0f);
+    textObj->setPosition(Vect2f((mWindow.getSize().x/2)-(textObj->getSize().x/2), 50.0f));
 }
 
 void MedievalEngine::run() {
     while(mWindow.isOpen()) {
+        sf::Event evt;
+        while(mWindow.pollEvent(evt)){
+
+        }
         mWindow.clear();
         mWindow.draw(spriteObj);
+        mWindow.draw(textObj);
 
         mWindow.display();
     }

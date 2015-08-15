@@ -10,8 +10,8 @@ void Sprite::setTexture(Texture *texture) {
     mSprite.setTexture(*texture->getResourcePointer());
 }
 
-sf::Drawable* Sprite::getObject() {
-    return &mSprite;
+void Sprite::draw(sf::RenderWindow *renderWindow) {
+    renderWindow->draw(mSprite);
 }
 
 void Sprite::setPosition(const Vect2f &pos) {

@@ -7,6 +7,7 @@ namespace ME {
 class Vect3i {
 public:
 	Vect3i();
+    Vect3i(const Vect3i &other);
 	Vect3i(int _x, int _y, int _z);
 
 	friend std::ostream& operator<<(std::ostream& os, const Vect3i& vec) {
@@ -30,6 +31,7 @@ public:
 class Vect3f {
 public:
 	Vect3f();
+    Vect3f(const Vect3f &other);
     Vect3f(float _x, float _y, float _z);
 
 	friend std::ostream& operator<<(std::ostream& os, const Vect3f& vec) {
@@ -53,6 +55,7 @@ public:
 class Vect3d {
 public:
 	Vect3d();
+    Vect3d(const Vect3d &other);
 	Vect3d(double _x, double _y, double _z);
 
 	friend std::ostream& operator<<(std::ostream& os, const Vect3d& vec) {

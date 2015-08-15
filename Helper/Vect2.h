@@ -7,6 +7,8 @@ namespace ME {
 class Vect2i {
 public:
 	Vect2i();
+
+    Vect2i(const Vect2i &other);
 	Vect2i(int _x, int _y);
 
 	friend std::ostream& operator<<(std::ostream& os, const Vect2i& vec) {
@@ -29,6 +31,7 @@ public:
 class Vect2f {
 public:
 	Vect2f();
+    Vect2f(const Vect2f &other);
 	Vect2f(float _x, float _y);
 
 	friend std::ostream& operator<<(std::ostream& os, const Vect2f& vec) {
@@ -51,6 +54,7 @@ public:
 class Vect2d {
 public:
 	Vect2d();
+    Vect2d(const Vect2d &other);
 	Vect2d(double _x, double _y);
 
 	friend std::ostream& operator<<(std::ostream& os, const Vect2d& vec) {

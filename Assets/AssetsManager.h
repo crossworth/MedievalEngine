@@ -6,7 +6,8 @@
 #include <Helper/ID.h>
 #include <Assets/Texture.h>
 #include <Assets/Sprite.h>
-
+#include <Assets/Font.h>
+#include <Assets/Text.h>
 
 namespace ME {
 
@@ -16,7 +17,10 @@ public:
     ~AssetsManager();
 
     MEid loadTexture(const std::string &fileName);
+    MEid loadFont(const std::string &fileName);
+
     MEid createSprite(const MEid &texture);
+    MEid createText(const std::string &text, const unsigned int &fontSize, const MEid &font);
 
     Asset* getAsset(const MEid &id);
 

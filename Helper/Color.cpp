@@ -9,6 +9,13 @@ Color::Color() {
     alpha = 255;
 }
 
+Color::Color(const Color& other) {
+    red   = other.red;
+    green = other.green;
+    blue  = other.blue;
+    alpha = other.alpha;
+}
+
 Color::Color(const COLORS &color) {
     switch (color) {
     case WHITE:

@@ -18,7 +18,7 @@ public:
 
     void setTexture(Texture *texture);
 
-    sf::Drawable* getObject();
+    void draw(sf::RenderWindow *renderWindow);
 
     void setPosition(const Vect2f &pos);
     Vect2f getPosition();

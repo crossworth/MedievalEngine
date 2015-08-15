@@ -22,11 +22,26 @@ MEid AssetsManager::loadTexture(const std::string &fileName) {
     return textureID;
 }
 
+MEid AssetsManager::loadFont(const std::string &fileName) {
+    MEid fontID     = ID::get();
+    mAssets[fontID] = new Font(fileName);
+    return fontID;
+}
+
 MEid AssetsManager::createSprite(const MEid &texture) {
     MEid spriteID     = ID::get();
     mAssets[spriteID] = new Sprite();
     static_cast<Sprite*>(mAssets[spriteID])->setTexture(static_cast<Texture*>(getAsset(texture)));
     return spriteID;
+}
+
+MEid AssetsManager::createText(const std::string &text, const unsigned int &fontSize, const MEid &font) {
+    MEid textID     = ID::get();
+    mAssets[textID] = new Text();
+    static_cast<Text*>(mAssets[textID])->setFont(*static_cast<Font*>(getAsset(font)));
+    static_cast<Text*>(mAssets[textID])->setFontSize(fontSize);
+    static_cast<Text*>(mAssets[textID])->setString(text);
+    return textID;
 }
 
 Asset* AssetsManager::getAsset(const MEid &id) {

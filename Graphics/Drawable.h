@@ -10,7 +10,7 @@ class Drawable {
 public:
     Drawable();
 
-    virtual sf::Drawable* getObject() = 0;
+    virtual void draw(sf::RenderWindow *renderWindow) = 0;
 
     virtual void setPosition(const Vect2f &pos) = 0;
     virtual Vect2f getPosition() = 0;
@@ -20,6 +20,8 @@ public:
 
     virtual void setColor(const Color &color) = 0;
     virtual Color getColor() = 0;
+
+    // TODO: implement rotate, move, getOrigin, setOrigin, get bounds
 
 protected:
 
