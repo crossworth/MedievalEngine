@@ -38,6 +38,11 @@ public:
     float getOpacity();
 
     void addEffect(Effects* effect);
+    void playEffects();
+    void pauseEffects();
+    bool isPlayingEffects();
+    void removeEffect(std::string effectType);
+    void removeAllEffects();
 
     // TODO: implement, get bounds
 protected:

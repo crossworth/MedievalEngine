@@ -20,7 +20,7 @@ public:
     void addFrame(const int32_t &time, Texture *texture);
     void play();
     void pause();
-    bool isPlaing();
+    bool isPlaying();
 
     void draw(sf::RenderWindow *renderWindow);
 

@@ -4,7 +4,6 @@ using namespace ME;
 
 SpriteAnimation::SpriteAnimation() {
     mType = "sprite_animation";
-    _isPlaying = true;
 }
 
 void SpriteAnimation::move(const Vect2f &pos) {
@@ -46,7 +45,7 @@ void SpriteAnimation::pause() {
     _isPlaying = false;
 }
 
-bool SpriteAnimation::isPlaing() {
+bool SpriteAnimation::isPlaying() {
     return _isPlaying;
 }
 
@@ -68,7 +67,7 @@ void SpriteAnimation::draw(sf::RenderWindow *renderWindow) {
 
     renderWindow->draw(mSprite);
 
-    if (isPlaing() && sf::Time(mClock.getElapsedTime()).asMilliseconds() > mFramesIT->first) {
+    if (isPlaying() && sf::Time(mClock.getElapsedTime()).asMilliseconds() > mFramesIT->first) {
         mFramesIT++;
 
         if (mFramesIT == mFrames.end()) {

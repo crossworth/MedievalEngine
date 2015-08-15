@@ -73,8 +73,6 @@ void MedievalEngine::init() {
     marioSptAn->setPosition(Vect2f((mWindow.getSize().x/2)-(marioSptAn->getSize().x/2), mWindow.getSize().y-(marioSptAn->getSize().y/2)));
     marioSptAn->setOriginCenter();
 
-//    marioSptAn->addEffect(new Fade(3, FADE_OUT));
-
 //    marioSptAn->playEffects();
 //    marioSptAn->pauseEffects();
 //    marioSptAn->removeEffect("strobe")
@@ -120,11 +118,15 @@ void MedievalEngine::run() {
             }
 
             if(evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Up) {
-                textObj->addEffect(new Fade(0.5f, FADEOUT));
+                spriteObj->removeEffect("strobe");
             }
 
             if(evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Down) {
-                textObj->addEffect(new Fade(0.5f, FADEIN));
+                if (spriteObj->isPlayingEffects()) {
+                    spriteObj->pauseEffects();
+                } else {
+                    spriteObj->playEffects();
+                }
             }
         }
         mWindow.clear();

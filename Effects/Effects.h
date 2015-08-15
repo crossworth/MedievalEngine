@@ -14,6 +14,10 @@ public:
     virtual void update(Drawable *object) = 0;
     virtual bool done() = 0;
     std::string getType();
+
+    void resetClock();
+
+    void setDone();
 protected:
     std::string mType;
     sf::Clock mClock;
