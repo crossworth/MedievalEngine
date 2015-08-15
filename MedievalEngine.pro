@@ -56,7 +56,8 @@ SOURCES += main.cpp \
     Assets/Sprite.cpp \
     Assets/Font.cpp \
     Assets/Text.cpp \
-    Assets/SpriteAnimation.cpp
+    Assets/SpriteAnimation.cpp \
+    Tests/HelperTests.cpp
 
 HEADERS += \
     Assets/Asset.h \
@@ -94,5 +95,6 @@ HEADERS += \
     LogInc.h \
     Assets/Font.h \
     Assets/Text.h \
-    Assets/SpriteAnimation.h
+    Assets/SpriteAnimation.h \
+    ThirdParty/Catch.h
 
