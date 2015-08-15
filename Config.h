@@ -36,4 +36,16 @@ const bool _LOG_LOG_TIME         = false;
 
 }
 
+// Remove Warning of UNSED function
+#ifdef __GNUC__
+#define ENGINE_UNUSED __attribute__ ((unused))
+#else
+#define ENGINE_UNUSED
+#endif
+
+#ifndef nullptr
+#define nullptr 0
+#endif
+
+
 #endif // ENGINE_CONFIG_H

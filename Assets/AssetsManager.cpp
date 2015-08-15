@@ -22,6 +22,21 @@ MEid AssetsManager::loadTexture(const std::string &fileName) {
     return textureID;
 }
 
+MEid AssetsManager::createSprite(const MEid &texture) {
+    MEid spriteID     = ID::get();
+    mAssets[spriteID] = new Sprite();
+    static_cast<Sprite*>(mAssets[spriteID])->setTexture(static_cast<Texture*>(getAsset(texture)));
+    return spriteID;
+}
+
+Asset* AssetsManager::getAsset(const MEid &id) {
+    if (mAssets.find(id) != mAssets.end()) {
+        return mAssets[id];
+    } else {
+        return new Asset;
+    }
+}
+
 AssetsManager::~AssetsManager() {
     LOG << Log::VERBOSE << "[AssetsManager::~AssetsManager] AssetsManager cleaned" << std::endl;
 }

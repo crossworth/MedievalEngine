@@ -58,13 +58,17 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr),
 void MedievalEngine::init() {
     // Where we start our game state and handle all the gamestate things
 
+    MEid mTex = mAssetsManager->loadTexture("state/main/bg.jpg");
+    MEid mSpr = mAssetsManager->createSprite(mTex);
+    spriteObj = static_cast<Sprite*>(mAssetsManager->getAsset(mSpr));
+    spriteObj->setSize(Vect2f(ENGINE_DEFAULTS::WIDTH_WINDOW, ENGINE_DEFAULTS::HEIGHT_WINDOW));
+
 }
 
 void MedievalEngine::run() {
     while(mWindow.isOpen()) {
         mWindow.clear();
-
-
+        mWindow.draw(spriteObj);
 
         mWindow.display();
     }

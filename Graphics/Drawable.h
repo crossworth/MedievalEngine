@@ -1,6 +1,8 @@
 #ifndef DRAWABLE_H
 #define DRAWABLE_H
-#include <Headers.h>
+#include <Helper/Vect2.h>
+#include <SFML/Graphics.hpp>
+#include <Helper/Color.h>
 
 namespace ME {
 
@@ -16,8 +18,8 @@ public:
     virtual void setSize(const Vect2f &size) = 0;
     virtual Vect2f getSize() = 0;
 
-    virtual void setColor(const ME::Color &color) = 0;
-    virtual ME::Color getColor() = 0;
+    virtual void setColor(const Color &color) = 0;
+    virtual Color getColor() = 0;
 
 protected:
 

@@ -49,8 +49,12 @@ void Window::clear() {
     mWindow->clear();
 }
 
-void Window::draw(Drawable &obj) {
-    mWindow->draw(*obj.getObject());
+void Window::draw(Drawable *obj) {
+    assert(obj != nullptr);
+    sf::Drawable* drawObject = obj->getObject();
+
+    assert(drawObject != nullptr);
+    mWindow->draw(*drawObject);
 }
 
 void Window::close() {

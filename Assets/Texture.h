@@ -1,7 +1,8 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
-#include <Headers.h>
-
+#include <iostream>
+#include <SFML/Graphics.hpp>
+#include <Assets/Asset.h>
 
 namespace ME {
 
@@ -13,8 +14,6 @@ public:
 
 private:
     sf::Texture mTexture;
-
-
 };
 
 }

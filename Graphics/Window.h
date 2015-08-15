@@ -23,7 +23,7 @@ public:
     void setVisible(const bool &visible);
 
     void clear();
-    void draw(Drawable &obj);
+    void draw(Drawable *obj);
     void display();
 
     ~Window();

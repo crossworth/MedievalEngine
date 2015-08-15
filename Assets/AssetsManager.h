@@ -1,6 +1,12 @@
 #ifndef ASSETSMANAGER_H
 #define ASSETSMANAGER_H
-#include <Headers.h>
+#include <map>
+#include <LogInc.h>
+#include <Assets/Asset.h>
+#include <Helper/ID.h>
+#include <Assets/Texture.h>
+#include <Assets/Sprite.h>
+
 
 namespace ME {
 
@@ -10,8 +16,9 @@ public:
     ~AssetsManager();
 
     MEid loadTexture(const std::string &fileName);
+    MEid createSprite(const MEid &texture);
 
-    Asset* getID(MEid);
+    Asset* getAsset(const MEid &id);
 
 private:
     static AssetsManager* mInstance;
