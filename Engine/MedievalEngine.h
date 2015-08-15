@@ -15,6 +15,7 @@ public:
     Window* getWindow();
     AssetsManager* getAssetsManager();
 private:
+    MEid idSound;
     Sprite* spriteObj;
     Text* textObj;
     SpriteAnimation* marioSptAn;

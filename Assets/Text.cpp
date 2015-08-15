@@ -6,6 +6,31 @@ Text::Text() {
     mType = "text";
 }
 
+std::string Text::getString() {
+    return mText.getString();
+}
+
+unsigned int Text::getFontSize() {
+    return mText.getCharacterSize();
+}
+
+FONT_STYLE Text::getStyle() {
+    switch (mText.getStyle()) {
+    case sf::Text::Style::Bold:
+        return BOLD;
+        break;
+    case sf::Text::Style::Regular:
+        return REGULAR;
+        break;
+    case sf::Text::Style::Underlined:
+        return UNDERLINE;
+        break;
+    case sf::Text::Style::Italic:
+        return ITALIC;
+        break;
+    }
+}
+
 void Text::setFont(Font &font) {
     mText.setFont(*font.getResourcePointer());
 }

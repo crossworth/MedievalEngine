@@ -24,8 +24,9 @@ public:
     void setTextShadow(const float &factor = 2.0f, const Color &color = Color::BLACK);
     void removeTextShadow();
 
-    // TODO: implement getFont, getSize, getString
-    // get Style
+    std::string getString();
+    unsigned int getFontSize();
+    FONT_STYLE getStyle();
 
     void draw(sf::RenderWindow *renderWindow);
 
