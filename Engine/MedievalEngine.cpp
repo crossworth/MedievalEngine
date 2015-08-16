@@ -100,7 +100,7 @@ void MedievalEngine::init() {
 void MedievalEngine::run() {
     while(mWindow.isOpen()) {
         sf::Event evt;
-        while(mWindow.pollEvent(evt)){
+        while(mWindow.pollEvent(evt)) {
             if(evt.type == sf::Event::Closed) {
                 close();
             }
@@ -133,8 +133,6 @@ void MedievalEngine::run() {
         mWindow.draw(spriteObj);
         mWindow.draw(textObj);
         mWindow.draw(marioSptAn);
-
-//        marioSptAn->rotate(1.0f);
 
         mWindow.display();
     }

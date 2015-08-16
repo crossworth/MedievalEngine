@@ -25,7 +25,6 @@
 #include <Graphics/WindowInfo.h>
 #include <Graphics/Window.h>
 
-
 #include <Effects/Fade.h>
 #include <Effects/Strobe.h>
 
