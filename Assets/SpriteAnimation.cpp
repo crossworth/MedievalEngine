@@ -3,7 +3,8 @@
 using namespace ME;
 
 SpriteAnimation::SpriteAnimation() {
-    mType = "sprite_animation";
+    mType      = "sprite_animation";
+    _isPlaying = true;
 }
 
 void SpriteAnimation::move(const Vect2f &pos) {
@@ -76,6 +77,7 @@ void SpriteAnimation::draw(sf::RenderWindow *renderWindow) {
 
         mSprite.setTexture(*mFramesIT->second->getResourcePointer());
         mClock.restart();
+
     }
 }
 
