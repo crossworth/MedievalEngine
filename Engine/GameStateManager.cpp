@@ -42,7 +42,7 @@ void GameStateManager::update() {
     }
 }
 
-void GameStateManager::handleEvents(sf::Event &evt) {
+void GameStateManager::handleEvents(Event &evt) {
     mGameStates[mCurrentGameState]->handleEvents(evt);
 }
 

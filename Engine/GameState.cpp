@@ -1,4 +1,5 @@
 #include "GameState.h"
+#include "MedievalEngine.h"
 
 using namespace ME;
 
@@ -6,6 +7,7 @@ GameState::GameState() {
     mIsDone        = false;
     mIsPlaying     = true;
     mCurrentStatus = GAMESTATE_STATUS::ON_ENABLE;
+    mEngine        = nullptr;
 }
 
 void GameState::play() {

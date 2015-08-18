@@ -14,6 +14,7 @@ public:
 
     Window* getWindow();
     AssetsManager* getAssetsManager();
+    GameStateManager* getGameStateManager();
 
     ~MedievalEngine();
 private:

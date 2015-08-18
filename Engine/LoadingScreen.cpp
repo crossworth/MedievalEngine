@@ -1,9 +1,10 @@
 #include "LoadingScreen.h"
+#include "MedievalEngine.h"
 
 using namespace ME;
 
-LoadingScreen::LoadingScreen() {
-
+LoadingScreen::LoadingScreen(MedievalEngine* engine) {
+    mEngine = engine;
 }
 
 void LoadingScreen::init() {
@@ -26,8 +27,10 @@ void LoadingScreen::update() {
 
 }
 
-void LoadingScreen::handleEvents(sf::Event &evt) {
-
+void LoadingScreen::handleEvents(Event &evt) {
+    if(evt.type == Event::Closed) {
+        mEngine->getWindow()->close();
+    }
 }
 
 

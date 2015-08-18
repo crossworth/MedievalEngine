@@ -4,6 +4,7 @@
 #include <Graphics/WindowInfo.h>
 #include <Graphics/Drawable.h>
 #include <Helper/Vect2.h>
+#include <Events/Event.h>
 
 namespace ME {
 
@@ -13,7 +14,7 @@ public:
     void create(const WindowInfo &info);
     void close();
     bool isOpen();
-    bool pollEvent(sf::Event &event);
+    bool pollEvent(Event &evt);
     Vect2i getPosition();
     void setPosition(const Vect2i &pos);
     Vect2i getSize();

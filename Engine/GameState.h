@@ -2,11 +2,14 @@
 #define GAMESTATE_H
 #include <Graphics/Window.h>
 #include <LogInc.h>
+#include <Events/Event.h>
 
 
 namespace ME {
 
-enum GAMESTATE_STATUS { ON_ENABLE, ON_PLAYING, ON_DISABLE, ON_DONE };
+class MedievalEngine;
+
+enum GAMESTATE_STATUS { ON_ENABLE, ON_PLAYING, ON_DISABLE, ON_DONE};
 
 class GameState {
 public:
@@ -16,7 +19,7 @@ public:
     virtual void onDisable(Window &window) = 0;
     virtual void update() = 0;
     virtual void onPlaying(Window &window) = 0;
-    virtual void handleEvents(sf::Event &evt) = 0;
+    virtual void handleEvents(Event &evt) = 0;
 
 
     void play();
@@ -29,8 +32,7 @@ public:
 
 protected:
     void setCurrentStatus(const GAMESTATE_STATUS &status);
-
-private:
+    MedievalEngine* mEngine;
     bool mIsPlaying;
     bool mIsDone;
     GAMESTATE_STATUS mCurrentStatus;

@@ -54,16 +54,16 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr),
 }
 
 void MedievalEngine::init() {
-    mGameStateManager.add("loading", new LoadingScreen());
+    mGameStateManager.add("loading", new LoadingScreen(this));
     mGameStateManager.setGameState("loading");
 }
 
 void MedievalEngine::run() {
     while(mWindow.isOpen()) {
 
-        sf::Event evt;
-        while(mWindow.pollEvent(evt)) {
-            mGameStateManager.handleEvents(evt);
+        Event event;
+        while(mWindow.pollEvent(event)) {
+            mGameStateManager.handleEvents(event);
         }
 
         mGameStateManager.update();
@@ -83,6 +83,10 @@ Window* MedievalEngine::getWindow() {
 
 AssetsManager* MedievalEngine::getAssetsManager() {
     return mAssetsManager;
+}
+
+GameStateManager*MedievalEngine::getGameStateManager() {
+    return &mGameStateManager;
 }
 
 MedievalEngine::~MedievalEngine() {

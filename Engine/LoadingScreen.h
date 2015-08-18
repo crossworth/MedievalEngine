@@ -6,13 +6,13 @@ namespace ME {
 
 class LoadingScreen : public GameState {
 public:
-    LoadingScreen();
+    LoadingScreen(MedievalEngine* engine);
     void init();
     void onEnable(Window &window);
     void onDisable(Window &window);
     void onPlaying(Window &window);
     void update();
-    void handleEvents(sf::Event &evt);
+    void handleEvents(Event &evt);
 };
 
 }

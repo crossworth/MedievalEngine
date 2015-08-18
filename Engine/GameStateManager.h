@@ -18,7 +18,7 @@ public:
 
     void draw(Window &window);
     void update();
-    void handleEvents(sf::Event &evt);
+    void handleEvents(Event &evt);
 
 private:
     std::string mCurrentGameState;

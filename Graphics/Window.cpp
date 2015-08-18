@@ -61,8 +61,12 @@ bool Window::isOpen() {
     return mWindow->isOpen();
 }
 
-bool Window::pollEvent(sf::Event &event) {
-    return mWindow->pollEvent(event);
+bool Window::pollEvent(Event& evt) {
+    sf::Event sfEvent;
+    bool ret = mWindow->pollEvent(sfEvent);
+
+    evt.type = static_cast<Event::EventType>(sfEvent.type);
+    return ret;
 }
 
 Vect2i Window::getPosition() {
