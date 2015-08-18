@@ -58,13 +58,7 @@ SOURCES += main.cpp \
     Assets/Music.cpp \
     Audio/Audible.cpp \
     Assets/Sound.cpp \
-    Effects/Strobe.cpp \
-    ThirdParty/sol/examples/basic.cpp \
-    ThirdParty/sol/examples/config.cpp \
-    ThirdParty/sol/examples/functions.cpp \
-    ThirdParty/sol/examples/tables.cpp \
-    ThirdParty/sol/examples/userdata.cpp \
-    ThirdParty/sol/examples/variables.cpp
+    Effects/Strobe.cpp
 
 HEADERS += \
     Assets/Asset.h \
