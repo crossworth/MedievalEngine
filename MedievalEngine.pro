@@ -61,7 +61,9 @@ SOURCES += main.cpp \
     Effects/Strobe.cpp \
     Engine/GameStateManager.cpp \
     Engine/LoadingScreen.cpp \
-    Events/Events.cpp
+    Events/Events.cpp \
+    Events/Keyboard.cpp \
+    Events/Mouse.cpp
 
 HEADERS += \
     Assets/Asset.h \
@@ -122,7 +124,9 @@ HEADERS += \
     ThirdParty/sol/sol.hpp \
     Engine/GameStateManager.h \
     Engine/LoadingScreen.h \
-    Events/Events.h
+    Events/Events.h \
+    Events/Keyboard.h \
+    Events/Mouse.h
 
 DISTFILES += \
     Documentation/init.txt \
