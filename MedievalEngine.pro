@@ -63,7 +63,8 @@ SOURCES += main.cpp \
     Engine/LoadingScreen.cpp \
     Events/Keyboard.cpp \
     Events/Mouse.cpp \
-    Events/Event.cpp
+    Events/Event.cpp \
+    Assets/Shape.cpp
 
 HEADERS += \
     Assets/Asset.h \
@@ -126,7 +127,8 @@ HEADERS += \
     Engine/LoadingScreen.h \
     Events/Keyboard.h \
     Events/Mouse.h \
-    Events/Event.h
+    Events/Event.h \
+    Assets/Shape.h
 
 DISTFILES += \
     Documentation/init.txt \

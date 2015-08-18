@@ -71,6 +71,15 @@ MEid AssetsManager::createSpriteAnimation() {
     return spriteAnID;
 }
 
+MEid AssetsManager::createShape(const Vect2f &size, const Color &color, const Vect2f &pos) {
+    MEid shapeID     = ID::get();
+    mAssets[shapeID] = new Shape(size, color, pos);
+
+    LOG << Log::VERBOSE << ("[AssetsManager::createShape] Shape created ID: " + Data2::int_to_str(shapeID)).c_str() << std::endl;
+
+    return shapeID;
+}
+
 MEid AssetsManager::createText(const std::string &text, const unsigned int &fontSize, const MEid &font) {
     MEid textID     = ID::get();
     mAssets[textID] = new Text();

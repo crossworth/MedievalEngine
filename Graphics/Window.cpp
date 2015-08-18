@@ -33,6 +33,7 @@ void Window::create(const WindowInfo &info) {
     mWindowInfo.windowName   = info.windowName;
 
     LOG << Log::VERBOSE << "[Window::create] Window created" << std::endl;
+
 }
 
 bool Window::isValidWindow(const WindowInfo &info) {
@@ -91,8 +92,12 @@ void Window::setTile(const std::string &title) {
     mWindow->setTitle(title);
 }
 
-void Window::setIcon(unsigned int width, unsigned int height, const sf::Uint8 *pixels) {
-    mWindow->setIcon(width, height, pixels);
+void Window::setIcon(const std::string &fileName) {
+    sf::Image iconImage;
+    if (iconImage.loadFromFile(ME::ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
+        mWindow->setIcon(iconImage.getSize().x, iconImage.getSize().y, iconImage.getPixelsPtr());
+    }
+
 }
 
 void Window::setVisible(const bool &visible) {

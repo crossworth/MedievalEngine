@@ -148,6 +148,14 @@ Vect2f Text::getSize() {
     return size;
 }
 
+void Text::setScale(const Vect2f &scale) {
+    mText.setScale(sf::Vector2f(scale.x, scale.y));
+}
+
+Vect2f Text::getScale() {
+    return Vect2f(mText.getScale().x, mText.getScale().y);
+}
+
 void Text::setColor(const Color &color) {
     sf::Color mColor(color.red, color.green, color.blue, color.alpha);
     mText.setColor(mColor);

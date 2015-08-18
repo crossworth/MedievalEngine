@@ -1,23 +1,13 @@
-#ifndef SPRITE_H
-#define SPRITE_H
+#ifndef SHAPE_H
+#define SHAPE_H
 #include <Assets/Asset.h>
 #include <Graphics/Drawable.h>
-#include <Assets/Texture.h>
-#include <Helper/Vect2.h>
-#include <Helper/Color.h>
-#include <SFML/Graphics.hpp>
-#include <LogInc.h>
-#include <Effects/Effects.h>
 
 namespace ME {
 
-class Sprite : public Asset, public Drawable {
+class Shape : public Asset, public Drawable {
 public:
-    Sprite();
-
-    sf::Sprite* getResourcePointer();
-
-    void setTexture(Texture *texture);
+    Shape(const Vect2f &size, const Color &color, const Vect2f &pos);
 
     void draw(sf::RenderWindow *renderWindow);
 
@@ -27,11 +17,18 @@ public:
 
     void setSize(const Vect2f &size);
     Vect2f getSize();
+
     void setScale(const Vect2f &scale);
     Vect2f getScale();
 
     void setColor(const Color &color);
     Color getColor();
+
+    void setBorderColor(const Color &color);
+    Color getBorderColor();
+
+    void setBorderSize(const float &size);
+    float getBorderSize();
 
     float getRotation();
     void setRotation(const float &angle);
@@ -40,10 +37,11 @@ public:
     Vect2f getOrigin();
     void setOrigin(const Vect2f &origin);
 
+
 private:
-    sf::Sprite mSprite;
+    sf::RectangleShape mShape;
 };
 
 }
 
-#endif // SPRITE_H
+#endif // SHAPE_H

@@ -22,6 +22,8 @@ public:
 
     virtual void setSize(const Vect2f &size) = 0;
     virtual Vect2f getSize() = 0;
+    virtual void setScale(const Vect2f &scale) = 0;
+    virtual Vect2f getScale() = 0;
 
     virtual void setColor(const Color &color) = 0;
     virtual Color getColor() = 0;

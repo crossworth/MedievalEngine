@@ -12,6 +12,7 @@
 #include <Assets/SpriteAnimation.h>
 #include <Assets/Music.h>
 #include <Assets/Sound.h>
+#include <Assets/Shape.h>
 
 
 namespace ME {
@@ -28,6 +29,7 @@ public:
     MEid createSprite(const MEid &texture);
     MEid createText(const std::string &text, const unsigned int &fontSize, const MEid &font);
     MEid createSpriteAnimation();
+    MEid createShape(const Vect2f &size, const Color &color, const Vect2f &pos = Vect2f(0, 0));
 
     Asset* getAsset(const MEid &id);
 

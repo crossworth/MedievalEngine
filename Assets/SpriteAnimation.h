@@ -30,6 +30,8 @@ public:
 
     void setSize(const Vect2f &size);
     Vect2f getSize();
+    void setScale(const Vect2f &scale);
+    Vect2f getScale();
 
     void setColor(const Color &color);
     Color getColor();

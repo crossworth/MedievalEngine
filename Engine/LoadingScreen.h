@@ -1,6 +1,7 @@
 #ifndef LOADINGSCREEN_H
 #define LOADINGSCREEN_H
 #include <Engine/GameState.h>
+#include <Helper/ID.h>
 
 namespace ME {
 
@@ -13,6 +14,10 @@ public:
     void onPlaying(Window &window);
     void update();
     void handleEvents(Event &evt);
+
+private:
+    MEid idBackground;
+    MEid idLogo;
 };
 
 }

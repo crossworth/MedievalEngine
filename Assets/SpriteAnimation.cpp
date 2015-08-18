@@ -100,6 +100,14 @@ Vect2f SpriteAnimation::getSize() {
     return size;
 }
 
+void SpriteAnimation::setScale(const Vect2f &scale) {
+    mSprite.setScale(sf::Vector2f(scale.x, scale.y));
+}
+
+Vect2f SpriteAnimation::getScale() {
+    return Vect2f(mSprite.getScale().x, mSprite.getScale().y);
+}
+
 void SpriteAnimation::setColor(const Color &color) {
     sf::Color mColor(color.red, color.green, color.blue, color.alpha);
     mSprite.setColor(mColor);

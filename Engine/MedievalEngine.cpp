@@ -21,13 +21,14 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr),
 
     WindowInfo mWindowInfo;
 
-    std::string tmpBitsPerPixel, tmpHeight, tmpWidth, tmpFullScreen, tmpWindowName;
+    std::string tmpBitsPerPixel, tmpHeight, tmpWidth, tmpFullScreen, tmpWindowName, tmpIconName;
 
     tmpBitsPerPixel = mConfigurations.getKey("bits_per_pixel");
     tmpHeight       = mConfigurations.getKey("height");
     tmpWidth        = mConfigurations.getKey("width");
     tmpFullScreen   = mConfigurations.getKey("fullscreen");
     tmpWindowName   = mConfigurations.getKey("engine_name");
+    tmpIconName     = mConfigurations.getKey("icon");
 
     if(tmpBitsPerPixel != "") {
         mWindowInfo.bitsPerPixel = Data2::str_to_int(tmpBitsPerPixel);
@@ -50,10 +51,18 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr),
     }
 
     mWindow.create(mWindowInfo);
-    mAssetsManager    = AssetsManager::getInstance();
+
+
+    if (tmpIconName != "") {
+        mWindow.setIcon(tmpIconName);
+    }
+
+    mAssetsManager = AssetsManager::getInstance();
 }
 
 void MedievalEngine::init() {
+    LOG << Log::VERBOSE << "[MedievalEngine::init]" << std::endl;
+
     mGameStateManager.add("loading", new LoadingScreen(this));
     mGameStateManager.setGameState("loading");
 }
@@ -74,6 +83,7 @@ void MedievalEngine::run() {
 }
 
 void MedievalEngine::close() {
+    LOG << Log::VERBOSE << "[MedievalEngine::close]" << std::endl;
     mWindow.close();
 }
 
@@ -90,5 +100,6 @@ GameStateManager*MedievalEngine::getGameStateManager() {
 }
 
 MedievalEngine::~MedievalEngine() {
+    LOG << Log::VERBOSE << "[MedievalEngine::~MedievalEngine]" << std::endl;
     delete mAssetsManager;
 }

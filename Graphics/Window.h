@@ -21,7 +21,7 @@ public:
     void setSize(const Vect2i &size);
 
     void setTile(const std::string &title);
-    void setIcon(unsigned int width, unsigned int height, const sf::Uint8 *pixels);
+    void setIcon(const std::string &fileName);
 
     void setVisible(const bool &visible);
 
