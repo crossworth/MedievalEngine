@@ -42,10 +42,10 @@ public:
     void setOrigin(const Vect2f &origin);
 
 private:
-    bool _isPlaying;
+    bool mIsPlaying;
     sf::Sprite mSprite;
-    std::vector<std::pair<unsigned int, Texture*>> mFrames;
-    std::vector<std::pair<unsigned int, Texture*> >::iterator mFramesIT;
+    std::vector<std::pair<unsigned int, Texture*> > mFrames;
+    std::vector<std::pair<unsigned int, Texture*> >::iterator mFrameIterator;
     sf::Clock mClock;
 };
 

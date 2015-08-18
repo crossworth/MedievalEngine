@@ -52,7 +52,7 @@ public:
 private:
     Color mTextShadow;
     float mTextShadowFactor;
-    bool _hasTextShadow;
+    bool mHasTextShadow;
     sf::Text mText;
 };
 

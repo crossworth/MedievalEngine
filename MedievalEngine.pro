@@ -3,6 +3,7 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG += qt
 CONFIG += warn_off
+CONFIG += c++11
 
 OBJECTS_DIR = tmp
 
@@ -17,11 +18,12 @@ win32 {
 }
 
 macx {
-    QMAKE_LFLAGS   += -F/Library/Frameworks/
+    QMAKE_CXX    += -std=c++11
+    QMAKE_LFLAGS += -F/Library/Frameworks/
 
     INCLUDEPATH += /usr/include
 
-    LIBS += -L "/usr/local/lib" -lsfml-graphics-s -lsfml-audio-s -lsfml-window-s -lsfml-system-s -llua -ljpeg -framework freetype -framework ogg -framework FLAC -framework vorbis -framework vorbisenc -framework vorbisfile -framework OpenAL -framework CoreFoundation -framework CoreServices -framework Carbon -framework Cocoa -framework ApplicationServices -framework OpenGL -framework IOKit
+    LIBS += -L "/usr/local/lib" -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system -llua -ljpeg -framework freetype -framework ogg -framework FLAC -framework vorbis -framework vorbisenc -framework vorbisfile -framework OpenAL -framework CoreFoundation -framework CoreServices -framework Carbon -framework Cocoa -framework ApplicationServices -framework OpenGL -framework IOKit
 }
 
 SOURCES += main.cpp \
@@ -31,9 +33,7 @@ SOURCES += main.cpp \
     Helper/Log.cpp \
     Effects/Effects.cpp \
     Effects/Fade.cpp \
-    Engine/GameEngine.cpp \
     Engine/GameState.cpp \
-    Engine/LuaState.cpp \
     Graphics/Drawable.cpp \
     GUI/GUI.cpp \
     GUI/GUIObject.cpp \
@@ -58,7 +58,10 @@ SOURCES += main.cpp \
     Assets/Music.cpp \
     Audio/Audible.cpp \
     Assets/Sound.cpp \
-    Effects/Strobe.cpp
+    Effects/Strobe.cpp \
+    Engine/GameStateManager.cpp \
+    Engine/LoadingScreen.cpp \
+    Events/Events.cpp
 
 HEADERS += \
     Assets/Asset.h \
@@ -67,9 +70,7 @@ HEADERS += \
     Helper/Log.h \
     Effects/Effects.h \
     Effects/Fade.h \
-    Engine/GameEngine.h \
     Engine/GameState.h \
-    Engine/LuaState.h \
     Graphics/Drawable.h \
     GUI/GUI.h \
     GUI/GUIObject.h \
@@ -118,5 +119,13 @@ HEADERS += \
     ThirdParty/sol/sol/types.hpp \
     ThirdParty/sol/sol/userdata.hpp \
     ThirdParty/sol/sol/userdata_traits.hpp \
-    ThirdParty/sol/sol.hpp
+    ThirdParty/sol/sol.hpp \
+    Engine/GameStateManager.h \
+    Engine/LoadingScreen.h \
+    Events/Events.h
+
+DISTFILES += \
+    Documentation/init.txt \
+    Documentation/events.txt \
+    Documentation/lua_goal.txt
 

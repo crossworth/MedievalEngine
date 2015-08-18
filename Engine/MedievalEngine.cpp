@@ -50,90 +50,25 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr),
     }
 
     mWindow.create(mWindowInfo);
-    mAssetsManager = AssetsManager::getInstance();
-
+    mAssetsManager    = AssetsManager::getInstance();
 }
 
 void MedievalEngine::init() {
-    // Where we start our game state and handle all the gamestate things
-
-    MEid idMarioSptAn = mAssetsManager->createSpriteAnimation();
-    marioSptAn = static_cast<SpriteAnimation*>(mAssetsManager->getAsset(idMarioSptAn));
-
-    MEid idAn1 = mAssetsManager->loadTexture("/animation/1.png");
-    MEid idAn2 = mAssetsManager->loadTexture("/animation/2.png");
-    MEid idAn3 = mAssetsManager->loadTexture("/animation/3.png");
-    MEid idAn4 = mAssetsManager->loadTexture("/animation/4.png");
-
-    marioSptAn->addFrame(100, static_cast<Texture*>(mAssetsManager->getAsset(idAn1)));
-    marioSptAn->addFrame(100, static_cast<Texture*>(mAssetsManager->getAsset(idAn2)));
-    marioSptAn->addFrame(100, static_cast<Texture*>(mAssetsManager->getAsset(idAn3)));
-    marioSptAn->addFrame(100, static_cast<Texture*>(mAssetsManager->getAsset(idAn4)));
-
-    marioSptAn->setPosition(Vect2f((mWindow.getSize().x/2)-(marioSptAn->getSize().x/2), mWindow.getSize().y-(marioSptAn->getSize().y/2)));
-    marioSptAn->setOriginCenter();
-
-//    marioSptAn->playEffects();
-//    marioSptAn->pauseEffects();
-//    marioSptAn->removeEffect("strobe")
-//    marioSptAn->removeAllEffects();
-
-    MEid mTex = mAssetsManager->loadTexture("state/main/bg.jpg");
-    MEid mSpr = mAssetsManager->createSprite(mTex);
-    spriteObj = static_cast<Sprite*>(mAssetsManager->getAsset(mSpr));
-    spriteObj->setSize(Vect2f(ENGINE_DEFAULTS::WIDTH_WINDOW, ENGINE_DEFAULTS::HEIGHT_WINDOW));
-
-    MEid idFont = mAssetsManager->loadFont("font/YanoneKaffeesatz-Regular.ttf");
-    MEid idText = mAssetsManager->createText("MedievalEngine", 76, idFont);
-
-    textObj = static_cast<Text*>(mAssetsManager->getAsset(idText));
-    textObj->setTextShadow(2.0f);
-    textObj->setPosition(Vect2f((mWindow.getSize().x/2)-(textObj->getSize().x/2), 50.0f));
-
-
-    MEid idMusic = mAssetsManager->loadMusic("music.ogg");
-//    static_cast<Music*>(mAssetsManager->getAsset(idMusic))->play();
-
-    idSound = mAssetsManager->loadMusic("sound.ogg");
+    mGameStateManager.add("loading", new LoadingScreen());
+    mGameStateManager.setGameState("loading");
 }
 
 void MedievalEngine::run() {
     while(mWindow.isOpen()) {
+
         sf::Event evt;
         while(mWindow.pollEvent(evt)) {
-            if(evt.type == sf::Event::Closed) {
-                close();
-            }
-            if(evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Space) {
-                static_cast<Sound*>(mAssetsManager->getAsset(idSound))->play();
-                spriteObj->addEffect(new Strobe(3, 0.3));
-            }
-
-            if(evt.key.code == sf::Keyboard::Right) {
-                marioSptAn->move(Vect2f(5.f, 0.0f));
-            }
-
-            if(evt.key.code == sf::Keyboard::Left) {
-                marioSptAn->move(Vect2f(-5.f, 0.0f));
-            }
-
-            if(evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Up) {
-                spriteObj->removeEffect("strobe");
-            }
-
-            if(evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Down) {
-                if (spriteObj->isPlayingEffects()) {
-                    spriteObj->pauseEffects();
-                } else {
-                    spriteObj->playEffects();
-                }
-            }
+            mGameStateManager.handleEvents(evt);
         }
-        mWindow.clear();
-        mWindow.draw(spriteObj);
-        mWindow.draw(textObj);
-        mWindow.draw(marioSptAn);
 
+        mGameStateManager.update();
+        mWindow.clear();
+        mGameStateManager.draw(mWindow);
         mWindow.display();
     }
 }
@@ -148,4 +83,8 @@ Window* MedievalEngine::getWindow() {
 
 AssetsManager* MedievalEngine::getAssetsManager() {
     return mAssetsManager;
+}
+
+MedievalEngine::~MedievalEngine() {
+    delete mAssetsManager;
 }

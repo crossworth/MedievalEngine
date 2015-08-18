@@ -28,6 +28,8 @@
 #include <Effects/Fade.h>
 #include <Effects/Strobe.h>
 
+#include <Engine/GameStateManager.h>
+
 
 #endif // HEADERS_H
 

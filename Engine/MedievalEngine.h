@@ -14,15 +14,14 @@ public:
 
     Window* getWindow();
     AssetsManager* getAssetsManager();
+
+    ~MedievalEngine();
 private:
-    MEid idSound;
-    Sprite* spriteObj;
-    Text* textObj;
-    SpriteAnimation* marioSptAn;
     Window mWindow;
     AssetsManager *mAssetsManager;
     CFGParser mConfigurations;
     ArgumentsParser mArguments;
+    GameStateManager mGameStateManager;
     static MedievalEngine* mInstance;
     MedievalEngine(int argc, char **argv);
 };

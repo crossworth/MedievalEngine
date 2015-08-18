@@ -44,13 +44,13 @@ void Text::setString(const std::string &text) {
 }
 
 void Text::setTextShadow(const float &factor, const Color &color) {
-    _hasTextShadow    = true;
+    mHasTextShadow    = true;
     mTextShadow       = color;
     mTextShadowFactor = factor;
 }
 
 void Text::removeTextShadow() {
-    _hasTextShadow = false;
+    mHasTextShadow = false;
 }
 
 void Text::setStyle(const FONT_STYLE &style) {
@@ -73,7 +73,7 @@ void Text::setStyle(const FONT_STYLE &style) {
 }
 
 void Text::draw(sf::RenderWindow *renderWindow) {
-    if (_hasTextShadow) {
+    if (mHasTextShadow) {
         Color tmpColor    = getColor();
         Vect2f tmpPos     = getPosition();
         mTextShadow.alpha = tmpColor.alpha;

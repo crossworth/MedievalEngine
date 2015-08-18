@@ -1,7 +1,9 @@
 #ifndef WINDOW_H
 #define WINDOW_H
-#include <Headers.h>
 #include <SFML/Graphics.hpp>
+#include <Graphics/WindowInfo.h>
+#include <Graphics/Drawable.h>
+#include <Helper/Vect2.h>
 
 namespace ME {
 

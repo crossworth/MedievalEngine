@@ -36,7 +36,7 @@ public:
 
 private:
     sf::Sound mSound;
-    sf::SoundBuffer mBuffer;
+    sf::SoundBuffer mSoundBuffer;
 };
 
 }

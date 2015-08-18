@@ -4,7 +4,7 @@ using namespace ME;
 
 SpriteAnimation::SpriteAnimation() {
     mType      = "sprite_animation";
-    _isPlaying = true;
+    mIsPlaying = true;
 }
 
 void SpriteAnimation::move(const Vect2f &pos) {
@@ -33,21 +33,21 @@ void SpriteAnimation::setOrigin(const Vect2f &origin) {
 
 void SpriteAnimation::addFrame(const int32_t &time, Texture *texture) {
     mFrames.push_back(std::make_pair(time, texture));
-    mFramesIT = mFrames.begin();
+    mFrameIterator = mFrames.begin();
 
-    mSprite.setTexture(*mFramesIT->second->getResourcePointer());
+    mSprite.setTexture(*mFrameIterator->second->getResourcePointer());
 }
 
 void SpriteAnimation::play() {
-    _isPlaying = true;
+    mIsPlaying = true;
 }
 
 void SpriteAnimation::pause() {
-    _isPlaying = false;
+    mIsPlaying = false;
 }
 
 bool SpriteAnimation::isPlaying() {
-    return _isPlaying;
+    return mIsPlaying;
 }
 
 void SpriteAnimation::draw(sf::RenderWindow *renderWindow) {
@@ -68,14 +68,14 @@ void SpriteAnimation::draw(sf::RenderWindow *renderWindow) {
 
     renderWindow->draw(mSprite);
 
-    if (isPlaying() && sf::Time(mClock.getElapsedTime()).asMilliseconds() > mFramesIT->first) {
-        mFramesIT++;
+    if (isPlaying() && sf::Time(mClock.getElapsedTime()).asMilliseconds() > mFrameIterator->first) {
+        mFrameIterator++;
 
-        if (mFramesIT == mFrames.end()) {
-            mFramesIT = mFrames.begin();
+        if (mFrameIterator == mFrames.end()) {
+            mFrameIterator = mFrames.begin();
         }
 
-        mSprite.setTexture(*mFramesIT->second->getResourcePointer());
+        mSprite.setTexture(*mFrameIterator->second->getResourcePointer());
         mClock.restart();
 
     }
