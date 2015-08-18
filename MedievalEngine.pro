@@ -41,9 +41,6 @@ SOURCES += main.cpp \
     Helper/CFGParser.cpp \
     Helper/ID.cpp \
     Helper/Profiler.cpp \
-    Lua/CallBack.cpp \
-    Lua/LuaEngine.cpp \
-    Lua/luafunctions.cpp \
     Helper/Data2.cpp \
     Helper/Vect2.cpp \
     Helper/Vect3.cpp \
@@ -61,7 +58,13 @@ SOURCES += main.cpp \
     Assets/Music.cpp \
     Audio/Audible.cpp \
     Assets/Sound.cpp \
-    Effects/Strobe.cpp
+    Effects/Strobe.cpp \
+    ThirdParty/sol/examples/basic.cpp \
+    ThirdParty/sol/examples/config.cpp \
+    ThirdParty/sol/examples/functions.cpp \
+    ThirdParty/sol/examples/tables.cpp \
+    ThirdParty/sol/examples/userdata.cpp \
+    ThirdParty/sol/examples/variables.cpp
 
 HEADERS += \
     Assets/Asset.h \
@@ -81,9 +84,6 @@ HEADERS += \
     Helper/ID.h \
     Helper/Key.h \
     Helper/Profiler.h \
-    Lua/CallBack.h \
-    Lua/LuaEngine.h \
-    Lua/luafunctions.h \
     Helper/Vect2.h \
     Helper/Vect3.h \
     Helper/Data2.h \
@@ -104,5 +104,25 @@ HEADERS += \
     Assets/Music.h \
     Audio/Audible.h \
     Assets/Sound.h \
-    Effects/Strobe.h
+    Effects/Strobe.h \
+    ThirdParty/sol/sol/debug.hpp \
+    ThirdParty/sol/sol/default_construct.hpp \
+    ThirdParty/sol/sol/demangle.hpp \
+    ThirdParty/sol/sol/deprecate.hpp \
+    ThirdParty/sol/sol/error.hpp \
+    ThirdParty/sol/sol/function.hpp \
+    ThirdParty/sol/sol/function_types.hpp \
+    ThirdParty/sol/sol/object.hpp \
+    ThirdParty/sol/sol/proxy.hpp \
+    ThirdParty/sol/sol/reference.hpp \
+    ThirdParty/sol/sol/resolve.hpp \
+    ThirdParty/sol/sol/stack.hpp \
+    ThirdParty/sol/sol/state.hpp \
+    ThirdParty/sol/sol/table.hpp \
+    ThirdParty/sol/sol/traits.hpp \
+    ThirdParty/sol/sol/tuple.hpp \
+    ThirdParty/sol/sol/types.hpp \
+    ThirdParty/sol/sol/userdata.hpp \
+    ThirdParty/sol/sol/userdata_traits.hpp \
+    ThirdParty/sol/sol.hpp
 
