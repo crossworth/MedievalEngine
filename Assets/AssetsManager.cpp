@@ -55,7 +55,7 @@ MEid AssetsManager::loadSound(const std::string &fileName) {
 MEid AssetsManager::createSprite(const MEid &texture) {
     MEid spriteID     = ID::get();
     mAssets[spriteID] = new Sprite();
-    static_cast<Sprite*>(mAssets[spriteID])->setTexture(static_cast<Texture*>(getAsset(texture)));
+    static_cast<Sprite*>(mAssets[spriteID])->setTexture(getAsset<Texture>(texture));
 
     LOG << Log::VERBOSE << ("[AssetsManager::createSprite] Sprite created ID: " + Data2::int_to_str(spriteID)).c_str() << std::endl;
 
@@ -83,7 +83,7 @@ MEid AssetsManager::createShape(const Vect2f &size, const Color &color, const Ve
 MEid AssetsManager::createText(const std::string &text, const unsigned int &fontSize, const MEid &font) {
     MEid textID     = ID::get();
     mAssets[textID] = new Text();
-    static_cast<Text*>(mAssets[textID])->setFont(*static_cast<Font*>(getAsset(font)));
+    static_cast<Text*>(mAssets[textID])->setFont(*getAsset<Font>(font));
     static_cast<Text*>(mAssets[textID])->setFontSize(fontSize);
     static_cast<Text*>(mAssets[textID])->setString(text);
 
@@ -92,11 +92,6 @@ MEid AssetsManager::createText(const std::string &text, const unsigned int &font
     return textID;
 }
 
-Asset* AssetsManager::getAsset(const MEid &id) {
-    if (mAssets.find(id) != mAssets.end()) {
-        return mAssets[id];
-    } else {
-        LOG << Log::WARNING << ("[AssetsManager::getAsset] Asset not found ID: " + Data2::int_to_str(id)).c_str() << std::endl;
-        return new Asset;
-    }
+AssetsManager::~AssetsManager() {
+    delete mInstance;
 }

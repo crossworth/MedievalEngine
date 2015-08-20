@@ -54,7 +54,6 @@ SOURCES += main.cpp \
     Assets/Font.cpp \
     Assets/Text.cpp \
     Assets/SpriteAnimation.cpp \
-    Tests/HelperTests.cpp \
     Assets/Music.cpp \
     Audio/Audible.cpp \
     Assets/Sound.cpp \
@@ -64,7 +63,9 @@ SOURCES += main.cpp \
     Events/Keyboard.cpp \
     Events/Mouse.cpp \
     Events/Event.cpp \
-    Assets/Shape.cpp
+    Assets/Shape.cpp \
+    GUI/ObjectWrapper.cpp \
+    Helper/Area.cpp
 
 HEADERS += \
     Assets/Asset.h \
@@ -128,7 +129,9 @@ HEADERS += \
     Events/Keyboard.h \
     Events/Mouse.h \
     Events/Event.h \
-    Assets/Shape.h
+    Assets/Shape.h \
+    GUI/ObjectWrapper.h \
+    Helper/Area.h
 
 DISTFILES += \
     Documentation/init.txt \

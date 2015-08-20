@@ -30,6 +30,8 @@
 
 #include <Engine/GameStateManager.h>
 
+#include <GUI/GUI.h>
+
 
 #endif // HEADERS_H
 

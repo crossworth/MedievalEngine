@@ -1,23 +1,39 @@
-//#ifndef TEXT_H
-//#define TEXT_H
-//#include "Config.h"
-//#include "GUIObject.h"
+#ifndef TEXTOBJECT_H
+#define TEXTOBJECT_H
+#include <Assets/AssetsManager.h>
+#include <Helper/ID.h>
+#include <GUI/GUIObject.h>
 
-//namespace ME {
 
-//class TextObject : public GUIObject {
-//public:
-//    TextObject(const std::string &text, const int &textSize, const std::string &font = "default");
-//    void update();
-//    void draw();
-//    void processEvents(Event evt);
+namespace ME {
 
-//private:
-//    std::string textReference;
+class TextObject : public GUIObject {
+public:
+    TextObject(const std::string &text, const int &textSize);
+    void draw(Window &window);
+    void update();
+    void handleEvents(Event evt);
 
-//    Text* getObject();
-//};
+    void setPosition(const Vect2f &pos);
+    Vect2f getPosition();
+    Vect2f getSize();
 
-//}
+    void onMouseOver();
+    void onClick();
+    void onMouseOut();
 
-//#endif // TEXT_H
+    void setOpacity(const float &opacity);
+    float getOpacity();
+
+    void setColor(const Color &color);
+    Color getColor();
+
+private:
+    AssetsManager* mAssets;
+    MEid mTextID;
+    Text* mTextRef;
+};
+
+}
+
+#endif // TEXT_H

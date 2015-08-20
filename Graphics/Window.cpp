@@ -7,7 +7,7 @@ Window::Window() {
 }
 
 Window::~Window() {
-
+    delete mWindow;
 }
 
 void Window::create(const WindowInfo &info) {
@@ -106,4 +106,12 @@ void Window::setVisible(const bool &visible) {
 
 void Window::display() {
     mWindow->display();
+}
+
+sf::Window* Window::getWindowPtr() {
+    return mWindow;
+}
+
+WindowInfo* Window::getWindowInfo() {
+    return &mWindowInfo;
 }

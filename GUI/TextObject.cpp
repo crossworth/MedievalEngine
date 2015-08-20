@@ -1,47 +1,70 @@
-//#include "TextObject.h"
+#include "TextObject.h"
 
-//using namespace ME;
+using namespace ME;
 
-//TextObject::TextObject(const std::string &text, const int &textSize, const std::string &font) {
-//    Text tmpText;
-//    tmpText.setString(text);
-//    tmpText.setCharacterSize(textSize);
+TextObject::TextObject(const std::string &text, const int &textSize) {
+    mAssets = AssetsManager::getInstance();
 
-//    if (font != "default") {
-//        if (assets->getFont(font) != nullptr) {
-//            tmpText.setFont(*assets->getFont(font));
-//        }
-//    }
+    MEid mFont = mAssets->loadFont("font/YanoneKaffeesatz-Regular.ttf");
+    mTextID    = mAssets->createText(text, textSize, mFont);
+    mTextRef   = mAssets->getAsset<Text>(mTextID);
 
-//    tmpText.setFont(*assets->loadFont("default", "state/main/font.ttf"));
+    mTextRef->setOrigin(Vect2f(mTextRef->getOrigin().x, mTextRef->getSize().y/2));
+    setPosition(Vect2f(100.f, 100.f));
+}
 
-//    tmpText.setPosition(10.0f, 10.0f);
-//    tmpText.setColor(sf::Color::White);
+void TextObject::setPosition(const Vect2f &pos) {
+    mTextRef->setPosition(pos);
+}
 
-//    textReference = "text_" + TO::int_to_str(static_cast<int>(time(0)));
-//    assets->createText(textReference, tmpText);
-//}
+Vect2f TextObject::getPosition() {
+    return mTextRef->getPosition();
+}
 
-//void TextObject::draw() {
-//    if(_isVisible) {
-//        renderWindow->draw(*getObject());
-//    }
-//}
+Vect2f TextObject::getSize() {
+    return mTextRef->getSize();
+}
 
-//Text* TextObject::getObject() {
-//    if (assets->getText(textReference) != nullptr){
-//        return assets->getText(textReference);
-//    } else {
-//        dbg->log(CRITICAL, 1, ("[TextObject::getObject] Text Object " + textReference + " not found").c_str());
-//    }
-//}
+void TextObject::onMouseOver() {
+    setColor(Color(0, 255, 0));
+}
 
-//void TextObject::update() {
-//    if(_isActive) {
+void TextObject::onClick() {
+    std::cout << "Click" << std::endl;
+}
 
-//    }
-//}
+void TextObject::onMouseOut() {
+    setColor(Color(255, 255, 255));
+}
 
-//void TextObject::processEvents(Event evt) {
+void TextObject::setOpacity(const float &opacity) {
+    mTextRef->setOpacity(opacity);
+}
 
-//}
+float TextObject::getOpacity() {
+    return mTextRef->getOpacity();
+}
+
+void TextObject::setColor(const Color &color) {
+    mTextRef->setColor(color);
+}
+
+Color TextObject::getColor() {
+    return mTextRef->getColor();
+}
+
+void TextObject::draw(Window &window) {
+    if (_isVisible) {
+        window.draw(mTextRef);
+    }
+}
+
+void TextObject::update() {
+    if (_isActive) {
+
+    }
+}
+
+void TextObject::handleEvents(Event evt) {
+
+}

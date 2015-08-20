@@ -52,19 +52,23 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr),
 
     mWindow.create(mWindowInfo);
 
-
     if (tmpIconName != "") {
         mWindow.setIcon(tmpIconName);
     }
 
     mAssetsManager = AssetsManager::getInstance();
+
+    mGUI = nullptr;
 }
 
 void MedievalEngine::init() {
-    LOG << Log::VERBOSE << "[MedievalEngine::init]" << std::endl;
+
+    mGUI = new GUI(mWindow.getWindowInfo());
 
     mGameStateManager.add("loading", new LoadingScreen(this));
     mGameStateManager.setGameState("loading");
+
+    LOG << Log::VERBOSE << "[MedievalEngine::init]" << std::endl;
 }
 
 void MedievalEngine::run() {
@@ -73,11 +77,15 @@ void MedievalEngine::run() {
         Event event;
         while(mWindow.pollEvent(event)) {
             mGameStateManager.handleEvents(event);
+            mGUI->handleEvents(event, mWindow);
         }
 
         mGameStateManager.update();
+        mGUI->update();
+
         mWindow.clear();
         mGameStateManager.draw(mWindow);
+        mGUI->draw(mWindow);
         mWindow.display();
     }
 }
@@ -95,8 +103,12 @@ AssetsManager* MedievalEngine::getAssetsManager() {
     return mAssetsManager;
 }
 
-GameStateManager*MedievalEngine::getGameStateManager() {
+GameStateManager* MedievalEngine::getGameStateManager() {
     return &mGameStateManager;
+}
+
+GUI* MedievalEngine::getGUI() {
+    return mGUI;
 }
 
 MedievalEngine::~MedievalEngine() {

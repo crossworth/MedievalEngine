@@ -1,54 +1,64 @@
-//#include "GUIObject.h"
+#include "GUIObject.h"
 
-//using namespace ME;
+using namespace ME;
 
-//GUIObject::GUIObject() : _isVisible(true), _isActive(true) {
-//    assets       = AssetsManager::getInstance();
-//    dbg          = Debugger::getInstance();
-//    renderWindow = RenderWindow::getInstance();
-//}
+GUIObject::GUIObject() : _isVisible(true), _isActive(true) {
 
-//bool GUIObject::isVisible() {
-//    return _isVisible;
-//}
+}
 
-//bool GUIObject::isActive() {
-//    return _isActive;
-//}
+bool GUIObject::isVisible() {
+    return _isVisible;
+}
 
-//Coord GUIObject::getPosition() {
-//    return mPos;
-//}
+bool GUIObject::isActive() {
+    return _isActive;
+}
 
-//float GUIObject::getOpacity() {
-//    return mOpacity;
-//}
+Vect2f GUIObject::getPosition() {
+    return mPos;
+}
 
-//sf::Color GUIObject::getColor() {
-//    return mColor;
-//}
+float GUIObject::getOpacity() {
+    return mOpacity;
+}
 
-//void GUIObject::hide() {
-//    _isVisible  = false;
-//}
+Color GUIObject::getColor() {
+    return mColor;
+}
 
-//void GUIObject::show() {
-//    _isVisible  = true;
+void GUIObject::hide() {
+    _isVisible  = false;
+}
 
-//}
+void GUIObject::onMouseOver() {
 
-//void GUIObject::setPosition(const Coord &pos) {
-//    mPos.x = pos.x;
-//    mPos.y = pos.y;
-//}
+}
 
-//void GUIObject::setOpacity(const float &opacity) {
-//    mOpacity = opacity;
-//}
+void GUIObject::onMouseOut() {
 
-//void GUIObject::setColor(const sf::Color &color) {
-//    mColor.r = color.r;
-//    mColor.g = color.g;
-//    mColor.b = color.b;
-//    mColor.a = color.a;
-//}
+}
+
+void GUIObject::onClick() {
+
+}
+
+void GUIObject::show() {
+    _isVisible  = true;
+
+}
+
+void GUIObject::setPosition(const Vect2f &pos) {
+    mPos.x = pos.x;
+    mPos.y = pos.y;
+}
+
+void GUIObject::setOpacity(const float &opacity) {
+    mOpacity = opacity;
+}
+
+void GUIObject::setColor(const Color &color) {
+    mColor.red = color.red;
+    mColor.green = color.green;
+    mColor.blue = color.blue;
+    mColor.alpha = color.alpha;
+}

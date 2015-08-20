@@ -1,47 +1,50 @@
-//#ifndef GUIOBJECT_H
-//#define GUIOBJECT_H
-//#include "Config.h"
-//#include "RenderWindow.h"
-//#include "Log.h"
-//#include "AssetsManager.h"
+#ifndef GUIOBJECT_H
+#define GUIOBJECT_H
+#include <Graphics/Drawable.h>
+#include <Graphics/Window.h>
+#include <Events/Event.h>
+#include <LogInc.h>
 
-//namespace ME {
+namespace ME {
 
-//class GUIObject {
-//public:
-//    GUIObject();
+class GUIObject {
+public:
+    GUIObject();
 
-//    virtual void draw() = 0;
-//    virtual void update() = 0;
-//    virtual void processEvents(Event evt) = 0;
+    virtual void draw(Window &window) = 0;
+    virtual void update() = 0;
+    virtual void handleEvents(Event evt) = 0;
 
-//    virtual void show();
-//    virtual void hide();
+    virtual void show();
+    virtual void hide();
 
-//    virtual void setPosition(const Coord &pos);
-//    Coord getPosition();
+    virtual void onMouseOver();
+    virtual void onMouseOut();
 
-//    virtual void setOpacity(const float &opacity);
-//    float getOpacity();
+    virtual void onClick();
 
-//    virtual void setColor(const sf::Color &color);
-//    sf::Color getColor();
+    virtual void setPosition(const Vect2f &pos);
+    virtual Vect2f getPosition();
 
-//    bool isVisible();
-//    bool isActive();
+    virtual Vect2f getSize() = 0;
 
-//protected:
-//    bool _isVisible;
-//    bool _isActive;
-//    Coord mPos;
-//    float mOpacity;
-//    sf::Color mColor;
+    virtual void setOpacity(const float &opacity);
+    virtual float getOpacity();
 
-//    Debugger* dbg;
-//    AssetsManager* assets;
-//    RenderWindow* renderWindow;
-//};
+    virtual void setColor(const Color &color);
+    virtual Color getColor();
 
-//}
+    bool isVisible();
+    bool isActive();
 
-//#endif // GUIOBJECT_H
+protected:
+    bool _isVisible;
+    bool _isActive;
+    Vect2f mPos;
+    float mOpacity;
+    Color mColor;
+};
+
+}
+
+#endif // GUIOBJECT_H

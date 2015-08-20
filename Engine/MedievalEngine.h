@@ -15,10 +15,12 @@ public:
     Window* getWindow();
     AssetsManager* getAssetsManager();
     GameStateManager* getGameStateManager();
+    GUI* getGUI();
 
     ~MedievalEngine();
 private:
     Window mWindow;
+    GUI *mGUI;
     AssetsManager *mAssetsManager;
     CFGParser mConfigurations;
     ArgumentsParser mArguments;

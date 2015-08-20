@@ -31,14 +31,26 @@ public:
     MEid createSpriteAnimation();
     MEid createShape(const Vect2f &size, const Color &color, const Vect2f &pos = Vect2f(0, 0));
 
-    Asset* getAsset(const MEid &id);
+    template<typename T>
+    T* getAsset(const MEid &id);
 
+    ~AssetsManager();
 private:
     static AssetsManager* mInstance;
     std::map<MEid, Asset*> mAssets;
 
     AssetsManager();
 };
+
+template<typename T>
+T* AssetsManager::getAsset(const MEid &id) {
+    if (mAssets.find(id) != mAssets.end()) {
+        return static_cast<T*>(mAssets[id]);
+    } else {
+        LOG << Log::WARNING << ("[AssetsManager::getAsset] Asset not found ID: " + Data2::int_to_str(id)).c_str() << std::endl;
+        return static_cast<T*>(new Asset);
+    }
+}
 
 }
 

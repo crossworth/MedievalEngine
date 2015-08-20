@@ -19,17 +19,20 @@ void LoadingScreen::init() {
     MEid logoTxt = mAssets->loadTexture("logo.png");
     idLogo       = mAssets->createSprite(logoTxt);
 
-    Sprite* spriteLogo = static_cast<Sprite*>(mAssets->getAsset(idLogo));
+    Sprite* spriteLogo = mAssets->getAsset<Sprite>(idLogo);
     spriteLogo->setOriginCenter();
     spriteLogo->setPosition(Vect2f(winSize.x/2, winSize.y/2));
     spriteLogo->setScale(Vect2f(winSize.x/(spriteLogo->getSize().x*2), winSize.y/(spriteLogo->getSize().y*2)));
 
     const int fadeInTime = 3;
 
-    static_cast<Shape*>(mAssets->getAsset(idBackground))->addEffect(new Fade(fadeInTime, FADEIN));
+    mAssets->getAsset<Shape>(idBackground)->addEffect(new Fade(fadeInTime, FADEIN));
     spriteLogo->addEffect(new Fade(fadeInTime, FADEIN));
 
-    static_cast<Music*>(mAssets->getAsset(mAssets->loadMusic("music.ogg")))->play();
+//    static_cast<Music*>(mAssets->getAsset(mAssets->loadMusic("music.ogg")))->play();
+
+
+    mEngine->getGUI()->addObject(new TextObject("Title", 32));
 }
 
 void LoadingScreen::onEnable(Window &window) {
@@ -41,8 +44,8 @@ void LoadingScreen::onDisable(Window &window) {
 }
 
 void LoadingScreen::onPlaying(Window &window) {
-    window.draw(static_cast<Shape*>(mEngine->getAssetsManager()->getAsset(idBackground)));
-    window.draw(static_cast<Sprite*>(mEngine->getAssetsManager()->getAsset(idLogo)));
+    window.draw(mEngine->getAssetsManager()->getAsset<Shape>(idBackground));
+    window.draw(mEngine->getAssetsManager()->getAsset<Sprite>(idLogo));
 }
 
 void LoadingScreen::update() {

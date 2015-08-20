@@ -1,10 +1,11 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 #include <SFML/Graphics.hpp>
+#include <Events/Event.h>
 #include <Graphics/WindowInfo.h>
 #include <Graphics/Drawable.h>
 #include <Helper/Vect2.h>
-#include <Events/Event.h>
+
 
 namespace ME {
 
@@ -28,6 +29,10 @@ public:
     void clear();
     void draw(Drawable *obj);
     void display();
+
+    sf::Window* getWindowPtr();
+
+    WindowInfo* getWindowInfo();
 
     ~Window();
 protected:

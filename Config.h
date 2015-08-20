@@ -10,8 +10,6 @@
 
 namespace ME {
 
-//#define TEST
-
 namespace ENGINE_DEFAULTS {
 
     // GLOBAL

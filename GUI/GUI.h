@@ -1,17 +1,17 @@
 #ifndef GUI_H
 #define GUI_H
-#include "Config.h"
-#include "GUIObject.h"
-#include "Log.h"
+#include <GUI/TextObject.h>
+#include <GUI/ObjectWrapper.h>
+#include <vector>
 
 namespace ME {
 
 class GUI {
 public:
-    GUI();
-    void draw();
+    GUI(WindowInfo* windowInfo);
+    void draw(Window &window);
     void update();
-    void processEvents(Event evt);
+    void handleEvents(Event evt, Window& window);
 
     void show();
     void hide();
@@ -22,17 +22,16 @@ public:
     void pause();
     void play();
 
-    GUIObject* addObject(const std::string name, GUIObject * object);
+    GUIObject* addObject(GUIObject* object);
     GUIObject* getObject(const std::string name);
 
 protected:
     GUIObject* findObject(const std::string name);
-
+    WindowInfo* windowInfo;
 private:
-    Debugger* dbg;
     bool _isVisible;
     bool _isActive;
-    std::map<std::string, GUIObject*> mObjects;
+    std::vector<ObjectWrapper> mObjects;
 };
 
 }
