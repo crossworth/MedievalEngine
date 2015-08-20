@@ -3,6 +3,7 @@
 #include <Graphics/Drawable.h>
 #include <Graphics/Window.h>
 #include <Events/Event.h>
+#include <Assets/AssetsManager.h>
 #include <LogInc.h>
 
 namespace ME {
@@ -46,6 +47,8 @@ protected:
     Vect2f mPos;
     float mOpacity;
     Color mColor;
+    AssetsManager* mAssets;
+    MEid defaultFontID;
 };
 
 }

@@ -19,7 +19,7 @@ public:
 
     void setFont(Font &font);
     void setFontSize(const unsigned int &size);
-    void setString(const std::string &text);
+    void setString(const std::wstring &text);
     void setStyle(const FONT_STYLE &style);
 
     void setTextShadow(const float &factor = 2.0f, const Color &color = Color::BLACK);

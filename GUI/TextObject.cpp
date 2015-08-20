@@ -2,14 +2,11 @@
 
 using namespace ME;
 
-TextObject::TextObject(const std::string &text, const int &textSize) {
-    mAssets = AssetsManager::getInstance();
-
+TextObject::TextObject(const std::wstring& text, const int& textSize) {
     MEid mFont = mAssets->loadFont("font/YanoneKaffeesatz-Regular.ttf");
     mTextID    = mAssets->createText(text, textSize, mFont);
     mTextRef   = mAssets->getAsset<Text>(mTextID);
 
-    mTextRef->setOrigin(Vect2f(mTextRef->getOrigin().x, mTextRef->getSize().y/2));
     setPosition(Vect2f(100.f, 100.f));
 }
 

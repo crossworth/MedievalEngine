@@ -30,7 +30,7 @@ public:
     void draw(Drawable *obj);
     void display();
 
-    sf::Window* getWindowPtr();
+    sf::RenderWindow* getWindowPtr();
 
     WindowInfo* getWindowInfo();
 

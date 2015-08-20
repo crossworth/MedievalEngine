@@ -39,7 +39,7 @@ void Text::setFontSize(const unsigned int &size) {
     mText.setCharacterSize(size);
 }
 
-void Text::setString(const std::string &text) {
+void Text::setString(const std::wstring &text) {
     mText.setString(text);
 }
 

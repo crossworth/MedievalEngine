@@ -10,7 +10,7 @@ Window::~Window() {
     delete mWindow;
 }
 
-void Window::create(const WindowInfo &info) {
+void Window::create(const WindowInfo& info) {
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
 
@@ -36,7 +36,7 @@ void Window::create(const WindowInfo &info) {
 
 }
 
-bool Window::isValidWindow(const WindowInfo &info) {
+bool Window::isValidWindow(const WindowInfo& info) {
     if (!info.fullScreen) {
         return true;
     }
@@ -49,7 +49,7 @@ void Window::clear() {
     mWindow->clear();
 }
 
-void Window::draw(Drawable *obj) {
+void Window::draw(Drawable* obj) {
     assert(obj != nullptr);
     obj->draw(mWindow);
 }
@@ -75,7 +75,7 @@ Vect2i Window::getPosition() {
     return Vect2i(pos.x, pos.y);
 }
 
-void Window::setPosition(const Vect2i &pos) {
+void Window::setPosition(const Vect2i& pos) {
     mWindow->setPosition(sf::Vector2i(pos.x, pos.y));
 }
 
@@ -84,15 +84,15 @@ Vect2i Window::getSize() {
     return Vect2i(size.x, size.y);
 }
 
-void Window::setSize(const Vect2i &size) {
+void Window::setSize(const Vect2i& size) {
     mWindow->setSize(sf::Vector2u(size.x, size.y));
 }
 
-void Window::setTile(const std::string &title) {
+void Window::setTile(const std::string& title) {
     mWindow->setTitle(title);
 }
 
-void Window::setIcon(const std::string &fileName) {
+void Window::setIcon(const std::string& fileName) {
     sf::Image iconImage;
     if (iconImage.loadFromFile(ME::ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
         mWindow->setIcon(iconImage.getSize().x, iconImage.getSize().y, iconImage.getPixelsPtr());
@@ -100,7 +100,7 @@ void Window::setIcon(const std::string &fileName) {
 
 }
 
-void Window::setVisible(const bool &visible) {
+void Window::setVisible(const bool& visible) {
     mWindow->setVisible(visible);
 }
 
@@ -108,7 +108,7 @@ void Window::display() {
     mWindow->display();
 }
 
-sf::Window* Window::getWindowPtr() {
+sf::RenderWindow* Window::getWindowPtr() {
     return mWindow;
 }
 

@@ -20,7 +20,6 @@ public:
     bool contains(Vect2i &point);
     bool intersects(Area &area);
 
-private:
     float left;
     float top;
     float width;

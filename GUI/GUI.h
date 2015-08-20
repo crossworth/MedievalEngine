@@ -1,8 +1,9 @@
 #ifndef GUI_H
 #define GUI_H
-#include <GUI/TextObject.h>
-#include <GUI/ObjectWrapper.h>
 #include <vector>
+#include <GUI/ObjectWrapper.h>
+#include <GUI/TextObject.h>
+#include <GUI/ButtonObject.h>
 
 namespace ME {
 

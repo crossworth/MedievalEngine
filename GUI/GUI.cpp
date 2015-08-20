@@ -27,9 +27,6 @@ void GUI::handleEvents(Event evt, Window &window) {
     Vect2i mousePos = Mouse::getPosition(*window.getWindowPtr());
 
     for(unsigned int i = 0; i < mObjects.size(); i++) {
-        Vect2f objPos  = mObjects[i].object->getPosition();
-        Vect2f objSize = mObjects[i].object->getSize();
-
         if (mObjects[i].object->getGlobalBounds().contains(mousePos)) {
             mObjects[i].isMouseOver = true;
             mObjects[i].object->onMouseOver();
@@ -40,8 +37,7 @@ void GUI::handleEvents(Event evt, Window &window) {
             mObjects[i].object->onClick();
         }
 
-        if (!(mObjects[i].object->getGlobalBounds().contains(mousePos)) &&
-            mObjects[i].isMouseOver == true ) {
+        if (!(mObjects[i].object->getGlobalBounds().contains(mousePos))) {
             mObjects[i].isMouseOver = false;
             mObjects[i].object->onMouseOut();
         }

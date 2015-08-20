@@ -3,7 +3,7 @@
 #include <map>
 #include <string>
 #include <iostream>
-#include <Engine/LoadingScreen.h>
+#include <GameState/LoadingScreen.h>
 
 namespace  ME {
 

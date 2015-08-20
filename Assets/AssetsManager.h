@@ -27,7 +27,7 @@ public:
     MEid loadSound(const std::string &fileName);
 
     MEid createSprite(const MEid &texture);
-    MEid createText(const std::string &text, const unsigned int &fontSize, const MEid &font);
+    MEid createText(const std::wstring &text, const unsigned int &fontSize, const MEid &font);
     MEid createSpriteAnimation();
     MEid createShape(const Vect2f &size, const Color &color, const Vect2f &pos = Vect2f(0, 0));
 

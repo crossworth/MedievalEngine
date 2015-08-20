@@ -28,7 +28,7 @@
 #include <Effects/Fade.h>
 #include <Effects/Strobe.h>
 
-#include <Engine/GameStateManager.h>
+#include <GameState/GameStateManager.h>
 
 #include <GUI/GUI.h>
 

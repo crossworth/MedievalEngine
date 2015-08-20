@@ -80,7 +80,7 @@ MEid AssetsManager::createShape(const Vect2f &size, const Color &color, const Ve
     return shapeID;
 }
 
-MEid AssetsManager::createText(const std::string &text, const unsigned int &fontSize, const MEid &font) {
+MEid AssetsManager::createText(const std::wstring &text, const unsigned int &fontSize, const MEid &font) {
     MEid textID     = ID::get();
     mAssets[textID] = new Text();
     static_cast<Text*>(mAssets[textID])->setFont(*getAsset<Font>(font));

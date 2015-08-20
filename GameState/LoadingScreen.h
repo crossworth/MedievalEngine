@@ -1,6 +1,6 @@
 #ifndef LOADINGSCREEN_H
 #define LOADINGSCREEN_H
-#include <Engine/GameState.h>
+#include <GameState/GameState.h>
 #include <Helper/ID.h>
 
 namespace ME {

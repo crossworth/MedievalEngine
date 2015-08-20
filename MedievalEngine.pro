@@ -33,7 +33,6 @@ SOURCES += main.cpp \
     Helper/Log.cpp \
     Effects/Effects.cpp \
     Effects/Fade.cpp \
-    Engine/GameState.cpp \
     Graphics/Drawable.cpp \
     GUI/GUI.cpp \
     GUI/GUIObject.cpp \
@@ -58,14 +57,16 @@ SOURCES += main.cpp \
     Audio/Audible.cpp \
     Assets/Sound.cpp \
     Effects/Strobe.cpp \
-    Engine/GameStateManager.cpp \
-    Engine/LoadingScreen.cpp \
     Events/Keyboard.cpp \
     Events/Mouse.cpp \
     Events/Event.cpp \
     Assets/Shape.cpp \
     GUI/ObjectWrapper.cpp \
-    Helper/Area.cpp
+    Helper/Area.cpp \
+    GameState/GameState.cpp \
+    GameState/GameStateManager.cpp \
+    GameState/LoadingScreen.cpp \
+    GUI/ButtonObject.cpp
 
 HEADERS += \
     Assets/Asset.h \
@@ -74,7 +75,6 @@ HEADERS += \
     Helper/Log.h \
     Effects/Effects.h \
     Effects/Fade.h \
-    Engine/GameState.h \
     Graphics/Drawable.h \
     GUI/GUI.h \
     GUI/GUIObject.h \
@@ -124,14 +124,17 @@ HEADERS += \
     ThirdParty/sol/sol/userdata.hpp \
     ThirdParty/sol/sol/userdata_traits.hpp \
     ThirdParty/sol/sol.hpp \
-    Engine/GameStateManager.h \
-    Engine/LoadingScreen.h \
     Events/Keyboard.h \
     Events/Mouse.h \
     Events/Event.h \
     Assets/Shape.h \
     GUI/ObjectWrapper.h \
-    Helper/Area.h
+    Helper/Area.h \
+    GameState/GameState.h \
+    GameState/GameStateManager.h \
+    GameState/LoadingScreen.h \
+    headers.h \
+    GUI/ButtonObject.h
 
 DISTFILES += \
     Documentation/init.txt \

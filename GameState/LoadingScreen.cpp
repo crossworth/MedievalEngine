@@ -1,5 +1,5 @@
 #include "LoadingScreen.h"
-#include "MedievalEngine.h"
+#include "Engine/MedievalEngine.h"
 
 using namespace ME;
 
@@ -32,7 +32,10 @@ void LoadingScreen::init() {
 //    static_cast<Music*>(mAssets->getAsset(mAssets->loadMusic("music.ogg")))->play();
 
 
-    mEngine->getGUI()->addObject(new TextObject("Title", 32));
+    mEngine->getGUI()->addObject(new TextObject(L"Title", 32));
+    mEngine->getGUI()->addObject(new ButtonObject(L"Iniciar", Vect2f(mEngine->getWindow()->getSize().x - 150.f, mEngine->getWindow()->getSize().y - 200.f)));
+    mEngine->getGUI()->addObject(new ButtonObject(L"Opções", Vect2f(mEngine->getWindow()->getSize().x - 150.f, mEngine->getWindow()->getSize().y - 160.f)));
+    mEngine->getGUI()->addObject(new ButtonObject(L"Sair", Vect2f(mEngine->getWindow()->getSize().x - 150.f, mEngine->getWindow()->getSize().y - 120.f)));
 }
 
 void LoadingScreen::onEnable(Window &window) {
