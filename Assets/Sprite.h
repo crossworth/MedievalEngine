@@ -40,6 +40,9 @@ public:
     Vect2f getOrigin();
     void setOrigin(const Vect2f &origin);
 
+    Area getLocalBounds();
+    Area getGlobalBounds();
+
 private:
     sf::Sprite mSprite;
 };

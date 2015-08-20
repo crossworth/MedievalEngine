@@ -166,3 +166,11 @@ Color Text::getColor() {
     return Color(mColor.r, mColor.g, mColor.b, mColor.a);
 }
 
+Area Text::getLocalBounds() {
+    return Area(mText.getLocalBounds().left, mText.getLocalBounds().top, mText.getLocalBounds().width, mText.getLocalBounds().height);
+}
+
+Area Text::getGlobalBounds() {
+    return Area(mText.getGlobalBounds().left, mText.getGlobalBounds().top, mText.getGlobalBounds().width, mText.getGlobalBounds().height);
+}
+

@@ -28,6 +28,9 @@ public:
     void setColor(const Color &color);
     Color getColor();
 
+    Area getLocalBounds();
+    Area getGlobalBounds();
+
 private:
     AssetsManager* mAssets;
     MEid mTextID;

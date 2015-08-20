@@ -30,22 +30,17 @@ void GUI::handleEvents(Event evt, Window &window) {
         Vect2f objPos  = mObjects[i].object->getPosition();
         Vect2f objSize = mObjects[i].object->getSize();
 
-        if (mousePos.x >= objPos.x && mousePos.x <= objPos.x + objSize.x &&
-            mousePos.y >= objPos.y && mousePos.y <= objPos.y + objSize.y ) {
+        if (mObjects[i].object->getGlobalBounds().contains(mousePos)) {
             mObjects[i].isMouseOver = true;
             mObjects[i].object->onMouseOver();
         }
 
-        if ((mousePos.x >= objPos.x && mousePos.x <= objPos.x + objSize.x &&
-            mousePos.y >= objPos.y && mousePos.y <= objPos.y + objSize.y) &&
+        if (mObjects[i].object->getGlobalBounds().contains(mousePos) &&
             Mouse::isButtonPressed(Mouse::Button::Left) ) {
-//            mObjects[i].object->onClick();
-            std::cout << "M: " << mousePos.x << ", " << mousePos.y;
-            std::cout << " O: " << objPos.y << ", " << objPos.y + objSize.y << std::endl;
+            mObjects[i].object->onClick();
         }
 
-        if (!(mousePos.x >= objPos.x && mousePos.x <= objPos.x + objSize.x &&
-            mousePos.y >= objPos.y && mousePos.y <= objPos.y + objSize.y ) &&
+        if (!(mObjects[i].object->getGlobalBounds().contains(mousePos)) &&
             mObjects[i].isMouseOver == true ) {
             mObjects[i].isMouseOver = false;
             mObjects[i].object->onMouseOut();

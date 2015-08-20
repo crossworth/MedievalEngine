@@ -1,6 +1,7 @@
 #ifndef DRAWABLE_H
 #define DRAWABLE_H
 #include <Helper/Vect2.h>
+#include <Helper/Area.h>
 #include <SFML/Graphics.hpp>
 #include <Helper/Color.h>
 #include <LogInc.h>
@@ -46,7 +47,9 @@ public:
     void removeEffect(std::string effectType);
     void removeAllEffects();
 
-    // TODO: implement, get bounds
+    virtual Area getLocalBounds() = 0;
+    virtual Area getGlobalBounds() = 0;
+
 protected:
     std::vector<Effects*> mEffects;
     bool _mEffectPlay;

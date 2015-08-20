@@ -53,6 +53,14 @@ Color TextObject::getColor() {
     return mTextRef->getColor();
 }
 
+Area TextObject::getLocalBounds() {
+    return mTextRef->getLocalBounds();
+}
+
+Area TextObject::getGlobalBounds() {
+    return mTextRef->getGlobalBounds();
+}
+
 void TextObject::draw(Window &window) {
     if (_isVisible) {
         window.draw(mTextRef);

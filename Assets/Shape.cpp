@@ -84,3 +84,11 @@ Vect2f Shape::getOrigin() {
 void Shape::setOrigin(const Vect2f &origin) {
     mShape.setOrigin(origin.x, origin.y);
 }
+
+Area Shape::getLocalBounds() {
+    return Area(mShape.getLocalBounds().left, mShape.getLocalBounds().top, mShape.getLocalBounds().width, mShape.getLocalBounds().height);
+}
+
+Area Shape::getGlobalBounds() {
+    return Area(mShape.getGlobalBounds().left, mShape.getGlobalBounds().top, mShape.getGlobalBounds().width, mShape.getGlobalBounds().height);
+}

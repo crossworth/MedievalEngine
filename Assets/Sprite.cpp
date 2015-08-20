@@ -88,3 +88,11 @@ Color Sprite::getColor() {
     sf::Color mColor = mSprite.getColor();
     return Color(mColor.r, mColor.g, mColor.b, mColor.a);
 }
+
+Area Sprite::getLocalBounds() {
+    return Area(mSprite.getLocalBounds().left, mSprite.getLocalBounds().top, mSprite.getLocalBounds().width, mSprite.getLocalBounds().height);
+}
+
+Area Sprite::getGlobalBounds() {
+    return Area(mSprite.getGlobalBounds().left, mSprite.getGlobalBounds().top, mSprite.getGlobalBounds().width, mSprite.getGlobalBounds().height);
+}

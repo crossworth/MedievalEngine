@@ -34,6 +34,9 @@ public:
     virtual void setColor(const Color &color);
     virtual Color getColor();
 
+    virtual Area getLocalBounds() = 0;
+    virtual Area getGlobalBounds() = 0;
+
     bool isVisible();
     bool isActive();
 
