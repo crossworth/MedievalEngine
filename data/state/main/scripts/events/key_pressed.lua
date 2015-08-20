@@ -1,8 +1,15 @@
-if (isPlayingMusic("menu_opening")) then
-musicPause("menu_opening") 
-else 
-musicPlay("menu_opening")
-end
+-- alphaLOGOFade = alphaBGFade
+-- fadeOut("bg_sprite", 2)
 
+-- timer = getTimer()
 
-rectangleMove("test", 5, 2)
+-- function effectDone(spriteName, effectName) 
+-- 	log(spriteName .. " Effect " .. effectName .. " done")
+-- 	log("Done in: "..(getTimer() - timer))
+-- end
+-- setState("render")
+
+rectangleSetFillColor("test1", 255, 255, 255, 100)
+
+-- log(musicGetPlayingOffset("menu"))
+
