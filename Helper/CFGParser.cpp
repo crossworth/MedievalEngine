@@ -6,7 +6,7 @@ CFGParser::CFGParser() {
 
 }
 
-void CFGParser::readFile(const std::string &configFile) {
+void CFGParser::readFile(const std::string& configFile) {
 
     this->fileName = configFile;
 
@@ -35,7 +35,7 @@ void CFGParser::clear() {
     contents.clear();
 }
 
-void CFGParser::saveFile(const std::string &configFile){
+void CFGParser::saveFile(const std::string& configFile){
     std::ofstream outFile;
     outFile.open(configFile.c_str(), std::ios::out);
 
@@ -60,7 +60,7 @@ bool CFGParser::add(std::string key, std::string value) {
     return true;
 }
 
-bool CFGParser::keyExists(std::string &key) {
+bool CFGParser::keyExists(std::string& key) {
     std::map<std::string, std::string>::iterator it;
     it = contents.find(key);
     if (it != contents.end()) {
@@ -79,11 +79,11 @@ std::string CFGParser::getKey(std::string key) {
     return "";
 }
 
-CFGParser::CFGParser(const std::string &configFile) {
+CFGParser::CFGParser(const std::string& configFile) {
     this->readFile(configFile);
 }
 
-bool CFGParser::validateLine(std::string &line){
+bool CFGParser::validateLine(std::string& line){
     if (line.empty()) {
         return false;
     }

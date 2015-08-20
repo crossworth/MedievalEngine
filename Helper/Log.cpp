@@ -4,7 +4,7 @@ using namespace ME;
 
 Log* Log::mInstance;
 
-Log* Log::getInstance(const bool &logToFile, const std::string &fileName, const bool &logTime) {
+Log* Log::getInstance(const bool& logToFile, const std::string& fileName, const bool& logTime) {
     if(!mInstance) {
         mInstance = new Log(logToFile, fileName, logTime);
     }
@@ -13,7 +13,7 @@ Log* Log::getInstance(const bool &logToFile, const std::string &fileName, const 
 }
 
 
-Log::Log(const bool &logToFile, const std::string &fileName, const bool &logTime) : mCoutStream(std::cout) {
+Log::Log(const bool& logToFile, const std::string& fileName, const bool& logTime) : mCoutStream(std::cout) {
 
     if (logToFile) {
         mOfStream.open(fileName.c_str(), std::ios_base::app);

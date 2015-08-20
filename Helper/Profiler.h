@@ -16,7 +16,7 @@ const bool SHOW_PROFILER_INFO             = true;
 class Profiler {
 public:
     static time_t profileStart();
-    static void profileEnd(std::string what, time_t &timeProfile);
+    static void profileEnd(std::string what, time_t& timeProfile);
 private:
     Profiler();
 };

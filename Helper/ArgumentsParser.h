@@ -7,10 +7,10 @@ namespace ME {
 
 class ArgumentsParser {
 public:
-    ArgumentsParser(int &argc, char** argv);
+    ArgumentsParser(int& argc, char** argv);
 
-    bool hasArgument(const std::string &argumentName);
-    std::string getArgument(const std::string &argumentName);
+    bool hasArgument(const std::string& argumentName);
+    std::string getArgument(const std::string& argumentName);
 
 private:
     std::map<std::string, std::string> mArguments;

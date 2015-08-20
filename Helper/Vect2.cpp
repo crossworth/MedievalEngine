@@ -7,12 +7,12 @@ Vect2i::Vect2i() {
 	y = 0;
 }
 
-Vect2i::Vect2i(const Vect2i &other) {
+Vect2i::Vect2i(const Vect2i& other) {
     x = other.x;
     y = other.y;
 }
 
-Vect2i::Vect2i(const Vect2f &other) {
+Vect2i::Vect2i(const Vect2f& other) {
     x = static_cast<int>(other.x);
     y = static_cast<int>(other.y);
 }
@@ -27,12 +27,12 @@ Vect2f::Vect2f() {
 	y = 0.0f;
 }
 
-Vect2f::Vect2f(const Vect2f &other) {
+Vect2f::Vect2f(const Vect2f& other) {
     x = other.x;
     y = other.y;
 }
 
-Vect2f::Vect2f(const Vect2i &other) {
+Vect2f::Vect2f(const Vect2i& other) {
     x = static_cast<float>(other.x);
     y = static_cast<float>(other.y);
 }
@@ -47,12 +47,12 @@ Vect2d::Vect2d() {
 	y = 0.0;
 }
 
-Vect2d::Vect2d(const Vect2d &other) {
+Vect2d::Vect2d(const Vect2d& other) {
     x = other.x;
     y = other.y;
 }
 
-Vect2d::Vect2d(const Vect2i &other) {
+Vect2d::Vect2d(const Vect2i& other) {
     x = static_cast<double>(other.x);
     y = static_cast<double>(other.y);
 }

@@ -17,7 +17,7 @@ void LoadingScreen::init() {
     idBackground = mAssets->createShape(Vect2f(winSize));
 
     Shape* mShapeBackground = mAssets->getAsset<Shape>(idBackground);
-    mShapeBackground->setColor(GradientColor(Color(Color::WHITE), Color(Color::BLUE)));
+    mShapeBackground->setColor(ColorGradient(Color::WHITE, Color::BUTTON_C3));
 
     MEid logoTxt = mAssets->loadTexture("logo.png");
     idLogo       = mAssets->createSprite(logoTxt);

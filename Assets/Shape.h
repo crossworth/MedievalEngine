@@ -24,8 +24,8 @@ public:
     void setColor(const Color &color);
     Color getColor();
 
-    void setColor(const GradientColor &color);
-    GradientColor getColorGradient();
+    void setColor(const ColorGradient &color);
+    ColorGradient getColorGradient();
 
     bool isGradientColor();
 
@@ -47,7 +47,7 @@ public:
 
 private:
     bool _isGradientColor;
-    GradientColor mGradientColor;
+    ColorGradient mGradientColor;
     sf::RectangleShape mShape;
 };
 

@@ -64,12 +64,12 @@ Color Shape::getColor() {
     return Color(mShape.getFillColor().r, mShape.getFillColor().g, mShape.getFillColor().b, mShape.getFillColor().a);
 }
 
-void Shape::setColor(const GradientColor &color) {
+void Shape::setColor(const ColorGradient &color) {
     _isGradientColor = true;
     mGradientColor = color;
 }
 
-GradientColor Shape::getColorGradient() {
+ColorGradient Shape::getColorGradient() {
     return mGradientColor;
 }
 

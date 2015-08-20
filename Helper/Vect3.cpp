@@ -8,7 +8,7 @@ Vect3i::Vect3i() {
 	z = 0;
 }
 
-Vect3i::Vect3i(const Vect3i &other) {
+Vect3i::Vect3i(const Vect3i& other) {
     x = other.x;
     y = other.y;
     z = other.z;
@@ -26,7 +26,7 @@ Vect3f::Vect3f() {
 	z = 0.0f;
 }
 
-Vect3f::Vect3f(const Vect3f &other) {
+Vect3f::Vect3f(const Vect3f& other) {
     x = other.x;
     y = other.y;
     z = other.z;
@@ -44,7 +44,7 @@ Vect3d::Vect3d() {
 	z = 0.0;
 }
 
-Vect3d::Vect3d(const Vect3d &other) {
+Vect3d::Vect3d(const Vect3d& other) {
     x = other.x;
     y = other.y;
     z = other.z;

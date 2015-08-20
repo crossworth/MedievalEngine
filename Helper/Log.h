@@ -13,46 +13,46 @@ public:
     enum LogType {VERBOSE, LUA_VERBOSE, WARNING, LUA_WARNING, CRITICAL, LUA_CRITICAL};
 
 private:
-    Log(const bool &logToFile, const std::string &fileName, const bool &logTime);
+    Log(const bool& logToFile, const std::string& fileName, const bool& logTime);
     static Log* mInstance;
 
 public:
-    static Log* getInstance(const bool &logToFile = false, const std::string &fileName = "output.log", const bool &logTime = false);
+    static Log* getInstance(const bool& logToFile = false, const std::string& fileName = "output.log", const bool& logTime = false);
 
-    Log &operator<<(const char *message) {
+    inline Log& operator<<(const char* message) {
         *outStream << std::string(message);
         return *this;
     }
 
-    Log &operator<<(const int &number) {
+    inline Log& operator<<(const int& number) {
         std::stringstream ss;
         ss << number;
         *outStream << ss.str();
         return *this;
     }
 
-    Log &operator<<(const unsigned int &number) {
+    inline Log& operator<<(const unsigned int& number) {
         std::stringstream ss;
         ss << number;
         *outStream << ss.str();
         return *this;
     }
 
-    Log &operator<<(const float &number) {
+    inline Log& operator<<(const float& number) {
         std::stringstream ss;
         ss << number;
         *outStream << ss.str();
         return *this;
     }
 
-    Log &operator<<(const double &number) {
+    inline Log& operator<<(const double& number) {
         std::stringstream ss;
         ss << number;
         *outStream << ss.str();
         return *this;
     }
 
-    Log &operator<<(const bool &boolean) {
+    inline Log& operator<<(const bool& boolean) {
         if(boolean) {
             *outStream << "true";
         } else {
@@ -62,7 +62,7 @@ public:
         return *this;
     }
 
-    Log &operator<<(const LogType &type) {
+    inline Log& operator<<(const LogType& type) {
         switch (type) {
         case VERBOSE:
             *outStream << "[VERBOSE] ";
@@ -89,7 +89,7 @@ public:
         return *this;
     }
 
-    Log &operator<<(std::ostream&(*f)(std::ostream&)) {
+    inline Log& operator<<(std::ostream&(*f)(std::ostream&)) {
         *outStream << std::endl;
         return *this;
     }
@@ -97,8 +97,8 @@ public:
 private:
     std::string getTime();
 
-    std::ostream *outStream;
-    std::ostream &mCoutStream;
+    std::ostream* outStream;
+    std::ostream& mCoutStream;
     std::ofstream mOfStream;
 };
 

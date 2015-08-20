@@ -25,7 +25,7 @@ bool Area::contains(Vect2f& point, Area& area) {
     return (point.x >= minX) && (point.x < maxX) && (point.y >= minY) && (point.y < maxY);
 }
 
-bool Area::contains(Vect2i &point) {
+bool Area::contains(Vect2i& point) {
     Vect2f pointFloat(static_cast<float>(point.x), static_cast<float>(point.y));
     return contains(pointFloat);
 }
@@ -53,7 +53,6 @@ bool Area::intersects(Area& area1, Area& area2) {
         return false;
     }
 }
-
 
 bool Area::contains(Vect2f &point) {
     return Area::contains(point, *this);

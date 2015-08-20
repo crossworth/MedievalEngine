@@ -19,7 +19,7 @@ ButtonObject::ButtonObject(const std::wstring& text, Vect2f pos,  MEid fontID) {
 
     mShapeID  = mAssets->createShape(Vect2f(width, 30.0f), Color(0, 0, 0), pos);
     mShapeRef = mAssets->getAsset<Shape>(mShapeID);
-    mShapeRef->setColor(GradientColor(Color(Color::BUTTON_C1), Color(Color::BUTTON_C2)));
+    mShapeRef->setColor(ColorGradient(Color::BUTTON_C1, Color::BUTTON_C2));
 
     mTextRef->setOriginCenter();
     mTextRef->setPosition(Vect2f(mShapeRef->getPosition().x+(mShapeRef->getSize().x/2), mShapeRef->getPosition().y+(mTextRef->getSize().y/2)));
@@ -42,11 +42,11 @@ void ButtonObject::handleEvents(Event evt) {
 }
 
 void ButtonObject::onMouseOver() {
-    mShapeRef->setColor(GradientColor(Color(Color::BUTTON_C1), Color(Color::BUTTON_C2)));
+    mShapeRef->setColor(ColorGradient(Color::BUTTON_C1, Color::BUTTON_C2));
 }
 
 void ButtonObject::onMouseOut() {
-    mShapeRef->setColor(GradientColor(Color(Color::BUTTON_C1), Color(Color::BUTTON_C3)));
+    mShapeRef->setColor(ColorGradient(Color::BUTTON_C1, Color::BUTTON_C3));
 }
 
 void ButtonObject::onClick() {
