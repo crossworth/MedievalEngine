@@ -4,6 +4,7 @@
 #include <Helper/Area.h>
 #include <SFML/Graphics.hpp>
 #include <Helper/Color.h>
+#include <Helper/GradientColor.h>
 #include <LogInc.h>
 #include <vector>
 

@@ -48,6 +48,24 @@ Color::Color(const COLORS &color) {
         blue  = 255;
         alpha = 255;
         break;
+    case BUTTON_C1:
+        red   = 235;
+        green = 235;
+        blue  = 235;
+        alpha = 255;
+        break;
+    case BUTTON_C2:
+        red   = 246;
+        green = 246;
+        blue  = 246;
+        alpha = 255;
+        break;
+    case BUTTON_C3:
+        red   = 208;
+        green = 208;
+        blue  = 210;
+        alpha = 255;
+        break;
     default:
         break;
     }
@@ -60,4 +78,12 @@ Color::Color(const int &red, const int &green, const int &blue, const int &alpha
     this->alpha = alpha;
 }
 
+Color& Color::operator=(const Color& other) {
+    red   = other.red;
+    green = other.green;
+    blue  = other.blue;
+    alpha = other.alpha;
+
+    return *this;
+}
 

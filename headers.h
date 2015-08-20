@@ -17,6 +17,7 @@
 #include <Helper/CFGParser.h>
 #include <Helper/Dir.h>
 #include <Helper/Color.h>
+#include <Helper/GradientColor.h>
 #include <Helper/ArgumentsParser.h>
 
 #include <Assets/AssetsManager.h>

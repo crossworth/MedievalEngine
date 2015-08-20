@@ -5,9 +5,10 @@ namespace ME {
 
 class Color {
 public:
-    enum COLORS { WHITE, BLACK, RED, BLUE, GREEN };
+    enum COLORS { WHITE, BLACK, RED, BLUE, GREEN, BUTTON_C1, BUTTON_C2, BUTTON_C3 };
 public:
     Color();
+    Color& operator=(const Color& other);
     Color(const Color& other);
     Color(const COLORS &color);
     Color(const int &red, const int &green, const int &blue, const int &alpha = 255);
@@ -17,6 +18,8 @@ public:
     int blue;
     int alpha;
 };
+
+
 
 }
 

@@ -24,6 +24,11 @@ public:
     void setColor(const Color &color);
     Color getColor();
 
+    void setColor(const GradientColor &color);
+    GradientColor getColorGradient();
+
+    bool isGradientColor();
+
     void setBorderColor(const Color &color);
     Color getBorderColor();
 
@@ -41,6 +46,8 @@ public:
     Area getGlobalBounds();
 
 private:
+    bool _isGradientColor;
+    GradientColor mGradientColor;
     sf::RectangleShape mShape;
 };
 

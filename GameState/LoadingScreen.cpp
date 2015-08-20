@@ -14,7 +14,10 @@ void LoadingScreen::init() {
     Vect2i winSize         = mEngine->getWindow()->getSize();
     AssetsManager* mAssets = mEngine->getAssetsManager();
 
-    idBackground = mAssets->createShape(Vect2f(winSize), Color(10, 112, 169));
+    idBackground = mAssets->createShape(Vect2f(winSize));
+
+    Shape* mShapeBackground = mAssets->getAsset<Shape>(idBackground);
+    mShapeBackground->setColor(GradientColor(Color(Color::WHITE), Color(Color::BLUE)));
 
     MEid logoTxt = mAssets->loadTexture("logo.png");
     idLogo       = mAssets->createSprite(logoTxt);

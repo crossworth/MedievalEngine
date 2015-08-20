@@ -7,10 +7,24 @@ Shape::Shape(const Vect2f &size, const Color &color, const Vect2f &pos) {
     setSize(size);
     setColor(color);
     setPosition(pos);
+    _isGradientColor = false;
 }
 
 void Shape::draw(sf::RenderWindow *renderWindow) {
-    renderWindow->draw(mShape);
+    if(_isGradientColor) {
+        Area mArea = getLocalBounds();
+
+        sf::Vertex mGradientVertex[] = {
+            sf::Vertex(sf::Vector2f(getPosition().x, getPosition().y), sf::Color(mGradientColor.color1.red, mGradientColor.color1.green, mGradientColor.color1.blue, mGradientColor.color1.alpha)),
+            sf::Vertex(sf::Vector2f(mArea.width  + getPosition().x, getPosition().y), sf::Color(mGradientColor.color1.red, mGradientColor.color1.green, mGradientColor.color1.blue, mGradientColor.color1.alpha)),
+            sf::Vertex(sf::Vector2f(mArea.width + getPosition().x, mArea.height + getPosition().y), sf::Color(mGradientColor.color2.red, mGradientColor.color2.green, mGradientColor.color2.blue, mGradientColor.color2.alpha)),
+            sf::Vertex(sf::Vector2f(getPosition().x, mArea.height + getPosition().y), sf::Color(mGradientColor.color2.red, mGradientColor.color2.green, mGradientColor.color2.blue, mGradientColor.color2.alpha)),
+        };
+
+        renderWindow->draw(mGradientVertex, 4, sf::Quads);
+    } else {
+        renderWindow->draw(mShape);
+    }
 }
 
 void Shape::setPosition(const Vect2f &pos) {
@@ -43,10 +57,24 @@ void Shape::setScale(const Vect2f &scale) {
 
 void Shape::setColor(const Color &color) {
     mShape.setFillColor(sf::Color(color.red, color.green, color.blue, color.alpha));
+    _isGradientColor = false;
 }
 
 Color Shape::getColor() {
     return Color(mShape.getFillColor().r, mShape.getFillColor().g, mShape.getFillColor().b, mShape.getFillColor().a);
+}
+
+void Shape::setColor(const GradientColor &color) {
+    _isGradientColor = true;
+    mGradientColor = color;
+}
+
+GradientColor Shape::getColorGradient() {
+    return mGradientColor;
+}
+
+bool Shape::isGradientColor() {
+    return _isGradientColor;
 }
 
 void Shape::setBorderColor(const Color &color) {

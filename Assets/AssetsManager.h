@@ -29,7 +29,7 @@ public:
     MEid createSprite(const MEid &texture);
     MEid createText(const std::wstring &text, const unsigned int &fontSize, const MEid &font);
     MEid createSpriteAnimation();
-    MEid createShape(const Vect2f &size, const Color &color, const Vect2f &pos = Vect2f(0, 0));
+    MEid createShape(const Vect2f &size, const Color &color = Color(Color::WHITE), const Vect2f &pos = Vect2f(0.0f, 0.0f));
 
     template<typename T>
     T* getAsset(const MEid &id);

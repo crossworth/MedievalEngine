@@ -36,12 +36,6 @@ private:
     MEid mTextID;
     Text* mTextRef;
     Shape* mShapeRef;
-    Color colorGradient1;
-    Color colorGradient2;
-    Color colorGradientHover;
-    sf::Color c1;
-    sf::Color c2;
-    bool _doneTransition;
 };
 
 }
