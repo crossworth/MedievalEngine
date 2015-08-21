@@ -9,8 +9,8 @@ Shape::Shape(const Vect2f &size, const Color &color, const Vect2f &pos) {
     setColor(color);
     setPosition(pos);
     _isGradientColor = false;
-    _radius          = 0.0f;
-    _numberPoints    = 10;
+    _radius          = 90.0f;
+    _numberPoints    = 30;
 }
 
 void Shape::draw(sf::RenderWindow *renderWindow) {
@@ -21,7 +21,6 @@ void Shape::draw(sf::RenderWindow *renderWindow) {
         float deltaAngle = 90.0f/(_numberPoints-1);
         sf::Vector2f center;
         unsigned int centerIndex = i/_numberPoints;
-        unsigned int offset = 0;
         static const float pi = 3.141592654f;
 
         sf::Vector2f mySize(getSize().x, getSize().y);
@@ -33,11 +32,9 @@ void Shape::draw(sf::RenderWindow *renderWindow) {
             case 3: center.x = mySize.x - _radius; center.y = mySize.y - _radius; break;
         }
 
-
         sf::Vector2f pos    = mShape.getPosition();
         sf::Vector2f vecPos = sf::Vector2f(_radius*std::cos(deltaAngle*(i-centerIndex)*pi/180)+center.x + pos.x,
                                         -_radius*std::sin(deltaAngle*(i-centerIndex)*pi/180)+center.y + pos.y);
-
 
         if(_isGradientColor) {
             if (vecPos.y < mShape.getSize().y) {
