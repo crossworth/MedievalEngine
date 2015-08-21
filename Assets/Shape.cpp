@@ -64,9 +64,9 @@ void Shape::draw(sf::RenderWindow* renderWindow) {
 
         if(mIsGradientColor) {
             if (vertexPos.y < mShape.getSize().y) {
-                vertexVector.push_back(sf::Vertex(vertexPos, sf::Color(mGradientColor.color1.red, mGradientColor.color1.green, mGradientColor.color1.blue, mGradientColor.color1.alpha)));
+                vertexVector.push_back(sf::Vertex(vertexPos, sf::Color(mGradientColor.top.red, mGradientColor.top.green, mGradientColor.top.blue, mGradientColor.top.alpha)));
             } else {
-                vertexVector.push_back(sf::Vertex(vertexPos, sf::Color(mGradientColor.color1.green, mGradientColor.color2.green, mGradientColor.color2.blue, mGradientColor.color2.alpha)));
+                vertexVector.push_back(sf::Vertex(vertexPos, sf::Color(mGradientColor.top.green, mGradientColor.bottom.green, mGradientColor.bottom.blue, mGradientColor.bottom.alpha)));
             }
         } else {
             vertexVector.push_back(sf::Vertex(vertexPos, mShape.getFillColor()));

@@ -2,15 +2,16 @@
 #define COLORGRADIENT_H
 #include <Helper/Color.h>
 
+
 namespace ME {
 
 class ColorGradient {
 public:
     ColorGradient();
-    ColorGradient(const Color& color1, const Color& color2);
+    ColorGradient(const Color& top, const Color& bottom);
     ColorGradient& operator=(const ColorGradient& other);
-    Color color1;
-    Color color2;
+    Color top;
+    Color bottom;
 };
 
 }
