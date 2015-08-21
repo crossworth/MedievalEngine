@@ -5,21 +5,21 @@
 #include <iostream>
 #include <GameState/LoadingScreen.h>
 
+
 namespace  ME {
 
 class GameStateManager {
 public:
     GameStateManager();
-    void add(const std::string &name, GameState* gameState);
-    void changeGameState(const std::string &name);
-    void setGameState(const std::string &name);
-    void remove(const std::string &name);
+    void add(const std::string& name, GameState* gameState);
+    void changeGameState(const std::string& name);
+    void setGameState(const std::string& name);
+    void remove(const std::string& name);
     std::string getCurrentGameState();
 
-    void draw(Window &window);
+    void draw(Window& window);
     void update();
-    void handleEvents(Event &evt);
-
+    void handleEvents(Event& evt);
 private:
     std::string mCurrentGameState;
     std::map<std::string, GameState*> mGameStates;

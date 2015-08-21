@@ -2,6 +2,7 @@
 #define MEDIEVALENGINE_H
 #include <Headers.h>
 
+
 namespace ME {
 
 class MedievalEngine {
@@ -20,8 +21,8 @@ public:
     ~MedievalEngine();
 private:
     Window mWindow;
-    GUI *mGUI;
-    AssetsManager *mAssetsManager;
+    GUI* mGUI;
+    AssetsManager* mAssetsManager;
     CFGParser mConfigurations;
     ArgumentsParser mArguments;
     GameStateManager mGameStateManager;

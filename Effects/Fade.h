@@ -9,7 +9,7 @@ enum FADE_TYPE {FADEIN, FADEOUT};
 
 class Fade : public Effects {
 public:
-    // TODO: Normalize time
+    // TODO: normalize time
     Fade(float time, const FADE_TYPE& type);
     void update(Drawable* object);
     bool done();

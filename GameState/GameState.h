@@ -1,7 +1,7 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
-#include <Graphics/Window.h>
 #include <LogInc.h>
+#include <Graphics/Window.h>
 #include <Events/Event.h>
 
 
@@ -15,12 +15,11 @@ class GameState {
 public:
     GameState();
     virtual void init() = 0;
-    virtual void onEnable(Window &window)  = 0;
-    virtual void onDisable(Window &window) = 0;
+    virtual void onEnable(Window& window)  = 0;
+    virtual void onDisable(Window& window) = 0;
     virtual void update() = 0;
-    virtual void onPlaying(Window &window) = 0;
-    virtual void handleEvents(Event &evt) = 0;
-
+    virtual void onPlaying(Window& window) = 0;
+    virtual void handleEvents(Event& evt) = 0;
 
     void play();
     void pause();
@@ -29,14 +28,12 @@ public:
     void restart();
 
     GAMESTATE_STATUS getCurrentStatus();
-
 protected:
-    void setCurrentStatus(const GAMESTATE_STATUS &status);
+    void setCurrentStatus(const GAMESTATE_STATUS& status);
     MedievalEngine* mEngine;
     bool mIsPlaying;
     bool mIsDone;
     GAMESTATE_STATUS mCurrentStatus;
-
 };
 
 }

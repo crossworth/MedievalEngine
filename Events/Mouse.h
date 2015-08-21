@@ -1,7 +1,8 @@
 #ifndef MOUSE_H
 #define MOUSE_H
-#include <Helper/Vect2.h>
 #include <SFML/Window/Mouse.hpp>
+#include <Helper/Vect2.h>
+
 
 namespace ME {
 
@@ -25,8 +26,8 @@ public:
 
     static bool isButtonPressed(Mouse::Button button);
     static Vect2i getPosition();
-    static Vect2i getPosition(sf::Window &window);
-    static void setPosition(const Vect2i &position);
+    static Vect2i getPosition(sf::Window& window);
+    static void setPosition(const Vect2i& position);
 };
 
 }
