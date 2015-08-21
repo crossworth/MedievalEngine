@@ -7,6 +7,10 @@ SpriteAnimation::SpriteAnimation() {
     mIsPlaying = true;
 }
 
+SpriteAnimation::~SpriteAnimation() {
+    // TODO: delete memore allocated
+}
+
 void SpriteAnimation::move(const Vect2f &pos) {
     mSprite.move(pos.x, pos.y);
 }

@@ -2,9 +2,9 @@
 #define ASSETSMANAGER_H
 #include <map>
 #include <LogInc.h>
-#include <Assets/Asset.h>
 #include <Helper/ID.h>
 #include <Helper/Data2.h>
+#include <Assets/Asset.h>
 #include <Assets/Texture.h>
 #include <Assets/Sprite.h>
 #include <Assets/Font.h>
@@ -21,18 +21,18 @@ class AssetsManager {
 public:
     static AssetsManager* getInstance();
 
-    MEid loadTexture(const std::string &fileName);
-    MEid loadFont(const std::string &fileName);
-    MEid loadMusic(const std::string &fileName);
-    MEid loadSound(const std::string &fileName);
+    MEid loadTexture(const std::string& fileName);
+    MEid loadFont(const std::string& fileName);
+    MEid loadMusic(const std::string& fileName);
+    MEid loadSound(const std::string& fileName);
 
-    MEid createSprite(const MEid &texture);
-    MEid createText(const std::wstring &text, const unsigned int &fontSize, const MEid &font);
+    MEid createSprite(const MEid& texture);
+    MEid createText(const std::wstring& text, const unsigned int& fontSize, const MEid& font);
     MEid createSpriteAnimation();
-    MEid createShape(const Vect2f &size, const Color &color = Color(Color::WHITE), const Vect2f &pos = Vect2f(0.0f, 0.0f));
+    MEid createShape(const Vect2f& size, const Color& color = Color(Color::WHITE), const Vect2f& pos = Vect2f(0.0f, 0.0f));
 
     template<typename T>
-    T* getAsset(const MEid &id);
+    T* getAsset(const MEid& id);
 
     ~AssetsManager();
 private:

@@ -93,5 +93,6 @@ MEid AssetsManager::createText(const std::wstring &text, const unsigned int &fon
 }
 
 AssetsManager::~AssetsManager() {
+    // TODO: Fix memory
     delete mInstance;
 }

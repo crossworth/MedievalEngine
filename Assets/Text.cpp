@@ -53,11 +53,12 @@ void Text::removeTextShadow() {
     mHasTextShadow = false;
 }
 
+bool Text::isTextShadowEnable() {
+    return mHasTextShadow;
+}
+
 void Text::setStyle(const FONT_STYLE &style) {
     switch (style) {
-    case REGULAR:
-        mText.setStyle(sf::Text::Style::Regular);
-        break;
     case BOLD:
         mText.setStyle(sf::Text::Style::Bold);
         break;
@@ -68,6 +69,7 @@ void Text::setStyle(const FONT_STYLE &style) {
         mText.setStyle(sf::Text::Style::Underlined);
         break;
     default:
+        mText.setStyle(sf::Text::Style::Regular);
         break;
     }
 }

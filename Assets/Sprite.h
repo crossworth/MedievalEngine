@@ -1,13 +1,13 @@
 #ifndef SPRITE_H
 #define SPRITE_H
-#include <Assets/Asset.h>
-#include <Graphics/Drawable.h>
-#include <Assets/Texture.h>
+#include <SFML/Graphics.hpp>
+#include <LogInc.h>
 #include <Helper/Vect2.h>
 #include <Helper/Color.h>
+#include <Graphics/Drawable.h>
+#include <Assets/Asset.h>
+#include <Assets/Texture.h>
 #include <Effects/Effects.h>
-#include <LogInc.h>
-#include <SFML/Graphics.hpp>
 
 
 namespace ME {
@@ -18,32 +18,31 @@ public:
 
     sf::Sprite* getResourcePointer();
 
-    void setTexture(Texture *texture);
+    void setTexture(Texture* texture);
 
-    void draw(sf::RenderWindow *renderWindow);
+    void draw(sf::RenderWindow* renderWindow);
 
-    void setPosition(const Vect2f &pos);
+    void setPosition(const Vect2f& pos);
     Vect2f getPosition();
-    void move(const Vect2f &pos);
+    void move(const Vect2f& pos);
 
-    void setSize(const Vect2f &size);
+    void setSize(const Vect2f& size);
     Vect2f getSize();
-    void setScale(const Vect2f &scale);
+    void setScale(const Vect2f& scale);
     Vect2f getScale();
 
-    void setColor(const Color &color);
+    void setColor(const Color& color);
     Color getColor();
 
     float getRotation();
-    void setRotation(const float &angle);
-    void rotate(const float &angle);
+    void setRotation(const float& angle);
+    void rotate(const float& angle);
 
     Vect2f getOrigin();
-    void setOrigin(const Vect2f &origin);
+    void setOrigin(const Vect2f& origin);
 
     Area getLocalBounds();
     Area getGlobalBounds();
-
 private:
     sf::Sprite mSprite;
 };

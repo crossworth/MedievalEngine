@@ -9,7 +9,6 @@ Shape::Shape(const Vect2f &size, const Color &color, const Vect2f &pos) {
     setColor(color);
     setPosition(pos);
     _isGradientColor = false;
-    _radius          = 90.0f;
     _numberPoints    = 30;
 }
 
