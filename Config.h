@@ -14,7 +14,7 @@ namespace ENGINE_DEFAULTS {
 
     // GLOBAL
     const std::string ENGINE_NAME = "Medieval Engine";
-    const float ENGINE_VERSION    = 1.2f;
+    const float ENGINE_VERSION    = 1.3f;
 
     const int WIDTH_WINDOW          = 700;
     const int HEIGHT_WINDOW         = 500;
@@ -28,6 +28,11 @@ namespace ENGINE_DEFAULTS {
     const std::string DATA_PATH     = GLOBAL_PATH + "/data";
     const std::string ASSETS_PATH   = DATA_PATH + "/assets/";
 }
+
+/**
+ * Descomentar a linha abaixo para exibir o nome do arquivo e linha durante o log
+ * */
+// #define LOG_FILE_NUMBERS
 
 const bool _LOG_WRITE_TO_FILE    = false;
 const std::string _LOG_FILE_NAME = "output.log";

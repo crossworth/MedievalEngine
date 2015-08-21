@@ -1,9 +1,5 @@
 #include <Helper/Log.h>
 
-/**
- * Descomentar a linha abaixo para exibir o nome do arquivo e linha durante o log
- * */
-// #define LOG_FILE_NUMBERS
 
 #ifndef LOG
 #ifdef LOG_FILE_NUMBERS

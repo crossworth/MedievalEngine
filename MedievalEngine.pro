@@ -134,7 +134,6 @@ HEADERS += \
     GameState/GameState.h \
     GameState/GameStateManager.h \
     GameState/LoadingScreen.h \
-    headers.h \
     GUI/ButtonObject.h \
     Helper/ColorGradient.h
 

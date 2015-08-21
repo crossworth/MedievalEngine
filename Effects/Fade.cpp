@@ -5,11 +5,11 @@ using namespace ME;
 Fade::Fade(float time, const FADE_TYPE &type) {
     mType = "fade";
 
-    // Time em milisegundos
-    mTimeAn     = time;
-    _mTypeFade  = type;
+    // Tempo em milisegundos
+    mFadeTime = time;
+    mFadeType = type;
 
-    if (_mTypeFade == FADEOUT) {
+    if (mFadeType == FADEOUT) {
         mFadeCounter = 255.0f;
         mType        = "fadeOut";
     } else {
@@ -22,7 +22,7 @@ bool Fade::done() {
     return mDone;
 }
 
-void Fade::update(Drawable *object) {
+void Fade::update(Drawable* object) {
     if (!done()) {
         sf::Time mTime = mClock.getElapsedTime();
 
@@ -36,9 +36,9 @@ void Fade::update(Drawable *object) {
         // Utiliza float para os cálculos, porém clipa na hora de exibir em int
         // Precisão de 2 casas, not bad =)
 
-        float mStep =  (mTime.asSeconds() * 255)/mTimeAn;
+        float mStep =  (mTime.asSeconds() * 255)/mFadeTime;
 
-        if (_mTypeFade == FADEOUT) {
+        if (mFadeType == FADEOUT) {
             mFadeCounter = mFadeCounter - mStep;
 
             if (mFadeCounter <= 0.0f) {

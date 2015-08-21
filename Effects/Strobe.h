@@ -2,6 +2,7 @@
 #define STROBE_H
 #include <Effects/Effects.h>
 
+
 namespace ME {
 
 class Strobe : public Effects {
@@ -13,15 +14,14 @@ public:
     // Ou seja um objeto com 1.0f de opacidade teria um strobe de até 50% de opacidade
 
     Strobe(float time, float negativeRange);
-    void update(Drawable *object);
+    void update(Drawable* object);
     bool done();
-
 private:
-    bool _initialized;
-    int _direction;
-    Color _baseColor;
-    float mTimeAn;
-    float mFadeCounter;
+    bool mIsInitialized;
+    int mDirection;
+    Color mBaseColor;
+    float mStrobeTime;
+    float mStrobeCounter;
     float mNegativeRange;
 };
 

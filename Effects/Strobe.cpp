@@ -5,9 +5,9 @@ using namespace ME;
 Strobe::Strobe(float time, float negativeRange) {
     mType = "strobe";
 
-    _initialized   = false;
-    mTimeAn        = time;
-    _direction     = -1;
+    mIsInitialized = false;
+    mStrobeTime    = time;
+    mDirection     = -1;
     mNegativeRange = negativeRange;
 
     if (mNegativeRange > 1.0f) {
@@ -25,37 +25,37 @@ bool Strobe::done() {
     return mDone;
 }
 
-void Strobe::update(Drawable *object) {
-    if (!_initialized) {
-        _baseColor   = object->getColor();
-        _initialized = true;
-        mFadeCounter = _baseColor.alpha;
+void Strobe::update(Drawable* object) {
+    if (!mIsInitialized) {
+        mBaseColor     = object->getColor();
+        mIsInitialized = true;
+        mStrobeCounter = mBaseColor.alpha;
         mClock.restart();
     }
 
     if (!done()) {
         sf::Time mTime = mClock.getElapsedTime();
 
-        float mStep =  (mTime.asSeconds() * _baseColor.alpha)/mTimeAn;
+        float mStep =  (mTime.asSeconds() * mBaseColor.alpha) / mStrobeTime;
 
-        if (_direction < 0) {
-            mFadeCounter = mFadeCounter - mStep;
+        if (mDirection < 0) {
+            mStrobeCounter = mStrobeCounter - mStep;
 
-            if (mFadeCounter <= static_cast<float>(_baseColor.alpha * mNegativeRange)) {
-                mFadeCounter = static_cast<float>(_baseColor.alpha * mNegativeRange);
-                _direction   = 1;
+            if (mStrobeCounter <= static_cast<float>(mBaseColor.alpha * mNegativeRange)) {
+                mStrobeCounter = static_cast<float>(mBaseColor.alpha * mNegativeRange);
+                mDirection     = 1;
             }
         } else {
-            mFadeCounter = mFadeCounter + mStep;
+            mStrobeCounter = mStrobeCounter + mStep;
 
-            if (mFadeCounter >= _baseColor.alpha) {
-                mFadeCounter = _baseColor.alpha;
-                _direction   = -1;
+            if (mStrobeCounter >= mBaseColor.alpha) {
+                mStrobeCounter = mBaseColor.alpha;
+                mDirection     = -1;
             }
         }
         mClock.restart();
 
         Color tmpColor = object->getColor();
-        object->setColor(Color(tmpColor.red, tmpColor.green, tmpColor.blue, static_cast<int>(mFadeCounter)));
+        object->setColor(Color(tmpColor.red, tmpColor.green, tmpColor.blue, static_cast<int>(mStrobeCounter)));
     }
 }
