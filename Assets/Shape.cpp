@@ -38,6 +38,7 @@ void Shape::draw(sf::RenderWindow *renderWindow) {
         sf::Vector2f vecPos = sf::Vector2f(_radius*std::cos(deltaAngle*(i-centerIndex)*pi/180)+center.x + pos.x,
                                         -_radius*std::sin(deltaAngle*(i-centerIndex)*pi/180)+center.y + pos.y);
 
+
         if(_isGradientColor) {
             if (vecPos.y < mShape.getSize().y) {
                 mVertex.push_back(sf::Vertex(vecPos, sf::Color(mGradientColor.color1.red, mGradientColor.color1.green, mGradientColor.color1.blue, mGradientColor.color1.alpha)));
@@ -50,7 +51,6 @@ void Shape::draw(sf::RenderWindow *renderWindow) {
     }
 
     renderWindow->draw(&mVertex[0], mVertex.size(), sf::TrianglesFan);
-
 }
 
 void Shape::setPosition(const Vect2f &pos) {
