@@ -14,6 +14,7 @@
     #define _GetCurrentDir getcwd
  #endif
 
+
 namespace ME {
 
 class Dir {

@@ -1,7 +1,7 @@
 #ifndef AREA_H
 #define AREA_H
-#include <Helper/Vect2.h>
 #include <algorithm>
+#include <Helper/Vect2.h>
 
 
 namespace ME {

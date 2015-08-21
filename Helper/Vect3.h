@@ -2,6 +2,7 @@
 #define VECT3_H
 #include <iostream>
 
+
 namespace ME {
 
 class Vect3i {

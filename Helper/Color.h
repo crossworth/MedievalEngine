@@ -1,6 +1,7 @@
 #ifndef COLOR_H
 #define COLOR_H
 
+
 namespace ME {
 
 class Color {

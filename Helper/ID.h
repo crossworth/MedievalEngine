@@ -1,9 +1,10 @@
 #ifndef ID_H
 #define ID_H
 
+
 namespace ME {
 
-typedef unsigned int MEid;
+typedef unsigned long int MEid;
 
 class ID {
 public:

@@ -1,6 +1,10 @@
 #ifndef CFGPARSER_H
 #define CFGPARSER_H
-#include <Headers.h>
+#include <iostream>
+#include <fstream>
+#include <map>
+#include <LogInc.h>
+
 
 namespace ME {
 
@@ -15,10 +19,9 @@ public:
     std::string getKey(std::string key);
     bool keyExists(std::string& key);
     void clear();
-
 private:
-    std::string fileName;
-    std::map<std::string, std::string> contents;
+    std::string mFileName;
+    std::map<std::string, std::string> mContents;
     bool validateLine(std::string& line);
     std::string mGetKey(std::string line);
     std::string mGetValue(std::string line);

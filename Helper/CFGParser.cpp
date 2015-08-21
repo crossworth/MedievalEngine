@@ -8,7 +8,7 @@ CFGParser::CFGParser() {
 
 void CFGParser::readFile(const std::string& configFile) {
 
-    this->fileName = configFile;
+    this->mFileName = configFile;
 
     std::fstream file;
     file.open(configFile.c_str(), std::ios::out | std::ios::in);
@@ -21,18 +21,17 @@ void CFGParser::readFile(const std::string& configFile) {
              std::string tmpKey, tmpValue;
              tmpKey           = mGetKey(line);
              tmpValue         = mGetValue(line);
-             contents[tmpKey] = tmpValue;
+             mContents[tmpKey] = tmpValue;
          }
       }
        file.close();
     } else {
-        LOG << Log::WARNING << ("[CFGParser::readFile] Configuration file (" + this->fileName + ") not found").c_str() << std::endl;
+        LOG << Log::WARNING << ("[CFGParser::readFile] Configuration file (" + this->mFileName + ") not found").c_str() << std::endl;
     }
 }
 
-
 void CFGParser::clear() {
-    contents.clear();
+    mContents.clear();
 }
 
 void CFGParser::saveFile(const std::string& configFile){
@@ -42,28 +41,28 @@ void CFGParser::saveFile(const std::string& configFile){
     if (outFile.is_open()) {
         outFile << "# " << ENGINE_DEFAULTS::ENGINE_NAME << " Version: " << ENGINE_DEFAULTS::ENGINE_VERSION << " - CFGParser" << std::endl;
 
-        std::map<std::string, std::string>::iterator it = contents.begin();
+        std::map<std::string, std::string>::iterator it = mContents.begin();
 
-        while(it != contents.end()) {
+        while(it != mContents.end()) {
             outFile << it->first << "=" << it->second << std::endl;
             it++;
         }
 
         outFile.close();
     } else {
-        LOG << Log::WARNING << ("[CFGParser::saveFile] Could not save Configuration file (" + this->fileName + ")" ).c_str() << std::endl;
+        LOG << Log::WARNING << ("[CFGParser::saveFile] Could not save Configuration file (" + this->mFileName + ")" ).c_str() << std::endl;
     }
 }
 
 bool CFGParser::add(std::string key, std::string value) {
-    contents[key] =  value;
+    mContents[key] =  value;
     return true;
 }
 
 bool CFGParser::keyExists(std::string& key) {
     std::map<std::string, std::string>::iterator it;
-    it = contents.find(key);
-    if (it != contents.end()) {
+    it = mContents.find(key);
+    if (it != mContents.end()) {
         return true;
     } else {
         return false;
@@ -72,7 +71,7 @@ bool CFGParser::keyExists(std::string& key) {
 
 std::string CFGParser::getKey(std::string key) {
     if (keyExists(key)) {
-        return contents[key];
+        return mContents[key];
     } else {
         LOG << Log::WARNING << ("[CFGParser::getKey] Key (" + key + ") not found").c_str() << std::endl;
     }

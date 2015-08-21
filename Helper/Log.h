@@ -6,11 +6,12 @@
 #include <sstream>
 #include <Config.h>
 
+
 namespace ME {
 
 class Log {
 public:
-    enum LogType {VERBOSE, LUA_VERBOSE, WARNING, LUA_WARNING, CRITICAL, LUA_CRITICAL};
+    enum LOG_TYPE {VERBOSE, LUA_VERBOSE, WARNING, LUA_WARNING, CRITICAL, LUA_CRITICAL};
 
 private:
     Log(const bool& logToFile, const std::string& fileName, const bool& logTime);
@@ -62,7 +63,7 @@ public:
         return *this;
     }
 
-    inline Log& operator<<(const LogType& type) {
+    inline Log& operator<<(const LOG_TYPE& type) {
         switch (type) {
         case VERBOSE:
             *outStream << "[VERBOSE] ";
@@ -93,10 +94,8 @@ public:
         *outStream << std::endl;
         return *this;
     }
-
 private:
     std::string getTime();
-
     std::ostream* outStream;
     std::ostream& mCoutStream;
     std::ofstream mOfStream;
