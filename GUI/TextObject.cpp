@@ -23,15 +23,15 @@ Vect2f TextObject::getSize() {
 }
 
 void TextObject::onMouseOver() {
-    setColor(Color(0, 255, 0));
+
 }
 
 void TextObject::onClick() {
-    std::cout << "Click" << std::endl;
+
 }
 
 void TextObject::onMouseOut() {
-    setColor(Color(255, 255, 255));
+
 }
 
 void TextObject::setOpacity(const float &opacity) {

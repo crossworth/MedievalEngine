@@ -29,6 +29,9 @@ public:
 
     bool isGradientColor();
 
+    void setRadius(const float& radius);
+    float getRadius();
+
     void setBorderColor(const Color &color);
     Color getBorderColor();
 
@@ -47,6 +50,8 @@ public:
 
 private:
     bool _isGradientColor;
+    int _numberPoints;
+    float _radius;
     ColorGradient mGradientColor;
     sf::RectangleShape mShape;
 };

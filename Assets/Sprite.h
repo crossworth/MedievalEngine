@@ -5,9 +5,10 @@
 #include <Assets/Texture.h>
 #include <Helper/Vect2.h>
 #include <Helper/Color.h>
-#include <SFML/Graphics.hpp>
-#include <LogInc.h>
 #include <Effects/Effects.h>
+#include <LogInc.h>
+#include <SFML/Graphics.hpp>
+
 
 namespace ME {
 

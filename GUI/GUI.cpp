@@ -17,7 +17,7 @@ void GUI::draw(Window& window) {
     }
 }
 
-void GUI::handleEvents(Event evt, Window &window) {
+void GUI::handleEvents(Event evt, Window& window) {
     if (_isActive) {
         for(unsigned int i = 0; i < mObjects.size(); i++) {
             mObjects[i].object->handleEvents(evt);
@@ -78,8 +78,13 @@ void GUI::update() {
     }
 }
 
-GUIObject* GUI::addObject(GUIObject *object) {
+GUIObject* GUI::addObject(const std::string& name, GUIObject *object) {
+    if (findObject(name) != nullptr) {
+        return findObject(name);
+    }
+
     ObjectWrapper objTmp;
+    objTmp.name        = name;
     objTmp.object      = object;
     objTmp.isMouseOver = false;
 
@@ -88,17 +93,18 @@ GUIObject* GUI::addObject(GUIObject *object) {
 }
 
 
-GUIObject* GUI::getObject(const std::string name) {
+GUIObject* GUI::getObject(const std::string& name) {
     return findObject(name);
 }
 
 
-GUIObject* GUI::findObject(const std::string name) {
+GUIObject* GUI::findObject(const std::string& name) {
+    for(unsigned int i = 0; i < mObjects.size(); i++) {
+        if (mObjects[i].name == name) {
+            return mObjects[i].object;
+        }
+    }
+
+    LOG << Log::WARNING << ("[GUI::findObject] GUI Object " +  name + " not found").c_str() << std::endl;
     return nullptr;
-//    if (mObjects.find(name) != mObjects.end()) {
-//        return mObjects[name];
-//    } else {
-//        LOG << Log::WARNING << ("[GUI::findObject] GUI Object " +  name + " not found").c_str() << std::endl;
-//        return nullptr;
-//    }
 }

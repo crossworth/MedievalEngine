@@ -6,6 +6,7 @@ namespace ME {
 
 class ObjectWrapper {
 public:
+    std::string name;
     GUIObject* object;
     bool isMouseOver;
 };

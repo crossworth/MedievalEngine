@@ -1,4 +1,5 @@
 #include "Shape.h"
+#include "cmath"
 
 using namespace ME;
 
@@ -8,23 +9,48 @@ Shape::Shape(const Vect2f &size, const Color &color, const Vect2f &pos) {
     setColor(color);
     setPosition(pos);
     _isGradientColor = false;
+    _radius          = 0.0f;
+    _numberPoints    = 10;
 }
 
 void Shape::draw(sf::RenderWindow *renderWindow) {
-    if(_isGradientColor) {
-        Area mArea = getLocalBounds();
+    std::vector<sf::Vertex> mVertex;
 
-        sf::Vertex mGradientVertex[] = {
-            sf::Vertex(sf::Vector2f(getPosition().x, getPosition().y), sf::Color(mGradientColor.color1.red, mGradientColor.color1.green, mGradientColor.color1.blue, mGradientColor.color1.alpha)),
-            sf::Vertex(sf::Vector2f(mArea.width  + getPosition().x, getPosition().y), sf::Color(mGradientColor.color1.red, mGradientColor.color1.green, mGradientColor.color1.blue, mGradientColor.color1.alpha)),
-            sf::Vertex(sf::Vector2f(mArea.width + getPosition().x, mArea.height + getPosition().y), sf::Color(mGradientColor.color2.red, mGradientColor.color2.green, mGradientColor.color2.blue, mGradientColor.color2.alpha)),
-            sf::Vertex(sf::Vector2f(getPosition().x, mArea.height + getPosition().y), sf::Color(mGradientColor.color2.red, mGradientColor.color2.green, mGradientColor.color2.blue, mGradientColor.color2.alpha)),
-        };
+    for(unsigned int i = 0; i < _numberPoints * 4; i++) {
 
-        renderWindow->draw(mGradientVertex, 4, sf::Quads);
-    } else {
-        renderWindow->draw(mShape);
+        float deltaAngle = 90.0f/(_numberPoints-1);
+        sf::Vector2f center;
+        unsigned int centerIndex = i/_numberPoints;
+        unsigned int offset = 0;
+        static const float pi = 3.141592654f;
+
+        sf::Vector2f mySize(getSize().x, getSize().y);
+
+        switch(centerIndex) {
+            case 0: center.x = mySize.x - _radius; center.y = _radius; break;
+            case 1: center.x = _radius; center.y = _radius; break;
+            case 2: center.x = _radius; center.y = mySize.y - _radius; break;
+            case 3: center.x = mySize.x - _radius; center.y = mySize.y - _radius; break;
+        }
+
+
+        sf::Vector2f pos    = mShape.getPosition();
+        sf::Vector2f vecPos = sf::Vector2f(_radius*std::cos(deltaAngle*(i-centerIndex)*pi/180)+center.x + pos.x,
+                                        -_radius*std::sin(deltaAngle*(i-centerIndex)*pi/180)+center.y + pos.y);
+
+        if(_isGradientColor) {
+            if (vecPos.y < mShape.getSize().y) {
+                mVertex.push_back(sf::Vertex(vecPos, sf::Color(mGradientColor.color1.red, mGradientColor.color1.green, mGradientColor.color1.blue, mGradientColor.color1.alpha)));
+            } else {
+                mVertex.push_back(sf::Vertex(vecPos, sf::Color(mGradientColor.color1.green, mGradientColor.color2.green, mGradientColor.color2.blue, mGradientColor.color2.alpha)));
+            }
+        } else {
+            mVertex.push_back(sf::Vertex(vecPos, mShape.getFillColor()));
+        }
     }
+
+    renderWindow->draw(&mVertex[0], mVertex.size(), sf::TrianglesFan);
+
 }
 
 void Shape::setPosition(const Vect2f &pos) {
@@ -75,6 +101,14 @@ ColorGradient Shape::getColorGradient() {
 
 bool Shape::isGradientColor() {
     return _isGradientColor;
+}
+
+void Shape::setRadius(const float& radius) {
+    _radius = radius;
+}
+
+float Shape::getRadius() {
+    return _radius;
 }
 
 void Shape::setBorderColor(const Color &color) {
