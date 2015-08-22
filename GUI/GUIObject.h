@@ -40,15 +40,18 @@ public:
 
     bool isVisible();
     bool isActive();
+    bool isGradientColor();
 
     std::string getType();
 protected:
     std::string mType;
     bool mIsVisible;
     bool mIsActive;
+    bool mHasColorGradient;
     Vect2f mPos;
     float mOpacity;
     Color mColor;
+    ColorGradient mColorGradient;
     AssetsManager* mAssets;
     MEid mDefaultFontID;
 };

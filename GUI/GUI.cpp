@@ -93,10 +93,6 @@ GUIObject* GUI::addObject(const std::string& name, GUIObject* object) {
     return mObjects.end()->object;
 }
 
-GUIObject* GUI::getObject(const std::string& name) {
-    return findObject(name);
-}
-
 GUIObject* GUI::findObject(const std::string& name) {
     for(unsigned int i = 0; i < mObjects.size(); i++) {
         if (mObjects[i].name == name) {

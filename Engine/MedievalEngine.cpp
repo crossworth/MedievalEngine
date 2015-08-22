@@ -79,13 +79,13 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr),
 }
 
 void MedievalEngine::init() {
-
+    LOG << Log::VERBOSE << "[MedievalEngine::init]" << std::endl;
     mGUI = new GUI(mWindow.getWindowInfo());
 
     mGameStateManager.add("loading", new LoadingScreen(this));
     mGameStateManager.setGameState("loading");
 
-    LOG << Log::VERBOSE << "[MedievalEngine::init]" << std::endl;
+
 }
 
 void MedievalEngine::run() {

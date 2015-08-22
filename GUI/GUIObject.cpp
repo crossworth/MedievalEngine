@@ -15,6 +15,10 @@ bool GUIObject::isActive() {
     return mIsActive;
 }
 
+bool GUIObject::isGradientColor() {
+    return mHasColorGradient;
+}
+
 std::string GUIObject::getType() {
     return mType;
 }

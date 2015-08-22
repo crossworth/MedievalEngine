@@ -4,6 +4,8 @@
 #include <GUI/ObjectWrapper.h>
 #include <GUI/TextObject.h>
 #include <GUI/ButtonObject.h>
+#include <GUI/TextScrollListObject.h>
+
 
 namespace ME {
 
@@ -24,7 +26,9 @@ public:
     void play();
 
     GUIObject* addObject(const std::string& name, GUIObject* object);
-    GUIObject* getObject(const std::string& name);
+
+    template<typename T>
+    T* getObject(const std::string& name);
 
 protected:
     GUIObject* findObject(const std::string& name);
@@ -34,6 +38,12 @@ private:
     bool mIsActive;
     std::vector<ObjectWrapper> mObjects;
 };
+
+template<typename T>
+T* GUI::getObject(const std::string& name) {
+    return static_cast<T*>(findObject(name));
+}
+
 
 }
 
