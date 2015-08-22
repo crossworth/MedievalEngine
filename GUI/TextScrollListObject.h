@@ -20,6 +20,11 @@ public:
     void setBackgroundColor(const ColorGradient& color);
     void textColor(const Color& color);
     Color getTextColor();
+    void setScrollBarColor(const Color& color);
+    Color getScrollBarColor();
+
+    void setTextAutoScroll(bool scroll);
+    bool isTextAutoScroll();
 
     void setExpandeSize(const Vect2f& size);
     Vect2f getExpandSize();
@@ -46,8 +51,11 @@ private:
 
     // Scrollbar
     Shape* mScrollBar;
+    Color mScrollBarColor;
     bool mShowScrollBar;
     bool mScrollBarClicked;
+    bool mScrollBarHasMoved;
+    bool mScrollBarAutoScroll;
 
     Vect2f mSize;
     Color mTextColor;

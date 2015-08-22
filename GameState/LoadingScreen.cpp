@@ -54,7 +54,16 @@ void LoadingScreen::handleEvents(Event& evt) {
 
 
     if (evt.type == Event::KeyPressed ) {
-        mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText(L"teste outra linha");
+
+        if (evt.key.code == Keyboard::Space) {
+            mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText(L"teste outra linha");
+        }
+
+        if (evt.key.code == Keyboard::A) {
+            mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->setTextAutoScroll(true);
+        }
+
+
     }
 }
 

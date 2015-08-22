@@ -66,7 +66,80 @@ bool Window::pollEvent(Event& evt) {
     sf::Event sfEvent;
     bool ret = mWindow->pollEvent(sfEvent);
 
-    evt.type = static_cast<Event::EventType>(sfEvent.type);
+
+    switch (sfEvent.type) {
+    case sf::Event::Closed:
+        evt.type = Event::EventType::Closed;
+        break;
+    case sf::Event::Resized:
+        evt.type        = Event::EventType::Resized;
+        evt.size.width  = sfEvent.size.width;
+        evt.size.height = sfEvent.size.height;
+        break;
+    case sf::Event::LostFocus:
+        evt.type = Event::EventType::LostFocus;
+        break;
+    case sf::Event::GainedFocus:
+            evt.type = Event::EventType::GainedFocus;
+        break;
+    case sf::Event::TextEntered:
+        evt.type         = Event::EventType::TextEntered;
+        evt.text.unicode = sfEvent.text.unicode;
+        break;
+    case sf::Event::KeyPressed:
+        evt.type        = Event::EventType::KeyPressed;
+        evt.key.code    = static_cast<Keyboard::KEY>(sfEvent.key.code);
+        evt.key.alt     = sfEvent.key.alt;
+        evt.key.control = sfEvent.key.control;
+        evt.key.shift   = sfEvent.key.shift;
+        evt.key.system  = sfEvent.key.system;
+        break;
+    case sf::Event::KeyReleased:
+        evt.type        = Event::EventType::KeyReleased;
+        evt.key.code    = static_cast<Keyboard::KEY>(sfEvent.key.code);
+        evt.key.alt     = sfEvent.key.alt;
+        evt.key.control = sfEvent.key.control;
+        evt.key.shift   = sfEvent.key.shift;
+        evt.key.system  = sfEvent.key.system;
+        break;
+    case sf::Event::MouseWheelMoved:
+        evt.type             = Event::EventType::MouseWheelMoved;
+        evt.mouseWheel.delta = sfEvent.mouseWheel.delta;
+        evt.mouseWheel.x     = sfEvent.mouseWheel.x;
+        evt.mouseWheel.y     = sfEvent.mouseWheel.y;
+        break;
+    case sf::Event::MouseWheelScrolled:
+        evt.type                   = Event::EventType::MouseWheelScrolled;
+        evt.mouseWheelScroll.wheel = static_cast<Mouse::Wheel>(sfEvent.mouseWheelScroll.wheel);
+        evt.mouseWheelScroll.delta = sfEvent.mouseWheelScroll.delta;
+        evt.mouseWheelScroll.x     = sfEvent.mouseWheelScroll.x;
+        evt.mouseWheelScroll.y     = sfEvent.mouseWheelScroll.y;
+        break;
+    case sf::Event::MouseButtonPressed:
+        evt.type               = Event::EventType::MouseButtonPressed;
+        evt.mouseButton.button = static_cast<Mouse::Button>(sfEvent.mouseButton.button);
+        evt.mouseButton.x      = sfEvent.mouseButton.x;
+        evt.mouseButton.y      = sfEvent.mouseButton.y;
+        break;
+    case sf::Event::MouseButtonReleased:
+        evt.type               = Event::EventType::MouseButtonReleased;
+        evt.mouseButton.button = static_cast<Mouse::Button>(sfEvent.mouseButton.button);
+        evt.mouseButton.x      = sfEvent.mouseButton.x;
+        evt.mouseButton.y      = sfEvent.mouseButton.y;
+        break;
+    case sf::Event::MouseMoved:
+        evt.type        = Event::EventType::MouseMoved;
+        evt.mouseMove.x = sfEvent.mouseMove.x;
+        evt.mouseMove.y = sfEvent.mouseMove.y;
+        break;
+    case sf::Event::MouseEntered:
+        evt.type = Event::EventType::MouseEntered;
+        break;
+    case sf::Event::MouseLeft:
+        evt.type = Event::EventType::MouseLeft;
+        break;
+    }
+
     return ret;
 }
 
