@@ -41,9 +41,11 @@ public:
     bool isVisible();
     bool isActive();
 
+    std::string getType();
 protected:
-    bool _isVisible;
-    bool _isActive;
+    std::string mType;
+    bool mIsVisible;
+    bool mIsActive;
     Vect2f mPos;
     float mOpacity;
     Color mColor;

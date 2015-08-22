@@ -135,7 +135,8 @@ HEADERS += \
     GameState/GameStateManager.h \
     GameState/LoadingScreen.h \
     GUI/ButtonObject.h \
-    Helper/ColorGradient.h
+    Helper/ColorGradient.h \
+    Helper/Types.h
 
 DISTFILES += \
     Documentation/init.txt \

@@ -2,17 +2,21 @@
 
 using namespace ME;
 
-GUIObject::GUIObject() : _isVisible(true), _isActive(true) {
+GUIObject::GUIObject() : mIsVisible(true), mIsActive(true) {
     mAssets       = AssetsManager::getInstance();
     defaultFontID = mAssets->loadFont("font/YanoneKaffeesatz-Regular.ttf");
 }
 
 bool GUIObject::isVisible() {
-    return _isVisible;
+    return mIsVisible;
 }
 
 bool GUIObject::isActive() {
-    return _isActive;
+    return mIsActive;
+}
+
+std::string GUIObject::getType() {
+    return mType;
 }
 
 Vect2f GUIObject::getPosition() {
@@ -28,7 +32,7 @@ Color GUIObject::getColor() {
 }
 
 void GUIObject::hide() {
-    _isVisible  = false;
+    mIsVisible = false;
 }
 
 void GUIObject::onMouseOver() {
@@ -44,22 +48,21 @@ void GUIObject::onClick() {
 }
 
 void GUIObject::show() {
-    _isVisible  = true;
-
+    mIsVisible = true;
 }
 
-void GUIObject::setPosition(const Vect2f &pos) {
+void GUIObject::setPosition(const Vect2f& pos) {
     mPos.x = pos.x;
     mPos.y = pos.y;
 }
 
-void GUIObject::setOpacity(const float &opacity) {
+void GUIObject::setOpacity(const float& opacity) {
     mOpacity = opacity;
 }
 
-void GUIObject::setColor(const Color &color) {
-    mColor.red = color.red;
+void GUIObject::setColor(const Color& color) {
+    mColor.red   = color.red;
     mColor.green = color.green;
-    mColor.blue = color.blue;
+    mColor.blue  = color.blue;
     mColor.alpha = color.alpha;
 }

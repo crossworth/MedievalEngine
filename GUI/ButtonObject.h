@@ -9,7 +9,7 @@ namespace ME {
 class ButtonObject : public GUIObject {
 public:
     ButtonObject(const std::wstring& text, Vect2f pos, MEid fontID = 0);
-    void draw(Window &window);
+    void draw(Window& window);
     void update();
     void handleEvents(Event evt);
 
@@ -18,12 +18,12 @@ public:
 
     void onClick();
 
-    void setPosition(const Vect2f &pos);
+    void setPosition(const Vect2f& pos);
     Vect2f getPosition();
 
     Vect2f getSize();
 
-    void setOpacity(const float &opacity);
+    void setOpacity(const float& opacity);
     float getOpacity();
 
     void setColor(const Color &color);

@@ -2,15 +2,14 @@
 
 using namespace ME;
 
-GUI::GUI(WindowInfo* windowInfo) : _isVisible(true), _isActive(true) {
+GUI::GUI(WindowInfo* windowInfo) : mIsVisible(true), mIsActive(true) {
     this->windowInfo = windowInfo;
 
     LOG << Log::VERBOSE << "[GUI::GUI] GUI created" << std::endl;
 }
 
 void GUI::draw(Window& window) {
-
-    if (_isVisible) {
+    if (mIsVisible) {
         for(unsigned int i = 0; i < mObjects.size(); i++) {
             mObjects[i].object->draw(window);
         }
@@ -18,7 +17,7 @@ void GUI::draw(Window& window) {
 }
 
 void GUI::handleEvents(Event evt, Window& window) {
-    if (_isActive) {
+    if (mIsActive) {
         for(unsigned int i = 0; i < mObjects.size(); i++) {
             mObjects[i].object->handleEvents(evt);
         }
@@ -45,40 +44,40 @@ void GUI::handleEvents(Event evt, Window& window) {
 }
 
 void GUI::show() {
-    _isVisible = true;
+    mIsVisible = true;
 }
 
 void GUI::hide() {
-    _isVisible = false;
+    mIsVisible = false;
 }
 
 void GUI::play() {
-    _isActive = true;
+    mIsActive = true;
     LOG << Log::VERBOSE << "[GUI::play]" << std::endl;
 }
 
 void GUI::pause() {
-    _isActive = false;
+    mIsActive = false;
     LOG << Log::VERBOSE << "[GUI::pause]" << std::endl;
 }
 
 bool GUI::isActive() {
-    return _isActive;
+    return mIsActive;
 }
 
 bool GUI::isVisible() {
-    return _isVisible;
+    return mIsVisible;
 }
 
 void GUI::update() {
-    if (_isActive) {
+    if (mIsActive) {
         for(unsigned int i = 0; i < mObjects.size(); i++) {
             mObjects[i].object->update();
         }
     }
 }
 
-GUIObject* GUI::addObject(const std::string& name, GUIObject *object) {
+GUIObject* GUI::addObject(const std::string& name, GUIObject* object) {
     if (findObject(name) != nullptr) {
         return findObject(name);
     }
@@ -89,14 +88,14 @@ GUIObject* GUI::addObject(const std::string& name, GUIObject *object) {
     objTmp.isMouseOver = false;
 
     mObjects.push_back(objTmp);
+    LOG << Log::VERBOSE << ("[GUI::addObject] GUI Object " + object->getType() + " " +  name + " added").c_str() << std::endl;
+
     return mObjects.end()->object;
 }
-
 
 GUIObject* GUI::getObject(const std::string& name) {
     return findObject(name);
 }
-
 
 GUIObject* GUI::findObject(const std::string& name) {
     for(unsigned int i = 0; i < mObjects.size(); i++) {

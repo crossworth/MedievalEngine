@@ -30,8 +30,8 @@ protected:
     GUIObject* findObject(const std::string& name);
     WindowInfo* windowInfo;
 private:
-    bool _isVisible;
-    bool _isActive;
+    bool mIsVisible;
+    bool mIsActive;
     std::vector<ObjectWrapper> mObjects;
 };
 

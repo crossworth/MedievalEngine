@@ -4,6 +4,7 @@
 #include <LogInc.h>
 #include <Helper/ID.h>
 #include <Helper/Data2.h>
+#include <Helper/Types.h>
 #include <Assets/Asset.h>
 #include <Assets/Texture.h>
 #include <Assets/Sprite.h>
@@ -23,6 +24,7 @@ public:
 
     MEid loadTexture(const std::string& fileName);
     MEid loadFont(const std::string& fileName);
+    MEid loadFont(SM::mBYTE* bytes, std::size_t size);
     MEid loadMusic(const std::string& fileName);
     MEid loadSound(const std::string& fileName);
 

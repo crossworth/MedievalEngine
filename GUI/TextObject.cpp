@@ -3,6 +3,8 @@
 using namespace ME;
 
 TextObject::TextObject(const std::wstring& text, const int& textSize) {
+    mType = "text";
+
     MEid mFont = mAssets->loadFont("font/YanoneKaffeesatz-Regular.ttf");
     mTextID    = mAssets->createText(text, textSize, mFont);
     mTextRef   = mAssets->getAsset<Text>(mTextID);
@@ -59,13 +61,13 @@ Area TextObject::getGlobalBounds() {
 }
 
 void TextObject::draw(Window &window) {
-    if (_isVisible) {
+    if (mIsVisible) {
         window.draw(mTextRef);
     }
 }
 
 void TextObject::update() {
-    if (_isActive) {
+    if (mIsActive) {
 
     }
 }
