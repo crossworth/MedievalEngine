@@ -1,5 +1,7 @@
 #ifndef TEXTSCROLLLISTOBJECT_H
 #define TEXTSCROLLLISTOBJECT_H
+#include <Helper/Clock.h>
+#include <Events/Mouse.h>
 #include <GUI/GUIObject.h>
 
 namespace ME {
@@ -10,14 +12,23 @@ public:
     void addText(const std::wstring& text);
     void draw(Window& window);
     void update();
-    void handleEvents(Event evt);
+    void handleEvents(Event evt, Window& window);
+    void setScrollSpeed(float& scrollspeed);
+    float getScrollSpeed();
     void setSize(const Vect2f& size);
     void setBackgroundColor(const Color& color);
     void setBackgroundColor(const ColorGradient& color);
     void textColor(const Color& color);
     Color getTextColor();
 
-    void onClick();
+    void setExpandeSize(const Vect2f& size);
+    Vect2f getExpandSize();
+    void setExpandVelocity(const float& velocity);
+    float getExpandVelocity();
+
+    bool isExpanded();
+
+    void onClick(Event evt, Window& window);
 
     void setOpacity(const float& opacity);
 
@@ -25,6 +36,19 @@ public:
     Area getGlobalBounds();
     Vect2f getSize();
 private:
+    // Expande variables
+    Vect2f mMaxiumExpandSize;
+    bool mEnableTransition;
+    bool mExpandTop;
+    float mExpandVelocity;
+    bool mIsExpanded;
+    WindowInfo* winSize;
+
+    // Scrollbar
+    Shape* mScrollBar;
+    bool mShowScrollBar;
+    bool mScrollBarClicked;
+
     Vect2f mSize;
     Color mTextColor;
     float mPadding;
@@ -33,6 +57,7 @@ private:
     std::wstring mStringBuffer;
     Text* mTextRef;
     Shape* mShapeRef;
+    Clock mClock;
 };
 
 }

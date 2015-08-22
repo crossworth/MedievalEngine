@@ -21,15 +21,15 @@ Vect2f TextObject::getSize() {
     return mTextRef->getSize();
 }
 
-void TextObject::onMouseOver() {
+void TextObject::onMouseOver(Event evt, Window& window) {
 
 }
 
-void TextObject::onClick() {
+void TextObject::onClick(Event evt, Window& window) {
 
 }
 
-void TextObject::onMouseOut() {
+void TextObject::onMouseOut(Event evt, Window& window) {
 
 }
 
@@ -69,6 +69,6 @@ void TextObject::update() {
     }
 }
 
-void TextObject::handleEvents(Event evt) {
+void TextObject::handleEvents(Event evt, Window& window) {
 
 }

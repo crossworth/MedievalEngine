@@ -14,15 +14,15 @@ public:
 
     virtual void draw(Window& window) = 0;
     virtual void update() = 0;
-    virtual void handleEvents(Event evt) = 0;
+    virtual void handleEvents(Event evt, Window& window) = 0;
 
     virtual void show();
     virtual void hide();
 
-    virtual void onMouseOver();
-    virtual void onMouseOut();
+    virtual void onMouseOver(Event evt, Window& window);
+    virtual void onMouseOut(Event evt, Window& window);
 
-    virtual void onClick();
+    virtual void onClick(Event evt, Window& window);
 
     virtual void setPosition(const Vect2f& pos);
     virtual Vect2f getPosition();

@@ -11,12 +11,12 @@ public:
     ButtonObject(const std::wstring& text, Vect2f pos, MEid fontID = 0);
     void draw(Window& window);
     void update();
-    void handleEvents(Event evt);
+    void handleEvents(Event evt, Window& window);
 
-    void onMouseOver();
-    void onMouseOut();
+    void onMouseOver(Event evt, Window& window);
+    void onMouseOut(Event evt, Window& window);
 
-    void onClick();
+    void onClick(Event evt, Window& window);
 
     void setPosition(const Vect2f& pos);
     Vect2f getPosition();

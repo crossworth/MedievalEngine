@@ -69,7 +69,8 @@ SOURCES += main.cpp \
     GUI/ButtonObject.cpp \
     Helper/ColorGradient.cpp \
     Helper/DATFile.cpp \
-    GUI/TextScrollListObject.cpp
+    GUI/TextScrollListObject.cpp \
+    Helper/Clock.cpp
 
 HEADERS += \
     Assets/Asset.h \
@@ -140,7 +141,8 @@ HEADERS += \
     Helper/ColorGradient.h \
     Helper/Types.h \
     Helper/DATFile.h \
-    GUI/TextScrollListObject.h
+    GUI/TextScrollListObject.h \
+    Helper/Clock.h
 
 DISTFILES += \
     Documentation/init.txt \

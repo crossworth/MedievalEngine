@@ -6,6 +6,7 @@
 #include <LogInc.h>
 #include <Helper/Vect2.h>
 #include <Helper/Color.h>
+#include <Helper/Clock.h>
 #include <Graphics/Drawable.h>
 #include <Assets/Asset.h>
 #include <Assets/Texture.h>
@@ -52,7 +53,7 @@ private:
     sf::Sprite mSprite;
     std::vector<std::pair<unsigned int, Texture*> > mFrames;
     std::vector<std::pair<unsigned int, Texture*> >::iterator mFrameIterator;
-    sf::Clock mClock;
+    Clock mClock;
 };
 
 }

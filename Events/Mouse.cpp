@@ -10,7 +10,7 @@ Vect2i Mouse::getPosition() {
     return Vect2i(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
 }
 
-Vect2i Mouse::getPosition(sf::Window &window) {
+Vect2i Mouse::getPosition(sf::Window& window) {
     return Vect2i(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
 }
 

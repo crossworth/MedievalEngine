@@ -39,15 +39,15 @@ void GUIObject::hide() {
     mIsVisible = false;
 }
 
-void GUIObject::onMouseOver() {
+void GUIObject::onMouseOver(Event evt, Window& window) {
 
 }
 
-void GUIObject::onMouseOut() {
+void GUIObject::onMouseOut(Event evt, Window& window) {
 
 }
 
-void GUIObject::onClick() {
+void GUIObject::onClick(Event evt, Window& window) {
 
 }
 

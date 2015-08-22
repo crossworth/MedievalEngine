@@ -39,21 +39,21 @@ void ButtonObject::update() {
 
 }
 
-void ButtonObject::handleEvents(Event evt) {
+void ButtonObject::handleEvents(Event evt, Window& window) {
 
 }
 
-void ButtonObject::onMouseOver() {
+void ButtonObject::onMouseOver(Event evt, Window& window) {
     mShapeRef->setColor(ColorGradient(Color::BUTTON_C1, Color::BUTTON_C2));
     mTextRef->setColor(Color::BLACK);
 }
 
-void ButtonObject::onMouseOut() {
+void ButtonObject::onMouseOut(Event evt, Window& window) {
     mShapeRef->setColor(ColorGradient(Color::BUTTON_C1, Color::BUTTON_C3));
     mTextRef->setColor(Color::BLACK);
 }
 
-void ButtonObject::onClick() {
+void ButtonObject::onClick(Event evt, Window& window) {
     mShapeRef->setColor(Color::BLUE_VIOLET);
     mTextRef->setColor(Color::WHITE);
 }

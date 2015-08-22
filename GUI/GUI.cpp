@@ -19,7 +19,7 @@ void GUI::draw(Window& window) {
 void GUI::handleEvents(Event evt, Window& window) {
     if (mIsActive) {
         for(unsigned int i = 0; i < mObjects.size(); i++) {
-            mObjects[i].object->handleEvents(evt);
+            mObjects[i].object->handleEvents(evt, window);
         }
     }
 
@@ -28,17 +28,17 @@ void GUI::handleEvents(Event evt, Window& window) {
     for(unsigned int i = 0; i < mObjects.size(); i++) {
         if (mObjects[i].object->getGlobalBounds().contains(mousePos)) {
             mObjects[i].isMouseOver = true;
-            mObjects[i].object->onMouseOver();
+            mObjects[i].object->onMouseOver(evt, window);
         }
 
         if (mObjects[i].object->getGlobalBounds().contains(mousePos) &&
             Mouse::isButtonPressed(Mouse::Button::Left) ) {
-            mObjects[i].object->onClick();
+            mObjects[i].object->onClick(evt, window);
         }
 
         if (!(mObjects[i].object->getGlobalBounds().contains(mousePos))) {
             mObjects[i].isMouseOver = false;
-            mObjects[i].object->onMouseOut();
+            mObjects[i].object->onMouseOut(evt, window);
         }
     }
 }

@@ -56,23 +56,20 @@ bool SpriteAnimation::isPlaying() {
 
 void SpriteAnimation::draw(sf::RenderWindow *renderWindow) {
     if(_mEffectPlay) {
-        std::vector<Effects*>::iterator it = mEffects.begin();
 
         for(int i = 0 ; i < mEffects.size(); i++) {
-            (*it)->update(this);
+            mEffects[i]->update(this);
 
-            if ((*it)->done()) {
+            if (mEffects[i]->done()) {
                 // Call Lua Function done effects?
-                delete *it;
-                mEffects.erase(it);
+                mEffects.erase(mEffects.begin() + i);
             }
-            it++;
         }
     }
 
     renderWindow->draw(mSprite);
 
-    if (isPlaying() && sf::Time(mClock.getElapsedTime()).asMilliseconds() > mFrameIterator->first) {
+    if (isPlaying() && mClock.getTime() > mFrameIterator->first) {
         mFrameIterator++;
 
         if (mFrameIterator == mFrames.end()) {
@@ -94,7 +91,7 @@ Vect2f SpriteAnimation::getPosition() {
 }
 
 void SpriteAnimation::setSize(const Vect2f &size) {
-    mSprite.setScale(size.x/getSize().x, size.y/getSize().y);
+    mSprite.setScale(size.x / getSize().x, size.y / getSize().y);
 }
 
 Vect2f SpriteAnimation::getSize() {

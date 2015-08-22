@@ -12,15 +12,15 @@ public:
     TextObject(const std::wstring& text, const int& textSize, const Vect2f& pos = Vect2f());
     void draw(Window& window);
     void update();
-    void handleEvents(Event evt);
+    void handleEvents(Event evt, Window& window);
 
     void setPosition(const Vect2f& pos);
     Vect2f getPosition();
     Vect2f getSize();
 
-    void onMouseOver();
-    void onClick();
-    void onMouseOut();
+    void onMouseOver(Event evt, Window& window);
+    void onClick(Event evt, Window& window);
+    void onMouseOut(Event evt, Window& window);
 
     void setOpacity(const float& opacity);
     float getOpacity();
