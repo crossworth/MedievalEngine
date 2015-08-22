@@ -34,12 +34,12 @@ MEid AssetsManager::loadFont(const std::string &fileName) {
     return fontID;
 }
 
-MEid AssetsManager::loadFont(SM::mBYTE* bytes, std::size_t size) {
+MEid AssetsManager::loadFont(SM::BYTE* bytes, std::size_t size) {
     MEid fontID     = ID::get();
     mAssets[fontID] = new Font();
     getAsset<Font>(fontID)->loadFromMemory(bytes, size);
 
-    LOG << Log::VERBOSE << ("[AssetsManager::loadFont] Font loaded ID: " + Data2::int_to_str(fontID)).c_str() << std::endl;
+    LOG << Log::VERBOSE << ("[AssetsManager::loadFont] Font loaded from memory ID: " + Data2::int_to_str(fontID)).c_str() << std::endl;
 
     return fontID;
 }

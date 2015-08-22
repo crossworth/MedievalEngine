@@ -67,7 +67,8 @@ SOURCES += main.cpp \
     GameState/GameStateManager.cpp \
     GameState/LoadingScreen.cpp \
     GUI/ButtonObject.cpp \
-    Helper/ColorGradient.cpp
+    Helper/ColorGradient.cpp \
+    Helper/DATFile.cpp
 
 HEADERS += \
     Assets/Asset.h \
@@ -136,7 +137,8 @@ HEADERS += \
     GameState/LoadingScreen.h \
     GUI/ButtonObject.h \
     Helper/ColorGradient.h \
-    Helper/Types.h
+    Helper/Types.h \
+    Helper/DATFile.h
 
 DISTFILES += \
     Documentation/init.txt \

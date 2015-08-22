@@ -3,8 +3,8 @@
 using namespace ME;
 
 GUIObject::GUIObject() : mIsVisible(true), mIsActive(true) {
-    mAssets       = AssetsManager::getInstance();
-    defaultFontID = mAssets->loadFont("font/YanoneKaffeesatz-Regular.ttf");
+    mAssets        = AssetsManager::getInstance();
+    mDefaultFontID = Font::DEFAULT_FONT;
 }
 
 bool GUIObject::isVisible() {

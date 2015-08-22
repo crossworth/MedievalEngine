@@ -6,7 +6,7 @@ ButtonObject::ButtonObject(const std::wstring& text, Vect2f pos,  MEid fontID) {
     mType = "button";
 
     if (fontID == 0) {
-        mTextID  = mAssets->createText(text, 22, defaultFontID);
+        mTextID  = mAssets->createText(text, 22, mDefaultFontID);
     }else {
         mTextID  = mAssets->createText(text, 22, fontID);
     }
@@ -21,7 +21,7 @@ ButtonObject::ButtonObject(const std::wstring& text, Vect2f pos,  MEid fontID) {
     mShapeID  = mAssets->createShape(Vect2f(width, 30.0f), Color(0, 0, 0), pos);
     mShapeRef = mAssets->getAsset<Shape>(mShapeID);
     mShapeRef->setColor(ColorGradient(Color::BUTTON_C1, Color::BUTTON_C2));
-    mShapeRef->setRadius(5.0f);
+    mShapeRef->setRadius(2.0f);
 
     mTextRef->setOriginCenter();
     mTextRef->setPosition(Vect2f(mShapeRef->getPosition().x+(mShapeRef->getSize().x/2), mShapeRef->getPosition().y+(mTextRef->getSize().y/2)));

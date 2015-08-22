@@ -2,6 +2,8 @@
 
 using namespace ME;
 
+MEid Font::DEFAULT_FONT = 0;
+
 Font::Font() {
     mType = "font";
 }
@@ -18,7 +20,7 @@ sf::Font* Font::loadFromFile(const std::string &fileName){
     return &mFont;
 }
 
-sf::Font* Font::loadFromMemory(SM::mBYTE* bytes, std::size_t size){
+sf::Font* Font::loadFromMemory(SM::BYTE* bytes, std::size_t size){
     if (!mFont.loadFromMemory(static_cast<void*>(bytes), size)) {
         LOG << "[Font::loadFromMemory] Error while opening font from memory" << std::endl;
     }

@@ -17,6 +17,7 @@ public:
     AssetsManager* getAssetsManager();
     GameStateManager* getGameStateManager();
     GUI* getGUI();
+    SM::DATFile* getDATAFileHandle();
 
     ~MedievalEngine();
 private:
@@ -25,6 +26,7 @@ private:
     AssetsManager* mAssetsManager;
     CFGParser mConfigurations;
     ArgumentsParser mArguments;
+    SM::DATFile* mDataFiles;
     GameStateManager mGameStateManager;
     static MedievalEngine* mInstance;
     MedievalEngine(int argc, char **argv);

@@ -13,6 +13,7 @@
 #include <Helper/Vect2.h>
 #include <Helper/Vect3.h>
 #include <Helper/Data2.h>
+#include <Helper/DATFile.h>
 
 #include <Helper/CFGParser.h>
 #include <Helper/Dir.h>

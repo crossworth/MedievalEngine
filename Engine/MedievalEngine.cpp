@@ -57,8 +57,25 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr),
     }
 
     mAssetsManager = AssetsManager::getInstance();
+    mDataFiles     = new SM::DATFile();
+    mGUI           = nullptr;
 
-    mGUI = nullptr;
+    if (!mDataFiles->openFile(ENGINE_DEFAULTS::DATA_PATH + ENGINE_DEFAULTS::DEFAULT_DATFILE)) {
+        LOG << Log::CRITICAL << "[MedievalEngine::MedievalEngine] Could not open default_datfile "
+        << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str() << std::endl;
+        mWindow.close();
+    }
+
+    if (mDataFiles->getName() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_NAME &&
+        mDataFiles->getVersion() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_VERSION ) {
+        Font::DEFAULT_FONT = mAssetsManager->loadFont(mDataFiles->getFile("default.ttf"), mDataFiles->getFileEntrySize("default.ttf"));
+        LOG << Log::VERBOSE << "[MedievalEngine::MedievalEngine] Default font loaded " << std::endl;
+    } else {
+        LOG << Log::CRITICAL << "[MedievalEngine::MedievalEngine] Default asset pack recognized "
+        << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str() << std::endl;
+        mWindow.close();
+    }
+
 }
 
 void MedievalEngine::init() {
@@ -111,7 +128,15 @@ GUI* MedievalEngine::getGUI() {
     return mGUI;
 }
 
+SM::DATFile*MedievalEngine::getDATAFileHandle() {
+    return mDataFiles;
+}
+
 MedievalEngine::~MedievalEngine() {
     LOG << Log::VERBOSE << "[MedievalEngine::~MedievalEngine]" << std::endl;
     delete mAssetsManager;
+    delete mGUI;
+    delete mDataFiles;
+    delete mInstance;
+    mInstance = nullptr;
 }

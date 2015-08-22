@@ -5,8 +5,7 @@ using namespace ME;
 TextObject::TextObject(const std::wstring& text, const int& textSize) {
     mType = "text";
 
-    MEid mFont = mAssets->loadFont("font/YanoneKaffeesatz-Regular.ttf");
-    mTextID    = mAssets->createText(text, textSize, mFont);
+    mTextID    = mAssets->createText(text, textSize, mDefaultFontID);
     mTextRef   = mAssets->getAsset<Text>(mTextID);
 
     setPosition(Vect2f(100.f, 100.f));

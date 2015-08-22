@@ -24,7 +24,7 @@ public:
 
     MEid loadTexture(const std::string& fileName);
     MEid loadFont(const std::string& fileName);
-    MEid loadFont(SM::mBYTE* bytes, std::size_t size);
+    MEid loadFont(SM::BYTE* bytes, std::size_t size);
     MEid loadMusic(const std::string& fileName);
     MEid loadSound(const std::string& fileName);
 
