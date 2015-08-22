@@ -12,7 +12,7 @@ class GUIObject {
 public:
     GUIObject();
 
-    virtual void draw(Window &window) = 0;
+    virtual void draw(Window& window) = 0;
     virtual void update() = 0;
     virtual void handleEvents(Event evt) = 0;
 
@@ -24,15 +24,15 @@ public:
 
     virtual void onClick();
 
-    virtual void setPosition(const Vect2f &pos);
+    virtual void setPosition(const Vect2f& pos);
     virtual Vect2f getPosition();
 
     virtual Vect2f getSize() = 0;
 
-    virtual void setOpacity(const float &opacity);
+    virtual void setOpacity(const float& opacity);
     virtual float getOpacity();
 
-    virtual void setColor(const Color &color);
+    virtual void setColor(const Color& color);
     virtual Color getColor();
 
     virtual Area getLocalBounds() = 0;

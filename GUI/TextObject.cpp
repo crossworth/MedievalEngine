@@ -2,16 +2,14 @@
 
 using namespace ME;
 
-TextObject::TextObject(const std::wstring& text, const int& textSize) {
-    mType = "text";
-
-    mTextID    = mAssets->createText(text, textSize, mDefaultFontID);
-    mTextRef   = mAssets->getAsset<Text>(mTextID);
-
-    setPosition(Vect2f(100.f, 100.f));
+TextObject::TextObject(const std::wstring& text, const int& textSize, const Vect2f& pos) {
+    mType    = "text";
+    mTextID  = mAssets->createText(text, textSize, mDefaultFontID);
+    mTextRef = mAssets->getAsset<Text>(mTextID);
+    setPosition(pos);
 }
 
-void TextObject::setPosition(const Vect2f &pos) {
+void TextObject::setPosition(const Vect2f& pos) {
     mTextRef->setPosition(pos);
 }
 
@@ -35,7 +33,7 @@ void TextObject::onMouseOut() {
 
 }
 
-void TextObject::setOpacity(const float &opacity) {
+void TextObject::setOpacity(const float& opacity) {
     mTextRef->setOpacity(opacity);
 }
 
@@ -43,7 +41,7 @@ float TextObject::getOpacity() {
     return mTextRef->getOpacity();
 }
 
-void TextObject::setColor(const Color &color) {
+void TextObject::setColor(const Color& color) {
     mTextRef->setColor(color);
 }
 
@@ -59,7 +57,7 @@ Area TextObject::getGlobalBounds() {
     return mTextRef->getGlobalBounds();
 }
 
-void TextObject::draw(Window &window) {
+void TextObject::draw(Window& window) {
     if (mIsVisible) {
         window.draw(mTextRef);
     }
