@@ -15,6 +15,8 @@ public:
     static bool str_to_bool(const std::string& str);
     static float str_to_float(const std::string& str);
     static double str_to_double(const std::string& str);
+    static std::wstring str_to_wstr(const std::string& str);
+    static std::string wstr_to_str(const std::wstring& str);
 
     static int float_to_int(const float& f);
     static double float_to_double(const float& f);

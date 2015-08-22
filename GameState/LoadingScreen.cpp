@@ -28,6 +28,7 @@ void LoadingScreen::init() {
     mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText(L"teste");
     mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText(L"teste segunda linha");
 
+    c =0;
 }
 
 void LoadingScreen::onEnable(Window &window) {
@@ -56,7 +57,8 @@ void LoadingScreen::handleEvents(Event& evt) {
     if (evt.type == Event::KeyPressed ) {
 
         if (evt.key.code == Keyboard::Space) {
-            mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText(L"teste outra linha");
+            std::string tmp("teste outra linha" + Data2::int_to_str(c++));
+            mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText(Data2::str_to_wstr(tmp));
         }
 
         if (evt.key.code == Keyboard::A) {

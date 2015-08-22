@@ -123,6 +123,12 @@ void TextScrollListObject::update() {
 }
 
 void TextScrollListObject::handleEvents(Event evt, Window& window) {
+
+    window.getWindowPtr()->setTitle(std::string(
+    Data2::int_to_str(Mouse::getPosition(*window.getWindowPtr()).x)
+    + "  " +
+    Data2::int_to_str(Mouse::getPosition(*window.getWindowPtr()).y)));
+
     if (evt.type == Event::MouseButtonReleased) {
 
         if (evt.mouseButton.button == Mouse::Button::Left && mScrollBarClicked){
@@ -138,8 +144,8 @@ void TextScrollListObject::handleEvents(Event evt, Window& window) {
             mScrollBar->setPosition(Vect2f(mScrollBar->getPosition().x, mousePos.y - (mScrollBar->getSize().y / 2)));
 
             // update text position based on the scrollbar
-            float ratio        = mShapeRef->getSize().y / mTextRef->getSize().y;
-            float basePosition = mScrollBar->getSize().y + ( ratio * mScrollBar->getPosition().y);
+            float basePosition = mScrollBar->getPosition().y / mTextRef->getSize().y;
+            basePosition       = basePosition * mShapeRef->getSize().y;
 
             mTextRef->setPosition(Vect2f(mTextRef->getPosition().x, basePosition));
             std::cout << mTextRef->getPosition() << std::endl;

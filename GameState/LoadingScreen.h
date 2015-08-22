@@ -17,6 +17,7 @@ public:
     void handleEvents(Event& evt);
 private:
     MEid idBackground;
+    int c;
 };
 
 }

@@ -32,6 +32,16 @@ double Data2::str_to_double(const std::string& str) {
     return t;
 }
 
+std::wstring Data2::str_to_wstr(const std::string& str) {
+    std::wstringstream ret;
+    ret << str.c_str();
+    return ret.str();
+}
+
+std::string Data2::wstr_to_str(const std::wstring& str) {
+    return std::string(str.begin(), str.end());
+}
+
 int Data2::float_to_int(const float& f) {
     return static_cast<int>(f);
 }
