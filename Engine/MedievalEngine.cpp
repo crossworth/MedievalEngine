@@ -70,9 +70,8 @@ void MedievalEngine::init() {
     mGUI.registerEngine(this);
 
     mGameStateManager.add("loading", new LoadingScreen(this));
+    mGameStateManager.getGameState("loading")->registerEngine(this);
     mGameStateManager.setGameState("loading");
-
-
 }
 
 void MedievalEngine::run() {

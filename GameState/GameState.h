@@ -9,9 +9,9 @@ namespace ME {
 
 class MedievalEngine;
 
-enum GAMESTATE_STATUS { ON_ENABLE, ON_PLAYING, ON_DISABLE, ON_DONE};
-
 class GameState {
+public:
+    enum GAME_STATUS {ON_ENABLE, ON_PLAYING, ON_DISABLE, ON_DONE};
 public:
     GameState();
     virtual void init() = 0;
@@ -21,19 +21,21 @@ public:
     virtual void onPlaying(Window& window) = 0;
     virtual void handleEvents(Event& evt) = 0;
 
+    void registerEngine(MedievalEngine* engine);
+
     void play();
     void pause();
     bool isPlaying();
 
     void restart();
 
-    GAMESTATE_STATUS getCurrentStatus();
+    GAME_STATUS getCurrentStatus();
 protected:
-    void setCurrentStatus(const GAMESTATE_STATUS& status);
     MedievalEngine* mEngine;
+    void setCurrentStatus(const GameState::GAME_STATUS& status);
     bool mIsPlaying;
     bool mIsDone;
-    GAMESTATE_STATUS mCurrentStatus;
+    GameState::GAME_STATUS mCurrentStatus;
 };
 
 }

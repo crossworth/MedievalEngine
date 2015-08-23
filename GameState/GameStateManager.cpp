@@ -30,10 +30,19 @@ std::string GameStateManager::getCurrentGameState() {
     return mCurrentGameState;
 }
 
+GameState* GameStateManager::getGameState(const std::string& name) {
+    if (mGameStates.find(name) != mGameStates.end()) {
+        return mGameStates[name];
+    } else {
+        LOG << Log::WARNING << ("[GameStateManager::getGameState] Game State not found: " + name).c_str() << std::endl;
+        return nullptr;
+    }
+}
+
 void GameStateManager::draw(Window &window) {
-    if (mGameStates[mCurrentGameState]->getCurrentStatus() == GAMESTATE_STATUS::ON_ENABLE) {
+    if (mGameStates[mCurrentGameState]->getCurrentStatus() == GameState::GAME_STATUS::ON_ENABLE) {
         mGameStates[mCurrentGameState]->onEnable(window);
-    } else if (mGameStates[mCurrentGameState]->getCurrentStatus() == GAMESTATE_STATUS::ON_DISABLE) {
+    } else if (mGameStates[mCurrentGameState]->getCurrentStatus() == GameState::GAME_STATUS::ON_DISABLE) {
         mGameStates[mCurrentGameState]->onDisable(window);
     } else {
         mGameStates[mCurrentGameState]->onPlaying(window);

@@ -16,6 +16,7 @@ public:
     void setGameState(const std::string& name);
     void remove(const std::string& name);
     std::string getCurrentGameState();
+    GameState* getGameState(const std::string& name);
 
     void draw(Window& window);
     void update();

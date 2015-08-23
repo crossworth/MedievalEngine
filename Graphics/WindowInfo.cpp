@@ -2,14 +2,14 @@
 
 using namespace ME;
 
-WindowInfo::WindowInfo(int w, int h, int b, bool f, std::string name) {
-    width        = w;
-    height       = h;
-    bitsPerPixel = b;
-    fullScreen   = f;
-    windowName   = name;
-    frameLimit   = ENGINE_DEFAULTS::FRAME_LIMIT;
-    vsync        = ENGINE_DEFAULTS::VSYNC;
+WindowInfo::WindowInfo(int width, int height, int bitsPerPixel, bool fullScreen, std::string name) {
+    this->width        = width;
+    this->height       = height;
+    this->bitsPerPixel = bitsPerPixel;
+    this->fullScreen   = fullScreen;
+    this->windowName   = name;
+    this->frameLimit   = ENGINE_DEFAULTS::FRAME_LIMIT;
+    this->vsync        = ENGINE_DEFAULTS::VSYNC;
 }
 
 WindowInfo::WindowInfo() {

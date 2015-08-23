@@ -50,7 +50,7 @@ void LoadingScreen::init() {
 }
 
 void LoadingScreen::onEnable(Window &window) {
-    setCurrentStatus(GAMESTATE_STATUS::ON_PLAYING);
+    setCurrentStatus(GAME_STATUS::ON_PLAYING);
 }
 
 void LoadingScreen::onDisable(Window &window) {
