@@ -46,6 +46,7 @@ void TextScrollListObject::addText(const std::wstring& text) {
 
         if (scrollBarHeight < 30.f) {
             scrollBarHeight = 30.f;
+            // TODO: change the position to be relative to the amount of the text that exists
         }
 
         mScrollBarRef->setSize(Vect2f(mScrollBarRef->getSize().x, scrollBarHeight));
