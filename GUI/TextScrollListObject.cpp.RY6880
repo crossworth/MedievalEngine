@@ -89,19 +89,29 @@ void TextScrollListObject::update() {
     }
 
     if (mEnableTransition) {
+        std::cout << "Enable transition" << std::endl;
 
         // We are on the bottom of the screen, so we go upwards
-        // TODO: Resize box to default
         if (mShapeRef->getPosition().y + mShapeRef->getSize().y + mMaxiumExpandSize.y > winSize->height ) {
             mExpandTop = true;
+        } else {
+            mExpandTop = false;
         }
 
-        if (mShapeRef->getSize().x < mMaxiumExpandSize.x) {
+
+        // Expand
+        if (mShapeRef->getSize().x < mMaxiumExpandSize.x && mIsExpanded == false) {
             float diff = (mMaxiumExpandSize.x - mShapeRef->getSize().x) / 10;
             mShapeRef->setSize(Vect2f(mShapeRef->getSize().x + ((mExpandVelocity / 100) * mClock.getTime() * diff), mShapeRef->getSize().y));
         }
 
-        if (mShapeRef->getSize().y < mMaxiumExpandSize.y) {
+        // Retract
+        if (mIsExpanded && mShapeRef->getSize().x > mSize.x) {
+            float diff = (mSize.x - mShapeRef->getSize().x) / 10;
+            mShapeRef->setSize(Vect2f(mShapeRef->getSize().x - ((mExpandVelocity / 100) * mClock.getTime() * diff), mShapeRef->getSize().y));
+        }
+
+        if (mShapeRef->getSize().y < mMaxiumExpandSize.y && mIsExpanded == false) {
             float diff = (mMaxiumExpandSize.y - mShapeRef->getSize().y) / 10;
             float pos  = ((mExpandVelocity / 100) * mClock.getTime() * diff);
             mShapeRef->setSize(Vect2f(mShapeRef->getSize().x, mShapeRef->getSize().y + pos));
@@ -113,10 +123,31 @@ void TextScrollListObject::update() {
             }
         }
 
-        if (mShapeRef->getSize().x >= mMaxiumExpandSize.x - 1.f && mShapeRef->getSize().y >= mMaxiumExpandSize.y - 1.f) {
+        // Retract
+        if (mIsExpanded && mShapeRef->getSize().y < mSize.y) {
+            float diff = (mSize.y - mShapeRef->getSize().y) / 10;
+            float pos  = ((mExpandVelocity / 100) * mClock.getTime() * diff);
+            mShapeRef->setSize(Vect2f(mShapeRef->getSize().x, mShapeRef->getSize().y - pos));
+
+            if (mExpandTop) {
+                mShapeRef->setPosition(Vect2f(mShapeRef->getPosition().x, mShapeRef->getPosition().y + pos));
+            } else {
+                mTextRef->setPosition(Vect2f(mTextRef->getPosition().x, mTextRef->getPosition().y - pos));
+            }
+        }
+
+        if (mIsExpanded == false && mShapeRef->getSize().x >= mMaxiumExpandSize.x - 1.f && mShapeRef->getSize().y >= mMaxiumExpandSize.y - 1.f) {
             mEnableTransition = false;
             mIsExpanded       = true;
+            std::cout << "Completed" << std::endl;
         }
+
+        // Rectract
+        if (mIsExpanded == true && mShapeRef->getSize().x >= mSize.x - 1.f && mShapeRef->getSize().y >= mSize.y - 1.f) {
+            mEnableTransition = false;
+            mIsExpanded       = false;
+        }
+
     }
 
     mClock.restart();
@@ -227,11 +258,18 @@ bool TextScrollListObject::isExpanded() {
 void TextScrollListObject::onClick(Event evt, Window& window) {
     if (!isExpanded()) {
         mEnableTransition = true;
+        std::cout << "Expand" << std::endl;
     } else {
         Vect2i mousePos = Mouse::getPosition(*window.getWindowPtr());
 
         if (mShowScrollBar && mScrollBar->getGlobalBounds().contains(mousePos)) {
             mScrollBarClicked = true;
+        }
+
+        // If already expanded and click not in the scrollbar
+        if (isExpanded() && !mScrollBar->getGlobalBounds().contains(mousePos)) {
+            mEnableTransition = true;
+            std::cout << "Minimize" << std::endl;
         }
     }
 }

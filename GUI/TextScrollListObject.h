@@ -45,8 +45,8 @@ private:
     Vect2f mMaxiumExpandSize;
     bool mEnableTransition;
     bool mExpandTop;
-    float mExpandVelocity;
     bool mIsExpanded;
+    float mExpandVelocity;
     WindowInfo* winSize;
 
     // Scrollbar
