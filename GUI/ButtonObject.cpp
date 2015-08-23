@@ -31,7 +31,7 @@ void ButtonObject::init() {
     mTextRef->setOriginCenter();
     mTextRef->setPosition(Vect2f(mShapeRef->getPosition().x+(mShapeRef->getSize().x/2), mShapeRef->getPosition().y+(mTextRef->getSize().y/2)));
 
-    mTextRef->setColor(Color(0, 0, 0));
+    mTextRef->setColor(Color::BLACK);
 }
 
 void ButtonObject::draw(Window& window) {
@@ -54,7 +54,7 @@ void ButtonObject::onMouseOver(Event evt, Window& window) {
 
 void ButtonObject::onMouseOut(Event evt, Window& window) {
     mShapeRef->setColor(ColorGradient(Color::BUTTON_C1, Color::BUTTON_C3));
-    mTextRef->setColor(Color::BLACK);
+    mTextRef->setColor(Color::BLUE);
 }
 
 void ButtonObject::onClick(Event evt, Window& window) {
@@ -92,6 +92,26 @@ Color ButtonObject::getColor() {
     return mShapeRef->getColor();
 }
 
+void ButtonObject::setColor(const ColorGradient& color) {
+    mShapeRef->setColor(color);
+}
+
+ColorGradient ButtonObject::getColorGradient() {
+    return mShapeRef->getColorGradient();
+}
+
+bool ButtonObject::isColorGradient() {
+    return mShapeRef->isColorGradient();
+}
+
+void ButtonObject::setTextColor(const Color& color) {
+    mTextRef->setColor(color);
+}
+
+Color ButtonObject::getTextColor() {
+    return mTextRef->getColor();
+}
+
 Area ButtonObject::getLocalBounds() {
     return mShapeRef->getLocalBounds();
 }
@@ -99,4 +119,3 @@ Area ButtonObject::getLocalBounds() {
 Area ButtonObject::getGlobalBounds() {
     return mShapeRef->getGlobalBounds();
 }
-

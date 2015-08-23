@@ -27,7 +27,7 @@ public:
     void setColor(const ColorGradient& color);
     ColorGradient getColorGradient();
 
-    bool isGradientColor();
+    bool isColorGradient();
 
     void setRadius(const float& radius);
     float getRadius();

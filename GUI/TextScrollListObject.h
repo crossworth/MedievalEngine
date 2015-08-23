@@ -17,10 +17,15 @@ public:
     void setScrollSpeed(float& scrollspeed);
     float getScrollSpeed();
     void setSize(const Vect2f& size);
-    void setBackgroundColor(const Color& color);
-    void setBackgroundColor(const ColorGradient& color);
-    void textColor(const Color& color);
+    void setColor(const Color& color);
+    void setColor(const ColorGradient& color);
+    Color getColor();
+    ColorGradient getColorGradient();
+    bool isColorGradient();
+
+    void setTextColor(const Color& color);
     Color getTextColor();
+
     void setScrollBarColor(const Color& color);
     Color getScrollBarColor();
 
@@ -51,7 +56,7 @@ private:
     WindowInfo* winSize;
 
     // Scrollbar
-    Shape* mScrollBar;
+    Shape* mScrollBarRef;
     Color mScrollBarColor;
     bool mShowScrollBar;
     bool mScrollBarClicked;

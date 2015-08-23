@@ -27,8 +27,14 @@ public:
     void setOpacity(const float& opacity);
     float getOpacity();
 
-    void setColor(const Color &color);
+    void setColor(const Color& color);
     Color getColor();
+    void setColor(const ColorGradient& color);
+    ColorGradient getColorGradient();
+    bool isColorGradient();
+
+    void setTextColor(const Color& color);
+    Color getTextColor();
 
     Area getLocalBounds();
     Area getGlobalBounds();

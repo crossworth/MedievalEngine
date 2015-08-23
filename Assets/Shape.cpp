@@ -122,7 +122,7 @@ ColorGradient Shape::getColorGradient() {
     return mGradientColor;
 }
 
-bool Shape::isGradientColor() {
+bool Shape::isColorGradient() {
     return mIsGradientColor;
 }
 

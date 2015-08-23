@@ -39,7 +39,7 @@ void GUI::handleEvents(Event evt, Window& window) {
             mObjects[i].object->onClick(evt, window);
         }
 
-        if (!(mObjects[i].object->getGlobalBounds().contains(mousePos))) {
+        if (!(mObjects[i].object->getGlobalBounds().contains(mousePos)) && mObjects[i].isMouseOver) {
             mObjects[i].isMouseOver = false;
             mObjects[i].object->onMouseOut(evt, window);
         }

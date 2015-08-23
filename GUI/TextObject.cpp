@@ -15,7 +15,6 @@ void TextObject::init() {
     setPosition(mPos);
 }
 
-
 void TextObject::setPosition(const Vect2f& pos) {
     mTextRef->setPosition(pos);
 }

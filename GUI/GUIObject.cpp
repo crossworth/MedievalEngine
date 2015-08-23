@@ -18,7 +18,7 @@ bool GUIObject::isActive() {
     return mIsActive;
 }
 
-bool GUIObject::isGradientColor() {
+bool GUIObject::isColorGradient() {
     return mHasColorGradient;
 }
 

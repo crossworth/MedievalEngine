@@ -43,7 +43,7 @@ public:
 
     bool isVisible();
     bool isActive();
-    bool isGradientColor();
+    bool isColorGradient();
 
     std::string getType();
 protected:

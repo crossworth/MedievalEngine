@@ -14,19 +14,19 @@ unsigned int Text::getFontSize() {
     return mText.getCharacterSize();
 }
 
-FONT_STYLE Text::getStyle() {
+Text::FONT_STYLE Text::getStyle() {
     switch (mText.getStyle()) {
     case sf::Text::Style::Bold:
-        return BOLD;
+        return Text::BOLD;
         break;
     case sf::Text::Style::Regular:
-        return REGULAR;
+        return Text::REGULAR;
         break;
     case sf::Text::Style::Underlined:
-        return UNDERLINE;
+        return Text::UNDERLINE;
         break;
     case sf::Text::Style::Italic:
-        return ITALIC;
+        return Text::ITALIC;
         break;
     }
 }
@@ -57,15 +57,15 @@ bool Text::isTextShadowEnable() {
     return mHasTextShadow;
 }
 
-void Text::setStyle(const FONT_STYLE &style) {
+void Text::setStyle(const Text::FONT_STYLE &style) {
     switch (style) {
-    case BOLD:
+    case Text::BOLD:
         mText.setStyle(sf::Text::Style::Bold);
         break;
-    case ITALIC:
+    case Text::ITALIC:
         mText.setStyle(sf::Text::Style::Italic);
         break;
-    case UNDERLINE:
+    case Text::UNDERLINE:
         mText.setStyle(sf::Text::Style::Underlined);
         break;
     default:
@@ -74,7 +74,7 @@ void Text::setStyle(const FONT_STYLE &style) {
     }
 }
 
-void Text::draw(sf::RenderWindow *renderWindow) {
+void Text::draw(sf::RenderWindow* renderWindow) {
     if (mHasTextShadow) {
         Color tmpColor    = getColor();
         Vect2f tmpPos     = getPosition();
