@@ -1,6 +1,6 @@
 #ifndef ASSETSMANAGER_H
 #define ASSETSMANAGER_H
-#include <map>
+#include <unordered_map>
 #include <LogInc.h>
 #include <Helper/ID.h>
 #include <Helper/Data2.h>
@@ -20,7 +20,7 @@ namespace ME {
 
 class AssetsManager {
 public:
-    static AssetsManager* getInstance();
+    AssetsManager();
 
     MEid loadTexture(const std::string& fileName);
     MEid loadFont(const std::string& fileName);
@@ -38,10 +38,7 @@ public:
 
     ~AssetsManager();
 private:
-    static AssetsManager* mInstance;
-    std::map<MEid, Asset*> mAssets;
-
-    AssetsManager();
+    std::unordered_map<MEid, Asset*> mAssets;
 };
 
 template<typename T>
@@ -50,7 +47,7 @@ T* AssetsManager::getAsset(const MEid &id) {
         return static_cast<T*>(mAssets[id]);
     } else {
         LOG << Log::WARNING << ("[AssetsManager::getAsset] Asset not found ID: " + Data2::int_to_str(id)).c_str() << std::endl;
-        return static_cast<T*>(new Asset);
+        return nullptr;
     }
 }
 

@@ -6,7 +6,10 @@ TextScrollListObject::TextScrollListObject() : mPadding(10.f), mScrollSpeed(10.0
     mMaxiumExpandSize(250.0f, 150.0f) , mEnableTransition(false), mExpandTop(false), mIsExpanded(false),
     mShowScrollBar(false), mScrollBarClicked(false), mScrollBarHasMoved(false), mScrollBarAutoScroll(false) {
 
-    mType         = "text_scroll_list";
+    mType = "text_scroll_list";
+}
+
+void TextScrollListObject::init() {
     MEid textID   = mAssets->createText(L"ScrollView", 22, mDefaultFontID);
     MEid shapeID  = mAssets->createShape(Vect2f(250.f, 35.f));
     MEid scrollID = mAssets->createShape(Vect2f(8.f, 30.f), Color(0, 0, 0, 75));
@@ -28,7 +31,6 @@ TextScrollListObject::TextScrollListObject() : mPadding(10.f), mScrollSpeed(10.0
     mShapeRef->setSize(Vect2f(mShapeRef->getSize().x, mLineHeight + ( 2 * mPadding )));
 
     mExpandVelocity = 4.f;
-
 }
 
 void TextScrollListObject::addText(const std::wstring& text) {

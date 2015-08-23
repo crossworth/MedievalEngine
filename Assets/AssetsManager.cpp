@@ -2,16 +2,6 @@
 
 using namespace ME;
 
-
-AssetsManager* AssetsManager::mInstance = nullptr;
-
-AssetsManager* AssetsManager::getInstance() {
-    if (!mInstance) {
-        mInstance = new AssetsManager;
-    }
-    return mInstance;
-}
-
 AssetsManager::AssetsManager() {
     LOG << Log::VERBOSE << "[AssetsManager::AssetsManager] AssetsManager created" << std::endl;
 }
@@ -65,7 +55,7 @@ MEid AssetsManager::loadSound(const std::string &fileName) {
 MEid AssetsManager::createSprite(const MEid &texture) {
     MEid spriteID     = ID::get();
     mAssets[spriteID] = new Sprite();
-    static_cast<Sprite*>(mAssets[spriteID])->setTexture(getAsset<Texture>(texture));
+   static_cast<Sprite*>(mAssets[spriteID])->setTexture(getAsset<Texture>(texture));
 
     LOG << Log::VERBOSE << ("[AssetsManager::createSprite] Sprite created ID: " + Data2::int_to_str(spriteID)).c_str() << std::endl;
 
@@ -103,6 +93,10 @@ MEid AssetsManager::createText(const std::wstring &text, const unsigned int &fon
 }
 
 AssetsManager::~AssetsManager() {
-    // TODO: Fix memory
-    delete mInstance;
+    std::unordered_map<MEid, Asset*>::iterator it = mAssets.begin();
+
+    for (; it != mAssets.end(); it++) {
+        delete it->second;
+        mAssets.erase(it);
+    }
 }

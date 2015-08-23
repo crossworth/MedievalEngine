@@ -23,7 +23,7 @@ public:
 private:
     Window mWindow;
     GUI* mGUI;
-    AssetsManager* mAssetsManager;
+    AssetsManager mAssetsManager;
     CFGParser mConfigurations;
     ArgumentsParser mArguments;
     SM::DATFile* mDataFiles;

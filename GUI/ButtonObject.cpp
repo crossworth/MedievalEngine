@@ -3,12 +3,17 @@
 using namespace ME;
 
 ButtonObject::ButtonObject(const std::wstring& text, Vect2f pos,  MEid fontID) {
-    mType = "button";
+    mType   = "button";
+    mText   = text;
+    mPos    = pos;
+    mFontID = fontID;
+}
 
-    if (fontID == 0) {
-        mTextID  = mAssets->createText(text, 22, mDefaultFontID);
+void ButtonObject::init() {
+    if (mFontID == 0) {
+        mTextID  = mAssets->createText(mText, 22, mDefaultFontID);
     }else {
-        mTextID  = mAssets->createText(text, 22, fontID);
+        mTextID  = mAssets->createText(mText, 22, mFontID);
     }
     mTextRef = mAssets->getAsset<Text>(mTextID);
 
@@ -18,7 +23,7 @@ ButtonObject::ButtonObject(const std::wstring& text, Vect2f pos,  MEid fontID) {
         width = mTextRef->getSize().x + 20.0f;
     }
 
-    mShapeID  = mAssets->createShape(Vect2f(width, 30.0f), Color(0, 0, 0), pos);
+    mShapeID  = mAssets->createShape(Vect2f(width, 30.0f), Color(0, 0, 0), mPos);
     mShapeRef = mAssets->getAsset<Shape>(mShapeID);
     mShapeRef->setColor(ColorGradient(Color::BUTTON_C1, Color::BUTTON_C2));
     mShapeRef->setRadius(2.0f);
@@ -27,7 +32,6 @@ ButtonObject::ButtonObject(const std::wstring& text, Vect2f pos,  MEid fontID) {
     mTextRef->setPosition(Vect2f(mShapeRef->getPosition().x+(mShapeRef->getSize().x/2), mShapeRef->getPosition().y+(mTextRef->getSize().y/2)));
 
     mTextRef->setColor(Color(0, 0, 0));
-
 }
 
 void ButtonObject::draw(Window& window) {

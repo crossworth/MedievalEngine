@@ -3,8 +3,11 @@
 using namespace ME;
 
 GUIObject::GUIObject() : mIsVisible(true), mIsActive(true) {
-    mAssets        = AssetsManager::getInstance();
     mDefaultFontID = Font::DEFAULT_FONT;
+}
+
+void GUIObject::registerAssetsManager(AssetsManager* assets) {
+    mAssets = assets;
 }
 
 bool GUIObject::isVisible() {

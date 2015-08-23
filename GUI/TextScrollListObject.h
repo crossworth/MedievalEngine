@@ -9,6 +9,7 @@ namespace ME {
 class TextScrollListObject : public GUIObject {
 public:
     TextScrollListObject();
+    void init();
     void addText(const std::wstring& text);
     void draw(Window& window);
     void update();

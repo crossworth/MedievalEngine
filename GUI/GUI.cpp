@@ -1,4 +1,5 @@
 #include "GUI.h"
+#include <Engine/MedievalEngine.h>
 
 using namespace ME;
 
@@ -6,6 +7,10 @@ GUI::GUI(WindowInfo* windowInfo) : mIsVisible(true), mIsActive(true) {
     this->windowInfo = windowInfo;
 
     LOG << Log::VERBOSE << "[GUI::GUI] GUI created" << std::endl;
+}
+
+void GUI::registerEngine(MedievalEngine* engine) {
+    mEngine = engine;
 }
 
 void GUI::draw(Window& window) {
@@ -78,9 +83,12 @@ void GUI::update() {
 }
 
 GUIObject* GUI::addObject(const std::string& name, GUIObject* object) {
-    if (findObject(name) != nullptr) {
-        return findObject(name);
-    }
+//    if (findObject(name) != nullptr) {
+//        return findObject(name);
+//    }
+
+    object->registerAssetsManager(mEngine->getAssetsManager());
+    object->init();
 
     ObjectWrapper objTmp;
     objTmp.name        = name;
@@ -89,6 +97,7 @@ GUIObject* GUI::addObject(const std::string& name, GUIObject* object) {
 
     mObjects.push_back(objTmp);
     LOG << Log::VERBOSE << ("[GUI::addObject] GUI Object " + object->getType() + " " +  name + " added").c_str() << std::endl;
+
 
     return mObjects.end()->object;
 }

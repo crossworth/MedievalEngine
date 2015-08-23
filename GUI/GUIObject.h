@@ -1,17 +1,20 @@
 #ifndef GUIOBJECT_H
 #define GUIOBJECT_H
+#include <LogInc.h>
+#include <Assets/AssetsManager.h>
 #include <Graphics/Drawable.h>
 #include <Graphics/Window.h>
 #include <Events/Event.h>
-#include <Assets/AssetsManager.h>
-#include <LogInc.h>
+
 
 namespace ME {
 
 class GUIObject {
 public:
     GUIObject();
+    void registerAssetsManager(AssetsManager* assets);
 
+    virtual void init() = 0;
     virtual void draw(Window& window) = 0;
     virtual void update() = 0;
     virtual void handleEvents(Event evt, Window& window) = 0;

@@ -3,11 +3,18 @@
 using namespace ME;
 
 TextObject::TextObject(const std::wstring& text, const int& textSize, const Vect2f& pos) {
-    mType    = "text";
-    mTextID  = mAssets->createText(text, textSize, mDefaultFontID);
-    mTextRef = mAssets->getAsset<Text>(mTextID);
-    setPosition(pos);
+    mType     = "text";
+    mPos      = pos;
+    mText     = text;
+    mTextSize = textSize;
 }
+
+void TextObject::init() {
+    mTextID  = mAssets->createText(mText, mTextSize, mDefaultFontID);
+    mTextRef = mAssets->getAsset<Text>(mTextID);
+    setPosition(mPos);
+}
+
 
 void TextObject::setPosition(const Vect2f& pos) {
     mTextRef->setPosition(pos);

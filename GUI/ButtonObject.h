@@ -9,6 +9,7 @@ namespace ME {
 class ButtonObject : public GUIObject {
 public:
     ButtonObject(const std::wstring& text, Vect2f pos, MEid fontID = 0);
+    void init();
     void draw(Window& window);
     void update();
     void handleEvents(Event evt, Window& window);
@@ -36,6 +37,8 @@ private:
     MEid mTextID;
     Text* mTextRef;
     Shape* mShapeRef;
+    std::wstring mText;
+    MEid mFontID;
 };
 
 }

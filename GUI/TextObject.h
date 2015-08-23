@@ -10,6 +10,7 @@ namespace ME {
 class TextObject : public GUIObject {
 public:
     TextObject(const std::wstring& text, const int& textSize, const Vect2f& pos = Vect2f());
+    void init();
     void draw(Window& window);
     void update();
     void handleEvents(Event evt, Window& window);
@@ -33,6 +34,8 @@ public:
 private:
     MEid mTextID;
     Text* mTextRef;
+    std::wstring mText;
+    int mTextSize;
 };
 
 }

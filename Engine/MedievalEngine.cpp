@@ -11,7 +11,7 @@ MedievalEngine* MedievalEngine::getInstance(int argc, char **argv) {
     return mInstance;
 }
 
-MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr), mArguments(argc, argv) {
+MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv) {
 
     if (mArguments.hasArgument("config")) {
         mConfigurations.readFile(mArguments.getArgument("config"));
@@ -56,7 +56,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr),
         mWindow.setIcon(tmpIconName);
     }
 
-    mAssetsManager = AssetsManager::getInstance();
+
     mDataFiles     = new SM::DATFile();
     mGUI           = nullptr;
 
@@ -68,7 +68,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr),
 
     if (mDataFiles->getName() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_NAME &&
         mDataFiles->getVersion() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_VERSION ) {
-        Font::DEFAULT_FONT = mAssetsManager->loadFont(mDataFiles->getFile("default.ttf"), mDataFiles->getFileEntrySize("default.ttf"));
+        Font::DEFAULT_FONT = mAssetsManager.loadFont(mDataFiles->getFile("default.ttf"), mDataFiles->getFileEntrySize("default.ttf"));
         LOG << Log::VERBOSE << "[MedievalEngine::MedievalEngine] Default font loaded " << std::endl;
     } else {
         LOG << Log::CRITICAL << "[MedievalEngine::MedievalEngine] Default asset pack recognized "
@@ -81,6 +81,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mAssetsManager(nullptr),
 void MedievalEngine::init() {
     LOG << Log::VERBOSE << "[MedievalEngine::init]" << std::endl;
     mGUI = new GUI(mWindow.getWindowInfo());
+    mGUI->registerEngine(this);
 
     mGameStateManager.add("loading", new LoadingScreen(this));
     mGameStateManager.setGameState("loading");
@@ -117,7 +118,7 @@ Window* MedievalEngine::getWindow() {
 }
 
 AssetsManager* MedievalEngine::getAssetsManager() {
-    return mAssetsManager;
+    return &mAssetsManager;
 }
 
 GameStateManager* MedievalEngine::getGameStateManager() {
@@ -134,7 +135,6 @@ SM::DATFile*MedievalEngine::getDATAFileHandle() {
 
 MedievalEngine::~MedievalEngine() {
     LOG << Log::VERBOSE << "[MedievalEngine::~MedievalEngine]" << std::endl;
-    delete mAssetsManager;
     delete mGUI;
     delete mDataFiles;
     delete mInstance;

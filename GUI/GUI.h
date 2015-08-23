@@ -9,9 +9,13 @@
 
 namespace ME {
 
+class MedievalEngine;
+
 class GUI {
 public:
     GUI(WindowInfo* windowInfo);
+    void registerEngine(MedievalEngine* engine);
+
     void draw(Window& window);
     void update();
     void handleEvents(Event evt, Window& window);
@@ -34,6 +38,7 @@ protected:
     GUIObject* findObject(const std::string& name);
     WindowInfo* windowInfo;
 private:
+    MedievalEngine* mEngine;
     bool mIsVisible;
     bool mIsActive;
     std::vector<ObjectWrapper> mObjects;
