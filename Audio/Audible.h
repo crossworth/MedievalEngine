@@ -11,7 +11,7 @@ enum AUDIABLE_STATUS {STOPPED, PLAYING, PAUSED};
 class Audible {
 public:
     Audible();
-    virtual sf::Time getDuration() = 0;
+    virtual unsigned int getDuration() = 0;
     virtual float getAttenuation() = 0;
     virtual float getMinDistance() = 0;
     virtual bool isRelativeToListener() = 0;
@@ -25,8 +25,8 @@ public:
     virtual void setVolume(const float& volume) = 0;
     virtual void setPitch(const float& pitch) = 0;
     virtual AUDIABLE_STATUS getStatus() = 0;
-    virtual sf::Time getPlayingOffSet() = 0;
-    virtual void setPlayingOffSet(const sf::Time& offSet) = 0;
+    virtual unsigned int getPlayingOffSet() = 0;
+    virtual void setPlayingOffSet(const unsigned int offSet) = 0;
     virtual bool isLoopMode() = 0;
     virtual void setLoopMode(const bool& loop) = 0;
     virtual void play() = 0;

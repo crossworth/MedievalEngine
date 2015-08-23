@@ -11,7 +11,7 @@ void Sprite::setTexture(Texture *texture) {
 }
 
 void Sprite::draw(sf::RenderWindow *renderWindow) {
-    if (_mEffectPlay) {
+    if (mIsEffectPlaying) {
         std::vector<Effects*>::iterator it = mEffects.begin();
 
         for(int i = 0 ; i < mEffects.size(); i++) {

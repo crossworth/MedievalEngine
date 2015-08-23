@@ -2,7 +2,7 @@
 
 using namespace ME;
 
-Fade::Fade(float time, const FADE_TYPE &type) {
+Fade::Fade(unsigned int time, const FADE_TYPE &type) {
     mType = "fade";
 
     // Tempo em milisegundos
@@ -36,7 +36,7 @@ void Fade::update(Drawable* object) {
         // Utiliza float para os cálculos, porém clipa na hora de exibir em int
         // Precisão de 2 casas, not bad =)
 
-        float mStep =  (mTime.asSeconds() * 255)/mFadeTime;
+        float mStep =  (mTime.asMilliseconds() * 255)/mFadeTime;
 
         if (mFadeType == FADEOUT) {
             mFadeCounter = mFadeCounter - mStep;

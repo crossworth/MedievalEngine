@@ -13,7 +13,7 @@ class MedievalEngine;
 
 class GUI {
 public:
-    GUI(WindowInfo* windowInfo);
+    GUI();
     void registerEngine(MedievalEngine* engine);
 
     void draw(Window& window);
@@ -36,7 +36,6 @@ public:
 
 protected:
     GUIObject* findObject(const std::string& name);
-    WindowInfo* windowInfo;
 private:
     MedievalEngine* mEngine;
     bool mIsVisible;

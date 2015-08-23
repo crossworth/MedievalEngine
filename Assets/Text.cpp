@@ -89,7 +89,7 @@ void Text::draw(sf::RenderWindow *renderWindow) {
         setPosition(tmpPos);
     }
 
-    if(_mEffectPlay) {
+    if(mIsEffectPlaying) {
         std::vector<Effects*>::iterator it = mEffects.begin();
 
         for(int i = 0 ; i < mEffects.size(); i++) {

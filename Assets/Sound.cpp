@@ -19,8 +19,8 @@ sf::Sound* Sound::getResourcePointer() {
     return &mSound;
 }
 
-sf::Time Sound::getDuration() {
-    return mSound.getBuffer()->getDuration();
+unsigned int Sound::getDuration() {
+    return mSound.getBuffer()->getDuration().asMilliseconds();
 }
 
 float Sound::getAttenuation() {
@@ -85,12 +85,12 @@ AUDIABLE_STATUS Sound::getStatus() {
     }
 }
 
-sf::Time Sound::getPlayingOffSet() {
-    return mSound.getPlayingOffset();
+unsigned int Sound::getPlayingOffSet() {
+    return mSound.getPlayingOffset().asMilliseconds();
 }
 
-void Sound::setPlayingOffSet(const sf::Time &offSet) {
-    mSound.setPlayingOffset(offSet);
+void Sound::setPlayingOffSet(const unsigned int offSet) {
+    mSound.setPlayingOffset(sf::milliseconds(offSet));
 }
 
 bool Sound::isLoopMode() {

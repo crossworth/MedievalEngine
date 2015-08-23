@@ -3,14 +3,12 @@
 
 using namespace ME;
 
-GUI::GUI(WindowInfo* windowInfo) : mIsVisible(true), mIsActive(true) {
-    this->windowInfo = windowInfo;
-
+GUI::GUI() : mIsVisible(true), mIsActive(true) {
     LOG << Log::VERBOSE << "[GUI::GUI] GUI created" << std::endl;
 }
 
 void GUI::registerEngine(MedievalEngine* engine) {
-    mEngine = engine;
+    mEngine     = engine;
 }
 
 void GUI::draw(Window& window) {

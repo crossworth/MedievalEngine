@@ -13,7 +13,7 @@ public:
     sf::Sound* loadFromFile(const std::string& fileName);
     sf::Sound* getResourcePointer();
 
-    sf::Time getDuration();
+    unsigned int getDuration();
     float getAttenuation();
     float getMinDistance();
     bool isRelativeToListener();
@@ -27,8 +27,8 @@ public:
     void setVolume(const float& volume);
     void setPitch(const float& pitch);
     AUDIABLE_STATUS getStatus();
-    sf::Time getPlayingOffSet();
-    void setPlayingOffSet(const sf::Time& offSet);
+    unsigned int getPlayingOffSet();
+    void setPlayingOffSet(const unsigned int offSet);
     bool isLoopMode();
     void setLoopMode(const bool& loop);
     void play();

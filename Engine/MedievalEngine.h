@@ -7,8 +7,7 @@ namespace ME {
 
 class MedievalEngine {
 public:
-    static MedievalEngine* getInstance(int argc = 0, char** argv = nullptr);
-
+    MedievalEngine(int argc, char **argv);
     void init();
     void run();
     void close();
@@ -22,14 +21,12 @@ public:
     ~MedievalEngine();
 private:
     Window mWindow;
-    GUI* mGUI;
+    GUI mGUI;
     AssetsManager mAssetsManager;
     CFGParser mConfigurations;
     ArgumentsParser mArguments;
-    SM::DATFile* mDataFiles;
+    SM::DATFile mDataFiles;
     GameStateManager mGameStateManager;
-    static MedievalEngine* mInstance;
-    MedievalEngine(int argc, char **argv);
 };
 
 }

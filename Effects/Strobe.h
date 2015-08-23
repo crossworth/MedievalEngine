@@ -13,14 +13,14 @@ public:
     // um efeito da opacidade default do objeto até 50% abaixo
     // Ou seja um objeto com 1.0f de opacidade teria um strobe de até 50% de opacidade
 
-    Strobe(float time, float negativeRange);
+    Strobe(unsigned int time, float negativeRange);
     void update(Drawable* object);
     bool done();
 private:
     bool mIsInitialized;
     int mDirection;
     Color mBaseColor;
-    float mStrobeTime;
+    unsigned int mStrobeTime;
     float mStrobeCounter;
     float mNegativeRange;
 };

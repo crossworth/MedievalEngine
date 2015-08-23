@@ -2,7 +2,7 @@
 
 using namespace ME;
 
-Strobe::Strobe(float time, float negativeRange) {
+Strobe::Strobe(unsigned int time, float negativeRange) {
     mType = "strobe";
 
     mIsInitialized = false;
@@ -36,7 +36,7 @@ void Strobe::update(Drawable* object) {
     if (!done()) {
         sf::Time mTime = mClock.getElapsedTime();
 
-        float mStep =  (mTime.asSeconds() * mBaseColor.alpha) / mStrobeTime;
+        float mStep =  (mTime.asMilliseconds() * mBaseColor.alpha) / mStrobeTime;
 
         if (mDirection < 0) {
             mStrobeCounter = mStrobeCounter - mStep;

@@ -10,7 +10,7 @@ void Clock::restart() {
     mClock.restart();
 }
 
-long long Clock::getTime() {
+unsigned int Clock::getTime() {
     return mClock.getElapsedTime().asMilliseconds();
 }
 

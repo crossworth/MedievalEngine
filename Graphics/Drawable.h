@@ -55,7 +55,7 @@ public:
 
 protected:
     std::vector<Effects*> mEffects;
-    bool _mEffectPlay;
+    bool mIsEffectPlaying;
 
 };
 

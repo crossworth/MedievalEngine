@@ -51,7 +51,7 @@ bool SpriteAnimation::isPlaying() {
 }
 
 void SpriteAnimation::draw(sf::RenderWindow *renderWindow) {
-    if(_mEffectPlay) {
+    if(mIsEffectPlaying) {
 
         for(int i = 0 ; i < mEffects.size(); i++) {
             mEffects[i]->update(this);

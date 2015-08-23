@@ -17,10 +17,10 @@ int main(int argc, char **argv) {
     ProfileInit();
     ProfileStart();
 
-    ME::MedievalEngine *app = ME::MedievalEngine::getInstance(argc, argv);
-    app->init();
-    app->run();
-    app->close();
+    ME::MedievalEngine app(argc, argv);
+    app.init();
+    app.run();
+    app.close();
 
     ProfileEnd("GameEngine total");
     return resultCode;

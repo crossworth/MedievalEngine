@@ -9,8 +9,9 @@ class Clock {
 public:
     Clock();
     void restart();
-    // Retorna o tempo em milesegundos
-    long long int getTime();
+
+    // Default time is miliseconds
+    unsigned int getTime();
 private:
     sf::Clock mClock;
 };

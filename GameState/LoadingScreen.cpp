@@ -86,6 +86,15 @@ void LoadingScreen::handleEvents(Event& evt) {
         }
 
 
+        if (evt.key.code == Keyboard::F) {
+            mEngine->getAssetsManager()->getAsset<Shape>(spriteMario)->addEffect(new Fade(500, Fade::FADEIN));
+        }
+
+        if (evt.key.code == Keyboard::D) {
+            mEngine->getAssetsManager()->getAsset<Shape>(spriteMario)->addEffect(new Strobe(500, 0.5));
+        }
+
+
     }
 }
 

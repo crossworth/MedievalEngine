@@ -2,15 +2,6 @@
 
 using namespace ME;
 
-MedievalEngine* MedievalEngine::mInstance = nullptr;
-
-MedievalEngine* MedievalEngine::getInstance(int argc, char **argv) {
-    if (!mInstance) {
-        mInstance = new MedievalEngine(argc, argv);
-    }
-    return mInstance;
-}
-
 MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv) {
 
     if (mArguments.hasArgument("config")) {
@@ -56,19 +47,15 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv) {
         mWindow.setIcon(tmpIconName);
     }
 
-
-    mDataFiles     = new SM::DATFile();
-    mGUI           = nullptr;
-
-    if (!mDataFiles->openFile(ENGINE_DEFAULTS::DATA_PATH + ENGINE_DEFAULTS::DEFAULT_DATFILE)) {
-        LOG << Log::CRITICAL << "[MedievalEngine::MedievalEngine] Could not open default_datfile "
+    if (!mDataFiles.openFile(ENGINE_DEFAULTS::DATA_PATH + ENGINE_DEFAULTS::DEFAULT_DATFILE)) {
+        LOG << Log::CRITICAL << "[MedievalEngine::MedievalEngine] Could not open the default assets file "
         << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str() << std::endl;
         mWindow.close();
     }
 
-    if (mDataFiles->getName() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_NAME &&
-        mDataFiles->getVersion() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_VERSION ) {
-        Font::DEFAULT_FONT = mAssetsManager.loadFont(mDataFiles->getFile("default.ttf"), mDataFiles->getFileEntrySize("default.ttf"));
+    if (mDataFiles.getName() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_NAME &&
+        mDataFiles.getVersion() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_VERSION ) {
+        Font::DEFAULT_FONT = mAssetsManager.loadFont(mDataFiles.getFile("default.ttf"), mDataFiles.getFileEntrySize("default.ttf"));
         LOG << Log::VERBOSE << "[MedievalEngine::MedievalEngine] Default font loaded " << std::endl;
     } else {
         LOG << Log::CRITICAL << "[MedievalEngine::MedievalEngine] Default asset pack recognized "
@@ -80,8 +67,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv) {
 
 void MedievalEngine::init() {
     LOG << Log::VERBOSE << "[MedievalEngine::init]" << std::endl;
-    mGUI = new GUI(mWindow.getWindowInfo());
-    mGUI->registerEngine(this);
+    mGUI.registerEngine(this);
 
     mGameStateManager.add("loading", new LoadingScreen(this));
     mGameStateManager.setGameState("loading");
@@ -95,23 +81,21 @@ void MedievalEngine::run() {
         Event event;
         while(mWindow.pollEvent(event)) {
             mGameStateManager.handleEvents(event);
-            mGUI->handleEvents(event, mWindow);
+            mGUI.handleEvents(event, mWindow);
         }
 
         mGameStateManager.update();
-        mGUI->update();
+        mGUI.update();
 
         mWindow.clear();
         mGameStateManager.draw(mWindow);
-        mGUI->draw(mWindow);
+        mGUI.draw(mWindow);
         mWindow.display();
     }
 }
 
 void MedievalEngine::close() {
     LOG << Log::VERBOSE << "[MedievalEngine::close]" << std::endl;
-    mAssetsManager.~AssetsManager();
-    mWindow.close();
 }
 
 Window* MedievalEngine::getWindow() {
@@ -127,17 +111,13 @@ GameStateManager* MedievalEngine::getGameStateManager() {
 }
 
 GUI* MedievalEngine::getGUI() {
-    return mGUI;
+    return &mGUI;
 }
 
-SM::DATFile*MedievalEngine::getDATAFileHandle() {
-    return mDataFiles;
+SM::DATFile* MedievalEngine::getDATAFileHandle() {
+    return &mDataFiles;
 }
 
 MedievalEngine::~MedievalEngine() {
     LOG << Log::VERBOSE << "[MedievalEngine::~MedievalEngine]" << std::endl;
-    delete mGUI;
-    delete mDataFiles;
-    delete mInstance;
-    mInstance = nullptr;
 }

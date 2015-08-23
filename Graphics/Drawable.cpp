@@ -3,7 +3,7 @@
 
 using namespace ME;
 
-Drawable::Drawable() : _mEffectPlay(true) {
+Drawable::Drawable() : mIsEffectPlaying(true) {
 
 }
 
@@ -17,7 +17,7 @@ void Drawable::setOriginCenter() {
 }
 
 void Drawable::playEffects() {
-    _mEffectPlay = true;
+    mIsEffectPlaying = true;
 
     std::vector<Effects*>::iterator it = mEffects.begin();
 
@@ -28,11 +28,11 @@ void Drawable::playEffects() {
 }
 
 bool Drawable::isPlayingEffects() {
-    return _mEffectPlay;
+    return mIsEffectPlaying;
 }
 
 void Drawable::pauseEffects() {
-    _mEffectPlay = false;
+    mIsEffectPlaying = false;
 }
 
 void Drawable::removeEffect(std::string effectType) {
