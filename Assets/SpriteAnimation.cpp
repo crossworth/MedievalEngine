@@ -8,7 +8,13 @@ SpriteAnimation::SpriteAnimation() {
 }
 
 SpriteAnimation::~SpriteAnimation() {
-    // TODO: delete memore allocated
+    LOG << Log::WARNING << ("[SpriteAnimation::~SpriteAnimation] Cleaning Sprite animation frames " << std::endl;
+    for(unsigned int i = 0 ; i < mFrames.size(); i++) {
+        delete mFrames[i];
+        mFrames.erase(mFrames.begin() + i);
+    }
+
+    mFrames.clear();
 }
 
 void SpriteAnimation::move(const Vect2f &pos) {
@@ -61,7 +67,7 @@ void SpriteAnimation::draw(sf::RenderWindow *renderWindow) {
             mEffects[i]->update(this);
 
             if (mEffects[i]->done()) {
-                // Call Lua Function done effects?
+                // TODO: Call Lua Function done effects?
                 mEffects.erase(mEffects.begin() + i);
             }
         }
