@@ -7,16 +7,6 @@ SpriteAnimation::SpriteAnimation() {
     mIsPlaying = true;
 }
 
-SpriteAnimation::~SpriteAnimation() {
-    LOG << Log::WARNING << ("[SpriteAnimation::~SpriteAnimation] Cleaning Sprite animation frames " << std::endl;
-    for(unsigned int i = 0 ; i < mFrames.size(); i++) {
-        delete mFrames[i];
-        mFrames.erase(mFrames.begin() + i);
-    }
-
-    mFrames.clear();
-}
-
 void SpriteAnimation::move(const Vect2f &pos) {
     mSprite.move(pos.x, pos.y);
 }

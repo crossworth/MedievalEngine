@@ -8,6 +8,7 @@ namespace ME {
 class Asset {
 public:
     Asset();
+    virtual ~Asset();
     std::string getType();
 protected:
     std::string mType;

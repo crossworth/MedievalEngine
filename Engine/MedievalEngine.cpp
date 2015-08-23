@@ -110,6 +110,7 @@ void MedievalEngine::run() {
 
 void MedievalEngine::close() {
     LOG << Log::VERBOSE << "[MedievalEngine::close]" << std::endl;
+    mAssetsManager.~AssetsManager();
     mWindow.close();
 }
 

@@ -6,6 +6,10 @@ Asset::Asset() {
 
 }
 
+Asset::~Asset() {
+
+}
+
 std::string Asset::getType() {
     return mType;
 }

@@ -14,6 +14,24 @@ void LoadingScreen::init() {
     Vect2i winSize         = mEngine->getWindow()->getSize();
     AssetsManager* mAssets = mEngine->getAssetsManager();
 
+
+    spriteMario                 = mAssets->createSpriteAnimation();
+    SpriteAnimation* marioSptAn = mAssets->getAsset<SpriteAnimation>(spriteMario);
+
+    MEid idAn1 = mAssets->loadTexture("/animation/1.png");
+    MEid idAn2 = mAssets->loadTexture("/animation/2.png");
+    MEid idAn3 = mAssets->loadTexture("/animation/3.png");
+    MEid idAn4 = mAssets->loadTexture("/animation/4.png");
+
+    marioSptAn->addFrame(100, mAssets->getAsset<Texture>(idAn1));
+    marioSptAn->addFrame(100, mAssets->getAsset<Texture>(idAn2));
+    marioSptAn->addFrame(100, mAssets->getAsset<Texture>(idAn3));
+    marioSptAn->addFrame(100, mAssets->getAsset<Texture>(idAn4));
+
+    marioSptAn->setPosition(Vect2f((winSize.x/2)-(marioSptAn->getSize().x/2),
+    winSize.y-marioSptAn->getSize().y));
+
+
     idBackground            = mAssets->createShape(winSize);
     Shape* mShapeBackground = mAssets->getAsset<Shape>(idBackground);
 
@@ -41,6 +59,8 @@ void LoadingScreen::onDisable(Window &window) {
 
 void LoadingScreen::onPlaying(Window &window) {
     window.draw(mEngine->getAssetsManager()->getAsset<Shape>(idBackground));
+    window.draw(mEngine->getAssetsManager()->getAsset<Shape>(spriteMario));
+
 }
 
 void LoadingScreen::update() {

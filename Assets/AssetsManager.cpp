@@ -93,12 +93,10 @@ MEid AssetsManager::createText(const std::wstring &text, const unsigned int &fon
 }
 
 AssetsManager::~AssetsManager() {
-    LOG << Log::VERBOSE << ("[AssetsManager::~AssetsManage] Cleaning everything..." << std::endl;
-    std::unordered_map<MEid, Asset*>::iterator it = mAssets.begin();
+    LOG << Log::VERBOSE << "[AssetsManager::~AssetsManage] Cleaning everything..." << std::endl;
 
-    for (; it != mAssets.end(); it++) {
-        delete it->second;
-        mAssets.erase(it);
+    for (unsigned int i = 0; i < mAssets.size(); i++) {
+        delete mAssets.at(i);
     }
     mAssets.clear();
 }

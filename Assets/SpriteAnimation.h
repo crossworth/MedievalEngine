@@ -18,7 +18,6 @@ namespace ME {
 class SpriteAnimation : public Asset, public Drawable {
 public:
     SpriteAnimation();
-    ~SpriteAnimation();
 
     void addFrame(const int32_t& time, Texture* texture);
     void play();
