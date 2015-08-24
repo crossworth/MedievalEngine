@@ -1,0 +1,149 @@
+This is our goals for the engine
+
+- box shadow
+- blur effect
+- text shadow (better effect, maybe do it like an proper effect and not a text option)
+-
+
+
+Improve the GUI, ASAP, improve all the aspects of the GUI:
+If its enable, wich element should recevied the events
+If its visible, implement an hover event
+Some short of scale to scale the entire GUI Window, use relative positions
+to the window, update the variables defined in the base class.
+
+- event queue
+- hover event
+- getFocus event
+- move event
+- text input event
+- which element is the enabled element global
+- text area object
+- text edit object
+- dialog box object (child of window?)
+- window object
+- menu object
+- context menu object
+- icon global
+- list object
+- links -- not really necessiry, but if we could, we will
+- tabs
+- scrollbars -- improve the scrollbar algority ASAP
+- labels
+- checkbox
+- radio buttons
+- spinners
+- copy and past on text elements
+- select in the case of text
+- slider
+- drop down list
+- tooltip
+- status bar
+- progress bar
+- info bar ?
+- modal window
+- canvas -- implement with a sfml view so We can draw to it... useful for minimaps
+
+
+
+We want the the game logic to be in our lua script files.
+To be more precisely we want to someway to load our required functions in
+the lua script like this:
+
+global_window    = require("window")
+local windowInfo = global_window.getWindowInfo()
+
+
+local input   = require("input")
+local mousPos = input.getMousePosition(true) -- relative to the window
+
+global_gui = require("gui")
+
+global_gui.createButton("test_btn_id")
+local button = global_gui.getButton("test_btn_id")
+
+button.setText("Click to start")
+
+button.onClick("btn_callback")
+button.onMouseOver("fn")
+button.onMouseOut("fn")
+button.onHover("fn")
+button.setEnable(false)
+
+button.getFocus()
+
+function btn_callback
+	log('btn clicked')
+end
+
+
+
+
+// -- another file
+
+global_assets = require('assetsManager')
+
+
+local mario = global_assets.createSprite();
+local mario = global_assets.createSpriteAnimation();
+mario.addFrame(100, "mario1.png");
+mario.addFrame(100, "mario2.png");
+mario.addFrame(100, "mario3.png");
+
+-- or
+-- implement this function
+-- first is the time of each frame
+-- second the name of the file
+-- width of each frame and height of each frame
+-- (FILE.width / width and FILE.height / height should give us the frame number)
+-- but this way we have to set the time of each frame constant
+mario.addFames(100, "frames.png", 50, 100);
+
+-- we can do the follwing to give the user th ability to change the time of each frame
+-- first the frame and second the time
+mario.setFrameTime(0, 100)
+mario.setFrameTime(1, 110)
+mario.setFrameTime(3, 50)
+
+mario.getFramesNumber() -- return the number of frames of the currenty object
+
+-- we have to think yet how we implement an Game object with multiply fames animations
+-- like a player
+
+-- we could do something like
+
+require('medievalEngine') -- our custom lua file with some implementations
+-- in this custom file we can inherit of some base gameObject with commom functions
+-- like add new objectState
+-- objectState should have actions, sprites or spriteanimations, sounds
+
+-- create our game object
+local house1 = medievalEngine.createHouse()
+
+local houseInFire = global_assets.createSpriteAnimation();
+houseInFire.addFrame(30, "hfire1.png")
+houseInFire.addFrame(30, "hfire2.png")
+houseInFire.addFrame(30, "hfire3.png")
+
+local houseInFireSound = global_assets.openSound("hfire1.ogg")
+houseInFireSound.setLoop(true)
+houseInFireSound.setAproximation(400.f) -- 400 units
+houseInFireSound.setVolumeMode("scalar") -- incrise as we get close?
+
+-- We create our object state ou should we call entity?
+local objectStateHouseInFire = medievalEngine.createObjectState("inFire");
+objectStateHouseInFire.setGraphics(houseInFire)
+objectStateHouseInFire.setSound(houseInFireSound)
+objectStateHouseInFire.setEvents(genericEventsObject)
+
+-- we bind our object state to our houseObject
+house1.addObjectState(objectStateHouseInFire)
+-- we enable our currenty object type
+house1.setCurrentState("inFire")
+
+
+
+
+
+
+

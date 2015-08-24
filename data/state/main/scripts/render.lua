@@ -1,2 +1,6 @@
-rectangleDraw("test")
-changeState("enable_transition")
+spriteDraw("bg_sprite")
+rectangleDraw("test1")
+
+
+
+

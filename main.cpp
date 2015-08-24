@@ -1,20 +1,29 @@
-#include "GameEngine.h"
+#include <Headers.h>
+#include <Helper/Profiler.h>
+#include <Engine/MedievalEngine.h>
 
-int main(int argc,char **argv) {
+#ifdef TEST
+#define CATCH_CONFIG_RUNNER
+#include <ThirdParty/Catch.h>
+#endif
+
+int main(int argc, char **argv) {
+    int resultCode = 0;
+
+    #ifdef TEST
+    resultCode = Catch::Session().run(argc, argv);
+    #endif
 
     ProfileInit();
     ProfileStart();
 
-    ME::GameEngine *app = ME::GameEngine::getInstance(argc,argv);
-    app->init();
-
-    app->run();
-    app->clear();
-    int EXIT_CODE = app->onExit();
-
+    ME::MedievalEngine app(argc, argv);
+    app.init();
+    app.run();
+    app.close();
+    resultCode = app.getErrorCode();
 
     ProfileEnd("GameEngine total");
-
-    return EXIT_CODE;
+    return resultCode;
 }
 

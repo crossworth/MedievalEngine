@@ -1,0 +1,54 @@
+File Structure
+
+on_init.lua
+on_enable.lua
+on_disable.lua
+on_playing.lua
+on_update.lua
+
+
+
+on_init.lua
+Called one time, when the game state is create or the game state is restarted.
+Should have all the assets loading and definitions for the current game state
+
+on_enable.lua
+Called every time until the done() is called
+
+on_playing.lua
+Called every time until done() is called
+
+on_disable.lua
+Called every time until done() is called
+
+
+on_update.lua
+Called every time while the isPlaying variable is true (game not paused) until the game state is changed
+
+Call order
+    init.lua
+    while game state is not done
+        if state equals on_enable
+            call on_enable.lua
+        else if state equals on_disable
+            call on_disable.lua
+        else
+            call on_playing.lua
+
+        end if
+
+        if playing
+            call update.lua
+         end if
+    end while
+
+
+
+
+#Tricks
+
+While on_playing We can verify if the game state is playing, if so do the game rendering...
+if not We could render a special type of pause screen
+
+
+

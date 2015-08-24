@@ -1,0 +1,29 @@
+The engine use a custom assets type called Medieval Engine Data File (.dat)
+
+It's a simple container type for all the assets used in the core of the game engine
+
+On the mod-land its possible to use custom dat files by only requiring the
+right library on the lua file.
+
+With that said its obvious that we need at least one lua file on the right folder
+(to be determined yet).
+
+Example loading a custom assets file (custom.dat)
+
+local DAT = require('DATFile') -- require the library
+DAT.open('custom.dat') -- open the file
+
+-- we could as verify if the file was open correctly with an if
+
+require(DAT.get('lua_file_inside_the_dat_file.lua') -- this would execute the lua file
+
+
+
+-- Its very important to say that there is no folders inside the assets files,
+so all the file name must be unique.
+
+
+The default asset file opened by the engine is named base.dat and must have:
+- defaul.ttf - Default font file for the GUI and all the Text if some font fail to load
+// TODO(Pedro): implement this, if font fail load the default font...
+
