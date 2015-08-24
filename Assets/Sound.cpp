@@ -9,7 +9,8 @@ Sound::Sound(const std::string &fileName) {
 
 sf::Sound* Sound::loadFromFile(const std::string &fileName) {
     if (!mSoundBuffer.loadFromFile(ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
-        LOG << ("[Sound::loadFromFile] Error while opening sound: " + ENGINE_DEFAULTS::ASSETS_PATH + fileName).c_str() << std::endl;
+        LOG << ("[Sound::loadFromFile] Error while opening sound: " +
+                ENGINE_DEFAULTS::ASSETS_PATH + fileName).c_str() << std::endl;
     }
     mSound.setBuffer(mSoundBuffer);
     return &mSound;
@@ -36,7 +37,9 @@ bool Sound::isRelativeToListener() {
 }
 
 Vect3f Sound::getPosition() {
-    return Vect3f(mSound.getPosition().x, mSound.getPosition().y, mSound.getPosition().z);
+    return Vect3f(mSound.getPosition().x,
+                  mSound.getPosition().y,
+                  mSound.getPosition().z);
 }
 
 float Sound::getVolume() {

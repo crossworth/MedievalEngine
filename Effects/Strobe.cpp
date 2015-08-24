@@ -56,6 +56,7 @@ void Strobe::update(Drawable* object) {
         mClock.restart();
 
         Color tmpColor = object->getColor();
-        object->setColor(Color(tmpColor.red, tmpColor.green, tmpColor.blue, static_cast<int>(mStrobeCounter)));
+        object->setColor(Color(tmpColor.red, tmpColor.green, tmpColor.blue,
+                               static_cast<int>(mStrobeCounter)));
     }
 }

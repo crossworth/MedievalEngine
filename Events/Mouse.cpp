@@ -11,7 +11,8 @@ Vect2i Mouse::getPosition() {
 }
 
 Vect2i Mouse::getPosition(sf::Window& window) {
-    return Vect2i(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+    return Vect2i(sf::Mouse::getPosition(window).x,
+                  sf::Mouse::getPosition(window).y);
 }
 
 void Mouse::setPosition(const Vect2i &position) {

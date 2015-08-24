@@ -85,7 +85,6 @@ HEADERS += \
     GUI/TextObject.h \
     Helper/CFGParser.h \
     Helper/ID.h \
-    Helper/Key.h \
     Helper/Profiler.h \
     Helper/Vect2.h \
     Helper/Vect3.h \

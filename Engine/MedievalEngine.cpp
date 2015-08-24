@@ -2,7 +2,8 @@
 
 using namespace ME;
 
-MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv), mErroCode(0) {
+MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
+    mErroCode(0) {
 
     if (mArguments.hasArgument("config")) {
         mConfigurations.readFile(mArguments.getArgument("config"));
@@ -12,7 +13,12 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv), 
 
     WindowInfo mWindowInfo;
 
-    std::string tmpBitsPerPixel, tmpHeight, tmpWidth, tmpFullScreen, tmpWindowName, tmpIconName;
+    std::string tmpBitsPerPixel;
+    std::string tmpHeight;
+    std::string tmpWidth;
+    std::string tmpFullScreen;
+    std::string tmpWindowName;
+    std::string tmpIconName;
 
     tmpBitsPerPixel = mConfigurations.getKey("bits_per_pixel");
     tmpHeight       = mConfigurations.getKey("height");
@@ -47,9 +53,13 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv), 
         mWindow.setIcon(tmpIconName);
     }
 
-    if (!mDataFiles.openFile(ENGINE_DEFAULTS::DATA_PATH + ENGINE_DEFAULTS::DEFAULT_DATFILE)) {
-        LOG << Log::CRITICAL << "[MedievalEngine::MedievalEngine] Could not open the default assets file "
-        << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str() << SM::FILE_EXTENSION.c_str() << std::endl;
+    if (!mDataFiles.openFile(ENGINE_DEFAULTS::DATA_PATH +
+                             ENGINE_DEFAULTS::DEFAULT_DATFILE)) {
+        LOG << Log::CRITICAL
+            << "[MedievalEngine::MedievalEngine] Could not open the default assets file "
+            << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str()
+            << SM::FILE_EXTENSION.c_str() << std::endl;
+
         mWindow.close();
         mErroCode = 1;
     } else {
@@ -58,10 +68,14 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv), 
             Font::DEFAULT_FONT = mAssetsManager.loadFont(mDataFiles.getFile("default.ttf"),
                                                          mDataFiles.getFileEntrySize("default.ttf"));
 
-            LOG << Log::VERBOSE << "[MedievalEngine::MedievalEngine] Default font loaded " << std::endl;
+            LOG << Log::VERBOSE
+                << "[MedievalEngine::MedievalEngine] Default font loaded "
+                << std::endl;
         } else {
             LOG << Log::CRITICAL << "[MedievalEngine::MedievalEngine] Default asset pack not recognized "
-            << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str() << SM::FILE_EXTENSION.c_str() << std::endl;
+            << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str()
+            << SM::FILE_EXTENSION.c_str() << std::endl;
+
             mWindow.close();
             mErroCode = 2;
         }

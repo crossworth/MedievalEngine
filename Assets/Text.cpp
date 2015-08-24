@@ -81,7 +81,8 @@ void Text::draw(sf::RenderWindow* renderWindow) {
         mTextShadow.alpha = tmpColor.alpha;
 
         setColor(mTextShadow);
-        setPosition(Vect2f(getPosition().x, getPosition().y + mTextShadowFactor));
+        setPosition(Vect2f(getPosition().x,
+                           getPosition().y + mTextShadowFactor));
 
         renderWindow->draw(mText);
 
@@ -169,10 +170,12 @@ Color Text::getColor() {
 }
 
 Area Text::getLocalBounds() {
-    return Area(mText.getLocalBounds().left, mText.getLocalBounds().top, mText.getLocalBounds().width, mText.getLocalBounds().height);
+    return Area(mText.getLocalBounds().left, mText.getLocalBounds().top,
+                mText.getLocalBounds().width, mText.getLocalBounds().height);
 }
 
 Area Text::getGlobalBounds() {
-    return Area(mText.getGlobalBounds().left, mText.getGlobalBounds().top, mText.getGlobalBounds().width, mText.getGlobalBounds().height);
+    return Area(mText.getGlobalBounds().left, mText.getGlobalBounds().top,
+                mText.getGlobalBounds().width, mText.getGlobalBounds().height);
 }
 

@@ -9,7 +9,8 @@ Music::Music(const std::string &fileName) {
 
 sf::Music* Music::loadFromFile(const std::string &fileName) {
     if (!mMusic.openFromFile(ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
-        LOG << ("[Music::loadFromFile] Error while opening music: " + ENGINE_DEFAULTS::ASSETS_PATH + fileName).c_str() << std::endl;
+        LOG << ("[Music::loadFromFile] Error while opening music: " +
+                ENGINE_DEFAULTS::ASSETS_PATH + fileName).c_str() << std::endl;
     }
     return &mMusic;
 }
@@ -35,7 +36,9 @@ bool Music::isRelativeToListener() {
 }
 
 Vect3f Music::getPosition() {
-    return Vect3f(mMusic.getPosition().x, mMusic.getPosition().y, mMusic.getPosition().z);
+    return Vect3f(mMusic.getPosition().x,
+                  mMusic.getPosition().y,
+                  mMusic.getPosition().z);
 }
 
 float Music::getVolume() {

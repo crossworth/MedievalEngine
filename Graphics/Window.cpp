@@ -15,9 +15,13 @@ void Window::create(const WindowInfo& info) {
     settings.antialiasingLevel = 8;
 
     if (info.fullScreen == true && isValidWindow(info)) {
-        mWindow = new sf::RenderWindow(sf::VideoMode(info.width, info.height, info.bitsPerPixel), info.windowName, sf::Style::Fullscreen, settings);
+        mWindow = new sf::RenderWindow(
+                    sf::VideoMode(info.width, info.height, info.bitsPerPixel),
+                    info.windowName, sf::Style::Fullscreen, settings);
     } else {
-        mWindow = new sf::RenderWindow(sf::VideoMode(info.width, info.height, info.bitsPerPixel), info.windowName, sf::Style::Close, settings);
+        mWindow = new sf::RenderWindow(
+                    sf::VideoMode(info.width, info.height, info.bitsPerPixel),
+                    info.windowName, sf::Style::Close, settings);
     }
 
     mWindow->setFramerateLimit(info.frameLimit);
@@ -168,7 +172,9 @@ void Window::setTile(const std::string& title) {
 void Window::setIcon(const std::string& fileName) {
     sf::Image iconImage;
     if (iconImage.loadFromFile(ME::ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
-        mWindow->setIcon(iconImage.getSize().x, iconImage.getSize().y, iconImage.getPixelsPtr());
+        mWindow->setIcon(iconImage.getSize().x,
+                         iconImage.getSize().y,
+                         iconImage.getPixelsPtr());
     }
 
 }

@@ -116,9 +116,11 @@ Color SpriteAnimation::getColor() {
 }
 
 Area SpriteAnimation::getLocalBounds() {
-    return Area(mSprite.getLocalBounds().left, mSprite.getLocalBounds().top, mSprite.getLocalBounds().width, mSprite.getLocalBounds().height);
+    return Area(mSprite.getLocalBounds().left, mSprite.getLocalBounds().top,
+                mSprite.getLocalBounds().width, mSprite.getLocalBounds().height);
 }
 
 Area SpriteAnimation::getGlobalBounds() {
-    return Area(mSprite.getGlobalBounds().left, mSprite.getGlobalBounds().top, mSprite.getGlobalBounds().width, mSprite.getGlobalBounds().height);
+    return Area(mSprite.getGlobalBounds().left, mSprite.getGlobalBounds().top,
+                mSprite.getGlobalBounds().width, mSprite.getGlobalBounds().height);
 }

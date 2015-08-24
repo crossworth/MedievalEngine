@@ -2,7 +2,8 @@
 
 using namespace ME;
 
-WindowInfo::WindowInfo(int width, int height, int bitsPerPixel, bool fullScreen, std::string name) {
+WindowInfo::WindowInfo(int width, int height, int bitsPerPixel,
+                       bool fullScreen, std::string name) {
     this->width        = width;
     this->height       = height;
     this->bitsPerPixel = bitsPerPixel;

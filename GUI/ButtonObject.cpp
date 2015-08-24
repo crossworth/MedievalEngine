@@ -29,7 +29,9 @@ void ButtonObject::init() {
     mShapeRef->setRadius(2.0f);
 
     mTextRef->setOriginCenter();
-    mTextRef->setPosition(Vect2f(mShapeRef->getPosition().x+(mShapeRef->getSize().x/2), mShapeRef->getPosition().y+(mTextRef->getSize().y/2)));
+    mTextRef->setPosition(
+                Vect2f(mShapeRef->getPosition().x+(mShapeRef->getSize().x/2),
+                       mShapeRef->getPosition().y+(mTextRef->getSize().y/2)));
 
     mTextRef->setColor(Color::BLACK);
 }
@@ -64,7 +66,9 @@ void ButtonObject::onClick(Event evt, Window& window) {
 
 void ButtonObject::setPosition(const Vect2f& pos) {
     mShapeRef->setPosition(pos);
-    mTextRef->setPosition(Vect2f(mShapeRef->getPosition().x+(mShapeRef->getSize().x/2), mShapeRef->getPosition().y+(mTextRef->getSize().y/2)));
+    mTextRef->setPosition(
+                Vect2f(mShapeRef->getPosition().x+(mShapeRef->getSize().x/2),
+                       mShapeRef->getPosition().y+(mTextRef->getSize().y/2)));
 }
 
 Vect2f ButtonObject::getPosition() {

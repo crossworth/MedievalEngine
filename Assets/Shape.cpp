@@ -57,16 +57,27 @@ void Shape::draw(sf::RenderWindow* renderWindow) {
 
         sf::Vector2f shapePos  = mShape.getPosition();
 
-        float posX = mRadius * std::cos(deltaAngle * (i - centerIndex) * PI / 180) + center.x + shapePos.x;
-        float posY = -mRadius * std::sin(deltaAngle * (i - centerIndex) * PI / 180) + center.y + shapePos.y;
+        float posX = mRadius * std::cos(deltaAngle *
+                     (i - centerIndex) * PI / 180) + center.x + shapePos.x;
+
+        float posY = -mRadius * std::sin(deltaAngle *
+                     (i - centerIndex) * PI / 180) + center.y + shapePos.y;
 
         sf::Vector2f vertexPos = sf::Vector2f(posX, posY);
 
         if(mIsGradientColor) {
             if (posY < (mShape.getPosition().y + (mShape.getSize().y / 2))) {
-                vertexVector.push_back(sf::Vertex(vertexPos, sf::Color(mGradientColor.top.red, mGradientColor.top.green, mGradientColor.top.blue, mGradientColor.top.alpha)));
+                vertexVector.push_back(sf::Vertex(vertexPos,
+                                       sf::Color(mGradientColor.top.red,
+                                                 mGradientColor.top.green,
+                                                 mGradientColor.top.blue,
+                                                 mGradientColor.top.alpha)));
             } else {
-                vertexVector.push_back(sf::Vertex(vertexPos, sf::Color(mGradientColor.bottom.red, mGradientColor.bottom.green, mGradientColor.bottom.blue, mGradientColor.bottom.alpha)));
+                vertexVector.push_back(sf::Vertex(vertexPos,
+                                       sf::Color(mGradientColor.bottom.red,
+                                                 mGradientColor.bottom.green,
+                                                 mGradientColor.bottom.blue,
+                                                 mGradientColor.bottom.alpha)));
             }
         } else {
             vertexVector.push_back(sf::Vertex(vertexPos, mShape.getFillColor()));
@@ -105,12 +116,14 @@ void Shape::setScale(const Vect2f& scale) {
 }
 
 void Shape::setColor(const Color& color) {
-    mShape.setFillColor(sf::Color(color.red, color.green, color.blue, color.alpha));
+    mShape.setFillColor(sf::Color(color.red, color.green,
+                                  color.blue, color.alpha));
     mIsGradientColor = false;
 }
 
 Color Shape::getColor() {
-    return Color(mShape.getFillColor().r, mShape.getFillColor().g, mShape.getFillColor().b, mShape.getFillColor().a);
+    return Color(mShape.getFillColor().r, mShape.getFillColor().g,
+                 mShape.getFillColor().b, mShape.getFillColor().a);
 }
 
 void Shape::setColor(const ColorGradient& color) {
@@ -135,11 +148,13 @@ float Shape::getRadius() {
 }
 
 void Shape::setBorderColor(const Color& color) {
-    mShape.setOutlineColor(sf::Color(color.red, color.green, color.blue, color.alpha));
+    mShape.setOutlineColor(sf::Color(color.red, color.green,
+                                     color.blue, color.alpha));
 }
 
 Color Shape::getBorderColor() {
-    return Color(mShape.getOutlineColor().r, mShape.getOutlineColor().g, mShape.getOutlineColor().b, mShape.getOutlineColor().a);
+    return Color(mShape.getOutlineColor().r, mShape.getOutlineColor().g,
+                 mShape.getOutlineColor().b, mShape.getOutlineColor().a);
 }
 
 void Shape::setBorderSize(const float& size) {
@@ -171,9 +186,11 @@ void Shape::setOrigin(const Vect2f& origin) {
 }
 
 Area Shape::getLocalBounds() {
-    return Area(mShape.getLocalBounds().left, mShape.getLocalBounds().top, mShape.getLocalBounds().width, mShape.getLocalBounds().height);
+    return Area(mShape.getLocalBounds().left, mShape.getLocalBounds().top,
+                mShape.getLocalBounds().width, mShape.getLocalBounds().height);
 }
 
 Area Shape::getGlobalBounds() {
-    return Area(mShape.getGlobalBounds().left, mShape.getGlobalBounds().top, mShape.getGlobalBounds().width, mShape.getGlobalBounds().height);
+    return Area(mShape.getGlobalBounds().left, mShape.getGlobalBounds().top,
+                mShape.getGlobalBounds().width, mShape.getGlobalBounds().height);
 }

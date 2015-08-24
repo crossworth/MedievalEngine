@@ -3,8 +3,9 @@
 using namespace ME;
 
 TextScrollListObject::TextScrollListObject() : mPadding(10.f), mScrollSpeed(10.0f),
-    mMaxiumExpandSize(250.0f, 150.0f) , mEnableTransition(false), mExpandTop(false), mIsExpanded(false),
-    mShowScrollBar(false), mScrollBarClicked(false), mScrollBarHasMoved(false), mScrollBarAutoScroll(false) {
+    mMaxiumExpandSize(250.0f, 150.0f) , mEnableTransition(false), mExpandTop(false),
+    mIsExpanded(false), mShowScrollBar(false), mScrollBarClicked(false),
+    mScrollBarHasMoved(false), mScrollBarAutoScroll(false) {
 
     mType = "text_scroll_list";
 }
@@ -24,13 +25,15 @@ void TextScrollListObject::init() {
     mShapeRef->setPosition(Vect2f(50.f, 550.f));
     mShapeRef->setColor(ColorGradient(Color::BUTTON_C1, Color::BUTTON_C2));
 
-    mTextRef->setPosition(Vect2f(mShapeRef->getPosition().x + mPadding, mShapeRef->getPosition().y));
+    mTextRef->setPosition(Vect2f(mShapeRef->getPosition().x + mPadding,
+                                 mShapeRef->getPosition().y));
     mTextRef->setColor(Color::BLACK);
 
     mLineHeight = mTextRef->getSize().y;
 
     mTextRef->setString(L"");
-    mShapeRef->setSize(Vect2f(mShapeRef->getSize().x, mLineHeight + ( 2 * mPadding )));
+    mShapeRef->setSize(Vect2f(mShapeRef->getSize().x,
+                              mLineHeight + ( 2 * mPadding )));
 
     mExpandVelocity = 4.f;
 }
@@ -42,7 +45,8 @@ void TextScrollListObject::addText(const std::wstring& text) {
     if (mTextRef->getSize().y > mShapeRef->getSize().y && mIsExpanded) {
         mShowScrollBar = true;
 
-        float scrollBarHeight = (mShapeRef->getSize().y / mTextRef->getSize().y) * mShapeRef->getSize().y;
+        float scrollBarHeight = (mShapeRef->getSize().y / mTextRef->getSize().y) *
+                                 mShapeRef->getSize().y;
 
         if (scrollBarHeight < 30.f) {
             scrollBarHeight = 30.f;
@@ -52,8 +56,11 @@ void TextScrollListObject::addText(const std::wstring& text) {
         mScrollBarRef->setSize(Vect2f(mScrollBarRef->getSize().x, scrollBarHeight));
 
         if (!mScrollBarHasMoved || mScrollBarAutoScroll) {
-            mScrollBarRef->setPosition(Vect2f(mShapeRef->getPosition().x + mShapeRef->getSize().x - mScrollBarRef->getSize().x - 3.0f,
-                        mShapeRef->getPosition().y + mShapeRef->getSize().y - mScrollBarRef->getSize().y ));
+            mScrollBarRef->setPosition(
+                        Vect2f(mShapeRef->getPosition().x + mShapeRef->getSize().x -
+                               mScrollBarRef->getSize().x - 3.0f,
+                               mShapeRef->getPosition().y + mShapeRef->getSize().y -
+                               mScrollBarRef->getSize().y ));
         }
     }
 }
@@ -64,8 +71,14 @@ void TextScrollListObject::draw(Window& window) {
     Area mShapeArea = mShapeRef->getGlobalBounds();
 
     sf::View panelView;
-    sf::FloatRect panelRect(mShapeArea.left / winSize->width, (mShapeArea.top) / winSize->height, (mShapeArea.width) / winSize->width, (mShapeArea.height) / winSize->height);
-    panelView.reset(sf::FloatRect(mShapeArea.left, mShapeArea.top, mShapeArea.width, mShapeArea.height));
+    sf::FloatRect panelRect(mShapeArea.left / winSize->width,
+                            (mShapeArea.top) / winSize->height,
+                            (mShapeArea.width) / winSize->width,
+                            (mShapeArea.height) / winSize->height);
+
+    panelView.reset(sf::FloatRect(mShapeArea.left, mShapeArea.top,
+                                  mShapeArea.width, mShapeArea.height));
+
     panelView.setViewport(panelRect);
 
     window.draw(mShapeRef);
@@ -82,10 +95,15 @@ void TextScrollListObject::draw(Window& window) {
 void TextScrollListObject::update() {
     // Verify if the scrollbar has been click, if so we dont change the position of the text
     // if the scrollbar has not been changed and the text is overflowing we scroll it
-    if ((!mScrollBarHasMoved || mScrollBarAutoScroll ) && mTextRef->getGlobalBounds().top + mTextRef->getGlobalBounds().height + mPadding >
-        mShapeRef->getGlobalBounds().top + mShapeRef->getGlobalBounds().height) {
-        float diff = mTextRef->getGlobalBounds().top + mTextRef->getGlobalBounds().height + mPadding -
-                     mShapeRef->getGlobalBounds().top + mShapeRef->getGlobalBounds().height;
+    if ((!mScrollBarHasMoved || mScrollBarAutoScroll ) &&
+        mTextRef->getGlobalBounds().top + mTextRef->getGlobalBounds().height +
+        mPadding > mShapeRef->getGlobalBounds().top + mShapeRef->getGlobalBounds().height) {
+
+        float diff = mTextRef->getGlobalBounds().top +
+                     mTextRef->getGlobalBounds().height + mPadding -
+                     mShapeRef->getGlobalBounds().top +
+                     mShapeRef->getGlobalBounds().height;
+
         diff = diff / 100;
 
         mTextRef->move(Vect2f(0.0f, -((mScrollSpeed / 100) * mClock.getTime() * diff) ));
@@ -96,28 +114,37 @@ void TextScrollListObject::update() {
     if (mEnableTransition) {
         // We are on the bottom of the screen, so we go upwards
         // TODO: Resize box to default
-        if (mShapeRef->getPosition().y + mShapeRef->getSize().y + mMaxiumExpandSize.y > winSize->height ) {
+        if (mShapeRef->getPosition().y + mShapeRef->getSize().y +
+            mMaxiumExpandSize.y > winSize->height ) {
             mExpandTop = true;
         }
 
         if (mShapeRef->getSize().x < mMaxiumExpandSize.x) {
             float diff = (mMaxiumExpandSize.x - mShapeRef->getSize().x) / 10;
-            mShapeRef->setSize(Vect2f(mShapeRef->getSize().x + ((mExpandVelocity / 100) * mClock.getTime() * diff), mShapeRef->getSize().y));
+            mShapeRef->setSize(
+                        Vect2f(mShapeRef->getSize().x + ((mExpandVelocity / 100) *
+                               mClock.getTime() * diff), mShapeRef->getSize().y));
         }
 
         if (mShapeRef->getSize().y < mMaxiumExpandSize.y) {
             float diff = (mMaxiumExpandSize.y - mShapeRef->getSize().y) / 10;
             float pos  = ((mExpandVelocity / 100) * mClock.getTime() * diff);
-            mShapeRef->setSize(Vect2f(mShapeRef->getSize().x, mShapeRef->getSize().y + pos));
+
+            mShapeRef->setSize(Vect2f(mShapeRef->getSize().x,
+                                      mShapeRef->getSize().y + pos));
 
             if (mExpandTop) {
-                mShapeRef->setPosition(Vect2f(mShapeRef->getPosition().x, mShapeRef->getPosition().y - pos));
+                mShapeRef->setPosition(Vect2f(mShapeRef->getPosition().x,
+                                              mShapeRef->getPosition().y - pos));
             } else {
-                mTextRef->setPosition(Vect2f(mTextRef->getPosition().x, mTextRef->getPosition().y + pos));
+                mTextRef->setPosition(Vect2f(mTextRef->getPosition().x,
+                                             mTextRef->getPosition().y + pos));
             }
         }
 
-        if (mShapeRef->getSize().x >= mMaxiumExpandSize.x - 1.f && mShapeRef->getSize().y >= mMaxiumExpandSize.y - 1.f) {
+        if (mShapeRef->getSize().x >= mMaxiumExpandSize.x - 1.f &&
+            mShapeRef->getSize().y >= mMaxiumExpandSize.y - 1.f) {
+
             mEnableTransition = false;
             mIsExpanded       = true;
         }
@@ -136,7 +163,8 @@ void TextScrollListObject::handleEvents(Event evt, Window& window) {
 
     Vect2i mousePos = Mouse::getPosition(*window.getWindowPtr());
 
-    if (isExpanded() && evt.type == Event::MouseWheelScrolled && mShapeRef->getGlobalBounds().contains(mousePos)) {
+    if (isExpanded() && evt.type == Event::MouseWheelScrolled &&
+        mShapeRef->getGlobalBounds().contains(mousePos)) {
         // scroll event
     }
 
@@ -144,7 +172,8 @@ void TextScrollListObject::handleEvents(Event evt, Window& window) {
         mScrollBarHasMoved = true;
 
         // Position all the way to bottom
-        if (mousePos.y > mShapeRef->getPosition().y + mShapeRef->getSize().y - mScrollBarRef->getSize().y / 2) {
+        if (mousePos.y > mShapeRef->getPosition().y + mShapeRef->getSize().y -
+            mScrollBarRef->getSize().y / 2) {
 
             float bottomScrollBarPosition = 0.0f;
 
@@ -152,24 +181,34 @@ void TextScrollListObject::handleEvents(Event evt, Window& window) {
             bottomScrollBarPosition += mShapeRef->getSize().y;
             bottomScrollBarPosition -= mScrollBarRef->getSize().y;
 
-            mScrollBarRef->setPosition(Vect2f(mScrollBarRef->getPosition().x, bottomScrollBarPosition));
+            mScrollBarRef->setPosition(Vect2f(mScrollBarRef->getPosition().x,
+                                              bottomScrollBarPosition));
 
             setTextAutoScroll(true);
 
-        } else if (mousePos.y < mShapeRef->getPosition().y + mScrollBarRef->getSize().y / 2) {
+        } else if (mousePos.y < mShapeRef->getPosition().y +
+                   mScrollBarRef->getSize().y / 2) {
 
             float topScrollBarPosition = mShapeRef->getPosition().y;
-            mScrollBarRef->setPosition(Vect2f(mScrollBarRef->getPosition().x, topScrollBarPosition));
+            mScrollBarRef->setPosition(Vect2f(mScrollBarRef->getPosition().x,
+                                              topScrollBarPosition));
 
-            mTextRef->setPosition(Vect2f(mTextRef->getPosition().x, mShapeRef->getPosition().y - mPadding));
+            mTextRef->setPosition(Vect2f(mTextRef->getPosition().x,
+                                         mShapeRef->getPosition().y - mPadding));
         } else {
-            mScrollBarRef->setPosition(Vect2f(mScrollBarRef->getPosition().x, mousePos.y - (mScrollBarRef->getSize().y / 2)));
+            mScrollBarRef->setPosition(
+                        Vect2f(mScrollBarRef->getPosition().x,
+                               mousePos.y - (mScrollBarRef->getSize().y / 2)));
 
             // Update the text postion
-            float baseScrollPos = (mScrollBarRef->getPosition().y - mShapeRef->getPosition().y);
+            float baseScrollPos = (mScrollBarRef->getPosition().y -
+                                   mShapeRef->getPosition().y);
+
             float ratio         = mTextRef->getSize().y / mShapeRef->getSize().y;
             float basePosition  = baseScrollPos * ratio + (mPadding * 2);
-            mTextRef->setPosition(Vect2f(mTextRef->getPosition().x, mShapeRef->getPosition().y - (basePosition)));
+            mTextRef->setPosition(
+                        Vect2f(mTextRef->getPosition().x,
+                               mShapeRef->getPosition().y - (basePosition)));
         }
     }
 
@@ -265,7 +304,8 @@ void TextScrollListObject::onClick(Event evt, Window& window) {
 
         Vect2i mousePos            = Mouse::getPosition(*window.getWindowPtr());
         Vect2f mousePosWithPadding = Vect2f(mousePos.x + 3.f, mousePos.y + 3.f);
-        if (mShowScrollBar && mScrollBarRef->getGlobalBounds().contains(mousePosWithPadding)) {
+        if (mShowScrollBar &&
+            mScrollBarRef->getGlobalBounds().contains(mousePosWithPadding)) {
             mScrollBarClicked = true;
         }
     }

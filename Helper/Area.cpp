@@ -22,7 +22,8 @@ bool Area::contains(Vect2f& point, Area& area) {
     float minY = std::min(area.top, area.top + area.height);
     float maxY = std::max(area.top, area.top + area.height);
 
-    return (point.x >= minX) && (point.x < maxX) && (point.y >= minY) && (point.y < maxY);
+    return (point.x >= minX) && (point.x < maxX) &&
+           (point.y >= minY) && (point.y < maxY);
 }
 
 bool Area::contains(Vect2i& point) {

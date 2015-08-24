@@ -44,7 +44,8 @@ void Fade::update(Drawable* object) {
             if (mFadeCounter <= 0.0f) {
                 mFadeCounter = 0.0f;
                 mDone = true;
-                LOG << Log::VERBOSE << ("[Fade::update] Effect " +  getType() + " done").c_str() << std::endl;
+                LOG << Log::VERBOSE << ("[Fade::update] Effect " +
+                                        getType() + " done").c_str() << std::endl;
             }
         } else {
             mFadeCounter = mFadeCounter + mStep;
@@ -52,12 +53,14 @@ void Fade::update(Drawable* object) {
             if (mFadeCounter >= 255.0f) {
                 mFadeCounter = 255.0f;
                 mDone = true;
-                LOG << Log::VERBOSE << ("[Fade::update] Effect " +  getType() + " done").c_str() << std::endl;
+                LOG << Log::VERBOSE << ("[Fade::update] Effect " +
+                                        getType() + " done").c_str() << std::endl;
             }
         }
         mClock.restart();
 
         Color tmpColor = object->getColor();
-        object->setColor(Color(tmpColor.red, tmpColor.green, tmpColor.blue, static_cast<int>(mFadeCounter)));
+        object->setColor(Color(tmpColor.red, tmpColor.green,
+                               tmpColor.blue, static_cast<int>(mFadeCounter)));
     }
 }

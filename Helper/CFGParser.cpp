@@ -26,7 +26,9 @@ void CFGParser::readFile(const std::string& configFile) {
       }
        file.close();
     } else {
-        LOG << Log::WARNING << ("[CFGParser::readFile] Configuration file (" + this->mFileName + ") not found").c_str() << std::endl;
+        LOG << Log::WARNING
+            << ("[CFGParser::readFile] Configuration file (" + this->mFileName + ") not found").c_str()
+            << std::endl;
     }
 }
 
@@ -39,7 +41,9 @@ void CFGParser::saveFile(const std::string& configFile){
     outFile.open(configFile.c_str(), std::ios::out);
 
     if (outFile.is_open()) {
-        outFile << "# " << ENGINE_DEFAULTS::ENGINE_NAME << " Version: " << ENGINE_DEFAULTS::ENGINE_VERSION << " - CFGParser" << std::endl;
+        outFile << "# " << ENGINE_DEFAULTS::ENGINE_NAME
+                << " Version: " << ENGINE_DEFAULTS::ENGINE_VERSION
+                << " - CFGParser" << std::endl;
 
         std::map<std::string, std::string>::iterator it = mContents.begin();
 
@@ -50,7 +54,9 @@ void CFGParser::saveFile(const std::string& configFile){
 
         outFile.close();
     } else {
-        LOG << Log::WARNING << ("[CFGParser::saveFile] Could not save Configuration file (" + this->mFileName + ")" ).c_str() << std::endl;
+        LOG << Log::WARNING
+            << ("[CFGParser::saveFile] Could not save Configuration file (" + this->mFileName + ")" ).c_str()
+            << std::endl;
     }
 }
 
@@ -73,7 +79,9 @@ std::string CFGParser::getKey(std::string key) {
     if (keyExists(key)) {
         return mContents[key];
     } else {
-        LOG << Log::WARNING << ("[CFGParser::getKey] Key (" + key + ") not found").c_str() << std::endl;
+        LOG << Log::WARNING
+            << ("[CFGParser::getKey] Key (" + key + ") not found").c_str()
+            << std::endl;
     }
     return "";
 }

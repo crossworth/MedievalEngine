@@ -8,7 +8,8 @@ Drawable::Drawable() : mIsEffectPlaying(true) {
 }
 
 void Drawable::addEffect(Effects *effect) {
-    LOG << Log::VERBOSE << ("[Drawable::addEffect] Effect " +  effect->getType() + " added").c_str() << std::endl;
+    LOG << Log::VERBOSE << ("[Drawable::addEffect] Effect " +
+                            effect->getType() + " added").c_str() << std::endl;
     mEffects.push_back(effect);
 }
 
@@ -40,7 +41,8 @@ void Drawable::removeEffect(std::string effectType) {
 
     for(int i = 0 ; i < mEffects.size(); i++) {
         if ((*it)->getType() == effectType) {
-            LOG << Log::VERBOSE << ("[Drawable::removeEffect] Effect " +  effectType + " removed").c_str() << std::endl;
+            LOG << Log::VERBOSE << ("[Drawable::removeEffect] Effect " +
+                                    effectType + " removed").c_str() << std::endl;
             (*it)->setDone();
             delete *it;
             mEffects.erase(it);
@@ -59,7 +61,8 @@ void Drawable::removeAllEffects() {
         it++;
     }
 
-    LOG << Log::VERBOSE << "[Drawable::removeAllEffects] All effect removed" << std::endl;
+    LOG << Log::VERBOSE << "[Drawable::removeAllEffects] All effect removed"
+        << std::endl;
 }
 
 void Drawable::setOpacity(float opacity) {
@@ -72,7 +75,8 @@ void Drawable::setOpacity(float opacity) {
     }
 
     float alphaOpacity = 255.0f * opacity;
-    setColor(Color(getColor().red, getColor().green, getColor().blue,  static_cast<int>(alphaOpacity)));
+    setColor(Color(getColor().red, getColor().green, getColor().blue,
+                   static_cast<int>(alphaOpacity)));
 }
 
 float Drawable::getOpacity() {
