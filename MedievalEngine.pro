@@ -146,5 +146,8 @@ HEADERS += \
 DISTFILES += \
     Documentation/init.txt \
     Documentation/events.txt \
-    Documentation/lua_goal.txt
+    Documentation/lua_goal.txt \
+    Documentation/goals.txt \
+    Documentation/Assets_file.txt \
+    Documentation/Coding_standards.txt
 
