@@ -56,7 +56,7 @@ protected:
     Color mColor;
     ColorGradient mColorGradient;
     AssetsManager* mAssets;
-    MEid mDefaultFontID;
+    AssetID mDefaultFontID;
 };
 
 }

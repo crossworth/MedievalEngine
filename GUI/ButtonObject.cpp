@@ -2,7 +2,7 @@
 
 using namespace ME;
 
-ButtonObject::ButtonObject(const std::wstring& text, Vect2f pos,  MEid fontID) {
+ButtonObject::ButtonObject(const std::wstring& text, Vect2f pos,  AssetID fontID) {
     mType   = "button";
     mText   = text;
     mPos    = pos;

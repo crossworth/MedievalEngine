@@ -18,10 +18,10 @@ void LoadingScreen::init() {
     spriteMario                 = mAssets->createSpriteAnimation();
     SpriteAnimation* marioSptAn = mAssets->getAsset<SpriteAnimation>(spriteMario);
 
-    MEid idAn1 = mAssets->loadTexture("/animation/1.png");
-    MEid idAn2 = mAssets->loadTexture("/animation/2.png");
-    MEid idAn3 = mAssets->loadTexture("/animation/3.png");
-    MEid idAn4 = mAssets->loadTexture("/animation/4.png");
+    AssetID idAn1 = mAssets->loadTexture("/animation/1.png");
+    AssetID idAn2 = mAssets->loadTexture("/animation/2.png");
+    AssetID idAn3 = mAssets->loadTexture("/animation/3.png");
+    AssetID idAn4 = mAssets->loadTexture("/animation/4.png");
 
     marioSptAn->addFrame(100, mAssets->getAsset<Texture>(idAn1));
     marioSptAn->addFrame(100, mAssets->getAsset<Texture>(idAn2));

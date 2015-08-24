@@ -1,6 +1,6 @@
 #ifndef TEXTOBJECT_H
 #define TEXTOBJECT_H
-#include <Helper/ID.h>
+#include <Assets/AssetIDGenerator.h>
 #include <Assets/AssetsManager.h>
 #include <GUI/GUIObject.h>
 
@@ -34,7 +34,7 @@ public:
     Area getLocalBounds();
     Area getGlobalBounds();
 private:
-    MEid mTextID;
+    AssetID mTextID;
     Text* mTextRef;
     std::wstring mText;
     int mTextSize;

@@ -2,7 +2,7 @@
 
 using namespace ME;
 
-MEid Font::DEFAULT_FONT = 0;
+AssetID Font::DEFAULT_FONT = 0;
 
 Font::Font() {
     mType = "font";

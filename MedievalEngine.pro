@@ -38,7 +38,6 @@ SOURCES += main.cpp \
     GUI/GUIObject.cpp \
     GUI/TextObject.cpp \
     Helper/CFGParser.cpp \
-    Helper/ID.cpp \
     Helper/Profiler.cpp \
     Helper/Data2.cpp \
     Helper/Vect2.cpp \
@@ -70,7 +69,8 @@ SOURCES += main.cpp \
     Helper/ColorGradient.cpp \
     Helper/DATFile.cpp \
     GUI/TextScrollListObject.cpp \
-    Helper/Clock.cpp
+    Helper/Clock.cpp \
+    Assets/AssetIDGenerator.cpp
 
 HEADERS += \
     Assets/Asset.h \
@@ -84,7 +84,6 @@ HEADERS += \
     GUI/GUIObject.h \
     GUI/TextObject.h \
     Helper/CFGParser.h \
-    Helper/ID.h \
     Helper/Profiler.h \
     Helper/Vect2.h \
     Helper/Vect3.h \
@@ -141,7 +140,8 @@ HEADERS += \
     Helper/Types.h \
     Helper/DATFile.h \
     GUI/TextScrollListObject.h \
-    Helper/Clock.h
+    Helper/Clock.h \
+    Assets/AssetIDGenerator.h
 
 DISTFILES += \
     Documentation/init.txt \

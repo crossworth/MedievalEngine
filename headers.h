@@ -8,7 +8,6 @@
 #include <SFML/System.hpp>
 #include <SFML/OpenGL.hpp>
 
-#include <Helper/ID.h>
 #include <Helper/Vect2.h>
 #include <Helper/Vect3.h>
 #include <Helper/Data2.h>
@@ -20,6 +19,7 @@
 #include <Helper/ColorGradient.h>
 #include <Helper/ArgumentsParser.h>
 
+#include <Assets/AssetIDGenerator.h>
 #include <Assets/AssetsManager.h>
 
 #include <Graphics/Drawable.h>

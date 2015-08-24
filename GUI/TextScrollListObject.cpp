@@ -11,9 +11,9 @@ TextScrollListObject::TextScrollListObject() : mPadding(10.f), mScrollSpeed(10.0
 }
 
 void TextScrollListObject::init() {
-    MEid textID   = mAssets->createText(L"ScrollView", 22, mDefaultFontID);
-    MEid shapeID  = mAssets->createShape(Vect2f(250.f, 35.f));
-    MEid scrollID = mAssets->createShape(Vect2f(8.f, 30.f), Color(0, 0, 0, 75));
+    AssetID textID   = mAssets->createText(L"ScrollView", 22, mDefaultFontID);
+    AssetID shapeID  = mAssets->createShape(Vect2f(250.f, 35.f));
+    AssetID scrollID = mAssets->createShape(Vect2f(8.f, 30.f), Color(0, 0, 0, 75));
 
     mTextRef      = mAssets->getAsset<Text>(textID);
     mShapeRef     = mAssets->getAsset<Shape>(shapeID);

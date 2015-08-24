@@ -7,8 +7,8 @@ AssetsManager::AssetsManager() {
         << "[AssetsManager::AssetsManager] AssetsManager created" << std::endl;
 }
 
-MEid AssetsManager::loadTexture(const std::string &fileName) {
-    MEid textureID     = ID::get();
+AssetID AssetsManager::loadTexture(const std::string &fileName) {
+    AssetID textureID     = AssetIDGenerator::get();
     mAssets[textureID] = new Texture(fileName);
 
     LOG << Log::VERBOSE
@@ -18,8 +18,8 @@ MEid AssetsManager::loadTexture(const std::string &fileName) {
     return textureID;
 }
 
-MEid AssetsManager::loadFont(const std::string &fileName) {
-    MEid fontID     = ID::get();
+AssetID AssetsManager::loadFont(const std::string &fileName) {
+    AssetID fontID     = AssetIDGenerator::get();
     mAssets[fontID] = new Font(fileName);
 
     LOG << Log::VERBOSE << ("[AssetsManager::loadFont] Font loaded ID: " +
@@ -28,8 +28,8 @@ MEid AssetsManager::loadFont(const std::string &fileName) {
     return fontID;
 }
 
-MEid AssetsManager::loadFont(SM::BYTE* bytes, std::size_t size) {
-    MEid fontID     = ID::get();
+AssetID AssetsManager::loadFont(SM::BYTE* bytes, std::size_t size) {
+    AssetID fontID     = AssetIDGenerator::get();
     mAssets[fontID] = new Font();
     getAsset<Font>(fontID)->loadFromMemory(bytes, size);
 
@@ -40,8 +40,8 @@ MEid AssetsManager::loadFont(SM::BYTE* bytes, std::size_t size) {
     return fontID;
 }
 
-MEid AssetsManager::loadMusic(const std::string &fileName) {
-    MEid musicID     = ID::get();
+AssetID AssetsManager::loadMusic(const std::string &fileName) {
+    AssetID musicID     = AssetIDGenerator::get();
     mAssets[musicID] = new Music(fileName);
 
     LOG << Log::VERBOSE << ("[AssetsManager::loadMusic] Music loaded ID: " +
@@ -50,8 +50,8 @@ MEid AssetsManager::loadMusic(const std::string &fileName) {
     return musicID;
 }
 
-MEid AssetsManager::loadSound(const std::string &fileName) {
-    MEid soundID     = ID::get();
+AssetID AssetsManager::loadSound(const std::string &fileName) {
+    AssetID soundID     = AssetIDGenerator::get();
     mAssets[soundID] = new Sound(fileName);
 
     LOG << Log::VERBOSE << ("[AssetsManager::loadSound] Sound loaded ID: " +
@@ -60,8 +60,8 @@ MEid AssetsManager::loadSound(const std::string &fileName) {
     return soundID;
 }
 
-MEid AssetsManager::createSprite(const MEid &texture) {
-    MEid spriteID     = ID::get();
+AssetID AssetsManager::createSprite(const AssetID &texture) {
+    AssetID spriteID     = AssetIDGenerator::get();
     mAssets[spriteID] = new Sprite();
     getAsset<Sprite>(spriteID)->setTexture(getAsset<Texture>(texture));
 
@@ -72,8 +72,8 @@ MEid AssetsManager::createSprite(const MEid &texture) {
     return spriteID;
 }
 
-MEid AssetsManager::createSpriteAnimation() {
-    MEid spriteAnID     = ID::get();
+AssetID AssetsManager::createSpriteAnimation() {
+    AssetID spriteAnID     = AssetIDGenerator::get();
     mAssets[spriteAnID] = new SpriteAnimation();
 
     LOG << Log::VERBOSE
@@ -83,11 +83,11 @@ MEid AssetsManager::createSpriteAnimation() {
     return spriteAnID;
 }
 
-MEid AssetsManager::createShape(const Vect2f &size,
+AssetID AssetsManager::createShape(const Vect2f &size,
                                 const Color &color,
                                 const Vect2f &pos) {
 
-    MEid shapeID     = ID::get();
+    AssetID shapeID     = AssetIDGenerator::get();
     mAssets[shapeID] = new Shape(size, color, pos);
 
     LOG << Log::VERBOSE << ("[AssetsManager::createShape] Shape created ID: " +
@@ -96,11 +96,11 @@ MEid AssetsManager::createShape(const Vect2f &size,
     return shapeID;
 }
 
-MEid AssetsManager::createText(const std::wstring &text,
+AssetID AssetsManager::createText(const std::wstring &text,
                                const unsigned int &fontSize,
-                               const MEid &font) {
+                               const AssetID &font) {
 
-    MEid textID     = ID::get();
+    AssetID textID     = AssetIDGenerator::get();
     mAssets[textID] = new Text();
     static_cast<Text*>(mAssets[textID])->setFont(*getAsset<Font>(font));
     static_cast<Text*>(mAssets[textID])->setFontSize(fontSize);

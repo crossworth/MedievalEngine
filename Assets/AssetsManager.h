@@ -2,7 +2,7 @@
 #define ASSETSMANAGER_H
 #include <unordered_map>
 #include <LogInc.h>
-#include <Helper/ID.h>
+#include <Assets/AssetIDGenerator.h>
 #include <Helper/Data2.h>
 #include <Helper/Types.h>
 #include <Assets/Asset.h>
@@ -22,32 +22,32 @@ class AssetsManager {
 public:
     AssetsManager();
 
-    MEid loadTexture(const std::string& fileName);
-    MEid loadFont(const std::string& fileName);
-    MEid loadFont(SM::BYTE* bytes, std::size_t size);
-    MEid loadMusic(const std::string& fileName);
-    MEid loadSound(const std::string& fileName);
+    AssetID loadTexture(const std::string& fileName);
+    AssetID loadFont(const std::string& fileName);
+    AssetID loadFont(SM::BYTE* bytes, std::size_t size);
+    AssetID loadMusic(const std::string& fileName);
+    AssetID loadSound(const std::string& fileName);
 
-    MEid createSprite(const MEid& texture);
-    MEid createText(const std::wstring& text,
+    AssetID createSprite(const AssetID& texture);
+    AssetID createText(const std::wstring& text,
                     const unsigned int& fontSize,
-                    const MEid& font);
+                    const AssetID& font);
 
-    MEid createSpriteAnimation();
-    MEid createShape(const Vect2f& size = Vect2f(50.f, 50.0f),
+    AssetID createSpriteAnimation();
+    AssetID createShape(const Vect2f& size = Vect2f(50.f, 50.0f),
                      const Color& color = Color(Color::WHITE),
                      const Vect2f& pos = Vect2f(0.0f, 0.0f));
 
     template<typename T>
-    T* getAsset(const MEid& id);
+    T* getAsset(const AssetID& id);
 
     ~AssetsManager();
 private:
-    std::unordered_map<MEid, Asset*> mAssets;
+    std::unordered_map<AssetID, Asset*> mAssets;
 };
 
 template<typename T>
-T* AssetsManager::getAsset(const MEid &id) {
+T* AssetsManager::getAsset(const AssetID &id) {
     if (mAssets.find(id) != mAssets.end()) {
         return static_cast<T*>(mAssets[id]);
     } else {
