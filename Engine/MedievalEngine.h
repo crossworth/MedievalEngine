@@ -11,6 +11,8 @@ public:
     void init();
     void run();
     void close();
+    int getErrorCode();
+    bool isRunning();
 
     Window* getWindow();
     AssetsManager* getAssetsManager();
@@ -20,6 +22,8 @@ public:
 
     ~MedievalEngine();
 private:
+
+    int mErroCode;
     Window mWindow;
     GUI mGUI;
     AssetsManager mAssetsManager;

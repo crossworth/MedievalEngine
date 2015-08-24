@@ -11,7 +11,8 @@ public:
     inline bool operator==(const Color& color);
     inline bool operator!=(const Color& color);
     Color(const Color& other);
-    Color(const int& red, const int& green, const int& blue, const int& alpha = 255);
+    Color(const int& red, const int& green,
+          const int& blue, const int& alpha = 255);
 
     int red;
     int green;

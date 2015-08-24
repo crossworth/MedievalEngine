@@ -23,7 +23,9 @@ public:
     void setString(const std::wstring& text);
     void setStyle(const Text::FONT_STYLE& style);
 
-    void setTextShadow(const float& factor = 2.0f, const Color& color = Color::BLACK);
+    void setTextShadow(const float& factor = 2.0f,
+                       const Color& color = Color::BLACK);
+
     void removeTextShadow();
     bool isTextShadowEnable();
 

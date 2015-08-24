@@ -21,6 +21,7 @@ int main(int argc, char **argv) {
     app.init();
     app.run();
     app.close();
+    resultCode = app.getErrorCode();
 
     ProfileEnd("GameEngine total");
     return resultCode;

@@ -29,7 +29,8 @@ public:
     void pause();
     void play();
 
-    GUIObject* addObject(const std::string& name, GUIObject* object);
+    GUIObject* addObject(const std::string& name,
+                         GUIObject* object);
 
     template<typename T>
     T* getObject(const std::string& name);

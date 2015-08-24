@@ -2,7 +2,7 @@
 
 using namespace ME;
 
-MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv) {
+MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv), mErroCode(0) {
 
     if (mArguments.hasArgument("config")) {
         mConfigurations.readFile(mArguments.getArgument("config"));
@@ -49,23 +49,30 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv) {
 
     if (!mDataFiles.openFile(ENGINE_DEFAULTS::DATA_PATH + ENGINE_DEFAULTS::DEFAULT_DATFILE)) {
         LOG << Log::CRITICAL << "[MedievalEngine::MedievalEngine] Could not open the default assets file "
-        << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str() << std::endl;
+        << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str() << SM::FILE_EXTENSION.c_str() << std::endl;
         mWindow.close();
-    }
-
-    if (mDataFiles.getName() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_NAME &&
-        mDataFiles.getVersion() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_VERSION ) {
-        Font::DEFAULT_FONT = mAssetsManager.loadFont(mDataFiles.getFile("default.ttf"), mDataFiles.getFileEntrySize("default.ttf"));
-        LOG << Log::VERBOSE << "[MedievalEngine::MedievalEngine] Default font loaded " << std::endl;
+        mErroCode = 1;
     } else {
-        LOG << Log::CRITICAL << "[MedievalEngine::MedievalEngine] Default asset pack recognized "
-        << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str() << std::endl;
-        mWindow.close();
-    }
+        if (mDataFiles.getName() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_NAME &&
+            mDataFiles.getVersion() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_VERSION ) {
+            Font::DEFAULT_FONT = mAssetsManager.loadFont(mDataFiles.getFile("default.ttf"),
+                                                         mDataFiles.getFileEntrySize("default.ttf"));
 
+            LOG << Log::VERBOSE << "[MedievalEngine::MedievalEngine] Default font loaded " << std::endl;
+        } else {
+            LOG << Log::CRITICAL << "[MedievalEngine::MedievalEngine] Default asset pack not recognized "
+            << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str() << SM::FILE_EXTENSION.c_str() << std::endl;
+            mWindow.close();
+            mErroCode = 2;
+        }
+    }
 }
 
 void MedievalEngine::init() {
+    if (!isRunning()) {
+        return;
+    }
+
     LOG << Log::VERBOSE << "[MedievalEngine::init]" << std::endl;
     mGUI.registerEngine(this);
 
@@ -75,6 +82,10 @@ void MedievalEngine::init() {
 }
 
 void MedievalEngine::run() {
+    if (!isRunning()) {
+       return;
+    }
+
     while(mWindow.isOpen()) {
 
         Event event;
@@ -93,8 +104,23 @@ void MedievalEngine::run() {
     }
 }
 
+int MedievalEngine::getErrorCode() {
+    return mErroCode;
+}
+
+bool MedievalEngine::isRunning() {
+    if (mErroCode == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 void MedievalEngine::close() {
     LOG << Log::VERBOSE << "[MedievalEngine::close]" << std::endl;
+    if (mWindow.isOpen()) {
+        mWindow.close();
+    }
 }
 
 Window* MedievalEngine::getWindow() {

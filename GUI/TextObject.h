@@ -9,7 +9,9 @@ namespace ME {
 
 class TextObject : public GUIObject {
 public:
-    TextObject(const std::wstring& text, const int& textSize, const Vect2f& pos = Vect2f());
+    TextObject(const std::wstring& text,
+               const int& textSize,
+               const Vect2f& pos = Vect2f());
     void init();
     void draw(Window& window);
     void update();

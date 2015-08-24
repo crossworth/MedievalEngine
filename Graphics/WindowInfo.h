@@ -9,7 +9,8 @@ class WindowInfo {
 public:
 
     WindowInfo();
-    WindowInfo(int width, int height, int bitsPerPixel, bool fullScreen, std::string name);
+    WindowInfo(int width, int height, int bitsPerPixel,
+               bool fullScreen, std::string name);
 
     int width;
     int height;

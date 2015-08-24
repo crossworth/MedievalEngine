@@ -15,7 +15,8 @@ public:
     Vect2i(int _x, int _y);
     Vect2i(const Vect2f& other);
 
-    friend std::ostream& operator<<(std::ostream& os, const Vect2i& vec) {
+    friend std::ostream& operator<<(std::ostream& os,
+                                    const Vect2i& vec) {
 		os << "Vec2i[x: " << vec.x << ", y: " << vec.y << "]"; 
     	return os;
 	}
@@ -39,7 +40,8 @@ public:
 	Vect2f(float _x, float _y);
     Vect2f(const Vect2i& other);
 
-	friend std::ostream& operator<<(std::ostream& os, const Vect2f& vec) {
+    friend std::ostream& operator<<(std::ostream& os,
+                                    const Vect2f& vec) {
 		os << "Vec2f[x: " << vec.x << ", y: " << vec.y << "]"; 
     	return os;
 	}
@@ -63,7 +65,8 @@ public:
 	Vect2d(double _x, double _y);
     Vect2d(const Vect2i& other);
 
-	friend std::ostream& operator<<(std::ostream& os, const Vect2d& vec) {
+    friend std::ostream& operator<<(std::ostream& os,
+                                    const Vect2d& vec) {
 		os << "Vec2d[x: " << vec.x << ", y: " << vec.y << "]"; 
     	return os;
 	}

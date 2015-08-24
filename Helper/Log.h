@@ -11,14 +11,19 @@ namespace ME {
 
 class Log {
 public:
-    enum LOG_TYPE {VERBOSE, LUA_VERBOSE, WARNING, LUA_WARNING, CRITICAL, LUA_CRITICAL};
-
+    enum LOG_TYPE {VERBOSE, LUA_VERBOSE, WARNING,
+                   LUA_WARNING, CRITICAL, LUA_CRITICAL};
 private:
-    Log(const bool& logToFile, const std::string& fileName, const bool& logTime);
+    Log(const bool& logToFile,
+        const std::string& fileName,
+        const bool& logTime);
+
     static Log* mInstance;
 
 public:
-    static Log* getInstance(const bool& logToFile = false, const std::string& fileName = "output.log", const bool& logTime = false);
+    static Log* getInstance(const bool& logToFile = false,
+                            const std::string& fileName = "output.log",
+                            const bool& logTime = false);
 
     inline Log& operator<<(const char* message) {
         *outStream << std::string(message);

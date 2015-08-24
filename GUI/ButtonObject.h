@@ -8,7 +8,8 @@ namespace ME {
 
 class ButtonObject : public GUIObject {
 public:
-    ButtonObject(const std::wstring& text, Vect2f pos, MEid fontID = 0);
+    ButtonObject(const std::wstring& text,
+                 Vect2f pos, MEid fontID = 0);
     void init();
     void draw(Window& window);
     void update();

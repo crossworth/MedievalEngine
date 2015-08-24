@@ -11,7 +11,9 @@ namespace ME {
 
 const bool SHOW_PROFILER_INFO             = true;
 #define ProfileInit() time_t _ME_profile_ = 0;
-#define ProfileStart() _ME_profile_       = ME::Profiler::profileStart(); LOG << "[Profiler::profileStart] Profiler started" << std::endl;
+#define ProfileStart() _ME_profile_       = ME::Profiler::profileStart();\
+LOG << "[Profiler::profileStart] Profiler started" << std::endl;
+
 #define ProfileEnd(x) ME::Profiler::profileEnd(x, _ME_profile_);
 
 class Profiler {

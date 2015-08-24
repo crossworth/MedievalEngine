@@ -30,11 +30,15 @@ public:
 };
 
 bool Area::operator==(const Area& area2) {
-    return (this->left == area2.left && this->top == area2.top && this->width == area2.width && this->height == area2.height);
+    return (this->left == area2.left && this->top ==
+            area2.top && this->width == area2.width &&
+            this->height == area2.height);
 }
 
 bool Area::operator!=(const Area& area2) {
-    return !(this->left == area2.left && this->top == area2.top && this->width == area2.width && this->height == area2.height);
+    return !(this->left == area2.left && this->top ==
+             area2.top && this->width == area2.width &&
+             this->height == area2.height);
 }
 
 Area& Area::operator=(const Area& area) {
