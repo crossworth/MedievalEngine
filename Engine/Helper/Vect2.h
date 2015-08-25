@@ -29,6 +29,10 @@ public:
         return !(*this == vec2);
     }
 
+    inline Vect2i operator+(const Vect2i& vec2) {
+        return Vect2i(this->x + vec2.x, this->y + vec2.y);
+    }
+
 	int x;
 	int y;
 };
