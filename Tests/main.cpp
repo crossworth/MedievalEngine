@@ -3,7 +3,6 @@
 #include "Helper/Vect2.cpp"
 
 TEST_CASE( "Vect2 tests", "[Vect2]" ) {
-
     ME::Vect2i v1;
 
     REQUIRE( v1.x == 0 );
@@ -24,4 +23,9 @@ TEST_CASE( "Vect2 tests", "[Vect2]" ) {
 
     REQUIRE( v2 == v3);
     REQUIRE( v1 != v3);
+
+    v3 = v1 + v2;
+
+    REQUIRE( v3.x == 15);
+    REQUIRE( v3.y == 25);
 }
