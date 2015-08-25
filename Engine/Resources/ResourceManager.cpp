@@ -31,7 +31,7 @@ ResourceID ResourceManager::loadFont(const std::string &fileName) {
 ResourceID ResourceManager::loadFont(SM::BYTE* bytes, std::size_t size) {
     ResourceID fontID = ResourceIDGenerator::get();
     mAssets[fontID]   = ResourcePtr(new Font());
-    getAsset<Font>(fontID)->loadFromMemory(bytes, size);
+    getResource<Font>(fontID)->loadFromMemory(bytes, size);
 
     LOG << Log::VERBOSE
         << ("[AssetsManager::loadFont] Font loaded from memory ID: " +
@@ -63,7 +63,7 @@ ResourceID ResourceManager::loadSound(const std::string &fileName) {
 ResourceID ResourceManager::createSprite(const ResourceID &texture) {
     ResourceID spriteID = ResourceIDGenerator::get();
     mAssets[spriteID]   = ResourcePtr(new Sprite());
-    getAsset<Sprite>(spriteID)->setTexture(getAsset<Texture>(texture));
+    getResource<Sprite>(spriteID)->setTexture(getResource<Texture>(texture));
 
     LOG << Log::VERBOSE
         << ("[AssetsManager::createSprite] Sprite created ID: " +
@@ -102,9 +102,9 @@ ResourceID ResourceManager::createText(const std::wstring &text,
 
     ResourceID textID = ResourceIDGenerator::get();
     mAssets[textID]   = ResourcePtr(new Text());
-    getAsset<Text>(textID)->setFont(*getAsset<Font>(font));
-    getAsset<Text>(textID)->setFontSize(fontSize);
-    getAsset<Text>(textID)->setString(text);
+    getResource<Text>(textID)->setFont(*getResource<Font>(font));
+    getResource<Text>(textID)->setFontSize(fontSize);
+    getResource<Text>(textID)->setString(text);
 
     LOG << Log::VERBOSE << ("[AssetsManager::createText] Text created ID: " +
                             Data2::int_to_str(textID)).c_str() << std::endl;

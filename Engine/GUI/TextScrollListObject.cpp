@@ -15,9 +15,9 @@ void TextScrollListObject::init() {
     ResourceID shapeID  = mAssets->createShape(Vect2f(250.f, 35.f));
     ResourceID scrollID = mAssets->createShape(Vect2f(8.f, 30.f), Color(0, 0, 0, 75));
 
-    mTextRef      = mAssets->getAsset<Text>(textID);
-    mShapeRef     = mAssets->getAsset<Shape>(shapeID);
-    mScrollBarRef = mAssets->getAsset<Shape>(scrollID);
+    mTextRef      = mAssets->getResource<Text>(textID);
+    mShapeRef     = mAssets->getResource<Shape>(shapeID);
+    mScrollBarRef = mAssets->getResource<Shape>(scrollID);
 
     mShapeRef->setRadius(4.0f);
     mScrollBarRef->setRadius(3.0f);

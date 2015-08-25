@@ -16,24 +16,24 @@ void LoadingScreen::init() {
 
 
     spriteMario                 = mAssets->createSpriteAnimation();
-    SpriteAnimation* marioSptAn = mAssets->getAsset<SpriteAnimation>(spriteMario);
+    SpriteAnimation* marioSptAn = mAssets->getResource<SpriteAnimation>(spriteMario);
 
     ResourceID idAn1 = mAssets->loadTexture("/animation/1.png");
     ResourceID idAn2 = mAssets->loadTexture("/animation/2.png");
     ResourceID idAn3 = mAssets->loadTexture("/animation/3.png");
     ResourceID idAn4 = mAssets->loadTexture("/animation/4.png");
 
-    marioSptAn->addFrame(100, mAssets->getAsset<Texture>(idAn1));
-    marioSptAn->addFrame(100, mAssets->getAsset<Texture>(idAn2));
-    marioSptAn->addFrame(100, mAssets->getAsset<Texture>(idAn3));
-    marioSptAn->addFrame(100, mAssets->getAsset<Texture>(idAn4));
+    marioSptAn->addFrame(100, mAssets->getResource<Texture>(idAn1));
+    marioSptAn->addFrame(100, mAssets->getResource<Texture>(idAn2));
+    marioSptAn->addFrame(100, mAssets->getResource<Texture>(idAn3));
+    marioSptAn->addFrame(100, mAssets->getResource<Texture>(idAn4));
 
     marioSptAn->setPosition(Vect2f((winSize.x/2)-(marioSptAn->getSize().x/2),
     winSize.y-marioSptAn->getSize().y));
 
 
     idBackground            = mAssets->createShape(winSize);
-    Shape* mShapeBackground = mAssets->getAsset<Shape>(idBackground);
+    Shape* mShapeBackground = mAssets->getResource<Shape>(idBackground);
 
     mShapeBackground->setColor(Color::DODGER_BLUE);
 
@@ -58,8 +58,8 @@ void LoadingScreen::onDisable(Window &window) {
 }
 
 void LoadingScreen::onPlaying(Window &window) {
-    window.draw(mEngine->getAssetsManager()->getAsset<Shape>(idBackground));
-    window.draw(mEngine->getAssetsManager()->getAsset<Shape>(spriteMario));
+    window.draw(mEngine->getAssetsManager()->getResource<Shape>(idBackground));
+    window.draw(mEngine->getAssetsManager()->getResource<Shape>(spriteMario));
 
 }
 
@@ -87,11 +87,11 @@ void LoadingScreen::handleEvents(Event& evt) {
 
 
         if (evt.key.code == Keyboard::F) {
-            mEngine->getAssetsManager()->getAsset<Shape>(spriteMario)->addEffect(new Fade(500, Fade::FADEIN));
+            mEngine->getAssetsManager()->getResource<Shape>(spriteMario)->addEffect(new Fade(500, Fade::FADEIN));
         }
 
         if (evt.key.code == Keyboard::D) {
-            mEngine->getAssetsManager()->getAsset<Shape>(spriteMario)->addEffect(new Strobe(500, 0.5));
+            mEngine->getAssetsManager()->getResource<Shape>(spriteMario)->addEffect(new Strobe(500, 0.5));
         }
 
 

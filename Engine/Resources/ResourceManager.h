@@ -39,7 +39,7 @@ public:
                      const Vect2f& pos = Vect2f(0.0f, 0.0f));
 
     template<typename T>
-    T* getAsset(const ResourceID& id);
+    T* getResource(const ResourceID& id);
 
     ~ResourceManager();
 private:
@@ -48,7 +48,7 @@ private:
 };
 
 template<typename T>
-T* ResourceManager::getAsset(const ResourceID &id) {
+T* ResourceManager::getResource(const ResourceID &id) {
     if (mAssets.find(id) != mAssets.end()) {
         return static_cast<T*>(mAssets[id].get());
     } else {

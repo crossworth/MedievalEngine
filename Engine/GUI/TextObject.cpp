@@ -13,7 +13,7 @@ TextObject::TextObject(const std::wstring& text,
 
 void TextObject::init() {
     mTextID  = mAssets->createText(mText, mTextSize, mDefaultFontID);
-    mTextRef = mAssets->getAsset<Text>(mTextID);
+    mTextRef = mAssets->getResource<Text>(mTextID);
     setPosition(mPos);
 }
 

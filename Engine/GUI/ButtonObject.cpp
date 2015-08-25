@@ -15,7 +15,7 @@ void ButtonObject::init() {
     }else {
         mTextID  = mAssets->createText(mText, 22, mFontID);
     }
-    mTextRef = mAssets->getAsset<Text>(mTextID);
+    mTextRef = mAssets->getResource<Text>(mTextID);
 
     float width = 80.0f;
 
@@ -24,7 +24,7 @@ void ButtonObject::init() {
     }
 
     mShapeID  = mAssets->createShape(Vect2f(width, 30.0f), Color(0, 0, 0), mPos);
-    mShapeRef = mAssets->getAsset<Shape>(mShapeID);
+    mShapeRef = mAssets->getResource<Shape>(mShapeID);
     mShapeRef->setColor(ColorGradient(Color::BUTTON_C1, Color::BUTTON_C2));
     mShapeRef->setRadius(2.0f);
 
