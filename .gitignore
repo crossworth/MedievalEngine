@@ -4,7 +4,6 @@ bin/
 
 
 # C++ objects and libs
-
 *.slo
 *.lo
 *.o
@@ -16,9 +15,10 @@ bin/
 *.dylib
 
 # Qt-es
-
 /.qmake.cache
 /.qmake.stash
+*.user
+*.user.*
 *.pro.user
 *.pro.user.*
 *.qbs.user
@@ -29,11 +29,7 @@ qrc_*.cpp
 ui_*.h
 Makefile*
 *-build-*
-
-# QtCreator
-
 *.autosave
-
 #QtCtreator Qml
 *.qmlproject.user
 *.qmlproject.user.*
