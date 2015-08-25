@@ -53,7 +53,6 @@ SOURCES += main.cpp \
 	Helper/Clock.cpp \
 	Helper/Color.cpp \
 	Helper/ColorGradient.cpp \
-	Helper/Data2.cpp \
 	Helper/DATFile.cpp \
 	Helper/Dir.cpp \
 	Helper/Log.cpp \
@@ -70,7 +69,8 @@ SOURCES += main.cpp \
 	Resources/Texture.cpp \
     Resources/Resource.cpp \
     Resources/ResourceManager.cpp \
-    Resources/ResourceIDGenerator.cpp
+    Resources/ResourceIDGenerator.cpp \
+    Helper/Kit.cpp
 
 HEADERS += \
 	Audio/Audible.h \
@@ -101,7 +101,6 @@ HEADERS += \
 	Helper/Clock.h \
 	Helper/Color.h \
 	Helper/ColorGradient.h \
-	Helper/Data2.h \
 	Helper/DATFile.h \
 	Helper/Dir.h \
 	Helper/Log.h \
@@ -120,7 +119,8 @@ HEADERS += \
 	Resources/Texture.h \
     Resources/Resource.h \
     Resources/ResourceManager.h \
-    Resources/ResourceIDGenerator.h
+    Resources/ResourceIDGenerator.h \
+    Helper/Kit.h
 
 DISTFILES += \
     Documentation/init.txt \

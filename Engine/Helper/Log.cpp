@@ -2,36 +2,33 @@
 
 using namespace ME;
 
-Log* Log::mInstance;
-
 Log* Log::getInstance(const bool& logToFile,
                       const std::string& fileName,
                       const bool& logTime) {
-    if(!mInstance) {
-        mInstance = new Log(logToFile, fileName, logTime);
-    }
 
-    return mInstance;
+    static Log* m_instance = new Log(logToFile, fileName, logTime);
+
+    return m_instance;
 }
 
 
 Log::Log(const bool& logToFile,
          const std::string& fileName,
-         const bool& logTime) : mCoutStream(std::cout) {
+         const bool& logTime) : m_coutStream(std::cout) {
 
     if (logToFile) {
-        mOfStream.open(fileName.c_str(), std::ios_base::app);
-        outStream = &mOfStream;
+        m_ofStream.open(fileName.c_str(), std::ios_base::app);
+        m_outStream = &m_ofStream;
     } else {
-        outStream = &mCoutStream;
+        m_outStream = &m_coutStream;
     }
 
-    *outStream << std::endl;
-    *outStream << "------------------------------------------";
-    *outStream << std::endl;
+    *m_outStream << std::endl;
+    *m_outStream << "------------------------------------------";
+    *m_outStream << std::endl;
 
     if (logTime) {
-        *outStream << getTime();
+        *m_outStream << getTime();
     }
 }
 

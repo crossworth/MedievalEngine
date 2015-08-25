@@ -1,5 +1,5 @@
-#ifndef ID_H
-#define ID_H
+#ifndef RESOURCEIDGENERATOR_H
+#define RESOURCEIDGENERATOR_H
 
 
 namespace ME {
@@ -16,4 +16,4 @@ private:
 
 }
 
-#endif // ID_H
+#endif // RESOURCEIDGENERATOR_H

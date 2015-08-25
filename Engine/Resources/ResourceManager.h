@@ -1,9 +1,9 @@
-#ifndef ASSETSMANAGER_H
-#define ASSETSMANAGER_H
+#ifndef RESOURCEMANAGER_H
+#define RESOURCEMANAGER_H
 #include <unordered_map>
 #include <memory>
 #include <LogInc.h>
-#include <Helper/Data2.h>
+#include <Helper/Kit.h>
 #include <Helper/Types.h>
 #include <Resources/ResourceIDGenerator.h>
 #include <Resources/Texture.h>
@@ -44,20 +44,20 @@ public:
     ~ResourceManager();
 private:
     typedef std::shared_ptr<Resource> ResourcePtr;
-    std::unordered_map<ResourceID, ResourcePtr> mAssets;
+    std::unordered_map<ResourceID, ResourcePtr> m_resources;
 };
 
 template<typename T>
 T* ResourceManager::getResource(const ResourceID &id) {
-    if (mAssets.find(id) != mAssets.end()) {
-        return static_cast<T*>(mAssets[id].get());
+    if (m_resources.find(id) != m_resources.end()) {
+        return static_cast<T*>(m_resources[id].get());
     } else {
         LOG << Log::WARNING << ("[AssetsManager::getAsset] Asset not found ID: "
-                                + Data2::int_to_str(id)).c_str() << std::endl;
+                                + Kit::int_str(id)).c_str() << std::endl;
         return nullptr;
     }
 }
 
 }
 
-#endif // ASSETSMANAGER_H
+#endif // RESOURCEMANAGER_H

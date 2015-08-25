@@ -1,24 +1,22 @@
 #ifndef LOG_H
 #define LOG_H
 #include <iostream>
+#include <string>
 #include <ctime>
 #include <fstream>
 #include <sstream>
-#include <Config.h>
 
 
 namespace ME {
 
 class Log {
 public:
-    enum LOG_TYPE {VERBOSE, LUA_VERBOSE, WARNING,
+    enum LogType {VERBOSE, LUA_VERBOSE, WARNING,
                    LUA_WARNING, CRITICAL, LUA_CRITICAL};
 private:
     Log(const bool& logToFile,
         const std::string& fileName,
         const bool& logTime);
-
-    static Log* mInstance;
 
 public:
     static Log* getInstance(const bool& logToFile = false,
@@ -26,84 +24,90 @@ public:
                             const bool& logTime = false);
 
     inline Log& operator<<(const char* message) {
-        *outStream << std::string(message);
+        *m_outStream << std::string(message);
+        return *this;
+    }
+
+    inline Log& operator<<(const std::string& message) {
+        *m_outStream << message;
         return *this;
     }
 
     inline Log& operator<<(const int& number) {
         std::stringstream ss;
         ss << number;
-        *outStream << ss.str();
+        *m_outStream << ss.str();
         return *this;
     }
 
     inline Log& operator<<(const unsigned int& number) {
         std::stringstream ss;
         ss << number;
-        *outStream << ss.str();
+        *m_outStream << ss.str();
         return *this;
     }
 
     inline Log& operator<<(const float& number) {
         std::stringstream ss;
         ss << number;
-        *outStream << ss.str();
+        *m_outStream << ss.str();
         return *this;
     }
 
     inline Log& operator<<(const double& number) {
         std::stringstream ss;
         ss << number;
-        *outStream << ss.str();
+        *m_outStream << ss.str();
         return *this;
     }
 
     inline Log& operator<<(const bool& boolean) {
         if(boolean) {
-            *outStream << "true";
+            *m_outStream << "true";
         } else {
-            *outStream << "false";
+            *m_outStream << "false";
         }
 
         return *this;
     }
 
-    inline Log& operator<<(const LOG_TYPE& type) {
+    inline Log& operator<<(const LogType& type) {
         switch (type) {
         case VERBOSE:
-            *outStream << "[VERBOSE] ";
+            *m_outStream << "[VERBOSE] ";
             break;
         case LUA_VERBOSE:
-            *outStream << "[LUA_VERBOSE] ";
+            *m_outStream << "[LUA_VERBOSE] ";
             break;
         case WARNING:
-            *outStream << "[WARNING] ";
+            *m_outStream << "[WARNING] ";
             break;
         case LUA_WARNING:
-            *outStream << "[LUA_WARNING] ";
+            *m_outStream << "[LUA_WARNING] ";
             break;
         case CRITICAL:
-            *outStream << "[CRITICAL] ";
+            *m_outStream << "[CRITICAL] ";
             break;
         case LUA_CRITICAL:
-            *outStream << "[LUA_CRITICAL] ";
+            *m_outStream << "[LUA_CRITICAL] ";
             break;
         default:
-            *outStream << "[UNKNOWN] ";
+            *m_outStream << "[UNKNOWN] ";
             break;
         }
         return *this;
     }
 
     inline Log& operator<<(std::ostream&(*f)(std::ostream&)) {
-        *outStream << std::endl;
+        *m_outStream << std::endl;
         return *this;
     }
+
 private:
     std::string getTime();
-    std::ostream* outStream;
-    std::ostream& mCoutStream;
-    std::ofstream mOfStream;
+    std::ostream* m_outStream;
+    std::ostream& m_coutStream;
+    std::ofstream m_ofStream;
 };
 
 }

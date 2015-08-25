@@ -28,19 +28,19 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     tmpIconName     = mConfigurations.getKey("icon");
 
     if(tmpBitsPerPixel != "") {
-        mWindowInfo.bitsPerPixel = Data2::str_to_int(tmpBitsPerPixel);
+        mWindowInfo.bitsPerPixel = Kit::str_int(tmpBitsPerPixel);
     }
 
     if(tmpHeight != "") {
-        mWindowInfo.height = Data2::str_to_int(tmpHeight);
+        mWindowInfo.height = Kit::str_int(tmpHeight);
     }
 
     if(tmpWidth != "") {
-        mWindowInfo.width = Data2::str_to_int(tmpWidth);
+        mWindowInfo.width = Kit::str_int(tmpWidth);
     }
 
     if(tmpFullScreen != "") {
-        mWindowInfo.fullScreen = Data2::str_to_bool(tmpFullScreen);
+        mWindowInfo.fullScreen = Kit::str_bool(tmpFullScreen);
     }
 
     if (tmpWindowName != "") {

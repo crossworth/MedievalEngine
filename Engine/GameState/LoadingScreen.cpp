@@ -77,8 +77,8 @@ void LoadingScreen::handleEvents(Event& evt) {
     if (evt.type == Event::KeyPressed ) {
 
         if (evt.key.code == Keyboard::Space) {
-            std::string tmp("teste outra linha" + Data2::int_to_str(c++));
-            mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText(Data2::str_to_wstr(tmp));
+            std::string tmp("teste outra linha" + Kit::int_str(c++));
+            mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText(Kit::str_wstr(tmp));
         }
 
         if (evt.key.code == Keyboard::A) {

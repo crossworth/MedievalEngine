@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "Catch.h"
 #include "Helper/Vect2.cpp"
+#include "Helper/Log.cpp"
 
 TEST_CASE( "Vect2 tests", "[Vect2]" ) {
     ME::Vect2i v1;
@@ -28,4 +29,18 @@ TEST_CASE( "Vect2 tests", "[Vect2]" ) {
 
     REQUIRE( v3.x == 15);
     REQUIRE( v3.y == 25);
+}
+
+TEST_CASE("Log tests", "[Log]") {
+    ME::Log* log = ME::Log::getInstance(false, "", false);
+
+    *log << "Teste" << std::endl;
+    *log << ME::Log::WARNING << std::endl;
+
+    std::string myTestString = "Teste string";
+
+    *log << myTestString << std::endl;
+
+    *log << true << std::endl;
+
 }

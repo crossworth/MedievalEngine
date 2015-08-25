@@ -1,15 +1,15 @@
-#include "Data2.h"
+#include "Kit.h"
 
 using namespace ME;
 
-int Data2::str_to_int(const std::string& str) {
+int Kit::str_int(const std::string& str) {
     std::stringstream ss(str);
     int t;
     ss >> t;
     return t;
 }
 
-bool Data2::str_to_bool(const std::string& str) {
+bool Kit::str_bool(const std::string& str) {
     std::string tmp = str;
     std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
 
@@ -18,63 +18,63 @@ bool Data2::str_to_bool(const std::string& str) {
     return ret;
 }
 
-float Data2::str_to_float(const std::string& str) {
+float Kit::str_float(const std::string& str) {
     std::stringstream ss(str);
     float t;
     ss >> t;
     return t;
 }
 
-double Data2::str_to_double(const std::string& str) {
+double Kit::str_double(const std::string& str) {
     std::stringstream ss(str);
     double t;
     ss >> t;
     return t;
 }
 
-std::wstring Data2::str_to_wstr(const std::string& str) {
+std::wstring Kit::str_wstr(const std::string& str) {
     std::wstringstream ret;
     ret << str.c_str();
     return ret.str();
 }
 
-std::string Data2::wstr_to_str(const std::wstring& str) {
+std::string Kit::wstr_str(const std::wstring& str) {
     return std::string(str.begin(), str.end());
 }
 
-int Data2::float_to_int(const float& f) {
+int Kit::float_int(const float& f) {
     return static_cast<int>(f);
 }
 
-double Data2::float_to_double(const float& f) {
+double Kit::float_double(const float& f) {
     return static_cast<double>(f);
 }
 
-std::string Data2::float_to_string(const float& f) {
+std::string Kit::float_string(const float& f) {
     char t[200];
     std::sprintf(t,"%f",f);
     return std::string(t);
 }
 
-int Data2::double_to_int(const double& d) {
+int Kit::double_int(const double& d) {
     return static_cast<int>(d);
 }
 
-float Data2::double_to_float(const double& d) {
+float Kit::double_float(const double& d) {
     return static_cast<float>(d);
 }
 
-std::string Data2::double_to_str(const double& d) {
+std::string Kit::double_str(const double& d) {
     char t[200];
     std::sprintf(t,"%f",d);
     return std::string(t);
 }
 
-int Data2::bool_to_int(const bool& b) {
+int Kit::bool_int(const bool& b) {
     return b;
 }
 
-std::string Data2::bool_to_str(const bool& b) {
+std::string Kit::bool_str(const bool& b) {
     if (b == true) {
         return "true";
     } else {
@@ -82,7 +82,7 @@ std::string Data2::bool_to_str(const bool& b) {
     }
 }
 
-std::string Data2::int_to_str(const int& i) {
+std::string Kit::int_str(const int& i) {
     char t[200];
     std::sprintf(t,"%d",i);
     return std::string(t);
