@@ -1,15 +1,15 @@
-#include "AssetsManager.h"
+#include "ResourceManager.h"
 
 using namespace ME;
 
-AssetsManager::AssetsManager() {
+ResourceManager::ResourceManager() {
     LOG << Log::VERBOSE
         << "[AssetsManager::AssetsManager] AssetsManager created" << std::endl;
 }
 
-AssetID AssetsManager::loadTexture(const std::string &fileName) {
-    AssetID textureID     = AssetIDGenerator::get();
-    mAssets[textureID] = new Texture(fileName);
+ResourceID ResourceManager::loadTexture(const std::string &fileName) {
+    ResourceID textureID = ResourceIDGenerator::get();
+    mAssets[textureID]   = ResourcePtr(new Texture(fileName));
 
     LOG << Log::VERBOSE
         << ("[AssetsManager::loadTexture] Texture loaded ID: " +
@@ -18,9 +18,9 @@ AssetID AssetsManager::loadTexture(const std::string &fileName) {
     return textureID;
 }
 
-AssetID AssetsManager::loadFont(const std::string &fileName) {
-    AssetID fontID     = AssetIDGenerator::get();
-    mAssets[fontID] = new Font(fileName);
+ResourceID ResourceManager::loadFont(const std::string &fileName) {
+    ResourceID fontID = ResourceIDGenerator::get();
+    mAssets[fontID]   = ResourcePtr(new Font(fileName));
 
     LOG << Log::VERBOSE << ("[AssetsManager::loadFont] Font loaded ID: " +
                             Data2::int_to_str(fontID)).c_str() << std::endl;
@@ -28,9 +28,9 @@ AssetID AssetsManager::loadFont(const std::string &fileName) {
     return fontID;
 }
 
-AssetID AssetsManager::loadFont(SM::BYTE* bytes, std::size_t size) {
-    AssetID fontID     = AssetIDGenerator::get();
-    mAssets[fontID] = new Font();
+ResourceID ResourceManager::loadFont(SM::BYTE* bytes, std::size_t size) {
+    ResourceID fontID = ResourceIDGenerator::get();
+    mAssets[fontID]   = ResourcePtr(new Font());
     getAsset<Font>(fontID)->loadFromMemory(bytes, size);
 
     LOG << Log::VERBOSE
@@ -40,9 +40,9 @@ AssetID AssetsManager::loadFont(SM::BYTE* bytes, std::size_t size) {
     return fontID;
 }
 
-AssetID AssetsManager::loadMusic(const std::string &fileName) {
-    AssetID musicID     = AssetIDGenerator::get();
-    mAssets[musicID] = new Music(fileName);
+ResourceID ResourceManager::loadMusic(const std::string &fileName) {
+    ResourceID musicID = ResourceIDGenerator::get();
+    mAssets[musicID]   = ResourcePtr(new Music(fileName));
 
     LOG << Log::VERBOSE << ("[AssetsManager::loadMusic] Music loaded ID: " +
                             Data2::int_to_str(musicID)).c_str() << std::endl;
@@ -50,9 +50,9 @@ AssetID AssetsManager::loadMusic(const std::string &fileName) {
     return musicID;
 }
 
-AssetID AssetsManager::loadSound(const std::string &fileName) {
-    AssetID soundID     = AssetIDGenerator::get();
-    mAssets[soundID] = new Sound(fileName);
+ResourceID ResourceManager::loadSound(const std::string &fileName) {
+    ResourceID soundID = ResourceIDGenerator::get();
+    mAssets[soundID]   = ResourcePtr(new Sound(fileName));
 
     LOG << Log::VERBOSE << ("[AssetsManager::loadSound] Sound loaded ID: " +
                             Data2::int_to_str(soundID)).c_str() << std::endl;
@@ -60,9 +60,9 @@ AssetID AssetsManager::loadSound(const std::string &fileName) {
     return soundID;
 }
 
-AssetID AssetsManager::createSprite(const AssetID &texture) {
-    AssetID spriteID     = AssetIDGenerator::get();
-    mAssets[spriteID] = new Sprite();
+ResourceID ResourceManager::createSprite(const ResourceID &texture) {
+    ResourceID spriteID = ResourceIDGenerator::get();
+    mAssets[spriteID]   = ResourcePtr(new Sprite());
     getAsset<Sprite>(spriteID)->setTexture(getAsset<Texture>(texture));
 
     LOG << Log::VERBOSE
@@ -72,9 +72,9 @@ AssetID AssetsManager::createSprite(const AssetID &texture) {
     return spriteID;
 }
 
-AssetID AssetsManager::createSpriteAnimation() {
-    AssetID spriteAnID     = AssetIDGenerator::get();
-    mAssets[spriteAnID] = new SpriteAnimation();
+ResourceID ResourceManager::createSpriteAnimation() {
+    ResourceID spriteAnID = ResourceIDGenerator::get();
+    mAssets[spriteAnID]   = ResourcePtr(new SpriteAnimation());
 
     LOG << Log::VERBOSE
         << ("[AssetsManager::createSpriteAnimation] SpriteAnimation created ID: "
@@ -83,12 +83,12 @@ AssetID AssetsManager::createSpriteAnimation() {
     return spriteAnID;
 }
 
-AssetID AssetsManager::createShape(const Vect2f &size,
+ResourceID ResourceManager::createShape(const Vect2f &size,
                                 const Color &color,
                                 const Vect2f &pos) {
 
-    AssetID shapeID     = AssetIDGenerator::get();
-    mAssets[shapeID] = new Shape(size, color, pos);
+    ResourceID shapeID = ResourceIDGenerator::get();
+    mAssets[shapeID]   = ResourcePtr(new Shape(size, color, pos));
 
     LOG << Log::VERBOSE << ("[AssetsManager::createShape] Shape created ID: " +
                             Data2::int_to_str(shapeID)).c_str() << std::endl;
@@ -96,15 +96,15 @@ AssetID AssetsManager::createShape(const Vect2f &size,
     return shapeID;
 }
 
-AssetID AssetsManager::createText(const std::wstring &text,
+ResourceID ResourceManager::createText(const std::wstring &text,
                                const unsigned int &fontSize,
-                               const AssetID &font) {
+                               const ResourceID &font) {
 
-    AssetID textID     = AssetIDGenerator::get();
-    mAssets[textID] = new Text();
-    static_cast<Text*>(mAssets[textID])->setFont(*getAsset<Font>(font));
-    static_cast<Text*>(mAssets[textID])->setFontSize(fontSize);
-    static_cast<Text*>(mAssets[textID])->setString(text);
+    ResourceID textID = ResourceIDGenerator::get();
+    mAssets[textID]   = ResourcePtr(new Text());
+    getAsset<Text>(textID)->setFont(*getAsset<Font>(font));
+    getAsset<Text>(textID)->setFontSize(fontSize);
+    getAsset<Text>(textID)->setString(text);
 
     LOG << Log::VERBOSE << ("[AssetsManager::createText] Text created ID: " +
                             Data2::int_to_str(textID)).c_str() << std::endl;
@@ -112,13 +112,13 @@ AssetID AssetsManager::createText(const std::wstring &text,
     return textID;
 }
 
-AssetsManager::~AssetsManager() {
+ResourceManager::~ResourceManager() {
     LOG << Log::VERBOSE
         << "[AssetsManager::~AssetsManage] Cleaning everything..."
         << std::endl;
 
     for (unsigned int i = 0; i < mAssets.size(); i++) {
-        delete mAssets.at(i);
+        mAssets.at(i).reset();
     }
     mAssets.clear();
 }

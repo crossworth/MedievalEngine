@@ -1,7 +1,7 @@
 #ifndef GUIOBJECT_H
 #define GUIOBJECT_H
 #include <LogInc.h>
-#include <Assets/AssetsManager.h>
+#include <Resources/ResourceManager.h>
 #include <Graphics/Drawable.h>
 #include <Graphics/Window.h>
 #include <Events/Event.h>
@@ -12,7 +12,7 @@ namespace ME {
 class GUIObject {
 public:
     GUIObject();
-    void registerAssetsManager(AssetsManager* assets);
+    void registerAssetsManager(ResourceManager* assets);
 
     virtual void init() = 0;
     virtual void draw(Window& window) = 0;
@@ -55,8 +55,8 @@ protected:
     float mOpacity;
     Color mColor;
     ColorGradient mColorGradient;
-    AssetsManager* mAssets;
-    AssetID mDefaultFontID;
+    ResourceManager* mAssets;
+    ResourceID mDefaultFontID;
 };
 
 }

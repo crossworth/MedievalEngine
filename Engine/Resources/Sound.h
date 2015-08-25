@@ -1,13 +1,13 @@
 #ifndef SOUND_H
 #define SOUND_H
 #include <LogInc.h>
-#include <Assets/Asset.h>
+#include <Resources/Resource.h>
 #include <Audio/Audible.h>
 
 
 namespace ME{
 
-class Sound : public Asset, public Audible {
+class Sound : public Resource, public Audible {
 public:
     Sound(const std::string& fileName);
     sf::Sound* loadFromFile(const std::string& fileName);

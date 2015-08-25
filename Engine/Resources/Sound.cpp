@@ -3,7 +3,8 @@
 using namespace ME;
 
 Sound::Sound(const std::string &fileName) {
-    mType = "sound";
+    m_type = Resource::Type::SOUND;
+
     loadFromFile(fileName);
 }
 

@@ -1,6 +1,6 @@
 #ifndef LOADINGSCREEN_H
 #define LOADINGSCREEN_H
-#include <Assets/AssetIDGenerator.h>
+#include <Resources/ResourceIDGenerator.h>
 #include <GameState/GameState.h>
 
 
@@ -16,8 +16,8 @@ public:
     void update();
     void handleEvents(Event& evt);
 private:
-    AssetID idBackground;
-    AssetID spriteMario;
+    ResourceID idBackground;
+    ResourceID spriteMario;
     int c;
 };
 

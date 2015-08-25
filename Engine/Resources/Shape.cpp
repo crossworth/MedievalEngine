@@ -4,7 +4,8 @@
 using namespace ME;
 
 Shape::Shape(const Vect2f& size, const Color& color, const Vect2f& pos) {
-    mType = "shape";
+    m_type = Resource::Type::SHAPE;
+
     setSize(size);
     setColor(color);
     setPosition(pos);

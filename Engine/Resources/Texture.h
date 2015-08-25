@@ -3,12 +3,12 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <LogInc.h>
-#include <Assets/Asset.h>
+#include <Resources/Resource.h>
 
 
 namespace ME {
 
-class Texture : public Asset {
+class Texture : public Resource {
 public:
     Texture(const std::string& fileName);
     sf::Texture* loadFromFile(const std::string& fileName);

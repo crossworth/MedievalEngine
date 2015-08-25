@@ -12,16 +12,16 @@ void LoadingScreen::init() {
     LOG << Log::VERBOSE << "[LoadingScreen::init]" << std::endl;
 
     Vect2i winSize         = mEngine->getWindow()->getSize();
-    AssetsManager* mAssets = mEngine->getAssetsManager();
+    ResourceManager* mAssets = mEngine->getAssetsManager();
 
 
     spriteMario                 = mAssets->createSpriteAnimation();
     SpriteAnimation* marioSptAn = mAssets->getAsset<SpriteAnimation>(spriteMario);
 
-    AssetID idAn1 = mAssets->loadTexture("/animation/1.png");
-    AssetID idAn2 = mAssets->loadTexture("/animation/2.png");
-    AssetID idAn3 = mAssets->loadTexture("/animation/3.png");
-    AssetID idAn4 = mAssets->loadTexture("/animation/4.png");
+    ResourceID idAn1 = mAssets->loadTexture("/animation/1.png");
+    ResourceID idAn2 = mAssets->loadTexture("/animation/2.png");
+    ResourceID idAn3 = mAssets->loadTexture("/animation/3.png");
+    ResourceID idAn4 = mAssets->loadTexture("/animation/4.png");
 
     marioSptAn->addFrame(100, mAssets->getAsset<Texture>(idAn1));
     marioSptAn->addFrame(100, mAssets->getAsset<Texture>(idAn2));

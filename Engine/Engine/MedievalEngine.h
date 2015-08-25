@@ -15,7 +15,7 @@ public:
     bool isRunning();
 
     Window* getWindow();
-    AssetsManager* getAssetsManager();
+    ResourceManager* getAssetsManager();
     GameStateManager* getGameStateManager();
     GUI* getGUI();
     SM::DATFile* getDATAFileHandle();
@@ -26,7 +26,7 @@ private:
     int mErroCode;
     Window mWindow;
     GUI mGUI;
-    AssetsManager mAssetsManager;
+    ResourceManager mAssetsManager;
     CFGParser mConfigurations;
     ArgumentsParser mArguments;
     SM::DATFile mDataFiles;

@@ -3,7 +3,7 @@
 using namespace ME;
 
 Text::Text() {
-    mType = "text";
+    m_type = Resource::Type::TEXT;
 }
 
 std::string Text::getString() {

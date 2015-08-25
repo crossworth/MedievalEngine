@@ -3,7 +3,7 @@
 using namespace ME;
 
 Sprite::Sprite() : mSprite() {
-    mType = "sprite";
+    m_type = Resource::Type::SPRITE;
 }
 
 void Sprite::setTexture(Texture *texture) {

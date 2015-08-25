@@ -6,7 +6,7 @@ GUIObject::GUIObject() : mIsVisible(true), mIsActive(true) {
     mDefaultFontID = Font::DEFAULT_FONT;
 }
 
-void GUIObject::registerAssetsManager(AssetsManager* assets) {
+void GUIObject::registerAssetsManager(ResourceManager* assets) {
     mAssets = assets;
 }
 

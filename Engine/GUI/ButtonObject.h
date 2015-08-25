@@ -1,7 +1,6 @@
 #ifndef BUTTONOBJECT_H
 #define BUTTONOBJET_H
-#include <Assets/AssetIDGenerator.h>
-#include <Assets/AssetsManager.h>
+#include <Resources/ResourceManager.h>
 #include <GUI/GUIObject.h>
 
 
@@ -10,7 +9,7 @@ namespace ME {
 class ButtonObject : public GUIObject {
 public:
     ButtonObject(const std::wstring& text,
-                 Vect2f pos, AssetID fontID = 0);
+                 Vect2f pos, ResourceID fontID = 0);
     void init();
     void draw(Window& window);
     void update();
@@ -41,12 +40,12 @@ public:
     Area getLocalBounds();
     Area getGlobalBounds();
 private:
-    AssetID mShapeID;
-    AssetID mTextID;
+    ResourceID mShapeID;
+    ResourceID mTextID;
     Text* mTextRef;
     Shape* mShapeRef;
     std::wstring mText;
-    AssetID mFontID;
+    ResourceID mFontID;
 };
 
 }

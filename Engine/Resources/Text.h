@@ -3,14 +3,14 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <Graphics/Drawable.h>
-#include <Assets/Asset.h>
-#include <Assets/Font.h>
+#include <Resources/Resource.h>
+#include <Resources/Font.h>
 #include <Effects/Effects.h>
 
 
 namespace ME {
 
-class Text : public Asset, public Drawable {
+class Text : public Resource, public Drawable {
 public:
     enum FONT_STYLE {REGULAR, BOLD, ITALIC, UNDERLINE};
 public:

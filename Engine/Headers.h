@@ -19,8 +19,8 @@
 #include <Helper/ColorGradient.h>
 #include <Helper/ArgumentsParser.h>
 
-#include <Assets/AssetIDGenerator.h>
-#include <Assets/AssetsManager.h>
+#include <Resources/ResourceIDGenerator.h>
+#include <Resources/ResourceManager.h>
 
 #include <Graphics/Drawable.h>
 #include <Graphics/WindowInfo.h>

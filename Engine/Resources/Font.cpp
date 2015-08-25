@@ -2,14 +2,14 @@
 
 using namespace ME;
 
-AssetID Font::DEFAULT_FONT = 0;
+ResourceID Font::DEFAULT_FONT = 0;
 
 Font::Font() {
-    mType = "font";
+    m_type = Resource::Type::FONT;
 }
 
 Font::Font(const std::string &fileName) {
-    mType = "font";
+    m_type = Resource::Type::FONT;
     loadFromFile(fileName);
 }
 

@@ -58,6 +58,10 @@ public:
         return !(*this == vec2);
     }
 
+    inline Vect2f operator+(const Vect2f& vec2) {
+        return Vect2f(this->x + vec2.x, this->y + vec2.y);
+    }
+
 	float x;
 	float y;
 };
@@ -81,6 +85,10 @@ public:
 
     inline bool operator!=(const Vect2d& vec2) {
         return !(*this == vec2);
+    }
+
+    inline Vect2d operator+(const Vect2d& vec2) {
+        return Vect2d(this->x + vec2.x, this->y + vec2.y);
     }
 
 	double x;

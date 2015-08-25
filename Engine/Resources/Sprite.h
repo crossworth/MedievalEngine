@@ -5,14 +5,14 @@
 #include <Helper/Vect2.h>
 #include <Helper/Color.h>
 #include <Graphics/Drawable.h>
-#include <Assets/Asset.h>
-#include <Assets/Texture.h>
+#include <Resources/Resource.h>
+#include <Resources/Texture.h>
 #include <Effects/Effects.h>
 
 
 namespace ME {
 
-class Sprite : public Asset, public Drawable {
+class Sprite : public Resource, public Drawable {
 public:
     Sprite();
 

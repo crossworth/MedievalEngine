@@ -3,7 +3,7 @@
 using namespace ME;
 
 Texture::Texture(const std::string &fileName) {
-    mType = "texture";
+    m_type = Resource::Type::TEXTURE;
     loadFromFile(fileName);
 }
 

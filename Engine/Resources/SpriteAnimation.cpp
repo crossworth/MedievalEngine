@@ -3,7 +3,7 @@
 using namespace ME;
 
 SpriteAnimation::SpriteAnimation() {
-    mType      = "sprite_animation";
+    m_type = Resource::Type::SPRITEANIMATION;
     mIsPlaying = true;
 }
 

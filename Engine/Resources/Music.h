@@ -1,12 +1,12 @@
 #ifndef MUSIC_H
 #define MUSIC_H
 #include <LogInc.h>
-#include <Assets/Asset.h>
+#include <Resources/Resource.h>
 #include <Audio/Audible.h>
 
 namespace ME{
 
-class Music : public Asset, public Audible {
+class Music : public Resource, public Audible {
 public:
     Music(const std::string& fileName);
     sf::Music* loadFromFile(const std::string& fileName);

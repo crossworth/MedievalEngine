@@ -141,7 +141,7 @@ Window* MedievalEngine::getWindow() {
     return &mWindow;
 }
 
-AssetsManager* MedievalEngine::getAssetsManager() {
+ResourceManager* MedievalEngine::getAssetsManager() {
     return &mAssetsManager;
 }
 

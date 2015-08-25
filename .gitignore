@@ -1,9 +1,6 @@
 .DS_Store
 bin/
 *.exe
-
-
-# C++ objects and libs
 *.slo
 *.lo
 *.o
@@ -13,8 +10,6 @@ bin/
 *.so
 *.dll
 *.dylib
-
-# Qt-es
 /.qmake.cache
 /.qmake.stash
 *.user
@@ -30,6 +25,5 @@ ui_*.h
 Makefile*
 *-build-*
 *.autosave
-#QtCtreator Qml
 *.qmlproject.user
 *.qmlproject.user.*

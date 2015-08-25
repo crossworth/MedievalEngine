@@ -8,14 +8,14 @@
 #include <Helper/Color.h>
 #include <Helper/Clock.h>
 #include <Graphics/Drawable.h>
-#include <Assets/Asset.h>
-#include <Assets/Texture.h>
+#include <Resources/Resource.h>
+#include <Resources/Texture.h>
 #include <Effects/Effects.h>
 
 
 namespace ME {
 
-class SpriteAnimation : public Asset, public Drawable {
+class SpriteAnimation : public Resource, public Drawable {
 public:
     SpriteAnimation();
 

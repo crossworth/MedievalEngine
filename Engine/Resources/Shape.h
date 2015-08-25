@@ -1,11 +1,11 @@
 #ifndef SHAPE_H
 #define SHAPE_H
 #include <Graphics/Drawable.h>
-#include <Assets/Asset.h>
+#include <Resources/Resource.h>
 
 namespace ME {
 
-class Shape : public Asset, public Drawable {
+class Shape : public Resource, public Drawable {
 public:
     Shape(const Vect2f& size, const Color& color, const Vect2f& pos);
 
