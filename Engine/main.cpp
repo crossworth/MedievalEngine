@@ -7,7 +7,7 @@
 #include <ThirdParty/Catch.h>
 #endif
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
     int resultCode = 0;
 
     #ifdef TEST
