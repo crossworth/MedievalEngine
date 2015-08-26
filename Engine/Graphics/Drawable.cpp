@@ -9,7 +9,7 @@ Drawable::Drawable() : mIsEffectPlaying(true) {
 
 void Drawable::addEffect(Effects *effect) {
     LOG << Log::VERBOSE << ("[Drawable::addEffect] Effect " +
-                            effect->getType() + " added").c_str() << std::endl;
+                            effect->getTypeStd() + " added").c_str() << std::endl;
     mEffects.push_back(effect);
 }
 
@@ -40,7 +40,7 @@ void Drawable::removeEffect(std::string effectType) {
     std::vector<Effects*>::iterator it = mEffects.begin();
 
     for(int i = 0 ; i < mEffects.size(); i++) {
-        if ((*it)->getType() == effectType) {
+        if ((*it)->getTypeStd() == effectType) {
             LOG << Log::VERBOSE << ("[Drawable::removeEffect] Effect " +
                                     effectType + " removed").c_str() << std::endl;
             (*it)->setDone();

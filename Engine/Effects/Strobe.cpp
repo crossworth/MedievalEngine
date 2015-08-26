@@ -3,7 +3,7 @@
 using namespace ME;
 
 Strobe::Strobe(unsigned int time, float negativeRange) {
-    mType = "strobe";
+    m_type = EffectType::STROBE;
 
     mIsInitialized = false;
     mStrobeTime    = time;
@@ -22,7 +22,7 @@ Strobe::Strobe(unsigned int time, float negativeRange) {
 }
 
 bool Strobe::done() {
-    return mDone;
+    return m_done;
 }
 
 void Strobe::update(Drawable* object) {

@@ -2,24 +2,24 @@
 
 using namespace ME;
 
-Fade::Fade(unsigned int time, const FADE_TYPE &type) {
-    mType = "fade";
+Fade::Fade(unsigned int time, const FadeType &type) {
+    m_type = EffectType::FADE;
 
     // Tempo em milisegundos
-    mFadeTime = time;
-    mFadeType = type;
+    mFadeTime  = time;
+    m_fadeType = type;
 
-    if (mFadeType == FADEOUT) {
+    if (m_fadeType == FadeType::FADEOUT) {
         mFadeCounter = 255.0f;
-        mType        = "fadeOut";
+        m_fadeType   = FadeType::FADEOUT;
     } else {
-        mType        = "fadeIn";
+        m_fadeType   = FadeType::FADEOUT;
         mFadeCounter = 0.0f;
     }
 }
 
 bool Fade::done() {
-    return mDone;
+    return m_done;
 }
 
 void Fade::update(Drawable* object) {
@@ -38,23 +38,23 @@ void Fade::update(Drawable* object) {
 
         float mStep =  (mTime.asMilliseconds() * 255)/mFadeTime;
 
-        if (mFadeType == FADEOUT) {
+        if (m_fadeType == FADEOUT) {
             mFadeCounter = mFadeCounter - mStep;
 
             if (mFadeCounter <= 0.0f) {
                 mFadeCounter = 0.0f;
-                mDone = true;
+                m_done = true;
                 LOG << Log::VERBOSE << ("[Fade::update] Effect " +
-                                        getType() + " done").c_str() << std::endl;
+                                        getTypeStd() + " done").c_str() << std::endl;
             }
         } else {
             mFadeCounter = mFadeCounter + mStep;
 
             if (mFadeCounter >= 255.0f) {
                 mFadeCounter = 255.0f;
-                mDone = true;
+                m_done = true;
                 LOG << Log::VERBOSE << ("[Fade::update] Effect " +
-                                        getType() + " done").c_str() << std::endl;
+                                        getTypeStd() + " done").c_str() << std::endl;
             }
         }
         mClock.restart();

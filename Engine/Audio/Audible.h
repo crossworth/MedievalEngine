@@ -6,9 +6,9 @@
 
 namespace ME{
 
-enum AUDIABLE_STATUS {STOPPED, PLAYING, PAUSED};
+enum AudioStatus {STOPPED, PLAYING, PAUSED};
 
-class Audible {
+class Audible {    
 public:
     Audible();
     virtual unsigned int getDuration() = 0;
@@ -24,7 +24,7 @@ public:
     virtual void setPosition(const Vect3f& pos) = 0;
     virtual void setVolume(const float& volume) = 0;
     virtual void setPitch(const float& pitch) = 0;
-    virtual AUDIABLE_STATUS getStatus() = 0;
+    virtual AudioStatus getStatus() = 0;
     virtual unsigned int getPlayingOffSet() = 0;
     virtual void setPlayingOffSet(const unsigned int offSet) = 0;
     virtual bool isLoopMode() = 0;

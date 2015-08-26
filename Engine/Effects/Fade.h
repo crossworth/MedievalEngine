@@ -5,19 +5,17 @@
 
 namespace ME {
 
-
-
 class Fade : public Effects {
 public:
-    enum FADE_TYPE {FADEIN, FADEOUT};
+    enum FadeType {FADEIN, FADEOUT};
 public:
-    Fade(unsigned int time, const FADE_TYPE& type);
+    Fade(unsigned int time, const FadeType& type);
     void update(Drawable* object);
     bool done();
 
 private:
     unsigned int mFadeTime;
-    FADE_TYPE mFadeType;
+    FadeType m_fadeType;
     float mFadeCounter;
 };
 

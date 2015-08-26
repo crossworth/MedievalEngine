@@ -25,7 +25,7 @@ public:
     void setPosition(const Vect3f& pos);
     void setVolume(const float& volume);
     void setPitch(const float& pitch);
-    AUDIABLE_STATUS getStatus();
+    AudioStatus getStatus();
     unsigned int getPlayingOffSet();
     void setPlayingOffSet(const unsigned int offSet);
     bool isLoopMode();

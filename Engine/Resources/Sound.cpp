@@ -75,7 +75,7 @@ void Sound::setPitch(const float &pitch) {
     mSound.setPitch(pitch);
 }
 
-AUDIABLE_STATUS Sound::getStatus() {
+AudioStatus Sound::getStatus() {
     switch (mSound.getStatus()) {
     case sf::SoundSource::Paused:
         return PAUSED;

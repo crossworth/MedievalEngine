@@ -73,16 +73,16 @@ void Music::setPitch(const float &pitch) {
     mMusic.setPitch(pitch);
 }
 
-AUDIABLE_STATUS Music::getStatus() {
+AudioStatus Music::getStatus() {
     switch (mMusic.getStatus()) {
     case sf::SoundSource::Paused:
-        return PAUSED;
+        return AudioStatus::PAUSED;
         break;
     case sf::SoundSource::Playing:
-        return PLAYING;
+        return AudioStatus::PLAYING;
         break;
     case sf::SoundSource::Stopped:
-        return STOPPED;
+        return AudioStatus::STOPPED;
         break;
     }
 }

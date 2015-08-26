@@ -11,18 +11,21 @@ class Drawable;
 
 class Effects {
 public:
+    enum EffectType { FADE, STROBE, BLUR, BLOM };
+public:
     Effects();
     virtual void update(Drawable* object) = 0;
     virtual bool done() = 0;
-    std::string getType();
+    EffectType getType();
+    std::string getTypeStd();
 
     void resetClock();
 
     void setDone();
 protected:
-    std::string mType;
+    EffectType m_type;
     sf::Clock mClock;
-    bool mDone;
+    bool m_done;
 };
 
 
