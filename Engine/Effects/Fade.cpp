@@ -2,18 +2,18 @@
 
 using namespace ME;
 
-Fade::Fade(unsigned int time, const FadeType &type) {
-    m_type = EffectType::FADE;
+Fade::Fade(unsigned int time, const Type &type) {
+    m_type = Effects::Type::FADE;
 
     // Tempo em milisegundos
     mFadeTime  = time;
     m_fadeType = type;
 
-    if (m_fadeType == FadeType::FADEOUT) {
+    if (m_fadeType == Type::FADEOUT) {
         mFadeCounter = 255.0f;
-        m_fadeType   = FadeType::FADEOUT;
+        m_fadeType   = Type::FADEOUT;
     } else {
-        m_fadeType   = FadeType::FADEOUT;
+        m_fadeType   = Type::FADEOUT;
         mFadeCounter = 0.0f;
     }
 }

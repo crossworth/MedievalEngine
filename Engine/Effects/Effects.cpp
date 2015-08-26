@@ -10,16 +10,16 @@ void Effects::setDone() {
     m_done = true;
 }
 
-Effects::EffectType Effects::getType() {
+Effects::Type Effects::getType() {
     return m_type;
 }
 
 std::string Effects::getTypeStd() {
     switch(m_type) {
-    case EffectType::FADE:
+    case Type::FADE:
         return "fade";
         break;
-    case EffectType::STROBE:
+    case Type::STROBE:
         return "strobe";
         break;
     }

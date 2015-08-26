@@ -50,6 +50,10 @@ bool SpriteAnimation::isPlaying() {
     return mIsPlaying;
 }
 
+sf::Sprite* SpriteAnimation::getResourcePointer() {
+    return &mSprite;
+}
+
 void SpriteAnimation::draw(sf::RenderWindow *renderWindow) {
     if(mIsEffectPlaying) {
 

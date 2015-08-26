@@ -7,15 +7,15 @@ namespace ME {
 
 class Fade : public Effects {
 public:
-    enum FadeType {FADEIN, FADEOUT};
+    enum Type {FADEIN, FADEOUT};
 public:
-    Fade(unsigned int time, const FadeType& type);
+    Fade(unsigned int time, const Type& type);
     void update(Drawable* object);
     bool done();
 
 private:
     unsigned int mFadeTime;
-    FadeType m_fadeType;
+    Type m_fadeType;
     float mFadeCounter;
 };
 

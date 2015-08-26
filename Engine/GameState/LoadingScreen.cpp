@@ -46,7 +46,9 @@ void LoadingScreen::init() {
     mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText(L"teste");
     mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText(L"teste segunda linha");
 
-    c =0;
+    c = 0;
+
+
 }
 
 void LoadingScreen::onEnable(Window &window) {
@@ -59,8 +61,6 @@ void LoadingScreen::onDisable(Window &window) {
 
 void LoadingScreen::onPlaying(Window &window) {
     window.draw(mEngine->getAssetsManager()->getResource<Shape>(idBackground));
-    window.draw(mEngine->getAssetsManager()->getResource<Shape>(spriteMario));
-
 }
 
 void LoadingScreen::update() {

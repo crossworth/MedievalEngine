@@ -3,7 +3,7 @@
 using namespace ME;
 
 Strobe::Strobe(unsigned int time, float negativeRange) {
-    m_type = EffectType::STROBE;
+    m_type = Effects::Type::STROBE;
 
     mIsInitialized = false;
     mStrobeTime    = time;

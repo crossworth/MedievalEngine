@@ -24,6 +24,8 @@ public:
     void pause();
     bool isPlaying();
 
+    sf::Sprite* getResourcePointer();
+
     void draw(sf::RenderWindow* renderWindow);
 
     void setPosition(const Vect2f& pos);
