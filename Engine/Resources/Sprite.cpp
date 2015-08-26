@@ -6,6 +6,10 @@ Sprite::Sprite() : mSprite() {
     m_type = Resource::Type::SPRITE;
 }
 
+sf::Sprite* Sprite::getResourcePointer() {
+    return &mSprite;
+}
+
 void Sprite::setTexture(Texture *texture) {
     mSprite.setTexture(*texture->getResourcePointer());
 }

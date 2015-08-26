@@ -88,6 +88,10 @@ void Shape::draw(sf::RenderWindow* renderWindow) {
     renderWindow->draw(&vertexVector[0], vertexVector.size(), sf::TrianglesFan);
 }
 
+sf::RectangleShape* Shape::getResourcePointer() {
+    return &mShape;
+}
+
 void Shape::setPosition(const Vect2f& pos) {
     mShape.setPosition(sf::Vector2f(pos.x, pos.y));
 }

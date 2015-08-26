@@ -11,6 +11,8 @@ public:
 
     void draw(sf::RenderWindow* renderWindow);
 
+    sf::RectangleShape* getResourcePointer();
+
     void setPosition(const Vect2f& pos);
     Vect2f getPosition();
     void move(const Vect2f& pos);
