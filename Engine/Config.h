@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
-#include <Helper/Dir.h>
+#include "Helper/Dir.h"
 
 namespace ME {
 
@@ -23,7 +23,7 @@ namespace ENGINE_DEFAULTS {
     const int FRAME_LIMIT             = 60;
     const bool VSYNC                  = true;
     const std::string CONFIG_FILE     = "config.cfg";
-    const std::string DEFAULT_DATFILE = "base";
+    const std::string DEFAULT_DATFILE = "base.dat";
 
     const std::string DATFILE_SIGNATURE_NAME    = "Default Asset Pack";
     const std::string DATFILE_SIGNATURE_VERSION = "1.0";

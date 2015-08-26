@@ -3,7 +3,7 @@
 using namespace ME;
 
 Strobe::Strobe(unsigned int time, float negativeRange) {
-    m_type = Effects::Type::STROBE;
+    mType = Effect::Type::STROBE;
 
     mIsInitialized = false;
     mStrobeTime    = time;
@@ -21,22 +21,17 @@ Strobe::Strobe(unsigned int time, float negativeRange) {
     mNegativeRange = 1.0f - mNegativeRange;
 }
 
-bool Strobe::done() {
-    return m_done;
-}
-
 void Strobe::update(Drawable* object) {
     if (!mIsInitialized) {
         mBaseColor     = object->getColor();
         mIsInitialized = true;
         mStrobeCounter = mBaseColor.alpha;
-        mClock.restart();
+        resetClock();
     }
 
-    if (!done()) {
-        sf::Time mTime = mClock.getElapsedTime();
+    if (!isDone()) {
 
-        float mStep =  (mTime.asMilliseconds() * mBaseColor.alpha) / mStrobeTime;
+        float mStep =  (mClock.getTime() * mBaseColor.alpha) / mStrobeTime;
 
         if (mDirection < 0) {
             mStrobeCounter = mStrobeCounter - mStep;
@@ -53,7 +48,7 @@ void Strobe::update(Drawable* object) {
                 mDirection     = -1;
             }
         }
-        mClock.restart();
+        resetClock();
 
         Color tmpColor = object->getColor();
         object->setColor(Color(tmpColor.red, tmpColor.green, tmpColor.blue,

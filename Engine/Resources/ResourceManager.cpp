@@ -28,7 +28,7 @@ ResourceID ResourceManager::loadFont(const std::string &fileName) {
     return fontID;
 }
 
-ResourceID ResourceManager::loadFont(SM::BYTE* bytes, std::size_t size) {
+ResourceID ResourceManager::loadFont(BYTE* bytes, std::size_t size) {
     ResourceID fontID   = ResourceIDGenerator::get();
     m_resources[fontID] = ResourcePtr(new Font());
     getResource<Font>(fontID)->loadFromMemory(bytes, size);

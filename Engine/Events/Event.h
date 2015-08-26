@@ -1,8 +1,8 @@
 #ifndef EVENT_H
 #define EVENT_H
 #include <SFML/Graphics.hpp>
-#include <Events/Keyboard.h>
-#include <Events/Mouse.h>
+#include "Events/Keyboard.h"
+#include "Events/Mouse.h"
 
 
 namespace ME {

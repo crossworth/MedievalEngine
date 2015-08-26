@@ -2,10 +2,10 @@
 #define FONT_H
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include <LogInc.h>
-#include <Helper/Types.h>
-#include <Resources/Resource.h>
-#include <Resources/ResourceIDGenerator.h>
+#include "LogInc.h"
+#include "Helper/Types.h"
+#include "Resources/Resource.h"
+#include "Resources/ResourceIDGenerator.h"
 
 
 namespace ME {
@@ -15,7 +15,7 @@ public:
     Font();
     Font(const std::string& fileName);
     sf::Font* loadFromFile(const std::string& fileName);
-    sf::Font* loadFromMemory(SM::BYTE* bytes, std::size_t size);
+    sf::Font* loadFromMemory(BYTE* bytes, std::size_t size);
     sf::Font* getResourcePointer();
     static ResourceID DEFAULT_FONT;
 private:

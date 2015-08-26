@@ -3,7 +3,7 @@
 using namespace ME;
 
 MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
-    mErroCode(0) {
+    mErrorCode(0) {
 
     if (mArguments.hasArgument("config")) {
         mConfigurations.readFile(mArguments.getArgument("config"));
@@ -11,46 +11,46 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
         mConfigurations.readFile(ENGINE_DEFAULTS::CONFIG_FILE);
     }
 
-    WindowInfo mWindowInfo;
+    WindowInfo windowInfo;
 
-    std::string tmpBitsPerPixel;
-    std::string tmpHeight;
-    std::string tmpWidth;
-    std::string tmpFullScreen;
-    std::string tmpWindowName;
-    std::string tmpIconName;
+    std::string bitsPerPixel;
+    std::string height;
+    std::string width;
+    std::string fullScreen;
+    std::string windowName;
+    std::string iconName;
 
-    tmpBitsPerPixel = mConfigurations.getKey("bits_per_pixel");
-    tmpHeight       = mConfigurations.getKey("height");
-    tmpWidth        = mConfigurations.getKey("width");
-    tmpFullScreen   = mConfigurations.getKey("fullscreen");
-    tmpWindowName   = mConfigurations.getKey("engine_name");
-    tmpIconName     = mConfigurations.getKey("icon");
+    bitsPerPixel = mConfigurations.getKey("bits_per_pixel");
+    height       = mConfigurations.getKey("height");
+    width        = mConfigurations.getKey("width");
+    fullScreen   = mConfigurations.getKey("fullscreen");
+    windowName   = mConfigurations.getKey("engine_name");
+    iconName     = mConfigurations.getKey("icon");
 
-    if(tmpBitsPerPixel != "") {
-        mWindowInfo.bitsPerPixel = Kit::str_int(tmpBitsPerPixel);
+    if(bitsPerPixel != "") {
+        windowInfo.bitsPerPixel = Kit::str_int(bitsPerPixel);
     }
 
-    if(tmpHeight != "") {
-        mWindowInfo.height = Kit::str_int(tmpHeight);
+    if(height != "") {
+        windowInfo.height = Kit::str_int(height);
     }
 
-    if(tmpWidth != "") {
-        mWindowInfo.width = Kit::str_int(tmpWidth);
+    if(width != "") {
+        windowInfo.width = Kit::str_int(width);
     }
 
-    if(tmpFullScreen != "") {
-        mWindowInfo.fullScreen = Kit::str_bool(tmpFullScreen);
+    if(fullScreen != "") {
+        windowInfo.fullScreen = Kit::str_bool(fullScreen);
     }
 
-    if (tmpWindowName != "") {
-        mWindowInfo.windowName = tmpWindowName;
+    if (windowName != "") {
+        windowInfo.windowName = windowName;
     }
 
-    mWindow.create(mWindowInfo);
+    mWindow.create(windowInfo);
 
-    if (tmpIconName != "") {
-        mWindow.setIcon(tmpIconName);
+    if (iconName != "") {
+        mWindow.setIcon(iconName);
     }
 
     if (!mDataFiles.openFile(ENGINE_DEFAULTS::DATA_PATH +
@@ -58,14 +58,14 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
         LOG << Log::CRITICAL
             << "[MedievalEngine::MedievalEngine] Could not open the default assets file "
             << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str()
-            << SM::FILE_EXTENSION.c_str() << std::endl;
+            << FILE_EXTENSION.c_str() << std::endl;
 
         mWindow.close();
-        mErroCode = 1;
+        mErrorCode = 1;
     } else {
         if (mDataFiles.getName() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_NAME &&
             mDataFiles.getVersion() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_VERSION ) {
-            Font::DEFAULT_FONT = mAssetsManager.loadFont(mDataFiles.getFile("default.ttf"),
+            Font::DEFAULT_FONT = mResourceManager.loadFont(mDataFiles.getFile("default.ttf"),
                                                          mDataFiles.getFileEntrySize("default.ttf"));
 
             LOG << Log::VERBOSE
@@ -74,10 +74,10 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
         } else {
             LOG << Log::CRITICAL << "[MedievalEngine::MedievalEngine] Default asset pack not recognized "
             << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str()
-            << SM::FILE_EXTENSION.c_str() << std::endl;
+            << FILE_EXTENSION.c_str() << std::endl;
 
             mWindow.close();
-            mErroCode = 2;
+            mErrorCode = 2;
         }
     }
 }
@@ -120,11 +120,11 @@ void MedievalEngine::run() {
 }
 
 int MedievalEngine::getErrorCode() {
-    return mErroCode;
+    return mErrorCode;
 }
 
 bool MedievalEngine::isRunning() {
-    if (mErroCode == 0) {
+    if (mErrorCode == 0) {
         return true;
     } else {
         return false;
@@ -142,8 +142,8 @@ Window* MedievalEngine::getWindow() {
     return &mWindow;
 }
 
-ResourceManager* MedievalEngine::getAssetsManager() {
-    return &mAssetsManager;
+ResourceManager* MedievalEngine::getResourceManager() {
+    return &mResourceManager;
 }
 
 GameStateManager* MedievalEngine::getGameStateManager() {
@@ -154,7 +154,7 @@ GUI* MedievalEngine::getGUI() {
     return &mGUI;
 }
 
-SM::DATFile* MedievalEngine::getDATAFileHandle() {
+DATFile* MedievalEngine::getDATAFileHandle() {
     return &mDataFiles;
 }
 

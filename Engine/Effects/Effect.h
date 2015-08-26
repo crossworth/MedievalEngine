@@ -1,33 +1,33 @@
-#ifndef EFFECTS_H
-#define EFFECTS_H
+#ifndef EFFECT_H
+#define EFFECT_H
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include <Graphics/Drawable.h>
+#include "Helper/Clock.h"
+#include "Graphics/Drawable.h"
 
 
 namespace ME {
 
 class Drawable;
 
-class Effects {
+class Effect {
 public:
     enum Type { FADE, STROBE, BLUR, BLOM };
 public:
-    Effects();
+    Effect();
     virtual void update(Drawable* object) = 0;
-    virtual bool done() = 0;
     Type getType();
     std::string getTypeStd();
 
     void resetClock();
-
     void setDone();
+    bool isDone();
 protected:
-    Type m_type;
-    sf::Clock mClock;
-    bool m_done;
+    Type mType;
+    Clock mClock;
+    bool mDone;
 };
 
 
 }
-#endif // EFFECTS_H
+#endif // EFFECT_H

@@ -12,7 +12,7 @@ void LoadingScreen::init() {
     LOG << Log::VERBOSE << "[LoadingScreen::init]" << std::endl;
 
     Vect2i winSize         = mEngine->getWindow()->getSize();
-    ResourceManager* mAssets = mEngine->getAssetsManager();
+    ResourceManager* mAssets = mEngine->getResourceManager();
 
 
     spriteMario                 = mAssets->createSpriteAnimation();
@@ -60,7 +60,7 @@ void LoadingScreen::onDisable(Window &window) {
 }
 
 void LoadingScreen::onPlaying(Window &window) {
-    window.draw(mEngine->getAssetsManager()->getResource<Shape>(idBackground));
+    window.draw(mEngine->getResourceManager()->getResource<Shape>(idBackground));
 }
 
 void LoadingScreen::update() {
@@ -87,11 +87,11 @@ void LoadingScreen::handleEvents(Event& evt) {
 
 
         if (evt.key.code == Keyboard::F) {
-            mEngine->getAssetsManager()->getResource<Shape>(spriteMario)->addEffect(new Fade(500, Fade::FADEIN));
+            mEngine->getResourceManager()->getResource<Shape>(spriteMario)->addEffect(new Fade(500, Fade::FADEIN));
         }
 
         if (evt.key.code == Keyboard::D) {
-            mEngine->getAssetsManager()->getResource<Shape>(spriteMario)->addEffect(new Strobe(500, 0.5));
+            mEngine->getResourceManager()->getResource<Shape>(spriteMario)->addEffect(new Strobe(500, 0.5));
         }
 
 

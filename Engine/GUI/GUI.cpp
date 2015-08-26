@@ -8,7 +8,7 @@ GUI::GUI() : mIsVisible(true), mIsActive(true) {
 }
 
 void GUI::registerEngine(MedievalEngine* engine) {
-    mEngine     = engine;
+    mEngine = engine;
 }
 
 void GUI::draw(Window& window) {
@@ -86,7 +86,7 @@ GUIObject* GUI::addObject(const std::string& name, GUIObject* object) {
 //        return findObject(name);
 //    }
 
-    object->registerAssetsManager(mEngine->getAssetsManager());
+    object->registerAssetsManager(mEngine->getResourceManager());
     object->init();
 
     ObjectWrapper objTmp;
@@ -96,7 +96,6 @@ GUIObject* GUI::addObject(const std::string& name, GUIObject* object) {
 
     mObjects.push_back(objTmp);
     LOG << Log::VERBOSE << ("[GUI::addObject] GUI Object " + object->getType() + " " +  name + " added").c_str() << std::endl;
-
 
     return mObjects.end()->object;
 }

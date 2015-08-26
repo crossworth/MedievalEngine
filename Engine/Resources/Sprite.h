@@ -1,13 +1,13 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 #include <SFML/Graphics.hpp>
-#include <LogInc.h>
-#include <Helper/Vect2.h>
-#include <Helper/Color.h>
-#include <Graphics/Drawable.h>
-#include <Resources/Resource.h>
-#include <Resources/Texture.h>
-#include <Effects/Effects.h>
+#include "LogInc.h"
+#include "Helper/Vect2.h"
+#include "Helper/Color.h"
+#include "Graphics/Drawable.h"
+#include "Resources/Resource.h"
+#include "Resources/Texture.h"
+#include "Effects/Effect.h"
 
 
 namespace ME {

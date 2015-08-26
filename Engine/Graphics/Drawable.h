@@ -1,24 +1,25 @@
 #ifndef DRAWABLE_H
 #define DRAWABLE_H
 #include <vector>
-#include <Helper/Vect2.h>
-#include <Helper/Area.h>
+#include <memory>
 #include <SFML/Graphics.hpp>
-#include <Helper/Color.h>
-#include <Helper/ColorGradient.h>
-#include <LogInc.h>
-
+#include "LogInc.h"
+#include "Helper/Vect2.h"
+#include "Helper/Area.h"
+#include "Helper/Color.h"
+#include "Helper/ColorGradient.h"
 
 
 namespace ME {
 
-class Effects;
+class Effect;
+typedef std::shared_ptr<Effect> EffectPtr;
 
 class Drawable {
 public:
     Drawable();
 
-    virtual void draw(sf::RenderWindow *renderWindow) = 0;
+    virtual void draw(sf::RenderWindow* renderWindow) = 0;
 
     virtual void setPosition(const Vect2f &pos) = 0;
     virtual Vect2f getPosition() = 0;
@@ -43,7 +44,7 @@ public:
     void setOpacity(float opacity);
     float getOpacity();
 
-    void addEffect(Effects* effect);
+    void addEffect(Effect* effect);
     void playEffects();
     void pauseEffects();
     bool isPlayingEffects();
@@ -54,7 +55,7 @@ public:
     virtual Area getGlobalBounds() = 0;
 
 protected:
-    std::vector<Effects*> mEffects;
+    std::vector<EffectPtr> mEffects;
     bool mIsEffectPlaying;
 
 };

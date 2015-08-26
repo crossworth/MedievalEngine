@@ -1,6 +1,6 @@
 #ifndef MEDIEVALENGINE_H
 #define MEDIEVALENGINE_H
-#include <Headers.h>
+#include "Headers.h"
 
 
 namespace ME {
@@ -15,21 +15,21 @@ public:
     bool isRunning();
 
     Window* getWindow();
-    ResourceManager* getAssetsManager();
+    ResourceManager* getResourceManager();
     GameStateManager* getGameStateManager();
     GUI* getGUI();
-    SM::DATFile* getDATAFileHandle();
+    DATFile* getDATAFileHandle();
 
     ~MedievalEngine();
 private:
 
-    int mErroCode;
+    int mErrorCode;
     Window mWindow;
     GUI mGUI;
-    ResourceManager mAssetsManager;
+    ResourceManager mResourceManager;
     CFGParser mConfigurations;
     ArgumentsParser mArguments;
-    SM::DATFile mDataFiles;
+    DATFile mDataFiles;
     GameStateManager mGameStateManager;
 };
 

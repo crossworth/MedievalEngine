@@ -1,6 +1,6 @@
 #ifndef COLORGRADIENT_H
 #define COLORGRADIENT_H
-#include <Helper/Color.h>
+#include "Helper/Color.h"
 
 
 namespace ME {

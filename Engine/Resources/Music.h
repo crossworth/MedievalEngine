@@ -1,8 +1,8 @@
 #ifndef MUSIC_H
 #define MUSIC_H
-#include <LogInc.h>
-#include <Resources/Resource.h>
-#include <Audio/Audible.h>
+#include "LogInc.h"
+#include "Resources/Resource.h"
+#include "Audio/Audible.h"
 
 namespace ME{
 

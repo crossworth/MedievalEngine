@@ -16,17 +16,14 @@ void Sprite::setTexture(Texture *texture) {
 
 void Sprite::draw(sf::RenderWindow *renderWindow) {
     if (mIsEffectPlaying) {
-        std::vector<Effects*>::iterator it = mEffects.begin();
 
         for(int i = 0 ; i < mEffects.size(); i++) {
-            (*it)->update(this);
+            mEffects[i]->update(this);
 
-            if ((*it)->done()) {
+            if (mEffects[i]->isDone()) {
                 // Call Lua Function done effects?
-                delete *it;
-                mEffects.erase(it);
+                mEffects.erase(mEffects.begin() + i);
             }
-            it++;
         }
     }
     renderWindow->draw(mSprite);

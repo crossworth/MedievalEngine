@@ -60,7 +60,7 @@ void SpriteAnimation::draw(sf::RenderWindow *renderWindow) {
         for(int i = 0 ; i < mEffects.size(); i++) {
             mEffects[i]->update(this);
 
-            if (mEffects[i]->done()) {
+            if (mEffects[i]->isDone()) {
                 // TODO: Call Lua Function done effects?
                 mEffects.erase(mEffects.begin() + i);
             }

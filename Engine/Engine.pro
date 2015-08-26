@@ -28,7 +28,7 @@ macx {
 
 SOURCES += main.cpp \
 	Audio/Audible.cpp \
-	Effects/Effects.cpp \
+	Effects/Effect.cpp \
 	Effects/Fade.cpp \
 	Effects/Strobe.cpp \
 	Engine/MedievalEngine.cpp \
@@ -75,7 +75,7 @@ SOURCES += main.cpp \
 HEADERS += \
 	Audio/Audible.h \
 	Config.h \
-	Effects/Effects.h \
+	Effects/Effect.h \
 	Effects/Fade.h \
 	Effects/Strobe.h \
 	Engine/MedievalEngine.h \

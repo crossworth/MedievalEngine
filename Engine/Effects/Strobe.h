@@ -1,11 +1,11 @@
 #ifndef STROBE_H
 #define STROBE_H
-#include <Effects/Effects.h>
+#include "Effects/Effect.h"
 
 
 namespace ME {
 
-class Strobe : public Effects {
+class Strobe : public Effect {
 public:
     // A forma que funciona é bem simples
     // irá criar um efeito com base no negative range
@@ -16,7 +16,6 @@ public:
 
     Strobe(unsigned int time, float negativeRange);
     void update(Drawable* object);
-    bool done();
 private:
     bool mIsInitialized;
     int mDirection;
