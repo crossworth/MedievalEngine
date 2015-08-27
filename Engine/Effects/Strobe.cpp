@@ -2,14 +2,17 @@
 
 using namespace ME;
 
-Strobe::Strobe(unsigned int time, float negativeRange, Effect::Callback func) {
+Strobe::Strobe(unsigned int time, float negativeRange, unsigned int duration, Effect::Callback func) {
     mType     = Effect::Type::STROBE;
     mCallback = Effect::Callback(func);
 
     mIsInitialized = false;
     mStrobeTime    = time;
+    mDuration      = duration;
     mDirection     = -1;
     mNegativeRange = negativeRange;
+
+    mClockDuration.restart();
 
     if (mNegativeRange > 1.0f) {
         mNegativeRange = 1.0f;
@@ -28,6 +31,10 @@ void Strobe::update(Drawable* object) {
         mIsInitialized = true;
         mStrobeCounter = mBaseColor.alpha;
         restartClock();
+    }
+
+    if (mClockDuration.getTime() >= mDuration) {
+        setDone();
     }
 
     if (!isDone()) {

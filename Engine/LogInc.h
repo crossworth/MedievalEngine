@@ -1,19 +1,14 @@
 #include "Config.h"
 #include "Helper/Log.h"
 
-
-#ifndef LOG_base
+#ifndef LOG_CLEAN
 #ifdef LOG_FILE_NUMBERS
-#define LOG_base *ME::Log::getInstance(ME::_LOG_WRITE_TO_FILE, ME::_LOG_FILE_NAME) << __FILE__ << ":" << __LINE__ << " "
+#define LOG_CLEAN *ME::Log::getInstance(ME::_LOG_WRITE_TO_FILE, ME::_LOG_FILE_NAME) << __FILE__ << ":" << __LINE__ << " "
 #else
-#define LOG_base *ME::Log::getInstance(ME::_LOG_WRITE_TO_FILE, ME::_LOG_FILE_NAME)
+#define LOG_CLEAN *ME::Log::getInstance(ME::_LOG_WRITE_TO_FILE, ME::_LOG_FILE_NAME)
 #endif
 #endif
 
-
-/**
- * We log the time with a simple macro modification
- * */
 #ifndef LOG
-#define LOG LOG_base << ME::Log::getTime()
+#define LOG LOG_CLEAN << ME::Log::getTime()
 #endif
