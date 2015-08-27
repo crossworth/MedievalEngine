@@ -2,8 +2,9 @@
 
 using namespace ME;
 
-Strobe::Strobe(unsigned int time, float negativeRange) {
-    mType = Effect::Type::STROBE;
+Strobe::Strobe(unsigned int time, float negativeRange, Effect::Callback func) {
+    mType     = Effect::Type::STROBE;
+    mCallback = Effect::Callback(func);
 
     mIsInitialized = false;
     mStrobeTime    = time;

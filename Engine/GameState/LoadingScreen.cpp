@@ -88,18 +88,14 @@ void LoadingScreen::handleEvents(Event& evt) {
 
 
         if (evt.key.code == Keyboard::F) {
-            mEngine->getResourceManager()->getResource<Shape>(spriteMario)->addEffect(new Fade(5000, Fade::FADEIN));
-
-            mEngine->getResourceManager()->getResource<Shape>(spriteMario)->onDone([](void){
-               std::cout << " Shit just got real" << std::endl;
-            });
-
-
+            mEngine->getResourceManager()->getResource<Shape>(spriteMario)->addEffect(new Fade(5000, Fade::FADEIN, [](void){
+                std::cout << " Shit just got real" << std::endl;
+             }));
 
         }
 
         if (evt.key.code == Keyboard::D) {
-            mEngine->getResourceManager()->getResource<Shape>(spriteMario)->addEffect(new Strobe(500, 0.5));
+//            mEngine->getResourceManager()->getResource<Shape>(spriteMario)->addEffect(new Strobe(500, 0.5));
         }
 
 

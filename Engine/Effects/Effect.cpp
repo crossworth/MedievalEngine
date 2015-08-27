@@ -8,6 +8,7 @@ Effect::Effect() : mDone(false) {
 
 void Effect::setDone() {
     mDone = true;
+    mCallback();
 }
 
 bool Effect::isDone() {

@@ -15,10 +15,6 @@ void Drawable::addEffect(Effect* effect) {
     mEffects.push_back(EffectPtr(effect));
 }
 
-void Drawable::onDone(EffectCallback callback) {
-    mCallbacks.push_back(EffectCallback(callback));
-}
-
 void Drawable::setOriginCenter() {
     setOrigin(Vect2f(getSize().x / 2, getSize().y / 2));
 }

@@ -2,8 +2,9 @@
 
 using namespace ME;
 
-Fade::Fade(int time, const Type &type) {
-    mType = Effect::Type::FADE;
+Fade::Fade(int time, const Type &type, Effect::Callback func) {
+    mType     = Effect::Type::FADE;
+    mCallback = Effect::Callback(func);
 
     // Tempo em milisegundos
     mFadeTime = time;
@@ -30,7 +31,6 @@ void Fade::update(Drawable* object) {
         // Utiliza float para os cálculos, porém clipa na hora de exibir em int
         // Precisão de 2 casas, not bad =)
 
-
         float mStep =  (mClock.getTime() * 255) / mFadeTime;
 
         if (mFadeType == Type::FADEOUT) {
@@ -38,20 +38,19 @@ void Fade::update(Drawable* object) {
 
             if (mFadeCounter <= 0.0f) {
                 mFadeCounter = 0.0f;
-                mDone = true;
-                LOG << Log::VERBOSE << Log::getTime()
-                    << ("[Fade::update] Effect " +
-                                        getTypeStd() + " done").c_str() << std::endl;
+                setDone();
+                LOG << Log::VERBOSE
+                    << "[Fade::update] Effect " + getTypeStd() + " done"
+                    << std::endl;
             }
         } else {
             mFadeCounter = mFadeCounter + mStep;
-
             if (mFadeCounter >= 255.0f) {
                 mFadeCounter = 255.0f;
-                mDone = true;
-                LOG << Log::VERBOSE << Log::getTime()
-                << ("[Fade::update] Effect " +
-                                        getTypeStd() + " done").c_str() << std::endl;
+                setDone();
+                LOG << Log::VERBOSE
+                << "[Fade::update] Effect " + getTypeStd() + " done"
+                << std::endl;
             }
         }
         restartClock();

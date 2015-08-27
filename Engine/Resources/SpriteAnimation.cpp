@@ -61,7 +61,6 @@ void SpriteAnimation::draw(sf::RenderWindow *renderWindow) {
             mEffects[i]->update(this);
 
             if (mEffects[i]->isDone()) {
-                mCallbacks[i]();
 //                mEffects.erase(mEffects.begin() + i);
             }
         }
