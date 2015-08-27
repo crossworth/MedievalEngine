@@ -98,7 +98,7 @@ public:
         return *this;
     }
 
-    inline Log& operator<<(std::ostream&(*f)(std::ostream&)) {
+    inline Log& operator<<(std::ostream&(*/*f*/)(std::ostream&)) {
         *m_outStream << std::endl;
         return *this;
     }

@@ -1,8 +1,8 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
-#include <LogInc.h>
-#include <Graphics/Window.h>
-#include <Events/Event.h>
+#include "LogInc.h"
+#include "Graphics/Window.h"
+#include "Events/Event.h"
 
 
 namespace ME {

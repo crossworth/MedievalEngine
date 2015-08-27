@@ -1,10 +1,10 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 #include <SFML/Graphics.hpp>
-#include <Events/Event.h>
-#include <Graphics/WindowInfo.h>
-#include <Graphics/Drawable.h>
-#include <Helper/Vect2.h>
+#include "Events/Event.h"
+#include "Graphics/WindowInfo.h"
+#include "Graphics/Drawable.h"
+#include "Helper/Vect2.h"
 
 
 namespace ME {

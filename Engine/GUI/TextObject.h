@@ -1,7 +1,7 @@
 #ifndef TEXTOBJECT_H
 #define TEXTOBJECT_H
-#include <Resources/ResourceManager.h>
-#include <GUI/GUIObject.h>
+#include "Resources/ResourceManager.h"
+#include "GUI/GUIObject.h"
 
 
 namespace ME {

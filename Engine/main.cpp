@@ -1,6 +1,5 @@
-#include <Headers.h>
-#include <Helper/Profiler.h>
-#include <Engine/MedievalEngine.h>
+#include "Helper/Profiler.h"
+#include "Engine/MedievalEngine.h"
 
 int main(int argc, char** argv) {
     ProfileInit();

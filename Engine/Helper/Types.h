@@ -26,7 +26,7 @@ struct FileHeader {
     long long int createOn;    // When the file was created (time_t)
 };
 
-typedef char BYTE;
+typedef char _BYTE;
 
 #ifndef nullptr
 #define nullptr NULL

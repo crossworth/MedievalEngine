@@ -2,7 +2,6 @@
 #include "Catch.h"
 #include "Helper/Vect2.cpp"
 #include "Helper/Log.cpp"
-#include "Helper/DATFile.cpp"
 
 TEST_CASE( "Vect2 tests", "[Vect2]" ) {
     ME::Vect2i v1;
@@ -43,9 +42,5 @@ TEST_CASE("Log tests", "[Log]") {
     *log << myTestString << std::endl;
 
     *log << true << std::endl;
-
 }
 
-TEST_CASE("Medieval Engine File", "[DATFile]") {
-
-}

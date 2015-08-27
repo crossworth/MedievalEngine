@@ -11,8 +11,3 @@ std::string Dir::getCurrentPath() {
     cCurrentPath[sizeof(cCurrentPath) - 1] = '\0';
     return std::string(cCurrentPath);
 }
-
-Dir::Dir() {
-
-}
-

@@ -57,8 +57,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
                              ENGINE_DEFAULTS::DEFAULT_DATFILE)) {
         LOG << Log::CRITICAL
             << "[MedievalEngine::MedievalEngine] Could not open the default assets file "
-            << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str()
-            << FILE_EXTENSION.c_str() << std::endl;
+            << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str() << std::endl;
 
         mWindow.close();
         mErrorCode = 1;
@@ -73,8 +72,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
                 << std::endl;
         } else {
             LOG << Log::CRITICAL << "[MedievalEngine::MedievalEngine] Default asset pack not recognized "
-            << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str()
-            << FILE_EXTENSION.c_str() << std::endl;
+            << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str() << std::endl;
 
             mWindow.close();
             mErrorCode = 2;

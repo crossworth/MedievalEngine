@@ -1,7 +1,7 @@
 #ifndef BUTTONOBJECT_H
 #define BUTTONOBJET_H
-#include <Resources/ResourceManager.h>
-#include <GUI/GUIObject.h>
+#include "Resources/ResourceManager.h"
+#include "GUI/GUIObject.h"
 
 
 namespace ME {

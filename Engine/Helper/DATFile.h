@@ -3,13 +3,14 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <unordered_map>
 #include <cstring>
 #include "LogInc.h"
 #include "Helper/Types.h"
 
 namespace ME {
 
-const std::string VERSION  = "1.0.0";
+const std::string VERSION         = "1.0.0";
 const std::string FILE_EXTENSION  = ".dat";
 const std::string FILE_HEADER_TAG = "MEDIEVALENGINE_FILE";
 
@@ -32,7 +33,7 @@ public:
     void addFileEntry(const std::string& fileLocation,
                       const std::string& fileName);
 
-    BYTE* getFile(const std::string& fileEntryName);
+    _BYTE* getFile(const std::string& fileEntryName);
     void removeFile(const std::string& fileEntryName);
     std::vector<std::string> getFileList();
     long int getFileEntrySize(const std::string& fileEntryName);
@@ -42,7 +43,7 @@ private:
     FileHeader mHeader;
     std::vector<FileEntry> mFileEntry;
     std::string mCurrentFile;
-    BYTE* mBuffer;
+    _BYTE* mBuffer;
 };
 
 }

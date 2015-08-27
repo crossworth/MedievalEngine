@@ -1,8 +1,8 @@
 #ifndef TEXTSCROLLLISTOBJECT_H
 #define TEXTSCROLLLISTOBJECT_H
-#include <Helper/Clock.h>
-#include <Events/Mouse.h>
-#include <GUI/GUIObject.h>
+#include "Helper/Clock.h"
+#include "Events/Mouse.h"
+#include "GUI/GUIObject.h"
 
 namespace ME {
 

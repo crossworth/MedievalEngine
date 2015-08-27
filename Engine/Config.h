@@ -26,9 +26,9 @@ namespace ENGINE_DEFAULTS {
     const std::string DEFAULT_DATFILE = "base.dat";
 
     const std::string DATFILE_SIGNATURE_NAME    = "Default Asset Pack";
-    const std::string DATFILE_SIGNATURE_VERSION = "1.0";
+    const std::string DATFILE_SIGNATURE_VERSION = "1.0.0";
 
-    const std::string GLOBAL_PATH = Dir::getCurrentPath();
+    const std::string GLOBAL_PATH = ME::Dir::getCurrentPath();
     const std::string DATA_PATH   = GLOBAL_PATH + "/data/";
     const std::string ASSETS_PATH = DATA_PATH + "assets/";
 }

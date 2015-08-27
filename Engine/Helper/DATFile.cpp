@@ -21,7 +21,7 @@ bool DATFile::createFile(const std::string& outputFile,
     std::ifstream inFile;
     std::ofstream outFile;
 
-    BYTE buffer[1];
+    _BYTE buffer[1];
 
     std::memset(&mHeader, 0, sizeof(mHeader));
 
@@ -41,12 +41,8 @@ bool DATFile::createFile(const std::string& outputFile,
         inFile.open(mFileEntry[i].fileLocation,
                     std::ifstream::in | std::ifstream::binary);
 
-        if (inFile.is_open() ||
-            std::string(mFileEntry[i].fileLocation) == std::string("memory")) {
-
+        if (inFile.is_open()) {
             inFile.seekg(0, std::ios::end);
-            std::memset(mFileEntry[i].fileLocation, 0, FILENAME_MAX);
-            std::memcpy(mFileEntry[i].fileLocation, "memory", std::strlen("memory"));
             mFileEntry[i].size = inFile.tellg();
             inFile.close();
         } else {
@@ -73,33 +69,46 @@ bool DATFile::createFile(const std::string& outputFile,
         return false;
     }
 
-    outFile.open((outputFile + FILE_EXTENSION).c_str(),
+    outFile.open(outputFile.c_str(),
                  std::ostream::out | std::ostream::binary);
 
     if (outFile.is_open()) {
 
         outFile.write(FILE_HEADER_TAG.c_str(), std::strlen(FILE_HEADER_TAG.c_str()));
-        outFile.write((BYTE*)&mHeader, sizeof(FileHeader));
+        outFile.write((_BYTE*)&mHeader, sizeof(FileHeader));
+
+        std::unordered_map<std::string, std::string> realFileLocations;
 
         for (unsigned int i = 0; i < mFileEntry.size(); i++) {
-            outFile.write((BYTE*)&mFileEntry[i], sizeof(FileEntry));
+            realFileLocations[mFileEntry[i].name] = mFileEntry[i].fileLocation;
+            std::memset(mFileEntry[i].fileLocation, 0, FILENAME_MAX);
+            std::memcpy(mFileEntry[i].fileLocation, "memory", std::strlen("memory"));
+            outFile.write((_BYTE*)&mFileEntry[i], sizeof(FileEntry));
         }
 
         for (unsigned int i = 0; i < mFileEntry.size(); i++) {
-            inFile.open(mFileEntry[i].fileLocation,
-                        std::ifstream::in | std::ifstream::binary);
 
-            if (inFile.is_open()) {
-                inFile.seekg(0, std::ios::beg);
-                while (inFile.read(buffer, 1)) {
-                    outFile.write(buffer, 1);
+            if(realFileLocations.find(mFileEntry[i].name) !=
+               realFileLocations.end()) {
+
+                inFile.open(realFileLocations[mFileEntry[i].name].c_str(),
+                            std::ifstream::in | std::ifstream::binary);
+
+                if (inFile.is_open()) {
+                    inFile.seekg(0, std::ios::beg);
+                    while (inFile.read(buffer, 1)) {
+                        outFile.write(buffer, 1);
+                    }
+                    inFile.close();
                 }
-                inFile.close();
+                inFile.clear();
+            } else {
+                LOG << Log::WARNING << "[DATFile::createFile] "
+                    <<  "File not found on the realFileLocations map" << std::endl;
             }
-            inFile.clear();
         }
 
-        mCurrentFile = outputFile + FILE_EXTENSION;
+        mCurrentFile = outputFile;
         outFile.close();
         return true;
     } else {
@@ -120,15 +129,15 @@ bool DATFile::openFile(const std::string& fileName) {
                 std::ifstream::in | std::ifstream::binary);
 
     if (inFile.is_open()) {
-        int tagLength = std::strlen(FILE_HEADER_TAG.c_str());
+        int tagLength = FILE_HEADER_TAG.length();
         char headerTAG[tagLength];
 
         inFile.seekg(0, std::ios::beg);
         inFile.read(headerTAG, tagLength);
-        inFile.read((BYTE*)&mHeader, sizeof(FileHeader));
+        inFile.read((_BYTE*)&mHeader, sizeof(FileHeader));
 
         for (unsigned int i = 0; i < mHeader.filesNumber; i++) {
-            inFile.read((BYTE*)&fileEntry, sizeof(FileEntry));
+            inFile.read((_BYTE*)&fileEntry, sizeof(FileEntry));
             mFileEntry.push_back(fileEntry);
         }
         inFile.close();
@@ -196,9 +205,9 @@ void DATFile::addFileEntry(const std::string& fileLocation,
     mFileEntry.push_back(fileEntry);
 }
 
-BYTE* DATFile::getFile(const std::string& fileEntryName) {
+_BYTE* DATFile::getFile(const std::string& fileEntryName) {
     if (!isFileOpen()) {
-        return static_cast<BYTE*>(nullptr);
+        return static_cast<_BYTE*>(nullptr);
     }
 
     std::ifstream inFile;
@@ -211,13 +220,13 @@ BYTE* DATFile::getFile(const std::string& fileEntryName) {
     for (unsigned int i = 0; i < mHeader.filesNumber; i++) {
         if (std::strcmp(mFileEntry[i].name, fileEntryName.c_str()) == 0) {
 
-            mBuffer = new BYTE[mFileEntry[i].size];
+            mBuffer = new _BYTE[mFileEntry[i].size];
 
             if (mBuffer == nullptr) {
                 return nullptr;
             }
 
-            inFile.open((mCurrentFile + FILE_EXTENSION).c_str(),
+            inFile.open(mCurrentFile.c_str(),
                         std::ifstream::in | std::ifstream::binary);
 
             if (inFile.is_open()) {

@@ -6,7 +6,7 @@
 #include <cassert>
 #include <cerrno>
 
-#ifdef WINDOWS
+#ifdef __WIN32
     #include <direct.h>
     #define _GetCurrentDir _getcwd
 #else
@@ -20,8 +20,6 @@ namespace ME {
 class Dir {
 public:
     static std::string getCurrentPath();
-private:
-    Dir();
 };
 
 }

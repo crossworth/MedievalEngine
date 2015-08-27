@@ -1,10 +1,10 @@
 #ifndef GUIOBJECT_H
 #define GUIOBJECT_H
-#include <LogInc.h>
-#include <Resources/ResourceManager.h>
-#include <Graphics/Drawable.h>
-#include <Graphics/Window.h>
-#include <Events/Event.h>
+#include "LogInc.h"
+#include "Resources/ResourceManager.h"
+#include "Graphics/Drawable.h"
+#include "Graphics/Window.h"
+#include "Events/Event.h"
 
 
 namespace ME {
