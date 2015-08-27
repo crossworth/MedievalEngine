@@ -12,7 +12,7 @@ namespace ME {
 
 class Text : public Resource, public Drawable {
 public:
-    enum FONT_STYLE {REGULAR, BOLD, ITALIC, UNDERLINE};
+    enum FontStyle {REGULAR, BOLD, ITALIC, UNDERLINE};
 public:
     Text();
 
@@ -21,7 +21,7 @@ public:
     void setFont(Font& font);
     void setFontSize(const unsigned int& size);
     void setString(const std::wstring& text);
-    void setStyle(const Text::FONT_STYLE& style);
+    void setStyle(const Text::FontStyle& style);
 
     void setTextShadow(const float& factor = 2.0f,
                        const Color& color = Color::BLACK);
@@ -31,7 +31,7 @@ public:
 
     std::string getString();
     unsigned int getFontSize();
-    Text::FONT_STYLE getStyle();
+    Text::FontStyle getStyle();
 
     void draw(sf::RenderWindow* renderWindow);
 
