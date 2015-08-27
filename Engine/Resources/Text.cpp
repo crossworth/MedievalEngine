@@ -14,7 +14,7 @@ unsigned int Text::getFontSize() {
     return mText.getCharacterSize();
 }
 
-Text::FONT_STYLE Text::getStyle() {
+Text::FontStyle Text::getStyle() {
     switch (mText.getStyle()) {
     case sf::Text::Style::Bold:
         return Text::BOLD;
@@ -57,7 +57,7 @@ bool Text::isTextShadowEnable() {
     return mHasTextShadow;
 }
 
-void Text::setStyle(const Text::FONT_STYLE &style) {
+void Text::setStyle(const Text::FontStyle &style) {
     switch (style) {
     case Text::BOLD:
         mText.setStyle(sf::Text::Style::Bold);

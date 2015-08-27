@@ -7,6 +7,7 @@
 #include "Helper/Clock.h"
 #include "Graphics/Drawable.h"
 
+#define EMPTY_FUNCTION [](void) {}
 
 namespace ME {
 
