@@ -28,6 +28,7 @@ struct FileHeader {
 };
 
 typedef char _BYTE;
+// TODO(Pedro): Improve simple types, like int32, uint32, int64
 
 #ifndef nullptr
 #define nullptr NULL
