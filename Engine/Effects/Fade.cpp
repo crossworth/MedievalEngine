@@ -13,7 +13,7 @@ Fade::Fade(int time, const Type &type) {
         mFadeCounter = 255.0f;
         mFadeType   = Type::FADEOUT;
     } else {
-        mFadeType   = Type::FADEOUT;
+        mFadeType   = Type::FADEIN;
         mFadeCounter = 0.0f;
     }
 }
@@ -30,15 +30,17 @@ void Fade::update(Drawable* object) {
         // Utiliza float para os cálculos, porém clipa na hora de exibir em int
         // Precisão de 2 casas, not bad =)
 
+
         float mStep =  (mClock.getTime() * 255) / mFadeTime;
 
-        if (mFadeType == FADEOUT) {
+        if (mFadeType == Type::FADEOUT) {
             mFadeCounter = mFadeCounter - mStep;
 
             if (mFadeCounter <= 0.0f) {
                 mFadeCounter = 0.0f;
                 mDone = true;
-                LOG << Log::VERBOSE << ("[Fade::update] Effect " +
+                LOG << Log::VERBOSE << Log::getTime()
+                    << ("[Fade::update] Effect " +
                                         getTypeStd() + " done").c_str() << std::endl;
             }
         } else {
@@ -47,11 +49,12 @@ void Fade::update(Drawable* object) {
             if (mFadeCounter >= 255.0f) {
                 mFadeCounter = 255.0f;
                 mDone = true;
-                LOG << Log::VERBOSE << ("[Fade::update] Effect " +
+                LOG << Log::VERBOSE << Log::getTime()
+                << ("[Fade::update] Effect " +
                                         getTypeStd() + " done").c_str() << std::endl;
             }
         }
-        resetClock();
+        restartClock();
 
         Color tmpColor = object->getColor();
         object->setColor(Color(tmpColor.red, tmpColor.green,

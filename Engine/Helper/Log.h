@@ -102,9 +102,8 @@ public:
         *m_outStream << std::endl;
         return *this;
     }
-
+    static std::string getTime();
 private:
-    std::string getTime();
     std::ostream* m_outStream;
     std::ostream& m_coutStream;
     std::ofstream m_ofStream;

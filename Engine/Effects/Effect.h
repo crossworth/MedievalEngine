@@ -19,7 +19,7 @@ public:
     Type getType();
     std::string getTypeStd();
 
-    void resetClock();
+    void restartClock();
     void setDone();
     bool isDone();
 protected:

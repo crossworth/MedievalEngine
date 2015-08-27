@@ -32,6 +32,6 @@ std::string Effect::getTypeStd() {
     }
 }
 
-void Effect::resetClock() {
+void Effect::restartClock() {
     mClock.restart();
 }

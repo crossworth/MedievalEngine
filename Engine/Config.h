@@ -40,7 +40,7 @@ namespace ENGINE_DEFAULTS {
 
 const bool _LOG_WRITE_TO_FILE    = false;
 const std::string _LOG_FILE_NAME = "output.log";
-const bool _LOG_LOG_TIME         = false;
+const bool _LOG_LOG_TIME         = true;
 
 
 }

@@ -13,7 +13,7 @@ public:
     void update(Drawable* object);
 private:
 	Fade();
-    unsigned int mFadeTime;
+    float mFadeTime;
     Type mFadeType;
     float mFadeCounter;
 };

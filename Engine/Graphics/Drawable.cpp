@@ -8,8 +8,10 @@ Drawable::Drawable() : mIsEffectPlaying(true) {
 }
 
 void Drawable::addEffect(Effect* effect) {
-    LOG << Log::VERBOSE << ("[Drawable::addEffect] Effect " +
+    LOG << Log::VERBOSE << Log::getTime()
+        << ("[Drawable::addEffect] Effect " +
                             effect->getTypeStd() + " added").c_str() << std::endl;
+
     mEffects.push_back(std::shared_ptr<Effect>(effect));
 }
 
@@ -23,7 +25,7 @@ void Drawable::playEffects() {
     std::vector<EffectPtr>::iterator it = mEffects.begin();
 
     for(int i = 0 ; i < mEffects.size(); i++) {
-        (*it)->resetClock();
+        (*it)->restartClock();
         it++;
     }
 }

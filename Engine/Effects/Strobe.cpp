@@ -26,7 +26,7 @@ void Strobe::update(Drawable* object) {
         mBaseColor     = object->getColor();
         mIsInitialized = true;
         mStrobeCounter = mBaseColor.alpha;
-        resetClock();
+        restartClock();
     }
 
     if (!isDone()) {
@@ -48,7 +48,7 @@ void Strobe::update(Drawable* object) {
                 mDirection     = -1;
             }
         }
-        resetClock();
+        restartClock();
 
         Color tmpColor = object->getColor();
         object->setColor(Color(tmpColor.red, tmpColor.green, tmpColor.blue,

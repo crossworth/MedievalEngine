@@ -28,14 +28,14 @@ Log::Log(const bool& logToFile,
     *m_outStream << std::endl;
 
     if (logTime) {
-        *m_outStream << getTime();
+        *m_outStream << Log::getTime();
     }
 }
 
 std::string Log::getTime() {
     time_t time            = std::time(0);
     std::string timeString = std::ctime(&time);
-
-    return timeString;
+    timeString             = timeString.substr(0, timeString.length() - 1);
+    return std::string(timeString + " ");
 }
 

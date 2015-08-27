@@ -61,6 +61,7 @@ void LoadingScreen::onDisable(Window &window) {
 
 void LoadingScreen::onPlaying(Window &window) {
     window.draw(mEngine->getResourceManager()->getResource<Shape>(idBackground));
+        window.draw(mEngine->getResourceManager()->getResource<SpriteAnimation>(spriteMario));
 }
 
 void LoadingScreen::update() {
@@ -87,7 +88,10 @@ void LoadingScreen::handleEvents(Event& evt) {
 
 
         if (evt.key.code == Keyboard::F) {
-            mEngine->getResourceManager()->getResource<Shape>(spriteMario)->addEffect(new Fade(500, Fade::FADEIN));
+            mEngine->getResourceManager()->getResource<Shape>(spriteMario)->addEffect(new Fade(5000, Fade::FADEIN));
+
+
+
         }
 
         if (evt.key.code == Keyboard::D) {
