@@ -9,8 +9,8 @@ Drawable::Drawable() : mIsEffectPlaying(true) {
 
 void Drawable::addEffect(Effect* effect) {
     LOG << Log::VERBOSE << Log::getTime()
-        << ("[Drawable::addEffect] Effect " +
-                            effect->getTypeStd() + " added").c_str() << std::endl;
+        << "[Drawable::addEffect] Effect " + effect->getTypeStd() + " added"
+        << std::endl;
 
     mEffects.push_back(EffectPtr(effect));
 }
@@ -43,8 +43,9 @@ void Drawable::removeEffect(std::string effectType) {
 
     for(int i = 0 ; i < mEffects.size(); i++) {
         if ((*it)->getTypeStd() == effectType) {
-            LOG << Log::VERBOSE << ("[Drawable::removeEffect] Effect " +
-                                    effectType + " removed").c_str() << std::endl;
+            LOG << Log::VERBOSE << "[Drawable::removeEffect] Effect " + effectType + " removed"
+                << std::endl;
+
             (*it)->setDone();
             mEffects.erase(it);
             it++;
@@ -63,6 +64,17 @@ void Drawable::removeAllEffects() {
 
     LOG << Log::VERBOSE << "[Drawable::removeAllEffects] All effect removed"
         << std::endl;
+}
+
+void Drawable::updateEffects() {
+    if(isPlayingEffects()) {
+        for(int i = 0 ; i < mEffects.size(); i++) {
+            mEffects[i]->update(this);
+            if (mEffects[i]->isDone()) {
+                mEffects.erase(mEffects.begin() + i);
+            }
+        }
+    }
 }
 
 void Drawable::setOpacity(float opacity) {

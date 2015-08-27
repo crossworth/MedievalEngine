@@ -75,7 +75,7 @@ void Text::setStyle(const Text::FONT_STYLE &style) {
 }
 
 void Text::draw(sf::RenderWindow* renderWindow) {
-    if (mHasTextShadow) {
+    if (isTextShadowEnable()) {
         Color tmpColor    = getColor();
         Vect2f tmpPos     = getPosition();
         mTextShadow.alpha = tmpColor.alpha;
@@ -90,18 +90,7 @@ void Text::draw(sf::RenderWindow* renderWindow) {
         setPosition(tmpPos);
     }
 
-//    if(mIsEffectPlaying) {
-
-//        for(int i = 0 ; i < mEffects.size(); i++) {
-//            mEffects[i].effect->update(this);
-
-//            if (mEffects[i].effect->isDone()) {
-//                // Call Lua Function done effects?
-//                mEffects.erase(mEffects.begin() + i);
-//            }
-//        }
-//    }
-
+    updateEffects();
     renderWindow->draw(mText);
 }
 

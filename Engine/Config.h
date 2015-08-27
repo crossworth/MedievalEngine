@@ -34,14 +34,12 @@ namespace ENGINE_DEFAULTS {
 }
 
 /**
- * Descomentar a linha abaixo para exibir o nome do arquivo e linha durante o log
+ * Uncomment the line to log file name and line numbers
  * */
 // #define LOG_FILE_NUMBERS
 
 const bool _LOG_WRITE_TO_FILE    = false;
 const std::string _LOG_FILE_NAME = "output.log";
-const bool _LOG_LOG_TIME         = true;
-
 
 }
 

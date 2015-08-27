@@ -49,6 +49,9 @@ public:
 
     Area getLocalBounds();
     Area getGlobalBounds();
+
+protected:
+    void updateSprite();
 private:
     bool mIsPlaying;
     sf::Sprite mSprite;

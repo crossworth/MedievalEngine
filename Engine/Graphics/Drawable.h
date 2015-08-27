@@ -48,6 +48,7 @@ public:
 
     void addEffect(Effect* effect);
 
+
     void playEffects();
     void pauseEffects();
     bool isPlayingEffects();
@@ -58,9 +59,10 @@ public:
     virtual Area getGlobalBounds() = 0;
 
 protected:
+    void updateEffects();
+
     std::vector<EffectPtr> mEffects;
     bool mIsEffectPlaying;
-
 };
 
 }

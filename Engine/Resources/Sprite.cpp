@@ -15,17 +15,7 @@ void Sprite::setTexture(Texture *texture) {
 }
 
 void Sprite::draw(sf::RenderWindow *renderWindow) {
-//    if (mIsEffectPlaying) {
-
-//        for(int i = 0 ; i < mEffects.size(); i++) {
-//            mEffects[i].effect->update(this);
-
-//            if (mEffects[i].effect->isDone()) {
-//                // Call Lua Function done effects?
-//                mEffects.erase(mEffects.begin() + i);
-//            }
-//        }
-//    }
+    updateEffects();
     renderWindow->draw(mSprite);
 }
 

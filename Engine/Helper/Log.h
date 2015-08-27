@@ -14,10 +14,7 @@ public:
     enum LogType {VERBOSE, LUA_VERBOSE, WARNING,
                    LUA_WARNING, CRITICAL, LUA_CRITICAL};
 private:
-    Log(const bool& logToFile,
-        const std::string& fileName,
-        const bool& logTime);
-
+    Log(const bool& logToFile, const std::string& fileName);
 public:
     static Log* getInstance(const bool& logToFile = false,
                             const std::string& fileName = "output.log",

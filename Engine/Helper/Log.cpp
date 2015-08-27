@@ -12,10 +12,7 @@ Log* Log::getInstance(const bool& logToFile,
 }
 
 
-Log::Log(const bool& logToFile,
-         const std::string& fileName,
-         const bool& logTime) : m_coutStream(std::cout) {
-
+Log::Log(const bool& logToFile, const std::string& fileName) : m_coutStream(std::cout) {
     if (logToFile) {
         m_ofStream.open(fileName.c_str(), std::ios_base::app);
         m_outStream = &m_ofStream;
@@ -26,10 +23,7 @@ Log::Log(const bool& logToFile,
     *m_outStream << std::endl;
     *m_outStream << "------------------------------------------";
     *m_outStream << std::endl;
-
-    if (logTime) {
-        *m_outStream << Log::getTime();
-    }
+    *m_outStream << Log::getTime() << std::endl;
 }
 
 std::string Log::getTime() {

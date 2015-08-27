@@ -55,30 +55,9 @@ sf::Sprite* SpriteAnimation::getResourcePointer() {
 }
 
 void SpriteAnimation::draw(sf::RenderWindow *renderWindow) {
-    if(mIsEffectPlaying) {
-
-        for(int i = 0 ; i < mEffects.size(); i++) {
-            mEffects[i]->update(this);
-
-            if (mEffects[i]->isDone()) {
-//                mEffects.erase(mEffects.begin() + i);
-            }
-        }
-    }
-
+    updateEffects();
+    updateSprite();
     renderWindow->draw(mSprite);
-
-    if (isPlaying() && mClock.getTime() > mFrameIterator->first) {
-        mFrameIterator++;
-
-        if (mFrameIterator == mFrames.end()) {
-            mFrameIterator = mFrames.begin();
-        }
-
-        mSprite.setTexture(*mFrameIterator->second->getResourcePointer());
-        mClock.restart();
-
-    }
 }
 
 void SpriteAnimation::setPosition(const Vect2f &pos) {
@@ -126,4 +105,17 @@ Area SpriteAnimation::getLocalBounds() {
 Area SpriteAnimation::getGlobalBounds() {
     return Area(mSprite.getGlobalBounds().left, mSprite.getGlobalBounds().top,
                 mSprite.getGlobalBounds().width, mSprite.getGlobalBounds().height);
+}
+
+void SpriteAnimation::updateSprite() {
+    if (isPlaying() && mClock.getTime() > mFrameIterator->first) {
+        mFrameIterator++;
+
+        if (mFrameIterator == mFrames.end()) {
+            mFrameIterator = mFrames.begin();
+        }
+
+        mSprite.setTexture(*mFrameIterator->second->getResourcePointer());
+        mClock.restart();
+    }
 }
