@@ -8,7 +8,18 @@ Drawable::Drawable() : mIsEffectPlaying(true) {
 }
 
 void Drawable::addEffect(Effect* effect) {
-    LOG << Log::VERBOSE << Log::getTime()
+
+    // First we verify if the effect it's already added
+    for (unsigned int i = 0; i < mEffects.size(); i++) {
+        if (mEffects[i]->getTypeStd() == effect->getTypeStd()) {
+            LOG << Log::VERBOSE
+                << "[Drawable::addEffect] Effect already " + effect->getTypeStd() + " added. Wait until it's done"
+                << std::endl;
+            return;
+        }
+    }
+
+    LOG << Log::VERBOSE
         << "[Drawable::addEffect] Effect " + effect->getTypeStd() + " added"
         << std::endl;
 

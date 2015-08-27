@@ -28,22 +28,22 @@ public:
     std::string getVersion();
     std::string getDescription();
 
-    std::uint64_t getDate();
+    MEInt64 getDate();
 
     void addFileEntry(const std::string& fileLocation,
                       const std::string& fileName);
 
-    _BYTE* getFile(const std::string& fileEntryName);
+    MEByte* getFile(const std::string& fileEntryName);
     void removeFile(const std::string& fileEntryName);
     std::vector<std::string> getFileList();
-    std::uint64_t getFileEntrySize(const std::string& fileEntryName);
+    MEInt64 getFileEntrySize(const std::string& fileEntryName);
 
 private:
     bool isFileOpen();
     FileHeader mHeader;
     std::vector<FileEntry> mFileEntry;
     std::string mCurrentFile;
-    _BYTE* mBuffer;
+    MEByte* mBuffer;
 };
 
 }

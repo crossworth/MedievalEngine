@@ -48,10 +48,10 @@ public:
 
     void addEffect(Effect* effect);
 
-
     void playEffects();
     void pauseEffects();
     bool isPlayingEffects();
+
     void removeEffect(std::string effectType);
     void removeAllEffects();
 
@@ -60,6 +60,7 @@ public:
 
 protected:
     void updateEffects();
+
 
     std::vector<EffectPtr> mEffects;
     bool mIsEffectPlaying;

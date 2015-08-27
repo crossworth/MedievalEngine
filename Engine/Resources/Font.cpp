@@ -21,7 +21,7 @@ sf::Font* Font::loadFromFile(const std::string &fileName){
     return &mFont;
 }
 
-sf::Font* Font::loadFromMemory(_BYTE* bytes, std::size_t size){
+sf::Font* Font::loadFromMemory(MEByte* bytes, std::size_t size){
     if (!mFont.loadFromMemory(static_cast<void*>(bytes), size)) {
         LOG << "[Font::loadFromMemory] Error while opening font from memory"
             << std::endl;

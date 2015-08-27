@@ -15,7 +15,7 @@ public:
     Font();
     Font(const std::string& fileName);
     sf::Font* loadFromFile(const std::string& fileName);
-    sf::Font* loadFromMemory(_BYTE* bytes, std::size_t size);
+    sf::Font* loadFromMemory(MEByte* bytes, std::size_t size);
     sf::Font* getResourcePointer();
     static ResourceID DEFAULT_FONT;
 private:

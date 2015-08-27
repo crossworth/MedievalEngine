@@ -24,7 +24,7 @@ public:
 
     ResourceID loadTexture(const std::string& fileName);
     ResourceID loadFont(const std::string& fileName);
-    ResourceID loadFont(_BYTE* bytes, std::size_t size);
+    ResourceID loadFont(MEByte* bytes, std::size_t size);
     ResourceID loadMusic(const std::string& fileName);
     ResourceID loadSound(const std::string& fileName);
 

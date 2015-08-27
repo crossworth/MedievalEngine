@@ -32,7 +32,7 @@ TEST_CASE( "Vect2 tests", "[Vect2]" ) {
 }
 
 TEST_CASE("Log tests", "[Log]") {
-    ME::Log* log = ME::Log::getInstance(false, "", false);
+    ME::Log* log = ME::Log::getInstance(false, "");
 
     *log << "Teste" << std::endl;
     *log << ME::Log::WARNING << std::endl;

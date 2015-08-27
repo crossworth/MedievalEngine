@@ -71,8 +71,6 @@ void LoadingScreen::handleEvents(Event& evt) {
         mEngine->getWindow()->close();
     }
 
-
-
     if (evt.type == Event::KeyPressed ) {
 
         if (evt.key.code == Keyboard::Space) {
@@ -93,7 +91,7 @@ void LoadingScreen::handleEvents(Event& evt) {
         }
 
         if (evt.key.code == Keyboard::D) {
-            mEngine->getResourceManager()->getResource<Shape>(spriteMario)->addEffect(new Strobe(500, 0.9, 5000, [](void){}));
+            mEngine->getResourceManager()->getResource<Shape>(spriteMario)->addEffect(new Strobe(500, 0.9));
         }
 
 
