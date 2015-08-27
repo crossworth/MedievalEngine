@@ -2,7 +2,7 @@
 
 using namespace ME;
 
-Text::Text() {
+Text::Text() : mHasTextShadow(false) {
     m_type = Resource::Type::TEXT;
 }
 
