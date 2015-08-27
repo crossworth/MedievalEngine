@@ -39,18 +39,12 @@ void Fade::update(Drawable* object) {
             if (mFadeCounter <= 0.0f) {
                 mFadeCounter = 0.0f;
                 setDone();
-                LOG << Log::VERBOSE
-                    << "[Fade::update] Effect " + getTypeStd() + " done"
-                    << std::endl;
             }
         } else {
             mFadeCounter = mFadeCounter + mStep;
             if (mFadeCounter >= 255.0f) {
                 mFadeCounter = 255.0f;
                 setDone();
-                LOG << Log::VERBOSE
-                << "[Fade::update] Effect " + getTypeStd() + " done"
-                << std::endl;
             }
         }
         restartClock();

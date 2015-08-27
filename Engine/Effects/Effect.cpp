@@ -7,6 +7,10 @@ Effect::Effect() : mDone(false) {
 }
 
 void Effect::setDone() {
+    LOG << Log::VERBOSE
+    << "[Effect::setDone] Effect " + getTypeStd() + " done"
+    << std::endl;
+
     mDone = true;
     mCallback();
 }
