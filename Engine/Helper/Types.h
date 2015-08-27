@@ -2,6 +2,7 @@
 #define FILEENTRY_H
 #include <ctime>
 #include <cstdio>
+#include <cstdint>
 
 namespace ME {
 
@@ -11,8 +12,8 @@ namespace ME {
 struct FileEntry {
     char name[300];   // The name of the file
     char fileLocation[FILENAME_MAX];  // The real location of the file (memory or disk path)
-    long int size;    // The size of the file
-    long int offset;  // Where in the final file the data is
+    std::uint64_t size;    // The size of the file
+    std::uint64_t offset;  // Where in the final file the data is
 };
 
 /**
@@ -22,8 +23,8 @@ struct FileHeader {
     char version[6];           // Version of the dat file
     char name[300];            // Name of the dat file
     char description[512];     // The description of the dat file
-    unsigned int filesNumber;  // The number of files
-    long long int createOn;    // When the file was created (time_t)
+    std::uint32_t filesNumber;  // The number of files
+    std::uint64_t createOn;    // When the file was created (time_t)
 };
 
 typedef char _BYTE;

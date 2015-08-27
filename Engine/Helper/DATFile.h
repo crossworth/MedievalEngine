@@ -28,7 +28,7 @@ public:
     std::string getVersion();
     std::string getDescription();
 
-    long long int getDate();
+    std::uint64_t getDate();
 
     void addFileEntry(const std::string& fileLocation,
                       const std::string& fileName);
@@ -36,7 +36,7 @@ public:
     _BYTE* getFile(const std::string& fileEntryName);
     void removeFile(const std::string& fileEntryName);
     std::vector<std::string> getFileList();
-    long int getFileEntrySize(const std::string& fileEntryName);
+    std::uint64_t getFileEntrySize(const std::string& fileEntryName);
 
 private:
     bool isFileOpen();
