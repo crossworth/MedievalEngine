@@ -85,6 +85,19 @@ void Shape::draw(sf::RenderWindow* renderWindow) {
         }
     }
 
+
+//    if(mIsEffectPlaying) {
+
+//        for(int i = 0 ; i < mEffects.size(); i++) {
+//            mEffects[i].effect->update(this);
+//            if (mEffects[i].effect->isDone()) {
+
+//                mEffects.erase(mEffects.begin() + i);
+//            }
+//        }
+//    }
+
+
     renderWindow->draw(&vertexVector[0], vertexVector.size(), sf::TrianglesFan);
 }
 

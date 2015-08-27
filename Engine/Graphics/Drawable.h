@@ -2,6 +2,7 @@
 #define DRAWABLE_H
 #include <vector>
 #include <memory>
+#include <functional>
 #include <SFML/Graphics.hpp>
 #include "LogInc.h"
 #include "Helper/Vect2.h"
@@ -13,7 +14,9 @@
 namespace ME {
 
 class Effect;
+
 typedef std::shared_ptr<Effect> EffectPtr;
+typedef std::function<void(void)> EffectCallback;
 
 class Drawable {
 public:
@@ -45,6 +48,8 @@ public:
     float getOpacity();
 
     void addEffect(Effect* effect);
+    void onDone(std::function<void(void)> callback);
+
     void playEffects();
     void pauseEffects();
     bool isPlayingEffects();
@@ -56,6 +61,7 @@ public:
 
 protected:
     std::vector<EffectPtr> mEffects;
+    std::vector<EffectCallback> mCallbacks;
     bool mIsEffectPlaying;
 
 };

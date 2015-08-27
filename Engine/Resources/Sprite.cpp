@@ -15,17 +15,17 @@ void Sprite::setTexture(Texture *texture) {
 }
 
 void Sprite::draw(sf::RenderWindow *renderWindow) {
-    if (mIsEffectPlaying) {
+//    if (mIsEffectPlaying) {
 
-        for(int i = 0 ; i < mEffects.size(); i++) {
-            mEffects[i]->update(this);
+//        for(int i = 0 ; i < mEffects.size(); i++) {
+//            mEffects[i].effect->update(this);
 
-            if (mEffects[i]->isDone()) {
-                // Call Lua Function done effects?
-                mEffects.erase(mEffects.begin() + i);
-            }
-        }
-    }
+//            if (mEffects[i].effect->isDone()) {
+//                // Call Lua Function done effects?
+//                mEffects.erase(mEffects.begin() + i);
+//            }
+//        }
+//    }
     renderWindow->draw(mSprite);
 }
 

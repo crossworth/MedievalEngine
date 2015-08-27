@@ -12,7 +12,11 @@ void Drawable::addEffect(Effect* effect) {
         << ("[Drawable::addEffect] Effect " +
                             effect->getTypeStd() + " added").c_str() << std::endl;
 
-    mEffects.push_back(std::shared_ptr<Effect>(effect));
+    mEffects.push_back(EffectPtr(effect));
+}
+
+void Drawable::onDone(EffectCallback callback) {
+    mCallbacks.push_back(EffectCallback(callback));
 }
 
 void Drawable::setOriginCenter() {

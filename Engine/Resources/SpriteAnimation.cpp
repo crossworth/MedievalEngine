@@ -61,8 +61,8 @@ void SpriteAnimation::draw(sf::RenderWindow *renderWindow) {
             mEffects[i]->update(this);
 
             if (mEffects[i]->isDone()) {
-                // TODO: Call Lua Function done effects?
-                mEffects.erase(mEffects.begin() + i);
+                mCallbacks[i]();
+//                mEffects.erase(mEffects.begin() + i);
             }
         }
     }

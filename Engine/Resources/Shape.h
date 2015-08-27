@@ -2,6 +2,7 @@
 #define SHAPE_H
 #include "Graphics/Drawable.h"
 #include "Resources/Resource.h"
+#include "Effects/Effect.h"
 
 namespace ME {
 

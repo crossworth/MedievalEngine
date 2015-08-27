@@ -90,6 +90,10 @@ void LoadingScreen::handleEvents(Event& evt) {
         if (evt.key.code == Keyboard::F) {
             mEngine->getResourceManager()->getResource<Shape>(spriteMario)->addEffect(new Fade(5000, Fade::FADEIN));
 
+            mEngine->getResourceManager()->getResource<Shape>(spriteMario)->onDone([](void){
+               std::cout << " Shit just got real" << std::endl;
+            });
+
 
 
         }
