@@ -20,6 +20,7 @@ typedef std::shared_ptr<Effect> EffectPtr;
 class Drawable {
 public:
     Drawable();
+    virtual ~Drawable();
 
     virtual void draw(sf::RenderWindow* renderWindow) = 0;
 
@@ -57,11 +58,9 @@ public:
 
     virtual Area getLocalBounds() = 0;
     virtual Area getGlobalBounds() = 0;
-
 protected:
-    void updateEffects();
-
-
+    sf::RenderStates* updateEffects();
+    sf::RenderStates* mRenderStates;
     std::vector<EffectPtr> mEffects;
     bool mIsEffectPlaying;
 };

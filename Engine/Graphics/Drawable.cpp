@@ -4,7 +4,11 @@
 using namespace ME;
 
 Drawable::Drawable() : mIsEffectPlaying(true) {
+    mRenderStates = new sf::RenderStates;
+}
 
+Drawable::~Drawable() {
+    delete mRenderStates;
 }
 
 void Drawable::addEffect(Effect* effect) {
@@ -24,6 +28,7 @@ void Drawable::addEffect(Effect* effect) {
         << std::endl;
 
     mEffects.push_back(EffectPtr(effect));
+    effect->registerRenderStates(mRenderStates);
 }
 
 void Drawable::setOriginCenter() {
@@ -77,7 +82,7 @@ void Drawable::removeAllEffects() {
         << std::endl;
 }
 
-void Drawable::updateEffects() {
+sf::RenderStates* Drawable::updateEffects() {
     if(isPlayingEffects()) {
         for(int i = 0 ; i < mEffects.size(); i++) {
             mEffects[i]->update(this);
@@ -85,7 +90,9 @@ void Drawable::updateEffects() {
                 mEffects.erase(mEffects.begin() + i);
             }
         }
+
     }
+    return mRenderStates;
 }
 
 void Drawable::setOpacity(float opacity) {

@@ -85,8 +85,8 @@ void Shape::draw(sf::RenderWindow* renderWindow) {
         }
     }
 
-    updateEffects();
-    renderWindow->draw(&vertexVector[0], vertexVector.size(), sf::TrianglesFan);
+    sf::RenderStates* states = updateEffects();
+    renderWindow->draw(&vertexVector[0], vertexVector.size(), sf::TrianglesFan, *states);
 }
 
 sf::RectangleShape* Shape::getResourcePointer() {

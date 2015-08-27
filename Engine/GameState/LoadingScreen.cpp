@@ -95,6 +95,11 @@ void LoadingScreen::handleEvents(Event& evt) {
         }
 
 
+        if (evt.key.code == Keyboard::B) {
+            mEngine->getResourceManager()->getResource<Shape>(spriteMario)->addEffect(new Blur(0.11f));
+        }
+
+
     }
 }
 

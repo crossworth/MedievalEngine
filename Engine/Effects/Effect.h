@@ -26,7 +26,9 @@ public:
     void restartClock();
     void setDone();
     bool isDone();
+    void registerRenderStates(sf::RenderStates* states);
 protected:
+    sf::RenderStates* mRenderStates;
     Callback mCallback;
     Type mType;
     Clock mClock;

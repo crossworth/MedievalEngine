@@ -19,6 +19,10 @@ bool Effect::isDone() {
     return mDone;
 }
 
+void Effect::registerRenderStates(sf::RenderStates* states) {
+    mRenderStates = states;
+}
+
 Effect::Type Effect::getType() {
     return mType;
 }
@@ -26,13 +30,16 @@ Effect::Type Effect::getType() {
 std::string Effect::getTypeStd() {
     switch(mType) {
     case Type::FADE:
-        return "fade";
+        return "Fade";
         break;
     case Type::STROBE:
-        return "strobe";
+        return "Strobe";
+        break;
+    case Type::BLUR:
+        return "Blur";
         break;
     default:
-        return "unkonw";
+        return "Unkonw";
         break;
     }
 }

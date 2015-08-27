@@ -90,8 +90,8 @@ void Text::draw(sf::RenderWindow* renderWindow) {
         setPosition(tmpPos);
     }
 
-    updateEffects();
-    renderWindow->draw(mText);
+    sf::RenderStates* states = updateEffects();
+    renderWindow->draw(mText, *states);
 }
 
 void Text::move(const Vect2f &pos) {

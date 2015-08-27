@@ -70,7 +70,8 @@ SOURCES += main.cpp \
     Resources/Resource.cpp \
     Resources/ResourceManager.cpp \
     Resources/ResourceIDGenerator.cpp \
-    Helper/Kit.cpp
+    Helper/Kit.cpp \
+    Effects/Blur.cpp
 
 HEADERS += \
 	Audio/Audible.h \
@@ -120,7 +121,8 @@ HEADERS += \
     Resources/Resource.h \
     Resources/ResourceManager.h \
     Resources/ResourceIDGenerator.h \
-    Helper/Kit.h
+    Helper/Kit.h \
+    Effects/Blur.h
 
 DISTFILES += \
     Documentation/init.txt \

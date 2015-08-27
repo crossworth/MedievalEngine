@@ -15,8 +15,8 @@ void Sprite::setTexture(Texture *texture) {
 }
 
 void Sprite::draw(sf::RenderWindow *renderWindow) {
-    updateEffects();
-    renderWindow->draw(mSprite);
+    sf::RenderStates* states = updateEffects();
+    renderWindow->draw(mSprite, *states);
 }
 
 void Sprite::move(const Vect2f &pos) {
