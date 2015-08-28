@@ -5,7 +5,8 @@
 #include <cstdint>
 
 
-// TODO: On Mac see if the size of FILENAME_MAX is 260
+// Note(Pedro): FILENAME_MAX is 260 on Windows and 1024 on MacOSX
+// So We have to use our own version of FILE_NAME_MAX
 
 namespace ME {
 
