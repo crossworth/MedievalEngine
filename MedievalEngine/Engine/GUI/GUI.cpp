@@ -82,9 +82,9 @@ void GUI::update() {
 }
 
 GUIObject* GUI::addObject(const std::string& name, GUIObject* object) {
-//    if (findObject(name) != nullptr) {
-//        return findObject(name);
-//    }
+   if (findObject(name) != nullptr) {
+       return findObject(name);
+   }
 
     object->registerAssetsManager(mEngine->getResourceManager());
     object->init();
@@ -95,9 +95,10 @@ GUIObject* GUI::addObject(const std::string& name, GUIObject* object) {
     objTmp.isMouseOver = false;
 
     mObjects.push_back(objTmp);
-    LOG << Log::VERBOSE << ("[GUI::addObject] GUI Object " + object->getType() + " " +  name + " added").c_str() << std::endl;
+    LOG << Log::VERBOSE << "[GUI::addObject] GUI Object " + object->getType()
+        <<  " " +  name + " added" << std::endl;
 
-    return mObjects.end()->object;
+    return mObjects[mObjects.size() - 1].object;
 }
 
 GUIObject* GUI::findObject(const std::string& name) {
@@ -107,6 +108,8 @@ GUIObject* GUI::findObject(const std::string& name) {
         }
     }
 
-    LOG << Log::WARNING << ("[GUI::findObject] GUI Object " +  name + " not found").c_str() << std::endl;
+    LOG << Log::WARNING << "[GUI::findObject] GUI Object " +  name + " not found"
+        << std::endl;
+
     return nullptr;
 }

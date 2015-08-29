@@ -27,7 +27,7 @@ REM durante o tempo de execução e não de parse
 
 setlocal enabledelayedexpansion
 SET outexe=MedievalEngine.exe
-SET flags=/W3 /Fo.\obj\ /Zi /MDd /EHsc /nologo /FC /Fe%outexe%
+SET flags=/W3 /Fo.\obj\ /Zi /MDd /EHsc /nologo /FC /Fe%outexe% /Zc:wchar_t /Zc:forScope /Zc:inline
 SET defines=/D__WIN32=1 /D_CRT_SECURE_NO_WARNINGS=1
 SET includes=/I"C:\MedievalEngine\MedievalEngine\Engine" /I"C:\Program Files (x86)\SFML\include" /I"C:\Program Files (x86)\lua\include" /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include"
 SET libs="sfml-graphics-d.lib" "sfml-window-d.lib" "sfml-audio-d.lib" "sfml-system-d.lib" /link /LIBPATH:"C:\SFML\lib"

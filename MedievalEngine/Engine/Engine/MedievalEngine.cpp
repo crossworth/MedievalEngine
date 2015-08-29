@@ -62,21 +62,21 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
         mWindow.close();
         mErrorCode = 1;
     } else {
-        // if (mDataFiles.getName() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_NAME &&
-        //     mDataFiles.getVersion() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_VERSION ) {
-        //     Font::DEFAULT_FONT = mResourceManager.loadFont(mDataFiles.getFile("default.ttf"),
-        //                                                  mDataFiles.getFileEntrySize("default.ttf"));
-        //
-        //     LOG << Log::VERBOSE
-        //         << "[MedievalEngine::MedievalEngine] Default font loaded "
-        //         << std::endl;
-        // } else {
-        //     LOG << Log::CRITICAL << "[MedievalEngine::MedievalEngine] Default asset pack not recognized "
-        //     << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str() << std::endl;
-        //
-        //     mWindow.close();
-        //     mErrorCode = 2;
-        // }
+        if (mDataFiles.getName() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_NAME &&
+            mDataFiles.getVersion() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_VERSION ) {
+            Font::DEFAULT_FONT = mResourceManager.loadFont(mDataFiles.getFile("default.ttf"),
+                                                         mDataFiles.getFileEntrySize("default.ttf"));
+
+            LOG << Log::VERBOSE
+                << "[MedievalEngine::MedievalEngine] Default font loaded "
+                << std::endl;
+        } else {
+            LOG << Log::CRITICAL << "[MedievalEngine::MedievalEngine] Default asset pack not recognized "
+            << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str() << std::endl;
+
+            mWindow.close();
+            mErrorCode = 2;
+        }
     }
 }
 

@@ -2,8 +2,6 @@
 #include "Engine/MedievalEngine.h"
 
 
-
-
 int main(int argc, char** argv) {
     ProfileInit();
     ProfileStart();
@@ -15,6 +13,5 @@ int main(int argc, char** argv) {
 
     ProfileEnd("GameEngine total");
 
-
-    return 0;// app.getErrorCode();
+    return app.getErrorCode();
 }

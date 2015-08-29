@@ -11,7 +11,7 @@ LoadingScreen::LoadingScreen(MedievalEngine* engine) {
 void LoadingScreen::init() {
     LOG << Log::VERBOSE << "[LoadingScreen::init]" << std::endl;
 
-    Vect2i winSize         = mEngine->getWindow()->getSize();
+    Vect2i winSize           = mEngine->getWindow()->getSize();
     ResourceManager* mAssets = mEngine->getResourceManager();
 
 
