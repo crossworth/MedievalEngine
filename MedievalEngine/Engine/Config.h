@@ -22,15 +22,18 @@ namespace ENGINE_DEFAULTS {
     const bool FULLSCREEN_WINDOW      = false;
     const int FRAME_LIMIT             = 60;
     const bool VSYNC                  = true;
-    const std::string CONFIG_FILE     = "config.cfg";
+
+    const std::string GLOBAL_PATH = ME::Dir::getCurrentPath();
+    const std::string DATA_PATH   = GLOBAL_PATH + "/data/";
+    const std::string ASSETS_PATH = DATA_PATH + "assets/";
+
+    const std::string CONFIG_FILE     = DATA_PATH + "config.cfg";
     const std::string DEFAULT_DATFILE = "base.dat";
 
     const std::string DATFILE_SIGNATURE_NAME    = "Default Asset Pack";
     const std::string DATFILE_SIGNATURE_VERSION = "1.0.0";
 
-    const std::string GLOBAL_PATH = ME::Dir::getCurrentPath();
-    const std::string DATA_PATH   = GLOBAL_PATH + "/data/";
-    const std::string ASSETS_PATH = DATA_PATH + "assets/";
+
 }
 
 /**

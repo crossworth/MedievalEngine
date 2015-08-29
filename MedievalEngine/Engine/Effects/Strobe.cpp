@@ -2,7 +2,7 @@
 
 using namespace ME;
 
-Strobe::Strobe(unsigned int time, float negativeRange, unsigned int duration, Effect::Callback func) {
+Strobe::Strobe(double time, float negativeRange, unsigned int duration, Effect::Callback func) {
     mType     = Effect::Type::STROBE;
     mCallback = Effect::Callback(func);
 
@@ -29,7 +29,7 @@ void Strobe::update(Drawable* object) {
     if (!mIsInitialized) {
         mBaseColor     = object->getColor();
         mIsInitialized = true;
-        mStrobeCounter = mBaseColor.alpha;
+        mStrobeCounter = static_cast<float>(mBaseColor.alpha);
         restartClock();
     }
 
@@ -39,7 +39,7 @@ void Strobe::update(Drawable* object) {
 
     if (!isDone()) {
 
-        float mStep =  (mClock.getTime() * mBaseColor.alpha) / mStrobeTime;
+        float mStep =  (mClock.getTime() * mBaseColor.alpha) / static_cast<float>(mStrobeTime);
 
         if (mDirection < 0) {
             mStrobeCounter = mStrobeCounter - mStep;
@@ -52,7 +52,7 @@ void Strobe::update(Drawable* object) {
             mStrobeCounter = mStrobeCounter + mStep;
 
             if (mStrobeCounter >= mBaseColor.alpha) {
-                mStrobeCounter = mBaseColor.alpha;
+                mStrobeCounter = static_cast<float>(mBaseColor.alpha);
                 mDirection     = -1;
             }
         }

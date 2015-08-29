@@ -2,7 +2,7 @@
 
 using namespace ME;
 
-Fade::Fade(int time, const Type &type, Effect::Callback func) {
+Fade::Fade(double time, const Type &type, Effect::Callback func) {
     mType     = Effect::Type::FADE;
     mCallback = Effect::Callback(func);
 
@@ -31,7 +31,7 @@ void Fade::update(Drawable* object) {
         // Utiliza float para os cálculos, porém clipa na hora de exibir em int
         // Precisão de 2 casas, not bad =)
 
-        float mStep =  (mClock.getTime() * 255) / mFadeTime;
+        double mStep =  (mClock.getTime() * 255) / mFadeTime;
 
         if (mFadeType == Type::FADEOUT) {
             mFadeCounter = mFadeCounter - mStep;

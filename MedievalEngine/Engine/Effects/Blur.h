@@ -6,14 +6,14 @@ namespace ME {
 
 class Blur : public Effect {
 public:
-    Blur(const float& amount = 0.0f);
-    void setAmount(const float& amount);
+    Blur(const double& amount = 0.0f);
+    void setAmount(const double& amount);
     void update(Drawable *object);
 private:
     bool isShaderEnable();
 
     Blur();
-    float mAmount;
+    double mAmount;
     sf::Shader mShader;
     bool mIsShaderEnable;
 };

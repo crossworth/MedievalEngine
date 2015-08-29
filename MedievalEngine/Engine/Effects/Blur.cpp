@@ -2,7 +2,7 @@
 
 using namespace ME;
 
-Blur::Blur(const float& amount) : mIsShaderEnable(false) {
+Blur::Blur(const double& amount) : mIsShaderEnable(false) {
     mType = Effect::BLUR;
 
     if (isShaderEnable()) {
@@ -20,10 +20,10 @@ Blur::Blur(const float& amount) : mIsShaderEnable(false) {
     }
 }
 
-void Blur::setAmount(const float& amount) {
+void Blur::setAmount(const double& amount) {
     if (isShaderEnable()) {
         mAmount = amount;
-        mShader.setParameter("blur_radius", amount);
+        mShader.setParameter("blur_radius", static_cast<float>(amount));
     }
 }
 

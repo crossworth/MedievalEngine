@@ -9,13 +9,14 @@ class Fade : public Effect {
 public:
     enum Type {FADEIN, FADEOUT};
 public:
-    Fade(int time, const Type& type, Effect::Callback func = EMPTY_FUNCTION);
+    // Em milesegundos
+    Fade(double time, const Type& type, Effect::Callback func = EMPTY_FUNCTION);
     void update(Drawable* object);
 private:
 	Fade();
-    float mFadeTime;
+    double mFadeTime;
     Type mFadeType;
-    float mFadeCounter;
+    double mFadeCounter;
 };
 
 }

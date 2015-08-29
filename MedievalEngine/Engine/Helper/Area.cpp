@@ -10,10 +10,10 @@ Area::Area(float left, float top, float width, float height) {
 }
 
 Area::Area(int left, int top, int width, int height) {
-    this->left   = static_cast<int>(left);
-    this->top    = static_cast<int>(top);
-    this->width  = static_cast<int>(width);
-    this->height = static_cast<int>(height);
+    this->left   = static_cast<float>(left);
+    this->top    = static_cast<float>(top);
+    this->width  = static_cast<float>(width);
+    this->height = static_cast<float>(height);
 }
 
 bool Area::contains(Vect2f& point, Area& area) {

@@ -14,16 +14,16 @@ public:
     // Ou seja um objeto com 1.0f de opacidade teria um
     // strobe de até 50% de opacidade
 
-    Strobe(unsigned int time, float negativeRange, unsigned int duration = 50000, Effect::Callback func = EMPTY_FUNCTION);
+    Strobe(double time, float negativeRange, unsigned int duration = 50000, Effect::Callback func = EMPTY_FUNCTION);
     void update(Drawable* object);
 private:
     bool mIsInitialized;
     int mDirection;
     Color mBaseColor;
-    unsigned int mStrobeTime;
-    float mStrobeCounter;
+    double mStrobeTime;
+    double mStrobeCounter;
     float mNegativeRange;
-    unsigned int mDuration;
+    double mDuration;
     Clock mClockDuration;
 };
 

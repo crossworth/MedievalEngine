@@ -19,7 +19,7 @@ typedef std::int64_t MEInt64;
 typedef std::uint64_t MEUInt64;
 
 const MEInt32 ME_MAX_FILE_NAME = 255;
-
+const MEInt32 ME_MAX_DAT_FILES = 10000;
 /**
  * @brief The FileEntry struct
  */

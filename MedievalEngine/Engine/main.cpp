@@ -16,5 +16,5 @@ int main(int argc, char** argv) {
     ProfileEnd("GameEngine total");
 
 
-    return app.getErrorCode();
+    return 0;// app.getErrorCode();
 }

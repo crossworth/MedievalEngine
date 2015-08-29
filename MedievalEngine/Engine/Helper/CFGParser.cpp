@@ -96,7 +96,7 @@ bool CFGParser::validateLine(std::string& line){
     }
 
     // Remove os espaços em branco no começo
-    int pos = line.find_first_not_of("\t ");
+    size_t pos = line.find_first_not_of("\t ");
 
     // Erro de uma unica tabulaçao na linha
     if(pos < 0) {
@@ -126,7 +126,7 @@ bool CFGParser::validateLine(std::string& line){
 }
 
 std::string CFGParser::mGetKey(std::string line) {
-    signed int pos = line.find("=");
+    size_t pos = line.find("=");
 
     line =  line.substr(0, pos);
     pos  = line.find(" ");
@@ -137,6 +137,6 @@ std::string CFGParser::mGetKey(std::string line) {
 }
 
 std::string CFGParser::mGetValue(std::string line) {
-    int pos = line.find("=");
+    size_t pos = line.find("=");
     return line.substr(pos+1, line.size());
 }

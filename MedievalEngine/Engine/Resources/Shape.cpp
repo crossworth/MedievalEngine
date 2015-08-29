@@ -30,7 +30,7 @@ void Shape::draw(sf::RenderWindow* renderWindow) {
         }
     }
 
-    for(unsigned int i = 0; i < mNumberPoints * 4; i++) {
+    for(int i = 0; i < mNumberPoints * 4; i++) {
 
         float deltaAngle = 90.0f / (mNumberPoints - 1);
         sf::Vector2f center;

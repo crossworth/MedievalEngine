@@ -40,6 +40,7 @@ popd
 
 IF NOT EXIST .\build mkdir .\build
 pushd .\build
+IF EXIST %outexe% DEL %outexe%
 IF NOT EXIST .\obj mkdir .\obj
 cl %defines% %flags% %includes% %sources% %libs%
 popd

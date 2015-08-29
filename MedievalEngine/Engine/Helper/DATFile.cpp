@@ -35,7 +35,7 @@ bool DATFile::createFile(const std::string& outputFile,
                 std::strlen(description.c_str()));
 
     mHeader.createOn    = static_cast<std::uint64_t>(time(0));
-    mHeader.filesNumber = mFileEntry.size();
+    mHeader.filesNumber = static_cast<MEInt32>(mFileEntry.size());
 
     for (unsigned int i = 0; i < mFileEntry.size(); i++) {
         inFile.open(mFileEntry[i].fileLocation,
@@ -134,6 +134,20 @@ bool DATFile::openFile(const std::string& fileName) {
         inFile.seekg(0, std::ios::beg);
         inFile.read(headerTAG, FILE_HEADER_LENGTH);
         inFile.read((MEByte*)&mHeader, sizeof(FileHeader));
+
+        LOG << Log::WARNING << "[DATFile::openFile] "
+            << "Number of files (DAT): " << mHeader.filesNumber
+            << std::endl;
+
+        if(mHeader.filesNumber > ME_MAX_DAT_FILES) {
+            LOG << Log::WARNING << "[DATFile::openFile] "
+                << "Error while opening the file " + fileName
+                << " number of files exceeds " << ME_MAX_DAT_FILES
+                << std::endl;
+
+            inFile.close();
+            return false;
+        }
 
         for (MEInt32 i = 0; i < mHeader.filesNumber; i++) {
             inFile.read((MEByte*)&fileEntry, sizeof(FileEntry));
