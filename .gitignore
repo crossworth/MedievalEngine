@@ -1,5 +1,4 @@
 .DS_Store
-bin/
 *.exe
 *.slo
 *.lo
@@ -10,6 +9,8 @@ bin/
 *.so
 *.dll
 *.dylib
+*.idb
+*.ilk
 /.qmake.cache
 /.qmake.stash
 *.user
@@ -22,8 +23,9 @@ bin/
 moc_*.cpp
 qrc_*.cpp
 ui_*.h
-Makefile*
 *-build-*
 *.autosave
 *.qmlproject.user
 *.qmlproject.user.*
+*.obj
+*.pdb
