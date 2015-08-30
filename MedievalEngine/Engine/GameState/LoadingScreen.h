@@ -18,6 +18,8 @@ public:
 private:
     ResourceID idBackground;
     ResourceID spriteMario;
+
+    // TODO(Pedro): remove this
     int c;
 };
 

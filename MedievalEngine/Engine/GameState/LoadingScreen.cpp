@@ -38,7 +38,7 @@ void LoadingScreen::init() {
 
 
     TextWidgetPtr engineTitle = TextWidgetPtr(new TextWidget("Medieval Engine Title", 65));
-    GUIEventPtr titleEvent = GUIEventPtr(new GUIEvent());
+    GUIEventPtr titleEvent    = GUIEventPtr(new GUIEvent());
 
     titleEvent->setOnMouseOver([](Widget* widget) {
         widget->setColor(Color::YELLOW);
@@ -98,7 +98,6 @@ void LoadingScreen::handleEvents(Event& evt) {
         if (evt.key.code == Keyboard::A) {
             // mEngine->getGUI()->getWidget<TextListWidget>("debugger_info")->setTextAutoScroll(true);
         }
-
 
         if (evt.key.code == Keyboard::F) {
             mEngine->getResourceManager()->getResource<Shape>(spriteMario)->addEffect(new Fade(5000, Fade::FADEIN, [](void){
