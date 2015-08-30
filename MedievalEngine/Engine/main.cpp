@@ -1,6 +1,13 @@
 #include "Helper/Profiler.h"
 #include "Engine/MedievalEngine.h"
+#include <iostream>
 
+/**
+* Medieval Engine 2015
+* Pedro Henrique - system.pedrohenrique@gmail.com
+*
+* All the files are using ISO 8859-1 file enconding
+**/
 
 int main(int argc, char** argv) {
     ProfileInit();

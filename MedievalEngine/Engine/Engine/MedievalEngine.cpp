@@ -11,11 +11,13 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
         mConfigurations.readFile(ENGINE_DEFAULTS::CONFIG_FILE);
     }
 
+    // TODO(Pedro): teste
+
     WindowInfo windowInfo;
 
-    std::string bitsPerPixel;
-    std::string height;
     std::string width;
+    std::string height;
+    std::string bitsPerPixel;
     std::string fullScreen;
     std::string windowName;
     std::string iconName;
@@ -98,7 +100,6 @@ void MedievalEngine::run() {
     if (!isRunning()) {
        return;
     }
-
     while(mWindow.isOpen()) {
 
         Event event;

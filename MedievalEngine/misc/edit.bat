@@ -1,2 +1,2 @@
 @echo off
-call atom C:\MedievalEngine
+call "C:\Program Files\Sublime Text 3\sublime_text.exe" C:\MedievalEngine

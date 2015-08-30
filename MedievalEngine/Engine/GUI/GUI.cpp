@@ -24,25 +24,25 @@ void GUI::handleEvents(Event evt, Window& window) {
         for(unsigned int i = 0; i < mObjects.size(); i++) {
             mObjects[i].object->handleEvents(evt, window);
         }
-    }
 
-    Vect2i mousePos = Mouse::getPosition(*window.getWindowPtr());
+        Vect2i mousePos = Mouse::getPosition(*window.getWindowPtr());
 
-    for(unsigned int i = 0; i < mObjects.size(); i++) {
-        if (mObjects[i].object->getGlobalBounds().contains(mousePos)) {
-            mObjects[i].isMouseOver = true;
-            mObjects[i].object->onMouseOver(evt, window);
-        }
+        for(unsigned int i = 0; i < mObjects.size(); i++) {
+            if (mObjects[i].object->getGlobalBounds().contains(mousePos)) {
+                mObjects[i].isMouseOver = true;
+                mObjects[i].object->onMouseOver(evt, window);
+            }
 
-        if (mObjects[i].object->getGlobalBounds().contains(mousePos) &&
-            Mouse::isButtonPressed(Mouse::Button::Left) ) {
-            mObjects[i].object->onClick(evt, window);
-        }
+            if (mObjects[i].object->getGlobalBounds().contains(mousePos) &&
+                Mouse::isButtonPressed(Mouse::Button::Left) ) {
+                mObjects[i].object->onClick(evt, window);
+            }
 
-        if (!(mObjects[i].object->getGlobalBounds().contains(mousePos)) &&
-            mObjects[i].isMouseOver) {
-            mObjects[i].isMouseOver = false;
-            mObjects[i].object->onMouseOut(evt, window);
+            if (!(mObjects[i].object->getGlobalBounds().contains(mousePos)) &&
+                mObjects[i].isMouseOver) {
+                mObjects[i].isMouseOver = false;
+                mObjects[i].object->onMouseOut(evt, window);
+            }
         }
     }
 }

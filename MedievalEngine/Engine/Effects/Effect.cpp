@@ -35,8 +35,8 @@ std::string Effect::getTypeStd() {
     case Type::STROBE:
         return "Strobe";
         break;
-    case Type::BLUR:
-        return "Blur";
+    case Type::SHADER:
+        return "Shader";
         break;
     default:
         return "Unkonw";

@@ -3,12 +3,20 @@
 #include <ctime>
 #include <cstdio>
 #include <cstdint>
+#include <functional>
 
 
-// Note(Pedro): FILENAME_MAX is 260 on Windows and 1024 on MacOSX
+// NOTE(Pedro): FILENAME_MAX is 260 on Windows and 1024 on MacOSX
 // So We have to use our own version of FILE_NAME_MAX
 
+// NOTE(Pedro): Since We are using lambda functions, We require C++11
+// Since #define is a preprocessor We can use this Way (where it's don't know about the class yet)
+#define EMPTY_VOID_CALLBACK [](void) {}
+#define EMPTY_OBJECT_CALLBACK [](ObjectWrapper* object) {}
+
 namespace ME {
+
+class ObjectWrapper;
 
 typedef char MEByte;
 
@@ -17,6 +25,9 @@ typedef std::uint32_t MEUInt32;
 
 typedef std::int64_t MEInt64;
 typedef std::uint64_t MEUInt64;
+
+typedef std::function<void(void)> VoidCallback;
+typedef std::function<void(ObjectWrapper* object)> ObjectWrapperCallback;
 
 const MEInt32 ME_MAX_FILE_NAME = 255;
 const MEInt32 ME_MAX_DAT_FILES = 10000;

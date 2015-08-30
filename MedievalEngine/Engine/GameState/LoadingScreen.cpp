@@ -37,14 +37,14 @@ void LoadingScreen::init() {
 
     mShapeBackground->setColor(Color::DODGER_BLUE);
 
-    mEngine->getGUI()->addObject("engine_title", new TextObject(L"MedievalEngine", 72));
-    mEngine->getGUI()->addObject("button_iniciar", new ButtonObject(L"Iniciar", Vect2f(mEngine->getWindow()->getSize().x - 150.f, mEngine->getWindow()->getSize().y - 200.f)));
-    mEngine->getGUI()->addObject("button_opcoes", new ButtonObject(L"OpÃ§Ãµes", Vect2f(mEngine->getWindow()->getSize().x - 150.f, mEngine->getWindow()->getSize().y - 160.f)));
-    mEngine->getGUI()->addObject("button_sair", new ButtonObject(L"Sair", Vect2f(mEngine->getWindow()->getSize().x - 150.f, mEngine->getWindow()->getSize().y - 120.f)));
+    mEngine->getGUI()->addObject("engine_title", new TextObject("Opção", 72));
+    mEngine->getGUI()->addObject("button_iniciar", new ButtonObject("Iniciar", Vect2f(mEngine->getWindow()->getSize().x - 150.f, mEngine->getWindow()->getSize().y - 200.f)));
+    mEngine->getGUI()->addObject("button_opcoes", new ButtonObject("Opções", Vect2f(mEngine->getWindow()->getSize().x - 150.f, mEngine->getWindow()->getSize().y - 160.f)));
+    mEngine->getGUI()->addObject("button_sair", new ButtonObject("Sair", Vect2f(mEngine->getWindow()->getSize().x - 150.f, mEngine->getWindow()->getSize().y - 120.f)));
     mEngine->getGUI()->addObject("debugger_info", new TextScrollListObject());
 
-    mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText(L"teste");
-    mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText(L"teste segunda linha");
+    mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText("teste");
+    mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText("teste segunda linha");
 
     c = 0;
 }
@@ -75,7 +75,7 @@ void LoadingScreen::handleEvents(Event& evt) {
 
         if (evt.key.code == Keyboard::Space) {
             std::string tmp("teste outra linha" + Kit::int_str(c++));
-            mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText(Kit::str_wstr(tmp));
+            mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText(tmp);
         }
 
         if (evt.key.code == Keyboard::A) {
@@ -96,7 +96,10 @@ void LoadingScreen::handleEvents(Event& evt) {
 
 
         if (evt.key.code == Keyboard::B) {
-            mEngine->getResourceManager()->getResource<Shape>(spriteMario)->addEffect(new Blur(0.11f));
+            Shader* shader = new Shader("blur.frag", Shader::Type::FRAGMENT);
+            shader->setParameter("blur_radius", 0.1f);
+
+            mEngine->getResourceManager()->getResource<Shape>(spriteMario)->addEffect(shader);
         }
 
 

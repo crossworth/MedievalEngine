@@ -28,7 +28,7 @@
 
 #include "Effects/Fade.h"
 #include "Effects/Strobe.h"
-#include "Effects/Blur.h"
+#include "Effects/Shader.h"
 
 #include "GameState/GameStateManager.h"
 

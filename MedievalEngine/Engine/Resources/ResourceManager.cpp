@@ -7,7 +7,7 @@ ResourceManager::ResourceManager() {
         << "[AssetsManager::AssetsManager] AssetsManager created" << std::endl;
 }
 
-ResourceID ResourceManager::loadTexture(const std::string &fileName) {
+ResourceID ResourceManager::loadTexture(const std::string& fileName) {
     ResourceID textureID   = ResourceIDGenerator::get();
     m_resources[textureID] = ResourcePtr(new Texture(fileName));
 
@@ -18,7 +18,7 @@ ResourceID ResourceManager::loadTexture(const std::string &fileName) {
     return textureID;
 }
 
-ResourceID ResourceManager::loadFont(const std::string &fileName) {
+ResourceID ResourceManager::loadFont(const std::string& fileName) {
     ResourceID fontID   = ResourceIDGenerator::get();
     m_resources[fontID] = ResourcePtr(new Font(fileName));
 
@@ -40,7 +40,7 @@ ResourceID ResourceManager::loadFont(MEByte* bytes, std::size_t size) {
     return fontID;
 }
 
-ResourceID ResourceManager::loadMusic(const std::string &fileName) {
+ResourceID ResourceManager::loadMusic(const std::string& fileName) {
     ResourceID musicID   = ResourceIDGenerator::get();
     m_resources[musicID] = ResourcePtr(new Music(fileName));
 
@@ -50,7 +50,7 @@ ResourceID ResourceManager::loadMusic(const std::string &fileName) {
     return musicID;
 }
 
-ResourceID ResourceManager::loadSound(const std::string &fileName) {
+ResourceID ResourceManager::loadSound(const std::string& fileName) {
     ResourceID soundID   = ResourceIDGenerator::get();
     m_resources[soundID] = ResourcePtr(new Sound(fileName));
 
@@ -60,7 +60,7 @@ ResourceID ResourceManager::loadSound(const std::string &fileName) {
     return soundID;
 }
 
-ResourceID ResourceManager::createSprite(const ResourceID &texture) {
+ResourceID ResourceManager::createSprite(const ResourceID& texture) {
     ResourceID spriteID   = ResourceIDGenerator::get();
     m_resources[spriteID] = ResourcePtr(new Sprite());
     getResource<Sprite>(spriteID)->setTexture(getResource<Texture>(texture));
@@ -83,9 +83,9 @@ ResourceID ResourceManager::createSpriteAnimation() {
     return spriteAnID;
 }
 
-ResourceID ResourceManager::createShape(const Vect2f &size,
-                                const Color &color,
-                                const Vect2f &pos) {
+ResourceID ResourceManager::createShape(const Vect2f& size,
+                                const Color& color,
+                                const Vect2f& pos) {
 
     ResourceID shapeID   = ResourceIDGenerator::get();
     m_resources[shapeID] = ResourcePtr(new Shape(size, color, pos));
@@ -96,9 +96,9 @@ ResourceID ResourceManager::createShape(const Vect2f &size,
     return shapeID;
 }
 
-ResourceID ResourceManager::createText(const std::wstring &text,
-                               const unsigned int &fontSize,
-                               const ResourceID &font) {
+ResourceID ResourceManager::createText(const sf::String& text,
+                               const unsigned int& fontSize,
+                               const ResourceID& font) {
 
     ResourceID textID   = ResourceIDGenerator::get();
     m_resources[textID] = ResourcePtr(new Text());

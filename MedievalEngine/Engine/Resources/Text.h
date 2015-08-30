@@ -20,7 +20,7 @@ public:
 
     void setFont(Font& font);
     void setFontSize(const unsigned int& size);
-    void setString(const std::wstring& text);
+    void setString(const sf::String& text);
     void setStyle(const Text::FontStyle& style);
 
     void setTextShadow(const float& factor = 2.0f,
@@ -52,7 +52,7 @@ public:
     void rotate(const float& angle);
 
     Vect2f getOrigin();
-    void setOrigin(const Vect2f &origin);
+    void setOrigin(const Vect2f& origin);
 
     Area getLocalBounds();
     Area getGlobalBounds();

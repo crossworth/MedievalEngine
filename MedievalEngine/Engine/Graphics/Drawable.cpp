@@ -78,7 +78,7 @@ void Drawable::removeAllEffects() {
         it++;
     }
 
-    LOG << Log::VERBOSE << "[Drawable::removeAllEffects] All effect removed"
+    LOG << Log::VERBOSE << "[Drawable::removeAllEffects] All effects were removed"
         << std::endl;
 }
 
@@ -90,7 +90,6 @@ sf::RenderStates* Drawable::updateEffects() {
                 mEffects.erase(mEffects.begin() + i);
             }
         }
-
     }
     return mRenderStates;
 }

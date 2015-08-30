@@ -3,12 +3,13 @@
 #include "Resources/ResourceManager.h"
 #include "GUI/GUIObject.h"
 
+// TODO(Pedro): Verificar problema com Unicode e Visual Studio
 
 namespace ME {
 
 class TextObject : public GUIObject {
 public:
-    TextObject(const std::wstring& text,
+    TextObject(const sf::String& text,
                const int& textSize,
                const Vect2f& pos = Vect2f());
     void init();
@@ -35,7 +36,7 @@ public:
 private:
     ResourceID mTextID;
     Text* mTextRef;
-    std::wstring mText;
+    sf::String mText;
     int mTextSize;
 };
 

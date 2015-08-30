@@ -1,13 +1,11 @@
 #ifndef EFFECT_H
 #define EFFECT_H
 #include <iostream>
-#include <memory>
-#include <functional>
 #include <SFML/Graphics.hpp>
+#include "Helper/Types.h"
 #include "Helper/Clock.h"
 #include "Graphics/Drawable.h"
 
-#define EMPTY_FUNCTION [](void) {}
 
 namespace ME {
 
@@ -15,8 +13,7 @@ class Drawable;
 
 class Effect {
 public:
-    typedef std::function<void(void)> Callback;
-    enum Type { FADE, STROBE, BLUR, BLOM };
+    enum Type {FADE, STROBE, SHADER};
 public:
     Effect();
     virtual void update(Drawable* object) = 0;
@@ -29,7 +26,7 @@ public:
     void registerRenderStates(sf::RenderStates* states);
 protected:
     sf::RenderStates* mRenderStates;
-    Callback mCallback;
+    VoidCallback mCallback;
     Type mType;
     Clock mClock;
     bool mDone;

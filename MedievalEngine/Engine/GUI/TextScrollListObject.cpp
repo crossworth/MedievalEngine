@@ -11,7 +11,7 @@ TextScrollListObject::TextScrollListObject() : mPadding(10.f), mScrollSpeed(10.0
 }
 
 void TextScrollListObject::init() {
-    ResourceID textID   = mAssets->createText(L"ScrollView", 22, mDefaultFontID);
+    ResourceID textID   = mAssets->createText("ScrollView", 22, mDefaultFontID);
     ResourceID shapeID  = mAssets->createShape(Vect2f(250.f, 35.f));
     ResourceID scrollID = mAssets->createShape(Vect2f(8.f, 30.f), Color(0, 0, 0, 75));
 
@@ -31,15 +31,15 @@ void TextScrollListObject::init() {
 
     mLineHeight = mTextRef->getSize().y;
 
-    mTextRef->setString(L"");
+    mTextRef->setString("");
     mShapeRef->setSize(Vect2f(mShapeRef->getSize().x,
                               mLineHeight + ( 2 * mPadding )));
 
     mExpandVelocity = 4.f;
 }
 
-void TextScrollListObject::addText(const std::wstring& text) {
-    mStringBuffer = mStringBuffer +  L"\n" +  text;
+void TextScrollListObject::addText(const sf::String& text) {
+    mStringBuffer = mStringBuffer +  "\n" +  text;
     mTextRef->setString(mStringBuffer);
 
     if (mTextRef->getSize().y > mShapeRef->getSize().y && mIsExpanded) {
@@ -328,4 +328,3 @@ Area TextScrollListObject::getGlobalBounds() {
 Vect2f TextScrollListObject::getSize() {
     return mShapeRef->getSize();
 }
-

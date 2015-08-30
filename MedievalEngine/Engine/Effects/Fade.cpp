@@ -2,9 +2,9 @@
 
 using namespace ME;
 
-Fade::Fade(double time, const Type &type, Effect::Callback func) {
+Fade::Fade(double time, const Type &type, VoidCallback func) {
     mType     = Effect::Type::FADE;
-    mCallback = Effect::Callback(func);
+    mCallback = VoidCallback(func);
 
     // Tempo em milisegundos
     mFadeTime = time;

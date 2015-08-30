@@ -29,3 +29,4 @@ ui_*.h
 *.qmlproject.user.*
 *.obj
 *.pdb
+*.sdf

@@ -10,7 +10,7 @@ class TextScrollListObject : public GUIObject {
 public:
     TextScrollListObject();
     void init();
-    void addText(const std::wstring& text);
+    void addText(const sf::String& text);
     void draw(Window& window);
     void update();
     void handleEvents(Event evt, Window& window);
@@ -68,7 +68,7 @@ private:
     float mPadding;
     float mScrollSpeed;
     float mLineHeight;
-    std::wstring mStringBuffer;
+    sf::String mStringBuffer;
     Text* mTextRef;
     Shape* mShapeRef;
     Clock mClock;

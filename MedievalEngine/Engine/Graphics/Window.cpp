@@ -106,19 +106,20 @@ bool Window::pollEvent(Event& evt) {
         evt.key.shift   = sfEvent.key.shift;
         evt.key.system  = sfEvent.key.system;
         break;
-    case sf::Event::MouseWheelMoved:
-        evt.type             = Event::EventType::MouseWheelMoved;
-        evt.mouseWheel.delta = sfEvent.mouseWheel.delta;
-        evt.mouseWheel.x     = sfEvent.mouseWheel.x;
-        evt.mouseWheel.y     = sfEvent.mouseWheel.y;
-        break;
-    case sf::Event::MouseWheelScrolled:
-        evt.type                   = Event::EventType::MouseWheelScrolled;
-        evt.mouseWheelScroll.wheel = static_cast<Mouse::Wheel>(sfEvent.mouseWheelScroll.wheel);
-        evt.mouseWheelScroll.delta = sfEvent.mouseWheelScroll.delta;
-        evt.mouseWheelScroll.x     = sfEvent.mouseWheelScroll.x;
-        evt.mouseWheelScroll.y     = sfEvent.mouseWheelScroll.y;
-        break;
+    // TODO(Pedro): Verificar compatibilidade com nova versão do SFML
+    // case sf::Event::MouseWheelMoved:
+    //     evt.type             = Event::EventType::MouseWheelMoved;
+    //     evt.mouseWheel.delta = sfEvent.mouseWheel.delta;
+    //     evt.mouseWheel.x     = sfEvent.mouseWheel.x;
+    //     evt.mouseWheel.y     = sfEvent.mouseWheel.y;
+    //     break;
+    // case sf::Event::MouseWheelScrolled:
+    //     evt.type                   = Event::EventType::MouseWheelScrolled;
+    //     evt.mouseWheelScroll.wheel = static_cast<Mouse::Wheel>(sfEvent.mouseWheelScroll.wheel);
+    //     evt.mouseWheelScroll.delta = sfEvent.mouseWheelScroll.delta;
+    //     evt.mouseWheelScroll.x     = sfEvent.mouseWheelScroll.x;
+    //     evt.mouseWheelScroll.y     = sfEvent.mouseWheelScroll.y;
+    //     break;
     case sf::Event::MouseButtonPressed:
         evt.type               = Event::EventType::MouseButtonPressed;
         evt.mouseButton.button = static_cast<Mouse::Button>(sfEvent.mouseButton.button);

@@ -1,2 +1,2 @@
 @echo off
-START "Debugger" /D C:\MedievalEngine\build devenv MedievalEngine.exe
+START "Debugger" /D C:\MedievalEngine\build devenv /nologo MedievalEngine.exe

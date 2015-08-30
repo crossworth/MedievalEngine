@@ -27,6 +27,8 @@ namespace ENGINE_DEFAULTS {
     const std::string DATA_PATH   = GLOBAL_PATH + "/data/";
     const std::string ASSETS_PATH = DATA_PATH + "assets/";
 
+    const std::string SHADER_PATH = ASSETS_PATH + "shaders/";
+
     const std::string CONFIG_FILE     = DATA_PATH + "config.cfg";
     const std::string DEFAULT_DATFILE = "base.dat";
 

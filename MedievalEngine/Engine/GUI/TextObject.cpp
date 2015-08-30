@@ -2,7 +2,7 @@
 
 using namespace ME;
 
-TextObject::TextObject(const std::wstring& text,
+TextObject::TextObject(const sf::String& text,
                        const int& textSize,
                        const Vect2f& pos) {
     mType     = "text";

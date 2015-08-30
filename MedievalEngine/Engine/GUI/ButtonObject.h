@@ -8,7 +8,7 @@ namespace ME {
 
 class ButtonObject : public GUIObject {
 public:
-    ButtonObject(const std::wstring& text,
+    ButtonObject(const sf::String& text,
                  Vect2f pos, ResourceID fontID = 0);
     void init();
     void draw(Window& window);
@@ -44,7 +44,7 @@ private:
     ResourceID mTextID;
     Text* mTextRef;
     Shape* mShapeRef;
-    std::wstring mText;
+    sf::String mText;
     ResourceID mFontID;
 };
 
