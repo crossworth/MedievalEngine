@@ -1,15 +1,15 @@
 #ifndef GUI_H
 #define GUI_H
-#include <vector>
-#include "GUI/ObjectWrapper.h"
-#include "GUI/TextObject.h"
-#include "GUI/ButtonObject.h"
-#include "GUI/TextScrollListObject.h"
+#include <map>
+#include <memory>
+#include "GUI/TextWidget.h"
+#include "GUI/ButtonWidget.h"
+#include "GUI/TextListWidget.h"
 
 
 namespace ME {
 
-class MedievalEngine;
+class MedievalEngine; 
 
 class GUI {
 public:
@@ -18,7 +18,7 @@ public:
 
     void draw(Window& window);
     void update();
-    void handleEvents(Event evt, Window& window);
+    void handleEvents(Event evt);
 
     void show();
     void hide();
@@ -29,24 +29,25 @@ public:
     void pause();
     void play();
 
-    GUIObject* addObject(const std::string& name,
-                         GUIObject* object);
+    WidgetPtr addWidget(const std::string& name,
+                         WidgetPtr object);
 
     template<typename T>
-    T* getObject(const std::string& name);
+    T* getWidget(const std::string& name);
 
 protected:
-    GUIObject* findObject(const std::string& name);
+    WidgetPtr findWidget(const std::string& name);
 private:
     MedievalEngine* mEngine;
     bool mIsVisible;
     bool mIsActive;
-    std::vector<ObjectWrapper> mObjects;
+
+    std::map<std::string, WidgetPtr> mWidgets;
 };
 
 template<typename T>
-T* GUI::getObject(const std::string& name) {
-    return static_cast<T*>(findObject(name));
+T* GUI::getWidget(const std::string& name) {
+    return static_cast<T*>(findWidget(name).get());
 }
 
 

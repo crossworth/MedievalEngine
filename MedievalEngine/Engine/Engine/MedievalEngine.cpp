@@ -105,7 +105,7 @@ void MedievalEngine::run() {
         Event event;
         while(mWindow.pollEvent(event)) {
             mGameStateManager.handleEvents(event);
-            mGUI.handleEvents(event, mWindow);
+            mGUI.handleEvents(event);
         }
 
         mGameStateManager.update();

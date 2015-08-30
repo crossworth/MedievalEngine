@@ -12,11 +12,10 @@
 // NOTE(Pedro): Since We are using lambda functions, We require C++11
 // Since #define is a preprocessor We can use this Way (where it's don't know about the class yet)
 #define EMPTY_VOID_CALLBACK [](void) {}
-#define EMPTY_OBJECT_CALLBACK [](ObjectWrapper* object) {}
 
 namespace ME {
 
-class ObjectWrapper;
+class Widget;
 
 typedef char MEByte;
 
@@ -27,7 +26,7 @@ typedef std::int64_t MEInt64;
 typedef std::uint64_t MEUInt64;
 
 typedef std::function<void(void)> VoidCallback;
-typedef std::function<void(ObjectWrapper* object)> ObjectWrapperCallback;
+typedef std::function<void(Widget*)> WidgetCallback;
 
 const MEInt32 ME_MAX_FILE_NAME = 255;
 const MEInt32 ME_MAX_DAT_FILES = 10000;

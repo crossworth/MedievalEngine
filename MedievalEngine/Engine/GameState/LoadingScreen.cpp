@@ -31,20 +31,37 @@ void LoadingScreen::init() {
     marioSptAn->setPosition(Vect2f((winSize.x/2)-(marioSptAn->getSize().x/2),
     winSize.y-marioSptAn->getSize().y));
 
-
     idBackground            = mAssets->createShape(winSize);
     Shape* mShapeBackground = mAssets->getResource<Shape>(idBackground);
 
     mShapeBackground->setColor(Color::DODGER_BLUE);
 
-    mEngine->getGUI()->addObject("engine_title", new TextObject("Opção", 72));
-    mEngine->getGUI()->addObject("button_iniciar", new ButtonObject("Iniciar", Vect2f(mEngine->getWindow()->getSize().x - 150.f, mEngine->getWindow()->getSize().y - 200.f)));
-    mEngine->getGUI()->addObject("button_opcoes", new ButtonObject("Opções", Vect2f(mEngine->getWindow()->getSize().x - 150.f, mEngine->getWindow()->getSize().y - 160.f)));
-    mEngine->getGUI()->addObject("button_sair", new ButtonObject("Sair", Vect2f(mEngine->getWindow()->getSize().x - 150.f, mEngine->getWindow()->getSize().y - 120.f)));
-    mEngine->getGUI()->addObject("debugger_info", new TextScrollListObject());
 
-    mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText("teste");
-    mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText("teste segunda linha");
+    TextWidgetPtr engineTitle = TextWidgetPtr(new TextWidget("Medieval Engine Title", 65));
+    GUIEventPtr titleEvent = GUIEventPtr(new GUIEvent());
+
+    titleEvent->setOnMouseOver([](Widget* widget) {
+        widget->setColor(Color::YELLOW);
+    });
+
+
+    titleEvent->setOnMouseOut([](Widget* widget) {
+        widget->setColor(Color::WHITE);
+    });
+
+    engineTitle->addEventHandle(titleEvent);
+
+    mEngine->getGUI()->addWidget("engine_title", engineTitle);
+
+
+
+    mEngine->getGUI()->addWidget("button_iniciar", ButtonWidgetPtr(new ButtonWidget("Iniciar", Vect2f(mEngine->getWindow()->getSize().x - 150.f, mEngine->getWindow()->getSize().y - 200.f))));
+    mEngine->getGUI()->addWidget("button_opcoes", ButtonWidgetPtr(new ButtonWidget("Opções", Vect2f(mEngine->getWindow()->getSize().x - 150.f, mEngine->getWindow()->getSize().y - 160.f))));
+    mEngine->getGUI()->addWidget("button_sair", ButtonWidgetPtr(new ButtonWidget("Sair", Vect2f(mEngine->getWindow()->getSize().x - 150.f, mEngine->getWindow()->getSize().y - 120.f))));
+    mEngine->getGUI()->addWidget("debugger_info", TextListWidgetPtr(new TextListWidget()));
+
+    mEngine->getGUI()->getWidget<TextListWidget>("debugger_info")->addText("teste");
+
 
     c = 0;
 }
@@ -75,11 +92,11 @@ void LoadingScreen::handleEvents(Event& evt) {
 
         if (evt.key.code == Keyboard::Space) {
             std::string tmp("teste outra linha" + Kit::int_str(c++));
-            mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->addText(tmp);
+            mEngine->getGUI()->getWidget<TextListWidget>("debugger_info")->addText(tmp);
         }
 
         if (evt.key.code == Keyboard::A) {
-            mEngine->getGUI()->getObject<TextScrollListObject>("debugger_info")->setTextAutoScroll(true);
+            // mEngine->getGUI()->getWidget<TextListWidget>("debugger_info")->setTextAutoScroll(true);
         }
 
 

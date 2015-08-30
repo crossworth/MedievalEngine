@@ -6,6 +6,8 @@
 
 namespace ME {
 
+class Window;
+
 class Mouse {
 public:
 
@@ -26,7 +28,7 @@ public:
 
     static bool isButtonPressed(Mouse::Button button);
     static Vect2i getPosition();
-    static Vect2i getPosition(sf::Window& window);
+    static Vect2i getPosition(Window* window);
     static void setPosition(const Vect2i& position);
 };
 

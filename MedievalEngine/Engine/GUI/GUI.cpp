@@ -12,47 +12,36 @@ void GUI::registerEngine(MedievalEngine* engine) {
 }
 
 void GUI::draw(Window& window) {
-    if (mIsVisible) {
-        for(unsigned int i = 0; i < mObjects.size(); i++) {
-            mObjects[i].object->draw(window);
+    if (isVisible()) {
+        for(auto it = mWidgets.begin(); it != mWidgets.end(); it++) {
+            if ((*it).second->isVisible()) {
+                (*it).second->draw(window);
+            }   
         }
     }
 }
 
-void GUI::handleEvents(Event evt, Window& window) {
-    if (mIsActive) {
-        for(unsigned int i = 0; i < mObjects.size(); i++) {
-            mObjects[i].object->handleEvents(evt, window);
-        }
+void GUI::handleEvents(Event evt) {
+    if (this->isActive()) {
 
-        Vect2i mousePos = Mouse::getPosition(*window.getWindowPtr());
+        Vect2i mousePos = Mouse::getPosition(mEngine->getWindow());
 
-        for(unsigned int i = 0; i < mObjects.size(); i++) {
-            if (mObjects[i].object->getGlobalBounds().contains(mousePos)) {
-                mObjects[i].isMouseOver = true;
-                mObjects[i].object->onMouseOver(evt, window);
-            }
-
-            if (mObjects[i].object->getGlobalBounds().contains(mousePos) &&
-                Mouse::isButtonPressed(Mouse::Button::Left) ) {
-                mObjects[i].object->onClick(evt, window);
-            }
-
-            if (!(mObjects[i].object->getGlobalBounds().contains(mousePos)) &&
-                mObjects[i].isMouseOver) {
-                mObjects[i].isMouseOver = false;
-                mObjects[i].object->onMouseOut(evt, window);
-            }
+        for(auto it = mWidgets.begin(); it != mWidgets.end(); it++) {
+            if ((*it).second->isActive()) {
+                (*it).second->handleEvents(evt);
+            }    
         }
     }
 }
 
 void GUI::show() {
     mIsVisible = true;
+    LOG << Log::VERBOSE << "[GUI::show]" << std::endl;
 }
 
 void GUI::hide() {
     mIsVisible = false;
+    LOG << Log::VERBOSE << "[GUI::hide]" << std::endl;
 }
 
 void GUI::play() {
@@ -74,41 +63,35 @@ bool GUI::isVisible() {
 }
 
 void GUI::update() {
-    if (mIsActive) {
-        for(unsigned int i = 0; i < mObjects.size(); i++) {
-            mObjects[i].object->update();
+    if (isActive()) {
+        for(auto it = mWidgets.begin(); it != mWidgets.end(); it++) {
+            (*it).second->update();
         }
     }
 }
 
-GUIObject* GUI::addObject(const std::string& name, GUIObject* object) {
-   if (findObject(name) != nullptr) {
-       return findObject(name);
+WidgetPtr GUI::addWidget(const std::string& name, WidgetPtr object) {
+   if (findWidget(name) != nullptr) {
+       return findWidget(name);
    }
 
-    object->registerAssetsManager(mEngine->getResourceManager());
-    object->init();
+    mWidgets[name] = object;
+    mWidgets[name]->registerResourceManager(mEngine->getResourceManager());
+    mWidgets[name]->registerWindow(mEngine->getWindow());
+    mWidgets[name]->init();
 
-    ObjectWrapper objTmp;
-    objTmp.name        = name;
-    objTmp.object      = object;
-    objTmp.isMouseOver = false;
-
-    mObjects.push_back(objTmp);
-    LOG << Log::VERBOSE << "[GUI::addObject] GUI Object " + object->getType()
+    LOG << Log::VERBOSE << "[GUI::addWidget] GUI Widget " + object->getType()
         <<  " " +  name + " added" << std::endl;
 
-    return mObjects[mObjects.size() - 1].object;
+    return mWidgets[name];
 }
 
-GUIObject* GUI::findObject(const std::string& name) {
-    for(unsigned int i = 0; i < mObjects.size(); i++) {
-        if (mObjects[i].name == name) {
-            return mObjects[i].object;
-        }
+WidgetPtr GUI::findWidget(const std::string& name) {
+    if (mWidgets.find(name) != mWidgets.end()) {
+        return mWidgets[name];
     }
 
-    LOG << Log::WARNING << "[GUI::findObject] GUI Object " +  name + " not found"
+    LOG << Log::WARNING << "[GUI::findWidget] GUI Widget " +  name + " not found"
         << std::endl;
 
     return nullptr;
