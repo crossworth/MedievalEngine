@@ -17,6 +17,17 @@ void GameStateManager::changeGameState(const std::string &name) {
         << "[GameStateManager::changeGameState] Change Game State: "
         << name.c_str() << std::endl;
 
+    // TODO(pedro): Fix this, this sould have some kind of oberserver to know when its allowed
+    // to change the game state and initialize the another game state
+
+    if (mGameStates.find(name) != mGameStates.end()) {
+        mCurrentGameState = name;
+        mGameStates[mCurrentGameState]->init();
+    } else {
+        LOG << Log::WARNING
+            << ("[GameStateManager::changeGameState] Game State not found: " + name).c_str()
+            << std::endl;
+    }
 }
 
 void GameStateManager::setGameState(const std::string &name) {

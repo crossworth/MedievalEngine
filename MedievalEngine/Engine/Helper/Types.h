@@ -11,7 +11,7 @@
 
 // NOTE(Pedro): Since We are using lambda functions, We require C++11
 // Since #define is a preprocessor We can use this Way (where it's don't know about the class yet)
-#define EMPTY_VOID_CALLBACK [](void) {}
+#define EMPTY_VOID_CALLBACK [] (void) {}
 
 namespace ME {
 

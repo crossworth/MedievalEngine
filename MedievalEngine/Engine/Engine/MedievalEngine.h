@@ -1,7 +1,7 @@
 #ifndef MEDIEVALENGINE_H
 #define MEDIEVALENGINE_H
+#include <algorithm>
 #include "Headers.h"
-
 
 namespace ME {
 
@@ -21,8 +21,9 @@ public:
     DATFile* getDATAFileHandle();
 
     ~MedievalEngine();
-private:
 
+    ResourceID gameFontID;
+private:
     int mErrorCode;
     Window mWindow;
     GUI mGUI;

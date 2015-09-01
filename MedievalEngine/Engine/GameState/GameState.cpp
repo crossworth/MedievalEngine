@@ -11,7 +11,8 @@ GameState::GameState() {
 }
 
 void GameState::registerEngine(MedievalEngine* engine) {
-    mEngine = engine;
+    mEngine    = engine;
+    mResources = engine->getResourceManager();
 }
 
 void GameState::play() {

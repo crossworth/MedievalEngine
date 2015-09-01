@@ -8,6 +8,7 @@
 namespace ME {
 
 class MedievalEngine;
+class ResourceManager;
 
 class GameState {
 public:
@@ -32,6 +33,7 @@ public:
     GAME_STATUS getCurrentStatus();
 protected:
     MedievalEngine* mEngine;
+    ResourceManager* mResources;
     void setCurrentStatus(const GameState::GAME_STATUS& status);
     bool mIsPlaying;
     bool mIsDone;

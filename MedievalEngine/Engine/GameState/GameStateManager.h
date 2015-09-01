@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include "GameState/LoadingScreen.h"
+#include "GameState/MenuScreen.h"
 
 
 namespace  ME {

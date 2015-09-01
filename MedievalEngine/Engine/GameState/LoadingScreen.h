@@ -2,7 +2,7 @@
 #define LOADINGSCREEN_H
 #include "Resources/ResourceIDGenerator.h"
 #include "GameState/GameState.h"
-
+#include "Helper/Clock.h"
 
 namespace ME {
 
@@ -16,11 +16,20 @@ public:
     void update();
     void handleEvents(Event& evt);
 private:
-    ResourceID idBackground;
-    ResourceID spriteMario;
+    ResourceID sceneBackgroundID;
+    ResourceID sceneTextLoading;
+    ResourceID textMessageScreen;
+    ResourceID textLoadingScreen;
 
-    // TODO(Pedro): remove this
-    int c;
+    bool fadeTextInit;
+    int counter;
+
+    Clock mClock;
+
+
+    // TODO(pedro): remvoe this in the future
+    Clock mFakeLoadingTime;
+    bool isChangeState;
 };
 
 }

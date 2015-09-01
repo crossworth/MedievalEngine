@@ -5,6 +5,7 @@
 #include "Graphics/WindowInfo.h"
 #include "Graphics/Drawable.h"
 #include "Helper/Vect2.h"
+#include "Helper/Clock.h"
 
 
 namespace ME {
@@ -31,6 +32,7 @@ public:
     void display();
 
     sf::RenderWindow* getWindowPtr();
+    unsigned int getDelta();
 
     WindowInfo* getWindowInfo();
 
@@ -41,6 +43,7 @@ protected:
 private:
     sf::RenderWindow *mWindow;
     WindowInfo mWindowInfo;
+    Clock mClock;
 };
 
 }

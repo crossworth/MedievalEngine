@@ -37,7 +37,11 @@ void Window::create(const WindowInfo& info) {
     mWindowInfo.windowName   = info.windowName;
 
     LOG << Log::VERBOSE << "[Window::create] Window created" << std::endl;
+    mClock.restart();
+}
 
+unsigned int Window::getDelta() {
+    return mClock.getTime();
 }
 
 bool Window::isValidWindow(const WindowInfo& info) {
@@ -51,6 +55,7 @@ bool Window::isValidWindow(const WindowInfo& info) {
 
 void Window::clear() {
     mWindow->clear();
+    mClock.restart();
 }
 
 void Window::draw(Drawable* obj) {

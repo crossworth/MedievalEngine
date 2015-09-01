@@ -52,6 +52,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     mWindow.create(windowInfo);
 
     if (iconName != "") {
+        iconName.erase(remove(iconName.begin(), iconName.end(), ' '), iconName.end());
         mWindow.setIcon(iconName);
     }
 
@@ -87,13 +88,16 @@ void MedievalEngine::init() {
         return;
     }
 
+    gameFontID = mResourceManager.loadFont("menu/pentagrams.ttf");
+
     LOG << Log::VERBOSE << "[MedievalEngine::init]" << std::endl;
     mGUI.registerEngine(this);
 
     mGameStateManager.add("loading", new LoadingScreen(this));
+    mGameStateManager.add("menu", new MenuScreen(this));
     mGameStateManager.getGameState("loading")->registerEngine(this);
+    mGameStateManager.getGameState("menu")->registerEngine(this);
     mGameStateManager.setGameState("loading");
-
 }
 
 void MedievalEngine::run() {
