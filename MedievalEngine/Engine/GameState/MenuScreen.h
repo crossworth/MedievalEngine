@@ -3,6 +3,7 @@
 #include "Resources/ResourceIDGenerator.h"
 #include "GameState/GameState.h"
 #include "Helper/Clock.h"
+#include "GUI/GUI.h"
 
 namespace ME {
 
@@ -15,15 +16,20 @@ public:
     void onPlaying(Window& window);
     void update();
     void handleEvents(Event& evt);
+    ~MenuScreen();
 private:
     ResourceID sceneBackgroundID;
     ResourceID backgroundOptionsID;
     ResourceID logoID;
-    ResourceID optNewGameID;
-    ResourceID optContinueID;
-    ResourceID optMultiplayerID;
-    ResourceID optOptionsID;
-    ResourceID optExitID;
+
+    unsigned int mFadeTime;
+
+
+    TextWidget* mNewGame;
+    TextWidget* mContinue;
+    TextWidget* mMultiplayer;
+    TextWidget* mOptions;
+    TextWidget* mExit;
 };
 
 }

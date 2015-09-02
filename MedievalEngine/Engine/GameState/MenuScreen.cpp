@@ -25,14 +25,7 @@ void MenuScreen::init() {
     ResourceID txtLogo = mResources->loadTexture("menu/title_menu.png");
     logoID = mResources->createSprite(txtLogo);
 
-    optNewGameID = mResources->createText("New Game", 15, mEngine->gameFontID);
-    optContinueID = mResources->createText("Continue", 15, mEngine->gameFontID);
-    optMultiplayerID = mResources->createText("Multiplayer", 15, mEngine->gameFontID);
-    optOptionsID = mResources->createText("Options", 15, mEngine->gameFontID);
-    optExitID = mResources->createText("Exit", 15, mEngine->gameFontID);
-
-
-
+    Sprite* logoSprite = mResources->getResource<Sprite>(logoID);
     Sprite* bgSprite = mResources->getResource<Sprite>(sceneBackgroundID);
     
     Vect2f ratio(0.f, 0.f);
@@ -44,24 +37,69 @@ void MenuScreen::init() {
 
     Sprite* bgMenuSprite = mResources->getResource<Sprite>(backgroundOptionsID);
     bgMenuSprite->setOriginCenter();
+    logoSprite->setOriginCenter();
 
     Vect2f bgMenuSize = bgMenuSprite->getSize();
 
     bgMenuSprite->setSize(Vect2f(bgMenuSize.x * ratio.x, bgMenuSize.y * ratio.y));
     bgMenuSprite->setPosition(Vect2f(winSize.x - ( bgMenuSprite->getSize().x / 2 ), winSize.y / 2 ));
 
+    Vect2f logoSize = logoSprite->getSize();
+    logoSprite->setSize(Vect2f(logoSize.x * ratio.x, logoSize.y * ratio.y));
+
+
+    Vect2f logoPosition(bgMenuSprite->getPosition());
+    logoPosition.y = bgMenuSprite->getSize().y * 0.35f;
+
+    logoSprite->setPosition(logoPosition);
+
+
+    logoPosition.x = logoPosition.x - bgMenuSprite->getSize().x / 4;
+
+    float paddingVerticalText = 40.f;
+
+    logoPosition.y = logoPosition.y + paddingVerticalText;
+    mEngine->getGUI()->addWidget("new_game_btn", TextWidgetPtr(new TextWidget("New Game", 35, logoPosition, mEngine->gameFontID)));
+    mNewGame = mEngine->getGUI()->getWidget<TextWidget>("New Game");
+
+    logoPosition.y = logoPosition.y + paddingVerticalText;
+    mEngine->getGUI()->addWidget("continue_bt", TextWidgetPtr(new TextWidget("Continue", 35, logoPosition, mEngine->gameFontID)));
+    mContinue = mEngine->getGUI()->getWidget<TextWidget>("Continue");
+
+    logoPosition.y = logoPosition.y + paddingVerticalText;
+    mEngine->getGUI()->addWidget("multiplayer_btn", TextWidgetPtr(new TextWidget("Multiplayer", 35, logoPosition, mEngine->gameFontID)));
+    mMultiplayer = mEngine->getGUI()->getWidget<TextWidget>("Multiplayer");
+
+    logoPosition.y = logoPosition.y + paddingVerticalText;
+    mEngine->getGUI()->addWidget("options_btn", TextWidgetPtr(new TextWidget("Options", 35, logoPosition, mEngine->gameFontID)));
+    mOptions = mEngine->getGUI()->getWidget<TextWidget>("Options");
+
+    logoPosition.y = logoPosition.y + paddingVerticalText;
+    mEngine->getGUI()->addWidget("exit_btn", TextWidgetPtr(new TextWidget("Exit", 35, logoPosition, mEngine->gameFontID)));
+    mExit = mEngine->getGUI()->getWidget<TextWidget>("Exit");
+
+
+    // mNewGame->setColor(Color::BLACK);
+    // mContinue->setColor(Color::BLACK);
+    // mMultiplayer->setColor(Color::BLACK);
+    // mOptions->setColor(Color::BLACK);
+    // mExit->setColor(Color::BLACK);
 
 
     // TODO(pedro): Set the text positions, BUT USE GUI Objects!
+    mFadeTime = 1000;
 
-
+    mResources->getResource<Sprite>(sceneBackgroundID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
+    mResources->getResource<Sprite>(logoID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
+    mResources->getResource<Sprite>(backgroundOptionsID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN, [this] (void) {
+        this->setCurrentStatus(GAME_STATUS::ON_PLAYING);    
+    }));
 }
 
 void MenuScreen::onEnable(Window &window) {
-    setCurrentStatus(GAME_STATUS::ON_PLAYING);
-
-    mResources->getResource<Sprite>(sceneBackgroundID)->addEffect(new Fade(1000, Fade::Type::FADEIN));
-    mResources->getResource<Sprite>(backgroundOptionsID)->addEffect(new Fade(1000, Fade::Type::FADEIN));
+    window.draw(mResources->getResource<Sprite>(sceneBackgroundID));
+    window.draw(mResources->getResource<Sprite>(backgroundOptionsID));
+    window.draw(mResources->getResource<Sprite>(logoID));
 }
 
 void MenuScreen::onDisable(Window &window) {
@@ -71,6 +109,8 @@ void MenuScreen::onDisable(Window &window) {
 void MenuScreen::onPlaying(Window &window) {
     window.draw(mResources->getResource<Sprite>(sceneBackgroundID));
     window.draw(mResources->getResource<Sprite>(backgroundOptionsID));
+    window.draw(mResources->getResource<Sprite>(logoID));
+
 }
 
 void MenuScreen::update() {
@@ -81,4 +121,11 @@ void MenuScreen::handleEvents(Event& evt) {
     if(evt.type == Event::Closed) {
         mEngine->getWindow()->close();
     }
+}
+
+
+MenuScreen::~MenuScreen() {
+    // TODO(pedro): See if this work's, since We are adding to the GUI object
+    // maybe We must release from the GUI Object... or maybe it's a shared_ptr
+
 }

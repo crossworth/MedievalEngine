@@ -14,7 +14,10 @@ class TextWidget : public Widget {
 public:
     TextWidget(const sf::String& text,
                const int& textSize,
-               const Vect2f& pos = Vect2f());
+               const Vect2f& pos = Vect2f(), const ResourceID& fontID = 0);
+
+    void setFont(const ResourceID& fontID);
+    ResourceID getFont();
 
     void init();
     void draw(Window& window);
@@ -34,11 +37,12 @@ public:
     Area getLocalBounds();
     Area getGlobalBounds();
 private:
+    ResourceID mFontID;
     ResourceID mTextID;
     Text* mTextRef;
     sf::String mText;
     int mTextSize;
-
+    
     bool mIsMouseOver;
 };
 

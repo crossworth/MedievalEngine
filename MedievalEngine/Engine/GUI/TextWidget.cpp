@@ -4,16 +4,37 @@ using namespace ME;
 
 TextWidget::TextWidget(const sf::String& text,
                        const int& textSize,
-                       const Vect2f& pos) {
+                       const Vect2f& pos, 
+                       const ResourceID& fontID) {
     mType        = "TextWidget";
     mPos         = pos;
     mText        = text;
     mTextSize    = textSize;
     mIsMouseOver = false;
+    mFontID      = fontID;
+
+}
+
+void TextWidget::setFont(const ResourceID& fontID) {
+    mFontID = fontID;
+}
+
+ResourceID TextWidget::getFont() {
+    if (mFontID != 0) {
+        return mFontID;
+    } else {
+        return mDefaultFontID;
+    }
 }
 
 void TextWidget::init() {
-    mTextID  = mResources->createText(mText, mTextSize, mDefaultFontID);
+    ResourceID textFont = mDefaultFontID;
+
+    if (mFontID != 0) {
+        textFont = mFontID;
+    }
+
+    mTextID  = mResources->createText(mText, mTextSize, textFont);
     mTextRef = mResources->getResource<Text>(mTextID);
     setPosition(mPos);
 }
