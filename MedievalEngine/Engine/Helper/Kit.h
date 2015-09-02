@@ -31,6 +31,7 @@ public:
 
     static std::string int_str(const int& i);
     static bool int_bool(const bool& b);
+
 };
 
 }

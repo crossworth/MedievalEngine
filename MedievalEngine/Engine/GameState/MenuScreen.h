@@ -17,6 +17,13 @@ public:
     void handleEvents(Event& evt);
 private:
     ResourceID sceneBackgroundID;
+    ResourceID backgroundOptionsID;
+    ResourceID logoID;
+    ResourceID optNewGameID;
+    ResourceID optContinueID;
+    ResourceID optMultiplayerID;
+    ResourceID optOptionsID;
+    ResourceID optExitID;
 };
 
 }

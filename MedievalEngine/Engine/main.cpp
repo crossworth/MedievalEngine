@@ -9,6 +9,17 @@
 * All the files are using ISO 8859-1 file enconding
 **/
 
+
+/**
+*   TODOS
+* - String manipulation class, so We can use something like Kit::getStr("loading_text")
+* - Some kind of normalization of the size of the images for diferentes screens
+*
+*
+*
+*
+**/
+
 int main(int argc, char** argv) {
     ProfileInit();
     ProfileStart();

@@ -19,7 +19,10 @@ void LoadingScreen::init() {
 
     Vect2f windowSize = mEngine->getWindow()->getSize();
 
-    sceneBGPtr->setSize(windowSize);
+    // NOTE(pedro): THIS IS WRONG, SHOULD NOT WORK!
+    // We should use the aspect ratio converter to specify the size
+
+    sceneBGPtr->setSize(windowSize); 
 
     textMessageScreen = mResources->createText("Eram pardos, todos nus, sem coisa alguma que lhes cobrisse suas vergonhas.\n Nas mãos traziam arcos com suas setas. Vinham todos rijamente sobre o batel;\n e Nicolau Coelho lhes fez sinal que pousassem os arcos. E eles pousaram.", 30, mEngine->gameFontID);
     textLoadingScreen = mResources->createText("Loading", 24, mEngine->gameFontID);
@@ -82,14 +85,17 @@ void LoadingScreen::update() {
         mClock.restart();
     }
 
-    if (mFakeLoadingTime.getTime() > 20000 && isChangeState == false) {
-        isChangeState = true;
-        // TODO(pedro): Here is an ideia, We could pass a void pointer
-        // and downcast inside the lambda function
-        mResources->getResource<Text>(textLoadingScreen)->addEffect(new Fade(5000, Fade::Type::FADEOUT));
-        mResources->getResource<Text>(textMessageScreen)->addEffect(new Fade(5000, Fade::Type::FADEOUT));
+    unsigned int delayTime = 1000;
 
-        mResources->getResource<Text>(sceneBackgroundID)->addEffect(new Fade(5000, Fade::Type::FADEOUT, [this] (void) {
+    if (mFakeLoadingTime.getTime() > delayTime && isChangeState == false) {
+        isChangeState = true;
+
+        unsigned int fadeTime = 500;
+
+        mResources->getResource<Text>(textLoadingScreen)->addEffect(new Fade(fadeTime, Fade::Type::FADEOUT));
+        mResources->getResource<Text>(textMessageScreen)->addEffect(new Fade(fadeTime, Fade::Type::FADEOUT));
+
+        mResources->getResource<Text>(sceneBackgroundID)->addEffect(new Fade(fadeTime, Fade::Type::FADEOUT, [this] (void) {
             this->mEngine->getGameStateManager()->changeGameState("menu");
         }));   
     }

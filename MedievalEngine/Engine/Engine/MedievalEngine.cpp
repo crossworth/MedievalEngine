@@ -11,8 +11,6 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
         mConfigurations.readFile(ENGINE_DEFAULTS::CONFIG_FILE);
     }
 
-    // TODO(Pedro): teste
-
     WindowInfo windowInfo;
 
     std::string width;
