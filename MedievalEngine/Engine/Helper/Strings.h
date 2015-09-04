@@ -1,0 +1,20 @@
+#ifndef STRINGS_H
+#define STRINGS_H
+#include <map>
+#include <SFML/System/String.hpp>
+#include "Helper/CFGParser.h"
+
+namespace ME {
+
+class Strings {
+public:
+    static bool openLanguageFile(const std::string& lenguageFile);
+    static sf::String get(const std::string& name);
+private:
+    Strings();
+    static std::map<std::string, std::string> mStrings;
+};
+
+}
+
+#endif // STRINGS_H

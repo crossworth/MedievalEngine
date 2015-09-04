@@ -19,6 +19,8 @@ public:
     std::string getKey(std::string key);
     bool keyExists(std::string& key);
     void clear();
+
+    std::map<std::string, std::string> getContents();
 private:
     std::string mFileName;
     std::map<std::string, std::string> mContents;

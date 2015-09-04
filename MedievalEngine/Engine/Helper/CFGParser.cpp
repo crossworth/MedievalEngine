@@ -90,6 +90,10 @@ CFGParser::CFGParser(const std::string& configFile) {
     this->readFile(configFile);
 }
 
+std::map<std::string, std::string> CFGParser::getContents() {
+    return mContents;
+}
+
 bool CFGParser::validateLine(std::string& line){
     if (line.empty()) {
         return false;

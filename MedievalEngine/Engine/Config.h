@@ -29,6 +29,9 @@ namespace ENGINE_DEFAULTS {
 
     const std::string SHADER_PATH = ASSETS_PATH + "shaders/";
 
+    const std::string LANG_PATH = DATA_PATH + "lang/";
+    const std::string LANGUAGE  = "english.lang";
+
     const std::string CONFIG_FILE     = DATA_PATH + "config.cfg";
     const std::string DEFAULT_DATFILE = "base.dat";
 

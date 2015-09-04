@@ -59,23 +59,24 @@ void MenuScreen::init() {
     float paddingVerticalText = 40.f;
 
     logoPosition.y = logoPosition.y + paddingVerticalText;
-    mGUI.addWidget("new_game_btn", TextWidgetPtr(new TextWidget("New Game", 35, logoPosition, mEngine->gameFontID)));
+    mGUI.addWidget("new_game_btn", TextWidgetPtr(new TextWidget(Strings::get("new_game"), 35, logoPosition, mEngine->gameFontID)));
+
     mNewGame = mGUI.getWidget<TextWidget>("new_game_btn");
 
     logoPosition.y = logoPosition.y + paddingVerticalText;
-    mGUI.addWidget("continue_bt", TextWidgetPtr(new TextWidget("Continue", 35, logoPosition, mEngine->gameFontID)));
+    mGUI.addWidget("continue_bt", TextWidgetPtr(new TextWidget(Strings::get("continue"), 35, logoPosition, mEngine->gameFontID)));
     mContinue = mGUI.getWidget<TextWidget>("continue_bt");
 
     logoPosition.y = logoPosition.y + paddingVerticalText;
-    mGUI.addWidget("multiplayer_btn", TextWidgetPtr(new TextWidget("Multiplayer", 35, logoPosition, mEngine->gameFontID)));
+    mGUI.addWidget("multiplayer_btn", TextWidgetPtr(new TextWidget(Strings::get("multiplayer"), 35, logoPosition, mEngine->gameFontID)));
     mMultiplayer = mGUI.getWidget<TextWidget>("multiplayer_btn");
 
     logoPosition.y = logoPosition.y + paddingVerticalText;
-    mGUI.addWidget("options_btn", TextWidgetPtr(new TextWidget("Options", 35, logoPosition, mEngine->gameFontID)));
+    mGUI.addWidget("options_btn", TextWidgetPtr(new TextWidget(Strings::get("options"), 35, logoPosition, mEngine->gameFontID)));
     mOptions = mGUI.getWidget<TextWidget>("options_btn");
 
     logoPosition.y = logoPosition.y + paddingVerticalText;
-    mGUI.addWidget("exit_btn", TextWidgetPtr(new TextWidget("Exit", 35, logoPosition, mEngine->gameFontID)));
+    mGUI.addWidget("exit_btn", TextWidgetPtr(new TextWidget(Strings::get("exit"), 35, logoPosition, mEngine->gameFontID)));
     mExit = mGUI.getWidget<TextWidget>("exit_btn");
 
 
@@ -85,6 +86,16 @@ void MenuScreen::init() {
     mOptions->setColor(Color::BLACK);
     mExit->setColor(Color::BLACK);
 
+
+    GUIEventPtr mExitEvent = GUIEventPtr(new GUIEvent());
+    mExitEvent->setOnClick([this](Widget* widget) {
+        // TODO(Pedro): Cleanup everything on the engine close event
+        // including all the GUI releated stuff and game state
+        // maybe do some exit animation
+        this->mEngine->close();
+    });
+
+    mExit->addEventHandle(mExitEvent);
 
     // TODO(pedro): Set the text positions, BUT USE GUI Objects!
     mFadeTime = 1000;

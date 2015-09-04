@@ -15,7 +15,6 @@ namespace ME {
 
 class Widget;
 
-typedef std::shared_ptr<GUIEvent> GUIEventPtr;
 typedef std::shared_ptr<Widget> WidgetPtr;
 
 class Widget {

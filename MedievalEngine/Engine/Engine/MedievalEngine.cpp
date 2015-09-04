@@ -3,7 +3,7 @@
 using namespace ME;
 
 MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
-    mErrorCode(0) {
+    mErrorCode(0), gameFontID(0) {
 
     if (mArguments.hasArgument("config")) {
         mConfigurations.readFile(mArguments.getArgument("config"));
@@ -19,6 +19,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     std::string fullScreen;
     std::string windowName;
     std::string iconName;
+    std::string language;
 
     bitsPerPixel = mConfigurations.getKey("bits_per_pixel");
     height       = mConfigurations.getKey("height");
@@ -26,6 +27,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     fullScreen   = mConfigurations.getKey("fullscreen");
     windowName   = mConfigurations.getKey("engine_name");
     iconName     = mConfigurations.getKey("icon");
+    language     = mConfigurations.getKey("language");
 
     if(bitsPerPixel != "") {
         windowInfo.bitsPerPixel = Kit::str_int(bitsPerPixel);
@@ -46,6 +48,22 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     if (windowName != "") {
         windowInfo.windowName = windowName;
     }
+
+    if (language == "") {
+        language = ENGINE_DEFAULTS::LANGUAGE;
+    }
+
+    if (!Strings::openLanguageFile(ENGINE_DEFAULTS::LANG_PATH + language)) {
+        if (!Strings::openLanguageFile(ENGINE_DEFAULTS::LANG_PATH + ENGINE_DEFAULTS::LANGUAGE)) {
+            LOG << Log::CRITICAL
+                << "[MedievalEngine::MedievalEngine] Could not open the language pack "
+                << language << std::endl;
+
+            mWindow.close();
+            mErrorCode = 3;
+        }
+    }
+
 
     mWindow.create(windowInfo);
 
@@ -86,7 +104,11 @@ void MedievalEngine::init() {
         return;
     }
 
-    gameFontID = mResourceManager.loadFont("menu/pentagrams.ttf");
+    if (mConfigurations.getKey("game_font") != "") {
+        gameFontID = mResourceManager.loadFont(mConfigurations.getKey("game_font"));
+    } else {
+        gameFontID = Font::DEFAULT_FONT;
+    }
 
     LOG << Log::VERBOSE << "[MedievalEngine::init]" << std::endl;
 

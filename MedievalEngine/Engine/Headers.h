@@ -18,6 +18,7 @@
 #include "Helper/Color.h"
 #include "Helper/ColorGradient.h"
 #include "Helper/ArgumentsParser.h"
+#include "Helper/Strings.h"
 
 #include "Resources/ResourceIDGenerator.h"
 #include "Resources/ResourceManager.h"

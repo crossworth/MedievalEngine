@@ -7,7 +7,7 @@ namespace ME {
 
 class MedievalEngine {
 public:
-    MedievalEngine(int argc, char **argv);
+    MedievalEngine(int argc, char** argv);
     void init();
     void run();
     void close();
