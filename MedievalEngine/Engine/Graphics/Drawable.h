@@ -14,6 +14,7 @@
 namespace ME {
 
 class Effect;
+class Window;
 
 typedef std::shared_ptr<Effect> EffectPtr;
 
@@ -22,6 +23,7 @@ public:
     Drawable();
     virtual ~Drawable();
 
+    virtual void draw(Window& window);
     virtual void draw(sf::RenderWindow* renderWindow) = 0;
 
     virtual void setPosition(const Vect2f &pos) = 0;
@@ -44,6 +46,9 @@ public:
     virtual void setOrigin(const Vect2f &origin) = 0;
     void setOriginCenter();
 
+    virtual Area getLocalBounds() = 0;
+    virtual Area getGlobalBounds() = 0;
+
     void setOpacity(float opacity);
     float getOpacity();
 
@@ -56,8 +61,7 @@ public:
     void removeEffect(std::string effectType);
     void removeAllEffects();
 
-    virtual Area getLocalBounds() = 0;
-    virtual Area getGlobalBounds() = 0;
+    virtual bool getWindowClass();
 protected:
     sf::RenderStates* updateEffects();
     sf::RenderStates* mRenderStates;

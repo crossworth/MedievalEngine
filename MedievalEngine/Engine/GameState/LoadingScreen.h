@@ -27,7 +27,7 @@ private:
     Clock mClock;
 
 
-    // TODO(pedro): remvoe this in the future
+    // TODO(pedro): remove this in the future
     Clock mFakeLoadingTime;
     bool isChangeState;
 };

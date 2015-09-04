@@ -1,5 +1,5 @@
-#include "GUI.h"
 #include <Engine/MedievalEngine.h>
+#include "GUI.h"
 
 using namespace ME;
 
@@ -16,7 +16,7 @@ void GUI::draw(Window& window) {
         for(auto it = mWidgets.begin(); it != mWidgets.end(); it++) {
             if ((*it).second->isVisible()) {
                 (*it).second->draw(window);
-            }   
+            }
         }
     }
 }
@@ -29,7 +29,7 @@ void GUI::handleEvents(Event evt) {
         for(auto it = mWidgets.begin(); it != mWidgets.end(); it++) {
             if ((*it).second->isActive()) {
                 (*it).second->handleEvents(evt);
-            }    
+            }
         }
     }
 }
@@ -95,4 +95,87 @@ WidgetPtr GUI::findWidget(const std::string& name) {
         << std::endl;
 
     return nullptr;
+}
+
+void GUI::draw(sf::RenderWindow* renderWindow) {
+    // Do nothing since We require an Window object and not a renderWindow
+}
+
+void GUI::setPosition(const Vect2f& pos) {
+    mRelativePostion = pos;
+}
+
+Vect2f GUI::getPosition() {
+    return mRelativePostion;
+}
+
+void GUI::move(const Vect2f& pos) {
+    mRelativePostion = Vect2f(mRelativePostion.x + pos.x , mRelativePostion.y + pos.y);
+
+}
+
+void GUI::setSize(const Vect2f& size) {
+    mRelativeSize = size;
+
+}
+
+Vect2f GUI::getSize() {
+    return mRelativeSize;
+}
+
+void GUI::setScale(const Vect2f& scale) {
+    mRelativeScale = scale;
+
+}
+
+Vect2f GUI::getScale() {
+	return mRelativeScale;
+}
+
+void GUI::setColor(const Color &color) {
+    mRelativeColor = color;
+
+    for(auto it = mWidgets.begin(); it != mWidgets.end(); it++) {
+        (*it).second->setColor(mRelativeColor);
+    }
+}
+
+Color GUI::getColor() {
+    return mRelativeColor;
+}
+
+float GUI::getRotation() {
+    return mRelativeRotate;
+}
+
+void GUI::setRotation(const float& angle) {
+    mRelativeRotate = angle;
+
+}
+
+void GUI::rotate(const float& angle) {
+    // TODO(Pedro): implement this the right way
+    mRelativeRotate = angle;
+
+}
+
+Vect2f GUI::getOrigin() {
+    // TODO(Pedro): implement this the right way
+    return Vect2f(0.f, 0.f);
+}
+
+void GUI::setOrigin(const Vect2f& origin) {
+
+}
+
+Area GUI::getLocalBounds() {
+    return Area(0.f, 0.f, 1200.f, 700.f);
+}
+
+Area GUI::getGlobalBounds() {
+    return Area(0.f, 0.f, 1200.f, 700.f);
+}
+
+bool GUI::getWindowClass() {
+    return true;
 }

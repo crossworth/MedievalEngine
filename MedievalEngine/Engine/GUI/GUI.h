@@ -2,6 +2,7 @@
 #define GUI_H
 #include <map>
 #include <memory>
+#include "Graphics/Drawable.h"
 #include "GUI/TextWidget.h"
 #include "GUI/ButtonWidget.h"
 #include "GUI/TextListWidget.h"
@@ -9,9 +10,9 @@
 
 namespace ME {
 
-class MedievalEngine; 
+class MedievalEngine;
 
-class GUI {
+class GUI : public Drawable {
 public:
     GUI();
     void registerEngine(MedievalEngine* engine);
@@ -19,6 +20,32 @@ public:
     void draw(Window& window);
     void update();
     void handleEvents(Event evt);
+
+    void draw(sf::RenderWindow* renderWindow);
+
+    void setPosition(const Vect2f& pos);
+    Vect2f getPosition();
+    void move(const Vect2f& pos);
+
+    void setSize(const Vect2f& size);
+    Vect2f getSize();
+    void setScale(const Vect2f& scale);
+    Vect2f getScale();
+
+    void setColor(const Color &color);
+    Color getColor();
+
+    float getRotation();
+    void setRotation(const float& angle);
+    void rotate(const float& angle);
+
+    Vect2f getOrigin();
+    void setOrigin(const Vect2f& origin);
+
+    Area getLocalBounds();
+    Area getGlobalBounds();
+
+    bool getWindowClass();
 
     void show();
     void hide();
@@ -37,6 +64,12 @@ public:
 
 protected:
     WidgetPtr findWidget(const std::string& name);
+
+    Vect2f mRelativePostion;
+    Vect2f mRelativeSize;
+    Vect2f mRelativeScale;
+    float mRelativeRotate;
+    Color mRelativeColor;
 private:
     MedievalEngine* mEngine;
     bool mIsVisible;
@@ -49,7 +82,6 @@ template<typename T>
 T* GUI::getWidget(const std::string& name) {
     return static_cast<T*>(findWidget(name).get());
 }
-
 
 }
 

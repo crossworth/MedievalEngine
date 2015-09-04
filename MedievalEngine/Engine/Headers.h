@@ -32,8 +32,5 @@
 
 #include "GameState/GameStateManager.h"
 
-#include "GUI/GUI.h"
-
 
 #endif // HEADERS_H
-

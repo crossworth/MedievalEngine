@@ -13,6 +13,7 @@ GameState::GameState() {
 void GameState::registerEngine(MedievalEngine* engine) {
     mEngine    = engine;
     mResources = engine->getResourceManager();
+    mGUI.registerEngine(mEngine);
 }
 
 void GameState::play() {
@@ -40,4 +41,3 @@ GameState::GAME_STATUS GameState::getCurrentStatus() {
 void GameState::setCurrentStatus(const GameState::GAME_STATUS &status) {
     mCurrentStatus = status;
 }
-

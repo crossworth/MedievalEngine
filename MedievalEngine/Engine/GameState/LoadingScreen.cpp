@@ -22,7 +22,7 @@ void LoadingScreen::init() {
     // NOTE(pedro): THIS IS WRONG, SHOULD NOT WORK!
     // We should use the aspect ratio converter to specify the size
 
-    sceneBGPtr->setSize(windowSize); 
+    sceneBGPtr->setSize(windowSize);
 
     textMessageScreen = mResources->createText("Eram pardos, todos nus, sem coisa alguma que lhes cobrisse suas vergonhas.\n Nas mãos traziam arcos com suas setas. Vinham todos rijamente sobre o batel;\n e Nicolau Coelho lhes fez sinal que pousassem os arcos. E eles pousaram.", 30, mEngine->gameFontID);
     textLoadingScreen = mResources->createText("Loading", 24, mEngine->gameFontID);
@@ -38,20 +38,19 @@ void LoadingScreen::init() {
     textMessageScreenPtr->setPosition(Vect2f(windowSize.x / 2, windowSize.y / 2));
     textLoadingScreenPtr->setPosition(Vect2f(windowSize.x / 2, windowSize.y - (textLoadingScreenPtr->getSize().y * 4)));
 
-
     counter = 0;
 }
 
-void LoadingScreen::onEnable(Window &window) {
+void LoadingScreen::onEnable(Window& window) {
     setCurrentStatus(GAME_STATUS::ON_PLAYING);
     mClock.restart();
 }
 
-void LoadingScreen::onDisable(Window &window) {
+void LoadingScreen::onDisable(Window& window) {
 
 }
 
-void LoadingScreen::onPlaying(Window &window) {
+void LoadingScreen::onPlaying(Window& window) {
     window.draw(mResources->getResource<Sprite>(sceneBackgroundID));
     window.draw(mResources->getResource<Sprite>(textLoadingScreen));
 
@@ -97,7 +96,7 @@ void LoadingScreen::update() {
 
         mResources->getResource<Text>(sceneBackgroundID)->addEffect(new Fade(fadeTime, Fade::Type::FADEOUT, [this] (void) {
             this->mEngine->getGameStateManager()->changeGameState("menu");
-        }));   
+        }));
     }
 }
 

@@ -17,7 +17,6 @@ public:
     Window* getWindow();
     ResourceManager* getResourceManager();
     GameStateManager* getGameStateManager();
-    GUI* getGUI();
     DATFile* getDATAFileHandle();
 
     ~MedievalEngine();
@@ -26,7 +25,6 @@ public:
 private:
     int mErrorCode;
     Window mWindow;
-    GUI mGUI;
     ResourceManager mResourceManager;
     CFGParser mConfigurations;
     ArgumentsParser mArguments;

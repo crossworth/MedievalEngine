@@ -1,5 +1,6 @@
 #include "Drawable.h"
 #include "Effects/Effect.h"
+#include "Graphics/Window.h"
 
 using namespace ME;
 
@@ -9,6 +10,10 @@ Drawable::Drawable() : mIsEffectPlaying(true) {
 
 Drawable::~Drawable() {
     delete mRenderStates;
+}
+
+void Drawable::draw(Window& window) {
+    
 }
 
 void Drawable::addEffect(Effect* effect) {
@@ -111,4 +116,8 @@ void Drawable::setOpacity(float opacity) {
 float Drawable::getOpacity() {
     Color tmpColor = getColor();
     return static_cast<float>(tmpColor.alpha / 255.0f);
+}
+
+bool Drawable::getWindowClass() {
+    return false;
 }

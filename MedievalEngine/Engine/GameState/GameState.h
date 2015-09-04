@@ -3,7 +3,7 @@
 #include "LogInc.h"
 #include "Graphics/Window.h"
 #include "Events/Event.h"
-
+#include "GUI/GUI.h"
 
 namespace ME {
 
@@ -12,6 +12,7 @@ class ResourceManager;
 
 class GameState {
 public:
+    // TODO(Pedro): Fix the name of this enum, it's not in the stardard way
     enum GAME_STATUS {ON_ENABLE, ON_PLAYING, ON_DISABLE, ON_DONE};
 public:
     GameState();
@@ -34,6 +35,8 @@ public:
 protected:
     MedievalEngine* mEngine;
     ResourceManager* mResources;
+    GUI mGUI;
+    
     void setCurrentStatus(const GameState::GAME_STATUS& status);
     bool mIsPlaying;
     bool mIsDone;

@@ -60,7 +60,11 @@ void Window::clear() {
 
 void Window::draw(Drawable* obj) {
     assert(obj != nullptr);
-    obj->draw(mWindow);
+    if (obj->getWindowClass()) {
+        obj->draw(*this);
+    } else {
+        obj->draw(mWindow);
+    }
 }
 
 void Window::close() {
