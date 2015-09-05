@@ -69,7 +69,7 @@ Vect2f SpriteAnimation::getPosition() {
 }
 
 void SpriteAnimation::setSize(const Vect2f& size) {
-    mSprite.setScale(size.x / getSize().x, size.y / getSize().y);
+    mSprite.setScale(size.x/getLocalBounds().width, size.y/getLocalBounds().height);
 }
 
 Vect2f SpriteAnimation::getSize() {

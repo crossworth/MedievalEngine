@@ -128,7 +128,7 @@ Vect2f Text::getPosition() {
 }
 
 void Text::setSize(const Vect2f& size) {
-    mText.setScale(size.x/getSize().x, size.y/getSize().y);
+    mText.setScale(size.x/getLocalBounds().width, size.y/getLocalBounds().height);
 }
 
 Vect2f Text::getSize() {

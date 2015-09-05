@@ -52,7 +52,7 @@ Vect2f Sprite::getPosition() {
 }
 
 void Sprite::setSize(const Vect2f &size) {
-    mSprite.setScale(size.x/getSize().x, size.y/getSize().y);
+    mSprite.setScale(size.x/getLocalBounds().width, size.y/getLocalBounds().height);
 }
 
 Vect2f Sprite::getSize() {
