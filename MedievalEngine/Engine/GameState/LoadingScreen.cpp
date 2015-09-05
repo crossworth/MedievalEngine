@@ -23,8 +23,8 @@ void LoadingScreen::create() {
 
     Window::fullScreen(sceneBGPtr);
 
-    textMessageScreen = mResources->createText(Strings::get("loading_text"), Window::fontSize(0.3f), mEngine->gameFontID);
-    textLoadingScreen = mResources->createText(Strings::get("loading"), Window::fontSize(0.4f), mEngine->gameFontID);
+    textMessageScreen = mResources->createText(Strings::get("loading_text"), Window::fontSize(0.4f), mEngine->gameFontID);
+    textLoadingScreen = mResources->createText(Strings::get("loading"), Window::fontSize(0.45f), mEngine->gameFontID);
 
     Text* textMessageScreenPtr = mResources->getResource<Text>(textMessageScreen);
     Text* textLoadingScreenPtr = mResources->getResource<Text>(textLoadingScreen);

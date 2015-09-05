@@ -132,7 +132,7 @@ bool CFGParser::validateLine(std::string& line){
 std::string CFGParser::mGetKey(std::string line) {
     size_t pos = line.find("=");
 
-    line =  line.substr(0, pos);
+    line = line.substr(0, pos);
     pos  = line.find(" ");
     if (pos != (signed int)std::string::npos) {
         line = line.substr(0,pos);
@@ -141,6 +141,20 @@ std::string CFGParser::mGetKey(std::string line) {
 }
 
 std::string CFGParser::mGetValue(std::string line) {
-    size_t pos = line.find("=");
-    return line.substr(pos+1, line.size());
+    size_t pos         = line.find("=");
+    std::string result = line.substr(pos+1, line.size());
+
+
+    // trim
+    size_t first = result.find_first_not_of("\t ");
+    size_t last = result.find_last_not_of(' ');
+    result = result.substr(first, (last-first+1));
+
+    // Fix \n in file not been reconized
+    std::string::size_type posNewLine = 0;
+    while ((posNewLine = result.find("\\n", posNewLine)) != std::string::npos) {
+        result.replace(posNewLine, 2, " \n");
+    }
+
+    return result;
 }
