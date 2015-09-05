@@ -22,10 +22,10 @@ void LoadingScreen::init() {
     // NOTE(pedro): THIS IS WRONG, SHOULD NOT WORK!
     // We should use the aspect ratio converter to specify the size
 
-    sceneBGPtr->setSize(windowSize);
+    Window::fullScreen(sceneBGPtr);
 
-    textMessageScreen = mResources->createText("Eram pardos, todos nus, sem coisa alguma que lhes cobrisse suas vergonhas.\n Nas mãos traziam arcos com suas setas. Vinham todos rijamente sobre o batel;\n e Nicolau Coelho lhes fez sinal que pousassem os arcos. E eles pousaram.", 30, mEngine->gameFontID);
-    textLoadingScreen = mResources->createText("Loading", 24, mEngine->gameFontID);
+    textMessageScreen = mResources->createText(Strings::get("loading_text"), Window::fontSize(0.3f), mEngine->gameFontID);
+    textLoadingScreen = mResources->createText(Strings::get("loading"), Window::fontSize(0.4f), mEngine->gameFontID);
 
     Text* textMessageScreenPtr = mResources->getResource<Text>(textMessageScreen);
     Text* textLoadingScreenPtr = mResources->getResource<Text>(textLoadingScreen);
@@ -80,11 +80,11 @@ void LoadingScreen::update() {
             finalDots = finalDots + ".";
         }
 
-        textPtr->setString("Loading" + finalDots);
+        textPtr->setString(Strings::get("loading") + finalDots);
         mClock.restart();
     }
 
-    unsigned int delayTime = 2500;
+    unsigned int delayTime = 10500;
 
     if (mFakeLoadingTime.getTime() > delayTime && isChangeState == false) {
         isChangeState = true;

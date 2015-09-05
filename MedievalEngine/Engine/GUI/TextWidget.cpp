@@ -4,7 +4,7 @@ using namespace ME;
 
 TextWidget::TextWidget(const sf::String& text,
                        const int& textSize,
-                       const Vect2f& pos, 
+                       const Vect2f& pos,
                        const ResourceID& fontID) {
     mType        = "TextWidget";
     mPos         = pos;
@@ -51,6 +51,34 @@ Vect2f TextWidget::getSize() {
     return mTextRef->getSize();
 }
 
+void TextWidget::setSize(const Vect2f& size) {
+    mTextRef->setSize(size);
+}
+
+void TextWidget::setScale(const Vect2f& scale) {
+    mTextRef->setScale(scale);
+}
+
+Vect2f TextWidget::getScale() {
+    return mTextRef->getScale();
+}
+
+float TextWidget::getRotation() {
+    return mTextRef->getRotation();
+}
+
+void TextWidget::setRotation(const float& angle) {
+    mTextRef->setRotation(angle);
+}
+
+Vect2f TextWidget::getOrigin() {
+    return mTextRef->getOrigin();
+}
+
+void TextWidget::setOrigin(const Vect2f& origin) {
+    mTextRef->setOrigin(origin);
+}
+
 void TextWidget::setOpacity(const float& opacity) {
     mTextRef->setOpacity(opacity);
 }
@@ -89,19 +117,19 @@ void TextWidget::update() {
 
 void TextWidget::handleEvents(Event evt) {
 
-        Vect2i mousePos = Mouse::getPosition(getWindow());
+    Vect2i mousePos = Mouse::getPosition(getWindow());
 
-        if (getGlobalBounds().contains(mousePos)) {
-            mIsMouseOver = true;
-            notify(GUIEvent::Type::onMouseOver, this);
-        }
+    if (getGlobalBounds().contains(mousePos)) {
+        mIsMouseOver = true;
+        notify(GUIEvent::Type::onMouseOver, this);
+    }
 
-        if (getGlobalBounds().contains(mousePos) && Mouse::isButtonPressed(Mouse::Button::Left)) {
-            notify(GUIEvent::Type::onClick, this);   
-        }
+    if (getGlobalBounds().contains(mousePos) && Mouse::isButtonPressed(Mouse::Button::Left)) {
+        notify(GUIEvent::Type::onClick, this);
+    }
 
-        if (!(getGlobalBounds().contains(mousePos)) && mIsMouseOver) {
-            mIsMouseOver = false;
-            notify(GUIEvent::Type::onMouseOut, this);
-        }
+    if (!(getGlobalBounds().contains(mousePos)) && mIsMouseOver) {
+        mIsMouseOver = false;
+        notify(GUIEvent::Type::onMouseOut, this);
+    }
 }

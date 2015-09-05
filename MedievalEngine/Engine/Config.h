@@ -38,7 +38,8 @@ namespace ENGINE_DEFAULTS {
     const std::string DATFILE_SIGNATURE_NAME    = "Default Asset Pack";
     const std::string DATFILE_SIGNATURE_VERSION = "1.0.0";
 
-
+    const int BASE_WIDTH_SIZE  = 1920;
+    const int BASE_HEIGHT_SIZE = 1080;
 }
 
 /**

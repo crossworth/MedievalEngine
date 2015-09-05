@@ -1,6 +1,9 @@
 #include "Window.h"
+#include "GUI/Widget.h"
 
 using namespace ME;
+
+WindowInfo Window::mWindowInfo;
 
 Window::Window() {
     mWindow = new sf::RenderWindow();
@@ -8,6 +11,99 @@ Window::Window() {
 
 Window::~Window() {
     delete mWindow;
+}
+
+void Window::fullScreen(Drawable* object) {
+    Vect2f objectSize = object->getSize();
+
+    int minWin    = std::min(Window::mWindowInfo.width, Window::mWindowInfo.height);
+    float minSize = std::min(objectSize.x, objectSize.y);
+    float ratio   = minWin / minSize;
+
+    objectSize.x = objectSize.x * ratio;
+    objectSize.y = objectSize.y * ratio;
+
+    object->setSize(objectSize);
+}
+
+int Window::fontSize(const float& size) {
+    int minWin = std::min(Window::mWindowInfo.width, Window::mWindowInfo.height);
+
+    float sizeTmp = size;
+    if (sizeTmp > 1.f) {
+        sizeTmp = 1.f;
+    }
+
+    float fontSize = sizeTmp / 10.f;
+
+    return static_cast<int>(minWin * fontSize);
+}
+
+void Window::setRelative(Drawable* object) {
+    Vect2f objectSize = object->getSize();
+
+    int minWin    = std::min(Window::mWindowInfo.width, Window::mWindowInfo.height);
+    float minSize = static_cast<float>(std::min(ENGINE_DEFAULTS::BASE_WIDTH_SIZE,
+                                                ENGINE_DEFAULTS::BASE_HEIGHT_SIZE));
+    float ratio   = minWin / minSize;
+
+    objectSize.x = objectSize.x * ratio;
+    objectSize.y = objectSize.y * ratio;
+
+    object->setSize(objectSize);
+}
+
+void Window::setPosition(Drawable* object, const Window::Position& posX, const Window::Position& posY, Drawable* reference) {
+    Vect2f origin = object->getOriginRelative();
+
+    Vect2f position(0.f, 0.f);
+
+    float width  = static_cast<float>(Window::mWindowInfo.width);
+    float height = static_cast<float>(Window::mWindowInfo.height);
+
+    float baseX = 0.f;
+    float baseY = 0.f;
+
+
+    float paddingLeft   = Window::mWindowInfo.width * object->mPaddingLeft;
+    float paddingRight  = Window::mWindowInfo.width * object->mPaddingRight;
+    float paddingTop    = Window::mWindowInfo.height * object->mPaddingTop;
+    float paddingBottom = Window::mWindowInfo.height * object->mPaddingBottom;
+
+    if (reference != nullptr) {
+        Vect2f referenceSize = reference->getSize();
+        width  = referenceSize.x;
+        height = referenceSize.y;
+        baseX  = reference->getPosition().x;
+        baseY  = reference->getPosition().y;
+
+        paddingLeft   = referenceSize.x * object->mPaddingLeft;
+        paddingRight  = referenceSize.x * object->mPaddingRight;
+        paddingTop    = referenceSize.y * object->mPaddingTop;
+        paddingBottom = referenceSize.y * object->mPaddingBottom;
+    }
+
+    if (posX == Window::Position::Left) {
+        position.x = paddingLeft + baseX + 0.0f + origin.x;
+    } else if (posX == Window::Position::Right) {
+        position.x = paddingRight + baseX + width - object->getSize().x + origin.x;
+    } else if (posX == Window::Position::Center) {
+        position.x = baseX + ((width / 2) - (object->getSize().x / 2) + origin.x);
+    }
+
+    if (posY == Window::Position::Top) {
+        position.y = paddingTop + baseY + 0.0f + origin.y;
+    } else if (posY == Window::Position::Bottom) {
+        position.y = paddingBottom + baseY + height - object->getSize().y + origin.y;;
+    } else if (posY == Window::Position::Center) {
+        position.y = baseY + ((height / 2) - (object->getSize().y / 2) + origin.y);
+    }
+
+    object->setPosition(position);
+}
+
+void Window::setPosition(WidgetPtr object, const Window::Position& posX, const Window::Position& posY, Drawable* reference) {
+    Window::setPosition(object.get(), posX, posY, reference);
 }
 
 void Window::create(const WindowInfo& info) {
@@ -30,11 +126,11 @@ void Window::create(const WindowInfo& info) {
     // Deixa tela preta enquanto carrega o resto dos recursos e inicia os sistemas
     mWindow->clear();
 
-    mWindowInfo.bitsPerPixel = info.bitsPerPixel;
-    mWindowInfo.fullScreen   = info.fullScreen;
-    mWindowInfo.height       = info.height;
-    mWindowInfo.width        = info.width;
-    mWindowInfo.windowName   = info.windowName;
+    Window::mWindowInfo.bitsPerPixel = info.bitsPerPixel;
+    Window::mWindowInfo.fullScreen   = info.fullScreen;
+    Window::mWindowInfo.height       = info.height;
+    Window::mWindowInfo.width        = info.width;
+    Window::mWindowInfo.windowName   = info.windowName;
 
     LOG << Log::VERBOSE << "[Window::create] Window created" << std::endl;
     mClock.restart();
@@ -60,7 +156,7 @@ void Window::clear() {
 
 void Window::draw(Drawable* obj) {
     assert(obj != nullptr);
-    if (obj->getWindowClass()) {
+    if (obj->requireWindowObject()) {
         obj->draw(*this);
     } else {
         obj->draw(mWindow);
@@ -202,5 +298,5 @@ sf::RenderWindow* Window::getWindowPtr() {
 }
 
 WindowInfo* Window::getWindowInfo() {
-    return &mWindowInfo;
+    return &Window::mWindowInfo;
 }

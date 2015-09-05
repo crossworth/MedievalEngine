@@ -18,6 +18,8 @@ class Window;
 
 typedef std::shared_ptr<Effect> EffectPtr;
 
+enum Padding { Top, Bottom, Left, Right, All};
+
 class Drawable {
 public:
     Drawable();
@@ -26,24 +28,26 @@ public:
     virtual void draw(Window& window);
     virtual void draw(sf::RenderWindow* renderWindow) = 0;
 
-    virtual void setPosition(const Vect2f &pos) = 0;
+    virtual void setPosition(const Vect2f& pos) = 0;
     virtual Vect2f getPosition() = 0;
-    virtual void move(const Vect2f &pos) = 0;
+    virtual void move(const Vect2f& pos);
 
-    virtual void setSize(const Vect2f &size) = 0;
+    virtual void setSize(const Vect2f& size) = 0;
     virtual Vect2f getSize() = 0;
-    virtual void setScale(const Vect2f &scale) = 0;
+    virtual void setScale(const Vect2f& scale) = 0;
     virtual Vect2f getScale() = 0;
 
-    virtual void setColor(const Color &color) = 0;
+    virtual void setColor(const Color& color) = 0;
     virtual Color getColor() = 0;
 
     virtual float getRotation() = 0;
-    virtual void setRotation(const float &angle) = 0;
-    virtual void rotate(const float &angle) = 0;
+    virtual void setRotation(const float& angle) = 0;
+    virtual void rotate(const float& angle);
 
     virtual Vect2f getOrigin() = 0;
-    virtual void setOrigin(const Vect2f &origin) = 0;
+    Vect2f getOriginRelative();
+    virtual void setOrigin(const Vect2f& origin) = 0;
+
     void setOriginCenter();
 
     virtual Area getLocalBounds() = 0;
@@ -61,7 +65,15 @@ public:
     void removeEffect(std::string effectType);
     void removeAllEffects();
 
-    virtual bool getWindowClass();
+    // Helper method to tell if We require the Window Object insted of a RenderWindow
+    virtual bool requireWindowObject();
+
+    void setPadding(const float& percent, Padding type = Padding::All);
+
+    float mPaddingTop;
+    float mPaddingBottom;
+    float mPaddingRight;
+    float mPaddingLeft;
 protected:
     sf::RenderStates* updateEffects();
     sf::RenderStates* mRenderStates;

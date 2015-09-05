@@ -65,6 +65,40 @@ Vect2f ButtonWidget::getSize() {
     return mShapeRef->getSize();
 }
 
+void ButtonWidget::setSize(const Vect2f& size) {
+    mShapeRef->setSize(size);
+}
+
+void ButtonWidget::setScale(const Vect2f& scale) {
+    mShapeRef->setScale(scale);
+    mTextRef->setScale(scale);
+}
+
+Vect2f ButtonWidget::getScale() {
+    return mShapeRef->getScale();
+}
+
+float ButtonWidget::getRotation() {
+    return mShapeRef->getRotation();
+}
+
+void ButtonWidget::setRotation(const float& angle) {
+    mShapeRef->setRotation(angle);
+    mTextRef->setRotation(angle);
+}
+
+Vect2f ButtonWidget::getOrigin() {
+    return mShapeRef->getOrigin();
+}
+
+void ButtonWidget::setOrigin(const Vect2f& origin) {
+    mShapeRef->setOrigin(origin);
+    mTextRef->setOriginCenter();
+    mTextRef->setPosition(
+                Vect2f(mShapeRef->getPosition().x+(mShapeRef->getSize().x/2),
+                       mShapeRef->getPosition().y+(mTextRef->getSize().y/2)));
+}
+
 void ButtonWidget::setOpacity(const float& opacity) {
     mShapeRef->setOpacity(opacity);
     mTextRef->setOpacity(opacity);

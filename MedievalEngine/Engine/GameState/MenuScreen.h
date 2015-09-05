@@ -18,18 +18,17 @@ public:
     void handleEvents(Event& evt);
     ~MenuScreen();
 private:
-    ResourceID sceneBackgroundID;
-    ResourceID backgroundOptionsID;
+    ResourceID bgID;
+    ResourceID bgOptionsID;
     ResourceID logoID;
 
     unsigned int mFadeTime;
 
-
-    TextWidget* mNewGame;
-    TextWidget* mContinue;
-    TextWidget* mMultiplayer;
-    TextWidget* mOptions;
-    TextWidget* mExit;
+    TextWidgetPtr mNewGame;
+    TextWidgetPtr mContinue;
+    TextWidgetPtr mMultiplayer;
+    TextWidgetPtr mOptions;
+    TextWidgetPtr mExit;
 };
 
 }

@@ -14,6 +14,10 @@ void Widget::registerWindow(Window* window) {
     mWindow = window;
 }
 
+void Widget::draw(sf::RenderWindow* renderWindow) {
+
+}
+
 bool Widget::isVisible() {
     return mIsVisible;
 }
@@ -70,7 +74,6 @@ void Widget::setColor(const Color& color) {
     mColor.alpha = color.alpha;
 }
 
-
 Window* Widget::getWindow() {
     return mWindow;
 }
@@ -80,7 +83,7 @@ ResourceManager* Widget::getResourceManager() {
 }
 
 void Widget::addEventHandle(GUIEventPtr event) {
-    LOG << Log::VERBOSE << "[Widget::addEventHandle] New GUIEvent attached to widget " 
+    LOG << Log::VERBOSE << "[Widget::addEventHandle] New GUIEvent attached to widget "
         << getType() << std::endl;
     mEvents.push_back(event);
 }
@@ -89,7 +92,7 @@ void Widget::removeEventHandle(GUIEventPtr event) {
     auto eventsIt = std::find(mEvents.begin(), mEvents.end(), event);
 
     if (eventsIt != mEvents.end()) {
-        LOG << Log::VERBOSE << "[Widget::removeEventHandle] New GUIEvent attached to widget " 
+        LOG << Log::VERBOSE << "[Widget::removeEventHandle] New GUIEvent attached to widget "
             << getType() << std::endl;
         mEvents.remove(event);
     }
@@ -100,7 +103,3 @@ void Widget::notify(GUIEvent::Type type, Widget* widget) {
         (*it)->notify(type, widget);
     }
 }
-
-
-
-

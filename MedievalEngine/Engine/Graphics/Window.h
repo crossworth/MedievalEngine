@@ -1,5 +1,6 @@
 #ifndef WINDOW_H
 #define WINDOW_H
+#include <memory>
 #include <SFML/Graphics.hpp>
 #include "Events/Event.h"
 #include "Graphics/WindowInfo.h"
@@ -10,7 +11,13 @@
 
 namespace ME {
 
+class Widget;
+typedef std::shared_ptr<Widget> WidgetPtr;
+
+
 class Window {
+public:
+    enum Position {Left, Right, Center, Top, Bottom};
 public:
     Window();
     void create(const WindowInfo &info);
@@ -31,6 +38,24 @@ public:
     void draw(Drawable *obj);
     void display();
 
+
+    static void fullScreen(Drawable* object);
+    static void setRelative(Drawable* object);
+
+    static void setPosition(Drawable* object,
+                            const Window::Position& posX,
+                            const Window::Position& posY,
+                            Drawable* reference = nullptr
+                        );
+    static void setPosition(WidgetPtr object,
+                            const Window::Position& posX,
+                            const Window::Position& posY,
+                            Drawable* reference = nullptr
+                        );
+
+    static int fontSize(const float& size);
+
+
     sf::RenderWindow* getWindowPtr();
     unsigned int getDelta();
 
@@ -42,7 +67,7 @@ protected:
 
 private:
     sf::RenderWindow *mWindow;
-    WindowInfo mWindowInfo;
+    static WindowInfo mWindowInfo;
     Clock mClock;
 };
 

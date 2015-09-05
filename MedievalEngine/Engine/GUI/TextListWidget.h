@@ -21,6 +21,19 @@ public:
     void setScrollSpeed(float& scrollspeed);
     float getScrollSpeed();
     void setSize(const Vect2f& size);
+
+    void setScale(const Vect2f& scale);
+    Vect2f getScale();
+
+    float getOpacity();
+
+    float getRotation();
+    void setRotation(const float& angle);
+
+    Vect2f getOrigin();
+    void setOrigin(const Vect2f& origin);
+
+
     void setColor(const Color& color);
     void setColor(const ColorGradient& color);
     Color getColor();

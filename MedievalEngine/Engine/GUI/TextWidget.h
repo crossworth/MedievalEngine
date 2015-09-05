@@ -27,9 +27,18 @@ public:
     void setPosition(const Vect2f& pos);
     Vect2f getPosition();
     Vect2f getSize();
+    void setSize(const Vect2f& size);
+    void setScale(const Vect2f& scale);
+    Vect2f getScale();
 
     void setOpacity(const float& opacity);
     float getOpacity();
+
+    float getRotation();
+    void setRotation(const float& angle);
+
+    Vect2f getOrigin();
+    void setOrigin(const Vect2f& origin);
 
     void setColor(const Color& color);
     Color getColor();
@@ -42,7 +51,7 @@ private:
     Text* mTextRef;
     sf::String mText;
     int mTextSize;
-    
+
     bool mIsMouseOver;
 };
 

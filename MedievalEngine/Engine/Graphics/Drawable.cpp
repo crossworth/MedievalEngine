@@ -5,7 +5,11 @@
 using namespace ME;
 
 Drawable::Drawable() : mIsEffectPlaying(true) {
-    mRenderStates = new sf::RenderStates;
+    mRenderStates  = new sf::RenderStates;
+    mPaddingTop    = 0.0f;
+    mPaddingBottom = 0.0f;
+    mPaddingRight  = 0.0f;
+    mPaddingLeft   = 0.0f;
 }
 
 Drawable::~Drawable() {
@@ -13,7 +17,15 @@ Drawable::~Drawable() {
 }
 
 void Drawable::draw(Window& window) {
-    
+
+}
+
+void Drawable::rotate(const float& angle) {
+    setRotation(getRotation() + angle);
+}
+
+void Drawable::move(const Vect2f& pos) {
+    setPosition(Vect2f(getPosition().x + pos.x, getPosition().y + pos.y));
 }
 
 void Drawable::addEffect(Effect* effect) {
@@ -118,6 +130,37 @@ float Drawable::getOpacity() {
     return static_cast<float>(tmpColor.alpha / 255.0f);
 }
 
-bool Drawable::getWindowClass() {
+void Drawable::setPadding(const float& percent, Padding type) {
+    switch (type) {
+        case Top:
+            mPaddingTop = percent;
+            break;
+        case Bottom:
+            mPaddingBottom = percent;
+            break;
+        case Left:
+            mPaddingLeft = percent;
+            break;
+        case Right:
+            mPaddingRight = percent;
+            break;
+        default:
+            mPaddingTop    = percent;
+            mPaddingBottom = percent;
+            mPaddingLeft   = percent;
+            mPaddingRight  = percent;
+    }
+}
+
+Vect2f Drawable::getOriginRelative() {
+    Vect2f origin(0.0f, 0.0f);
+
+    origin.x = (getSize().x / getGlobalBounds().width) * getOrigin().x;
+    origin.y = (getSize().y / getGlobalBounds().height) * getOrigin().y;
+
+    return origin;
+}
+
+bool Drawable::requireWindowObject() {
     return false;
 }

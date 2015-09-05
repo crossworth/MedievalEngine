@@ -72,6 +72,10 @@ void GUI::update() {
 
 WidgetPtr GUI::addWidget(const std::string& name, WidgetPtr object) {
    if (findWidget(name) != nullptr) {
+       LOG << Log::WARNING << "[GUI::addWidget] GUI Widget " + object->getType()
+           <<  " " +  name + " already added" << std::endl;
+           
+       object = mWidgets[name];
        return findWidget(name);
    }
 
@@ -132,7 +136,7 @@ Vect2f GUI::getScale() {
 	return mRelativeScale;
 }
 
-void GUI::setColor(const Color &color) {
+void GUI::setColor(const Color& color) {
     mRelativeColor = color;
 
     for(auto it = mWidgets.begin(); it != mWidgets.end(); it++) {
@@ -150,7 +154,7 @@ float GUI::getRotation() {
 
 void GUI::setRotation(const float& angle) {
     mRelativeRotate = angle;
-
+    // TODO(Pedro):implement this
 }
 
 void GUI::rotate(const float& angle) {
@@ -165,17 +169,19 @@ Vect2f GUI::getOrigin() {
 }
 
 void GUI::setOrigin(const Vect2f& origin) {
-
+    // TODO(Pedro):implement this
 }
 
 Area GUI::getLocalBounds() {
+    // TODO(Pedro):implement this
     return Area(0.f, 0.f, 1200.f, 700.f);
 }
 
 Area GUI::getGlobalBounds() {
+    // TODO(Pedro):implement this
     return Area(0.f, 0.f, 1200.f, 700.f);
 }
 
-bool GUI::getWindowClass() {
+bool GUI::requireWindowObject() {
     return true;
 }

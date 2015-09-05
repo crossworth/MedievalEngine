@@ -45,7 +45,7 @@ public:
     Area getLocalBounds();
     Area getGlobalBounds();
 
-    bool getWindowClass();
+    bool requireWindowObject();
 
     void show();
     void hide();

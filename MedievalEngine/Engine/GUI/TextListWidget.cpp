@@ -95,7 +95,7 @@ void TextListWidget::draw(Window& window) {
 
 void TextListWidget::update() {
     // TODO(Pedro): If its active
-    
+
     // Verify if the scrollbar has been click, if so we dont change the position of the text
     // if the scrollbar has not been changed and the text is overflowing we scroll it
     if ((!mScrollBarHasMoved || mScrollBarAutoScroll ) &&
@@ -313,6 +313,38 @@ bool TextListWidget::isExpanded() {
 //         }
 //     }
 // }
+
+
+void TextListWidget::setScale(const Vect2f& scale) {
+    mShapeRef->setScale(scale);
+    mTextRef->setScale(scale);
+}
+
+Vect2f TextListWidget::getScale() {
+    return mShapeRef->getScale();
+}
+
+float TextListWidget::getRotation() {
+    return mShapeRef->getRotation();
+}
+
+void TextListWidget::setRotation(const float& angle) {
+    mShapeRef->setRotation(angle);
+    mTextRef->setRotation(angle);
+}
+
+Vect2f TextListWidget::getOrigin() {
+    return mShapeRef->getOrigin();
+}
+
+float TextListWidget::getOpacity() {
+    return mShapeRef->getOpacity();
+}
+
+void TextListWidget::setOrigin(const Vect2f& origin) {
+    mShapeRef->setOrigin(origin);
+    // TODO(Pedro): Fix the text origin relative to the shape
+}
 
 void TextListWidget::setOpacity(const float& opacity) {
     mOpacity  = opacity;

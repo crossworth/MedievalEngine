@@ -12,12 +12,10 @@
 
 namespace ME {
 
-
 class Widget;
-
 typedef std::shared_ptr<Widget> WidgetPtr;
 
-class Widget {
+class Widget : public Drawable {
 public:
     Widget();
     void registerWindow(Window* window);
@@ -25,6 +23,7 @@ public:
 
     virtual void init() = 0;
     virtual void draw(Window& window) = 0;
+    virtual void draw(sf::RenderWindow* renderWindow);
     virtual void update() = 0;
     virtual void handleEvents(Event evt) = 0;
 
@@ -35,11 +34,22 @@ public:
     virtual Vect2f getPosition();
     virtual Vect2f getSize() = 0;
 
+    virtual void setSize(const Vect2f& size) = 0;
+    virtual void setScale(const Vect2f& scale) = 0;
+    virtual Vect2f getScale() = 0;
+
     virtual void setOpacity(const float& opacity);
     virtual float getOpacity();
 
     virtual void setColor(const Color& color);
     virtual Color getColor();
+
+    virtual float getRotation() = 0;
+    virtual void setRotation(const float& angle) = 0;
+
+    virtual Vect2f getOrigin() = 0;
+
+    virtual void setOrigin(const Vect2f& origin) = 0;
 
     virtual Area getLocalBounds() = 0;
     virtual Area getGlobalBounds() = 0;
