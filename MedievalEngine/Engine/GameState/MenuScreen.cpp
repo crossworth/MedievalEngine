@@ -97,6 +97,25 @@ void MenuScreen::create() {
     Window::setPosition(mOptions, Window::Position::CENTER, Window::Position::TOP, bgOptionsSPT);
 
 
+    GUIEventPtr optionsEvent = GUIEventPtr(new GUIEvent());
+
+    optionsEvent->setOnClick([=](Widget* widget) {
+        Window::fullScreen(bgOptionsSPT);
+        Window::setPosition(bgOptionsSPT, Window::Position::CENTER, Window::Position::TOP);
+    });
+
+    optionsEvent->setOnMouseOut([this](Widget* widget) {
+        mOptions->setColor(Color::BLACK);
+    });
+
+    optionsEvent->setOnMouseOver([this](Widget* widget) {
+        mOptions->setColor(Color::BROWN);
+    });
+
+    mOptions->addEventHandle(optionsEvent);
+
+
+
 
     // Create the new Game button Text Widget
     mExit = TextWidgetPtr(new TextWidget(Strings::get("exit"), fontSize, Vect2f(0.f, 0.f), mEngine->gameFontID));
@@ -109,24 +128,24 @@ void MenuScreen::create() {
     // And We finally set the position of the Widget
     Window::setPosition(mExit, Window::Position::CENTER, Window::Position::TOP, bgOptionsSPT);
 
-    GUIEventPtr mExitEvent = GUIEventPtr(new GUIEvent());
+    GUIEventPtr exitEvent = GUIEventPtr(new GUIEvent());
 
-    mExitEvent->setOnClick([this](Widget* widget) {
+    exitEvent->setOnClick([this](Widget* widget) {
         // TODO(Pedro): Cleanup everything on the engine close event
         // including all the GUI releated stuff and game state
         // maybe do some exit animation
         this->mEngine->close();
     });
 
-    mExitEvent->setOnMouseOut([this](Widget* widget) {
+    exitEvent->setOnMouseOut([this](Widget* widget) {
         mExit->setColor(Color::BLACK);
     });
 
-    mExitEvent->setOnMouseOver([this](Widget* widget) {
+    exitEvent->setOnMouseOver([this](Widget* widget) {
         mExit->setColor(Color::BROWN);
     });
 
-    mExit->addEventHandle(mExitEvent);
+    mExit->addEventHandle(exitEvent);
 
 }
 

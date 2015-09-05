@@ -27,10 +27,9 @@ private:
 
     Clock mClock;
 
-
-    // TODO(pedro): remove this in the future
-    Clock mFakeLoadingTime;
-    bool isChangeState;
+    Clock mMinWaitTime;
+    bool mIsStateChanging;
+    static ResourceID menuMusic;
 };
 
 }

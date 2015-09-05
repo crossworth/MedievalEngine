@@ -31,7 +31,9 @@ Window::~Window() {
 }
 
 void Window::fullScreen(Drawable* object) {
-    Vect2f objectSize = object->getSize();
+    Vect2f objectSize;
+    objectSize.x = object->getLocalBounds().width;
+    objectSize.y = object->getLocalBounds().height;
 
     int minWin    = std::min(Window::mWindowInfo.width, Window::mWindowInfo.height);
     float minSize = std::min(objectSize.x, objectSize.y);

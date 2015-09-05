@@ -124,7 +124,8 @@ void TextWidget::handleEvents(Event evt) {
         notify(GUIEvent::Type::onMouseOver, this);
     }
 
-    if (getGlobalBounds().contains(mousePos) && Mouse::isButtonPressed(Mouse::Button::Left)) {
+    if (getGlobalBounds().contains(mousePos) && evt.type == Event::MouseButtonReleased &&
+        evt.mouseButton.button == Mouse::Button::Left) {
         notify(GUIEvent::Type::onClick, this);
     }
 

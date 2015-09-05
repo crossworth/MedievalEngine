@@ -3,10 +3,12 @@
 
 using namespace ME;
 
-LoadingScreen::LoadingScreen(MedievalEngine* engine) : fadeTextInit(false), isChangeState(false) {
+LoadingScreen::LoadingScreen(MedievalEngine* engine) : fadeTextInit(false), mIsStateChanging(false) {
     mEngine = engine;
     LOG << Log::VERBOSE << "[LoadingScreen::LoadingScreen]" << std::endl;
 }
+
+ResourceID LoadingScreen::menuMusic;
 
 void LoadingScreen::create() {
     LOG << Log::VERBOSE << "[LoadingScreen::create]" << std::endl;
@@ -35,8 +37,8 @@ void LoadingScreen::create() {
     textLoadingScreenPtr->setPosition(Vect2f(windowSize.x / 2, windowSize.y - (textLoadingScreenPtr->getSize().y * 4)));
 
 
-    ResourceID musicBG = mResources->loadMusic("menu/menu.ogg");
-    Music* music       = mResources->getResource<Music>(musicBG);
+    LoadingScreen::menuMusic = mResources->loadMusic("menu/menu.ogg");
+    Music* music             = mResources->getResource<Music>(LoadingScreen::menuMusic);
     music->setLoopMode(true);
     music->play();
 }
@@ -92,10 +94,10 @@ void LoadingScreen::update() {
 
     unsigned int delayTime = 1000;
 
-    if (mFakeLoadingTime.getTime() > delayTime && mEngine->doneLoading() && isChangeState == false) {
-        isChangeState = true;
+    if (mMinWaitTime.getTime() > delayTime && mEngine->doneLoading() && mIsStateChanging == false) {
+        mIsStateChanging = true;
 
-        unsigned int fadeTime = 500;
+        unsigned int fadeTime = 1000;
 
         mResources->getResource<Text>(textLoadingScreen)->addEffect(new Fade(fadeTime, Fade::Type::FADEOUT));
         mResources->getResource<Text>(textMessageScreen)->addEffect(new Fade(fadeTime, Fade::Type::FADEOUT));
