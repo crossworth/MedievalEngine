@@ -25,5 +25,3 @@ so all the file name must be unique.
 
 The default asset file opened by the engine is named base.dat and must have:
 - defaul.ttf - Default font file for the GUI and all the Text if some font fail to load
-// TODO(Pedro): implement this, if font fail load the default font...
-

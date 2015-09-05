@@ -18,9 +18,6 @@ void LoadingScreen::create() {
 
     Vect2f windowSize = mEngine->getWindow()->getSize();
 
-    // NOTE(pedro): THIS IS WRONG, SHOULD NOT WORK!
-    // We should use the aspect ratio converter to specify the size
-
     Window::fullScreen(sceneBGPtr);
 
     textMessageScreen = mResources->createText(Strings::get("loading_text"), Window::fontSize(0.4f), mEngine->gameFontID);
@@ -37,6 +34,11 @@ void LoadingScreen::create() {
     textMessageScreenPtr->setPosition(Vect2f(windowSize.x / 2, windowSize.y / 2));
     textLoadingScreenPtr->setPosition(Vect2f(windowSize.x / 2, windowSize.y - (textLoadingScreenPtr->getSize().y * 4)));
 
+
+    ResourceID musicBG = mResources->loadMusic("menu/menu.ogg");
+    Music* music       = mResources->getResource<Music>(musicBG);
+    music->setLoopMode(true);
+    music->play();
 }
 
 void LoadingScreen::init() {
@@ -46,7 +48,7 @@ void LoadingScreen::init() {
 }
 
 void LoadingScreen::onEnable(Window& window) {
-    setCurrentStatus(GAME_STATUS::ON_PLAYING);
+    setCurrentStatus(GameState::Status::ON_PLAYING);
     mClock.restart();
 }
 
@@ -88,9 +90,9 @@ void LoadingScreen::update() {
         mClock.restart();
     }
 
-    unsigned int delayTime = 10500;
+    unsigned int delayTime = 1000;
 
-    if (mFakeLoadingTime.getTime() > delayTime && isChangeState == false) {
+    if (mFakeLoadingTime.getTime() > delayTime && mEngine->doneLoading() && isChangeState == false) {
         isChangeState = true;
 
         unsigned int fadeTime = 500;
@@ -106,6 +108,6 @@ void LoadingScreen::update() {
 
 void LoadingScreen::handleEvents(Event& evt) {
     if(evt.type == Event::Closed) {
-        mEngine->getWindow()->close();
+        mEngine->close();
     }
 }

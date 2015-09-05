@@ -1,14 +1,16 @@
 #ifndef AUDIBLE_H
 #define AUDIBLE_H
 #include <SFML/Audio.hpp>
+#include "Config.h"
 #include "Helper/Vect3.h"
 
 
 namespace ME{
 
 enum AudioStatus {STOPPED, PLAYING, PAUSED};
+enum AudioType {MUSIC, VOICE, AMBIENT};
 
-class Audible {    
+class Audible {
 public:
     Audible();
     virtual unsigned int getDuration() = 0;
@@ -32,6 +34,16 @@ public:
     virtual void play() = 0;
     virtual void pause() = 0;
     virtual void stop() = 0;
+
+    AudioType getType();
+    void setType(const AudioType& type);
+public:
+    static float VOLUME;
+    static float VOICE_VOLUME;
+    static float MUSIC_VOLUME;
+    static float AMBIENT_VOLUME;
+protected:
+    AudioType mType;
 };
 
 }

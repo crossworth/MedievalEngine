@@ -8,6 +8,11 @@ MenuScreen::MenuScreen(MedievalEngine* engine) {
     LOG << Log::VERBOSE << "[MenuScreen::MenuScreen]" << std::endl;
 }
 
+// NOTE(Pedro) TODO(Pedro)
+// Test if we change the resolution on runtime the game can still positionate all
+// the objects in the right position and size's
+// maybe put all the Size specific things on the init method
+// or something like that
 void MenuScreen::create() {
     LOG << Log::VERBOSE << "[MenuScreen::create]" << std::endl;
 
@@ -31,12 +36,12 @@ void MenuScreen::create() {
     // Do the same for the logo
     Window::setRelative(logoSPT);
     // Set the menu options background to the right center position
-    Window::setPosition(bgOptionsSPT, Window::Position::Right, Window::Position::Center);
+    Window::setPosition(bgOptionsSPT, Window::Position::RIGHT, Window::Position::CENTER);
     // Set 11% of padding on top and bottom
-    logoSPT->setPadding(0.11f, Padding::Top);
-    logoSPT->setPadding(0.11f, Padding::Bottom);
+    logoSPT->setPadding(0.11f, Padding::TOP);
+    logoSPT->setPadding(0.11f, Padding::BOTTOM);
     // Set the logo to the center top of the menu options background
-    Window::setPosition(logoSPT, Window::Position::Center, Window::Position::Top, bgOptionsSPT);
+    Window::setPosition(logoSPT, Window::Position::CENTER, Window::Position::TOP, bgOptionsSPT);
 
 
     int fontSize = Window::fontSize(0.5f);
@@ -47,10 +52,10 @@ void MenuScreen::create() {
     mGUI.addWidget("new_game_btn", mNewGame);
 
     // Set 25% padding top of the first menu Object
-    mNewGame->setPadding(0.25f, Padding::Top);
+    mNewGame->setPadding(0.25f, Padding::TOP);
     mNewGame->setColor(Color::BLACK);
     // And We finally set the position of the Widget
-    Window::setPosition(mNewGame, Window::Position::Center, Window::Position::Top, bgOptionsSPT);
+    Window::setPosition(mNewGame, Window::Position::CENTER, Window::Position::TOP, bgOptionsSPT);
 
 
 
@@ -60,10 +65,10 @@ void MenuScreen::create() {
     mGUI.addWidget("continue_btn", mContinue);
 
     // Set 25% padding top of the first menu Object
-    mContinue->setPadding(0.35f, Padding::Top);
+    mContinue->setPadding(0.35f, Padding::TOP);
     mContinue->setColor(Color::BLACK);
     // And We finally set the position of the Widget
-    Window::setPosition(mContinue, Window::Position::Center, Window::Position::Top, bgOptionsSPT);
+    Window::setPosition(mContinue, Window::Position::CENTER, Window::Position::TOP, bgOptionsSPT);
 
 
 
@@ -73,10 +78,10 @@ void MenuScreen::create() {
     mGUI.addWidget("multiplayer_btn", mMultiplayer);
 
     // Set 25% padding top of the first menu Object
-    mMultiplayer->setPadding(0.45f, Padding::Top);
+    mMultiplayer->setPadding(0.45f, Padding::TOP);
     mMultiplayer->setColor(Color::BLACK);
     // And We finally set the position of the Widget
-    Window::setPosition(mMultiplayer, Window::Position::Center, Window::Position::Top, bgOptionsSPT);
+    Window::setPosition(mMultiplayer, Window::Position::CENTER, Window::Position::TOP, bgOptionsSPT);
 
 
 
@@ -86,10 +91,10 @@ void MenuScreen::create() {
     mGUI.addWidget("options_btn", mOptions);
 
     // Set 25% padding top of the first menu Object
-    mOptions->setPadding(0.55f, Padding::Top);
+    mOptions->setPadding(0.55f, Padding::TOP);
     mOptions->setColor(Color::BLACK);
     // And We finally set the position of the Widget
-    Window::setPosition(mOptions, Window::Position::Center, Window::Position::Top, bgOptionsSPT);
+    Window::setPosition(mOptions, Window::Position::CENTER, Window::Position::TOP, bgOptionsSPT);
 
 
 
@@ -99,10 +104,10 @@ void MenuScreen::create() {
     mGUI.addWidget("exit_btn", mExit);
 
     // Set 25% padding top of the first menu Object
-    mExit->setPadding(0.65f, Padding::Top);
+    mExit->setPadding(0.65f, Padding::TOP);
     mExit->setColor(Color::BLACK);
     // And We finally set the position of the Widget
-    Window::setPosition(mExit, Window::Position::Center, Window::Position::Top, bgOptionsSPT);
+    Window::setPosition(mExit, Window::Position::CENTER, Window::Position::TOP, bgOptionsSPT);
 
     GUIEventPtr mExitEvent = GUIEventPtr(new GUIEvent());
 
@@ -132,7 +137,7 @@ void MenuScreen::init() {
     mResources->getResource<Sprite>(bgID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
     mResources->getResource<Sprite>(logoID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
     mResources->getResource<Sprite>(bgOptionsID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN, [this] (void) {
-        this->setCurrentStatus(GAME_STATUS::ON_PLAYING);
+        this->setCurrentStatus(GameState::Status::ON_PLAYING);
     }));
 }
 
@@ -158,10 +163,10 @@ void MenuScreen::update() {
 }
 
 void MenuScreen::handleEvents(Event& evt) {
-    if(evt.type == Event::Closed) {
-        mEngine->getWindow()->close();
-    }
     mGUI.handleEvents(evt);
+    if(evt.type == Event::Closed) {
+        mEngine->close();
+    }
 }
 
 

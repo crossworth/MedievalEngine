@@ -60,12 +60,13 @@ GameState* GameStateManager::getGameState(const std::string& name) {
 
 void GameStateManager::draw(Window &window) {
     if (mGameStates[mCurrentGameState]->getCurrentStatus()
-        == GameState::GAME_STATUS::ON_ENABLE) {
+        == GameState::Status::ON_ENABLE) {
         mGameStates[mCurrentGameState]->onEnable(window);
     } else if (mGameStates[mCurrentGameState]->getCurrentStatus()
-               == GameState::GAME_STATUS::ON_DISABLE) {
+               == GameState::Status::ON_DISABLE) {
         mGameStates[mCurrentGameState]->onDisable(window);
-    } else {
+    } else if (mGameStates[mCurrentGameState]->getCurrentStatus()
+               == GameState::Status::ON_PLAYING) {
         mGameStates[mCurrentGameState]->onPlaying(window);
     }
 }
@@ -79,4 +80,3 @@ void GameStateManager::update() {
 void GameStateManager::handleEvents(Event &evt) {
     mGameStates[mCurrentGameState]->handleEvents(evt);
 }
-

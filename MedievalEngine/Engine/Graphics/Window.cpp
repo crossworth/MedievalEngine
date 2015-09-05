@@ -5,8 +5,25 @@ using namespace ME;
 
 WindowInfo Window::mWindowInfo;
 
-Window::Window() {
+Window::Window() : mIsWindowOpen(false), mHasCustomCursor(false) {
     mWindow = new sf::RenderWindow();
+}
+
+void Window::setCursor(const std::string& cursor) {
+    if (mCursorTexture.loadFromFile(ME::ENGINE_DEFAULTS::DATA_PATH + cursor)) {
+        mHasCustomCursor = true;
+        mWindow->setMouseCursorVisible(false);
+        mCursor.setTexture(mCursorTexture, true);
+        LOG << Log::VERBOSE << "[Window::setCursor] Custom cursor set: "
+            << ME::ENGINE_DEFAULTS::DATA_PATH + cursor << std::endl;
+    } else {
+        LOG << Log::VERBOSE << "[Window::setCursor] Custom not found: "
+            << ME::ENGINE_DEFAULTS::DATA_PATH + cursor << std::endl;
+    }
+}
+
+bool Window::hasCustomCursor() {
+    return mHasCustomCursor;
 }
 
 Window::~Window() {
@@ -83,19 +100,19 @@ void Window::setPosition(Drawable* object, const Window::Position& posX, const W
         paddingBottom = referenceSize.y * object->mPaddingBottom;
     }
 
-    if (posX == Window::Position::Left) {
+    if (posX == Window::Position::LEFT) {
         position.x = paddingLeft + baseX + 0.0f + origin.x;
-    } else if (posX == Window::Position::Right) {
+    } else if (posX == Window::Position::RIGHT) {
         position.x = paddingRight + baseX + width - object->getSize().x + origin.x;
-    } else if (posX == Window::Position::Center) {
+    } else if (posX == Window::Position::CENTER) {
         position.x = baseX + ((width / 2) - (object->getSize().x / 2) + origin.x);
     }
 
-    if (posY == Window::Position::Top) {
+    if (posY == Window::Position::TOP) {
         position.y = paddingTop + baseY + 0.0f + origin.y;
-    } else if (posY == Window::Position::Bottom) {
+    } else if (posY == Window::Position::BOTTOM) {
         position.y = paddingBottom + baseY + height - object->getSize().y + origin.y;;
-    } else if (posY == Window::Position::Center) {
+    } else if (posY == Window::Position::CENTER) {
         position.y = baseY + ((height / 2) - (object->getSize().y / 2) + origin.y);
     }
 
@@ -106,36 +123,48 @@ void Window::setPosition(WidgetPtr object, const Window::Position& posX, const W
     Window::setPosition(object.get(), posX, posY, reference);
 }
 
+void Window::open() {
+    if (!mIsWindowOpen) {
+        sf::ContextSettings settings;
+        settings.antialiasingLevel = 8;
+
+        if (Window::mWindowInfo.fullScreen) {
+            mWindow = new sf::RenderWindow(
+                        sf::VideoMode(Window::mWindowInfo.width, Window::mWindowInfo.height, Window::mWindowInfo.bitsPerPixel),
+                        Window::mWindowInfo.windowName, sf::Style::Fullscreen, settings);
+        } else {
+            mWindow = new sf::RenderWindow(
+                        sf::VideoMode(Window::mWindowInfo.width, Window::mWindowInfo.height, Window::mWindowInfo.bitsPerPixel),
+                        Window::mWindowInfo.windowName, sf::Style::Close, settings);
+        }
+
+        mFixedView = mWindow->getView();
+
+        mWindow->setFramerateLimit(Window::mWindowInfo.frameLimit);
+        mWindow->setVerticalSyncEnabled(Window::mWindowInfo.vsync);
+
+        mIsWindowOpen = true;
+        mClock.restart();
+
+        LOG << Log::VERBOSE << "[Window::open] Window opened" << std::endl;
+    }
+}
+
 void Window::create(const WindowInfo& info) {
-    sf::ContextSettings settings;
-    settings.antialiasingLevel = 8;
 
     if (info.fullScreen == true && isValidWindow(info)) {
-        mWindow = new sf::RenderWindow(
-                    sf::VideoMode(info.width, info.height, info.bitsPerPixel),
-                    info.windowName, sf::Style::Fullscreen, settings);
-        mWindow->setVisible(false);
+        Window::mWindowInfo.fullScreen   = true;
     } else {
-        mWindow = new sf::RenderWindow(
-                    sf::VideoMode(info.width, info.height, info.bitsPerPixel),
-                    info.windowName, sf::Style::Close, settings);
-        mWindow->setVisible(false);
+        Window::mWindowInfo.fullScreen   = false;
     }
 
-    mWindow->setFramerateLimit(info.frameLimit);
-    mWindow->setVerticalSyncEnabled(info.vsync);
-
-    // Deixa tela preta enquanto carrega o resto dos recursos e inicia os sistemas
-    mWindow->clear();
 
     Window::mWindowInfo.bitsPerPixel = info.bitsPerPixel;
-    Window::mWindowInfo.fullScreen   = info.fullScreen;
     Window::mWindowInfo.height       = info.height;
     Window::mWindowInfo.width        = info.width;
     Window::mWindowInfo.windowName   = info.windowName;
 
     LOG << Log::VERBOSE << "[Window::create] Window created" << std::endl;
-    mClock.restart();
 }
 
 unsigned int Window::getDelta() {
@@ -163,6 +192,11 @@ void Window::draw(Drawable* obj) {
     } else {
         obj->draw(mWindow);
     }
+
+    if (hasCustomCursor()) {
+        mWindow->setView(mFixedView);
+        mWindow->draw(mCursor);
+    }
 }
 
 void Window::close() {
@@ -177,6 +211,9 @@ bool Window::pollEvent(Event& evt) {
     sf::Event sfEvent;
     bool ret = mWindow->pollEvent(sfEvent);
 
+    if (hasCustomCursor()) {
+        mCursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*mWindow)));
+    }
 
     switch (sfEvent.type) {
     case sf::Event::Closed:
@@ -265,7 +302,15 @@ void Window::setPosition(const Vect2i& pos) {
 }
 
 Vect2i Window::getSize() {
-    sf::Vector2u size = mWindow->getSize();
+    Vect2i size;
+
+    if (mIsWindowOpen) {
+        size.x = mWindow->getSize().x;
+        size.y = mWindow->getSize().y;
+    } else {
+        size.x = Window::mWindowInfo.width;
+        size.y = Window::mWindowInfo.height;
+    }
     return Vect2i(size.x, size.y);
 }
 

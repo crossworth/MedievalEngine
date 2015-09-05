@@ -40,6 +40,11 @@ namespace ENGINE_DEFAULTS {
 
     const int BASE_WIDTH_SIZE  = 1920;
     const int BASE_HEIGHT_SIZE = 1080;
+
+    const float DEFAULT_VOLUME = 100.f;
+    const float MUSIC_VOLUME   = 100.f;
+    const float VOICE_VOLUME   = 100.f;
+    const float AMBIENT_VOLUME = 100.f;
 }
 
 /**

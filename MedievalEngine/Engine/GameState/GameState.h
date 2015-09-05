@@ -12,8 +12,7 @@ class ResourceManager;
 
 class GameState {
 public:
-    // TODO(Pedro): Fix the name of this enum, it's not in the stardard way
-    enum GAME_STATUS {ON_ENABLE, ON_PLAYING, ON_DISABLE, ON_DONE};
+    enum Status {ON_ENABLE, ON_PLAYING, ON_DISABLE, ON_DONE };
 public:
     GameState();
     virtual void create() = 0;
@@ -32,16 +31,16 @@ public:
 
     void restart();
 
-    GAME_STATUS getCurrentStatus();
+    GameState::Status getCurrentStatus();
 protected:
     MedievalEngine* mEngine;
     ResourceManager* mResources;
     GUI mGUI;
 
-    void setCurrentStatus(const GameState::GAME_STATUS& status);
+    void setCurrentStatus(const GameState::Status& status);
     bool mIsPlaying;
     bool mIsDone;
-    GameState::GAME_STATUS mCurrentStatus;
+    GameState::Status mCurrentStatus;
 };
 
 }

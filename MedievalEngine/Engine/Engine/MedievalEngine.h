@@ -1,6 +1,7 @@
 #ifndef MEDIEVALENGINE_H
 #define MEDIEVALENGINE_H
 #include <algorithm>
+#include <thread>
 #include "Headers.h"
 
 namespace ME {
@@ -22,9 +23,17 @@ public:
     ~MedievalEngine();
 
     ResourceID gameFontID;
+
+    bool doneLoading();
+    void loadingThread();
+protected:
+    bool mDoneLoading;
+    std::thread* mLoadingThread;
 private:
+    bool mRunning;
     int mErrorCode;
     Window mWindow;
+    WindowInfo mWindowInfo_;
     ResourceManager mResourceManager;
     CFGParser mConfigurations;
     ArgumentsParser mArguments;

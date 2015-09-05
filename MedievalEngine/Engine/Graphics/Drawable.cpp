@@ -132,16 +132,16 @@ float Drawable::getOpacity() {
 
 void Drawable::setPadding(const float& percent, Padding type) {
     switch (type) {
-        case Top:
+        case TOP:
             mPaddingTop = percent;
             break;
-        case Bottom:
+        case BOTTOM:
             mPaddingBottom = percent;
             break;
-        case Left:
+        case LEFT:
             mPaddingLeft = percent;
             break;
-        case Right:
+        case RIGHT:
             mPaddingRight = percent;
             break;
         default:

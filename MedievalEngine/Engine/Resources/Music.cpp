@@ -2,16 +2,35 @@
 
 using namespace ME;
 
-Music::Music(const std::string &fileName) {
+Music::Music(const std::string &fileName, const AudioType& type) {
     m_type = Resource::Type::MUSIC;
-    loadFromFile(fileName);
+    loadFromFile(fileName, type);
 }
 
-sf::Music* Music::loadFromFile(const std::string &fileName) {
+sf::Music* Music::loadFromFile(const std::string &fileName, const AudioType& type) {
     if (!mMusic.openFromFile(ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
         LOG << ("[Music::loadFromFile] Error while opening music: " +
                 ENGINE_DEFAULTS::ASSETS_PATH + fileName).c_str() << std::endl;
     }
+
+    setType(type);
+
+    float ratio = static_cast<float>(Audible::VOLUME * 0.01);
+
+    switch(type) {
+        case AudioType::VOICE:
+            setVolume(Audible::VOICE_VOLUME * ratio);
+            break;
+        case AudioType::MUSIC:
+            setVolume(Audible::MUSIC_VOLUME * ratio);
+            break;  
+        case AudioType::AMBIENT:
+            setVolume(Audible::AMBIENT_VOLUME * ratio);
+            break;
+        default:
+            setVolume(Audible::VOLUME);
+    }
+
     return &mMusic;
 }
 

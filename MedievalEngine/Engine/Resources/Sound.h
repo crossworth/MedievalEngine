@@ -9,8 +9,8 @@ namespace ME{
 
 class Sound : public Resource, public Audible {
 public:
-    Sound(const std::string& fileName);
-    sf::Sound* loadFromFile(const std::string& fileName);
+    Sound(const std::string& fileName, const AudioType& type = AudioType::MUSIC);
+    sf::Sound* loadFromFile(const std::string& fileName, const AudioType& type = AudioType::MUSIC);
     sf::Sound* getResourcePointer();
 
     unsigned int getDuration();

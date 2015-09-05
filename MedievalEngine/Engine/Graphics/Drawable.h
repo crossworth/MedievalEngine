@@ -18,7 +18,7 @@ class Window;
 
 typedef std::shared_ptr<Effect> EffectPtr;
 
-enum Padding { Top, Bottom, Left, Right, All};
+enum Padding { TOP, BOTTOM, LEFT, RIGHT, ALL};
 
 class Drawable {
 public:
@@ -66,9 +66,11 @@ public:
     void removeAllEffects();
 
     // Helper method to tell if We require the Window Object insted of a RenderWindow
+    // We use this to reander our GUI's object, since they require more information
+    // to be able to render
     virtual bool requireWindowObject();
 
-    void setPadding(const float& percent, Padding type = Padding::All);
+    void setPadding(const float& percent, Padding type = Padding::ALL);
 
     float mPaddingTop;
     float mPaddingBottom;

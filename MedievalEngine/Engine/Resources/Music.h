@@ -8,8 +8,8 @@ namespace ME{
 
 class Music : public Resource, public Audible {
 public:
-    Music(const std::string& fileName);
-    sf::Music* loadFromFile(const std::string& fileName);
+    Music(const std::string& fileName, const AudioType& type = AudioType::MUSIC);
+    sf::Music* loadFromFile(const std::string& fileName, const AudioType& type = AudioType::MUSIC);
     sf::Music* getResourcePointer();
 
     unsigned int getDuration();

@@ -17,10 +17,11 @@ typedef std::shared_ptr<Widget> WidgetPtr;
 
 class Window {
 public:
-    enum Position {Left, Right, Center, Top, Bottom};
+    enum Position {LEFT, RIGHT, CENTER, TOP, BOTTOM};
 public:
     Window();
     void create(const WindowInfo &info);
+    void open();
     void close();
     bool isOpen();
     bool pollEvent(Event &evt);
@@ -55,6 +56,8 @@ public:
 
     static int fontSize(const float& size);
 
+    void setCursor(const std::string& cursor);
+    bool hasCustomCursor();
 
     sf::RenderWindow* getWindowPtr();
     unsigned int getDelta();
@@ -63,9 +66,14 @@ public:
 
     ~Window();
 protected:
-    bool isValidWindow(const WindowInfo &info);
-
+    bool mIsWindowOpen;
+    bool isValidWindow(const WindowInfo& info);
 private:
+    sf::Sprite mCursor;
+    sf::View mFixedView;
+    bool mHasCustomCursor;
+    sf::Texture mCursorTexture;
+
     sf::RenderWindow *mWindow;
     static WindowInfo mWindowInfo;
     Clock mClock;

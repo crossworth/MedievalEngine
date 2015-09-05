@@ -74,7 +74,7 @@ WidgetPtr GUI::addWidget(const std::string& name, WidgetPtr object) {
    if (findWidget(name) != nullptr) {
        LOG << Log::WARNING << "[GUI::addWidget] GUI Widget " + object->getType()
            <<  " " +  name + " already added" << std::endl;
-           
+
        object = mWidgets[name];
        return findWidget(name);
    }
@@ -120,7 +120,6 @@ void GUI::move(const Vect2f& pos) {
 
 void GUI::setSize(const Vect2f& size) {
     mRelativeSize = size;
-
 }
 
 Vect2f GUI::getSize() {
