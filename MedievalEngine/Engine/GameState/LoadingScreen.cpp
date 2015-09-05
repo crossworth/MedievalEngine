@@ -8,9 +8,8 @@ LoadingScreen::LoadingScreen(MedievalEngine* engine) : fadeTextInit(false), isCh
     LOG << Log::VERBOSE << "[LoadingScreen::LoadingScreen]" << std::endl;
 }
 
-void LoadingScreen::init() {
-    LOG << Log::VERBOSE << "[LoadingScreen::init]" << std::endl;
-
+void LoadingScreen::create() {
+    LOG << Log::VERBOSE << "[LoadingScreen::create]" << std::endl;
 
     ResourceID txtBackground = mResources->loadTexture("menu/bg_blur.png");
     sceneBackgroundID = mResources->createSprite(txtBackground);
@@ -37,6 +36,11 @@ void LoadingScreen::init() {
 
     textMessageScreenPtr->setPosition(Vect2f(windowSize.x / 2, windowSize.y / 2));
     textLoadingScreenPtr->setPosition(Vect2f(windowSize.x / 2, windowSize.y - (textLoadingScreenPtr->getSize().y * 4)));
+
+}
+
+void LoadingScreen::init() {
+    LOG << Log::VERBOSE << "[LoadingScreen::init]" << std::endl;
 
     counter = 0;
 }

@@ -114,10 +114,12 @@ void Window::create(const WindowInfo& info) {
         mWindow = new sf::RenderWindow(
                     sf::VideoMode(info.width, info.height, info.bitsPerPixel),
                     info.windowName, sf::Style::Fullscreen, settings);
+        mWindow->setVisible(false);
     } else {
         mWindow = new sf::RenderWindow(
                     sf::VideoMode(info.width, info.height, info.bitsPerPixel),
                     info.windowName, sf::Style::Close, settings);
+        mWindow->setVisible(false);
     }
 
     mWindow->setFramerateLimit(info.frameLimit);

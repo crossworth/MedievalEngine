@@ -10,6 +10,7 @@ class LoadingScreen : public GameState {
 public:
     LoadingScreen(MedievalEngine* engine);
     void init();
+    void create();
     void onEnable(Window& window);
     void onDisable(Window& window);
     void onPlaying(Window& window);

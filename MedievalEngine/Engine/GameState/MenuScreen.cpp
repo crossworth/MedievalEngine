@@ -8,8 +8,8 @@ MenuScreen::MenuScreen(MedievalEngine* engine) {
     LOG << Log::VERBOSE << "[MenuScreen::MenuScreen]" << std::endl;
 }
 
-void MenuScreen::init() {
-    LOG << Log::VERBOSE << "[MenuScreen::init]" << std::endl;
+void MenuScreen::create() {
+    LOG << Log::VERBOSE << "[MenuScreen::create]" << std::endl;
 
     ResourceID bgTXT = mResources->loadTexture("menu/bg_menu.png");
     bgID             = mResources->createSprite(bgTXT);
@@ -123,65 +123,12 @@ void MenuScreen::init() {
 
     mExit->addEventHandle(mExitEvent);
 
-    // Set the
-    // Vect2f bgOptionsSize = bgOptionsSPT->getSize();
-    //
-    // Vect2f logoPosition(bgOptionsSPT->getPosition());
-    // logoPosition.y = bgOptionsSPT->getSize().y * 0.35f;
-    //
-    //
-    // logoPosition.x = logoPosition.x - bgOptionsSPT->getSize().x / 4;
-    //
-    // float paddingVerticalText = 40.f;
-    //
-    // logoPosition.y = logoPosition.y + paddingVerticalText;
-    // mGUI.addWidget("new_game_btn", TextWidgetPtr(new TextWidget(Strings::get("new_game"), 35, logoPosition, mEngine->gameFontID)));
-    //
-    // mNewGame = mGUI.getWidget<TextWidget>("new_game_btn");
-    //
-    // logoPosition.y = logoPosition.y + paddingVerticalText;
-    // mGUI.addWidget("continue_bt", TextWidgetPtr(new TextWidget(Strings::get("continue"), 35, logoPosition, mEngine->gameFontID)));
-    // mContinue = mGUI.getWidget<TextWidget>("continue_bt");
-    //
-    // logoPosition.y = logoPosition.y + paddingVerticalText;
-    // mGUI.addWidget("multiplayer_btn", TextWidgetPtr(new TextWidget(Strings::get("multiplayer"), 35, logoPosition, mEngine->gameFontID)));
-    // mMultiplayer = mGUI.getWidget<TextWidget>("multiplayer_btn");
-    //
-    // logoPosition.y = logoPosition.y + paddingVerticalText;
-    // mGUI.addWidget("options_btn", TextWidgetPtr(new TextWidget(Strings::get("options"), 35, logoPosition, mEngine->gameFontID)));
-    // mOptions = mGUI.getWidget<TextWidget>("options_btn");
-    //
-    // logoPosition.y = logoPosition.y + paddingVerticalText;
-    // mGUI.addWidget("exit_btn", TextWidgetPtr(new TextWidget(Strings::get("exit"), 35, logoPosition, mEngine->gameFontID)));
-    // mExit = mGUI.getWidget<TextWidget>("exit_btn");
+}
 
-    // mNewGame->setColor(Color::BLACK);
-    // mContinue->setColor(Color::BLACK);
-    // mMultiplayer->setColor(Color::BLACK);
-    // mOptions->setColor(Color::BLACK);
-    // mExit->setColor(Color::BLACK);
-    //
-    // GUIEventPtr mExitEvent = GUIEventPtr(new GUIEvent());
-    // mExitEvent->setOnClick([this](Widget* widget) {
-    //     // TODO(Pedro): Cleanup everything on the engine close event
-    //     // including all the GUI releated stuff and game state
-    //     // maybe do some exit animation
-    //     this->mEngine->close();
-    // });
-    //
-    // mExitEvent->setOnMouseOut([this](Widget* widget) {
-    //     mExit->setColor(Color::BLACK);
-    // });
-    //
-    // mExitEvent->setOnMouseOver([this](Widget* widget) {
-    //     mExit->setColor(Color::BROWN);
-    // });
-    //
-    // mExit->addEventHandle(mExitEvent);
+void MenuScreen::init() {
+    LOG << Log::VERBOSE << "[MenuScreen::init]" << std::endl;
 
-    // TODO(pedro): Set the text positions, BUT USE GUI Objects!
     mFadeTime = 200;
-
     mResources->getResource<Sprite>(bgID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
     mResources->getResource<Sprite>(logoID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
     mResources->getResource<Sprite>(bgOptionsID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN, [this] (void) {

@@ -11,6 +11,7 @@ class MenuScreen : public GameState {
 public:
     MenuScreen(MedievalEngine* engine);
     void init();
+    void create();
     void onEnable(Window& window);
     void onDisable(Window& window);
     void onPlaying(Window& window);

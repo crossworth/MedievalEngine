@@ -16,6 +16,7 @@ public:
     enum GAME_STATUS {ON_ENABLE, ON_PLAYING, ON_DISABLE, ON_DONE};
 public:
     GameState();
+    virtual void create() = 0;
     virtual void init() = 0;
     virtual void onEnable(Window& window)  = 0;
     virtual void onDisable(Window& window) = 0;
@@ -36,7 +37,7 @@ protected:
     MedievalEngine* mEngine;
     ResourceManager* mResources;
     GUI mGUI;
-    
+
     void setCurrentStatus(const GameState::GAME_STATUS& status);
     bool mIsPlaying;
     bool mIsDone;
