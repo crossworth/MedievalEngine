@@ -101,7 +101,7 @@ WidgetPtr GUI::findWidget(const std::string& name) {
     return nullptr;
 }
 
-void GUI::draw(sf::RenderWindow* renderWindow) {
+void GUI::draw(sf::RenderWindow* renderWindow, sf::RenderStates* state) {
     // Do nothing since We require an Window object and not a renderWindow
 }
 

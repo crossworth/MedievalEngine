@@ -195,9 +195,14 @@ void Window::draw(Drawable* obj) {
         obj->draw(mWindow);
     }
 
-    if (hasCustomCursor()) {
-        mWindow->setView(mFixedView);
-        mWindow->draw(mCursor);
+}
+
+void Window::draw(Drawable *obj, sf::RenderStates* states) {
+    assert(obj != nullptr);
+    if (obj->requireWindowObject()) {
+        obj->draw(*this);
+    } else {
+        obj->draw(mWindow, states);
     }
 }
 
@@ -339,6 +344,11 @@ void Window::setVisible(const bool& visible) {
 }
 
 void Window::display() {
+    if (hasCustomCursor()) {
+        mWindow->setView(mFixedView);
+        mWindow->draw(mCursor);
+    }
+
     mWindow->display();
 }
 

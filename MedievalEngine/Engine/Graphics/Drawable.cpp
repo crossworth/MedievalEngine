@@ -102,7 +102,7 @@ void Drawable::removeAllEffects() {
 sf::RenderStates* Drawable::updateEffects() {
     if(isPlayingEffects()) {
         for(int i = 0 ; i < mEffects.size(); i++) {
-            mEffects[i]->update(this);
+            mRenderStates = mEffects[i]->update(this);
             if (mEffects[i]->isDone()) {
                 mEffects.erase(mEffects.begin() + i);
             }

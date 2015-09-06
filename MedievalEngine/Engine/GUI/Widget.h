@@ -23,7 +23,7 @@ public:
 
     virtual void init() = 0;
     virtual void draw(Window& window) = 0;
-    virtual void draw(sf::RenderWindow* renderWindow);
+    virtual void draw(sf::RenderWindow* renderWindow, sf::RenderStates* state);
     virtual void update() = 0;
     virtual void handleEvents(Event evt) = 0;
 

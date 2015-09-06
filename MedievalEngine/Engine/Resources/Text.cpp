@@ -75,7 +75,7 @@ void Text::setStyle(const Text::FontStyle& style) {
     }
 }
 
-void Text::draw(sf::RenderWindow* renderWindow) {
+void Text::draw(sf::RenderWindow* renderWindow, sf::RenderStates* state) {
     if (isTextShadowEnable()) {
         Color tmpColor    = getColor();
         Vect2f tmpPos     = getPosition();
@@ -91,8 +91,11 @@ void Text::draw(sf::RenderWindow* renderWindow) {
         setPosition(tmpPos);
     }
 
-    sf::RenderStates* states = updateEffects();
-    renderWindow->draw(mText, *states);
+    if (state == nullptr) {
+        state = updateEffects();
+    }
+
+    renderWindow->draw(mText, *state);
 }
 
 void Text::move(const Vect2f& pos) {

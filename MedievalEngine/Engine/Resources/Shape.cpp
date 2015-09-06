@@ -14,7 +14,7 @@ Shape::Shape(const Vect2f& size, const Color& color, const Vect2f& pos) {
     mNumberPoints    = 30;
 }
 
-void Shape::draw(sf::RenderWindow* renderWindow) {
+void Shape::draw(sf::RenderWindow* renderWindow, sf::RenderStates* state) {
     std::vector<sf::Vertex> vertexVector;
 
     sf::Vector2f shapeSize(getSize().x, getSize().y);
@@ -85,8 +85,11 @@ void Shape::draw(sf::RenderWindow* renderWindow) {
         }
     }
 
-    sf::RenderStates* states = updateEffects();
-    renderWindow->draw(&vertexVector[0], vertexVector.size(), sf::TrianglesFan, *states);
+    if (state == nullptr) {
+        state = updateEffects();
+    }
+
+    renderWindow->draw(&vertexVector[0], vertexVector.size(), sf::TrianglesFan, *state);
 }
 
 sf::RectangleShape* Shape::getResourcePointer() {

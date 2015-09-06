@@ -49,8 +49,9 @@ void Shader::setParameter(const std::string& paramenter, const double& data) {
     }
 }
 
-void Shader::update(Drawable* object) {
+sf::RenderStates* Shader::update(Drawable* object) {
     mRenderStates->shader = &mShader;
+    return mRenderStates;
 }
 
 bool Shader::isShaderEnable() {

@@ -37,6 +37,7 @@ public:
 
     void clear();
     void draw(Drawable *obj);
+    void draw(Drawable *obj, sf::RenderStates* states);
     void display();
 
 

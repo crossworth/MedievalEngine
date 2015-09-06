@@ -54,10 +54,14 @@ sf::Sprite* SpriteAnimation::getResourcePointer() {
     return &mSprite;
 }
 
-void SpriteAnimation::draw(sf::RenderWindow* renderWindow) {
-    sf::RenderStates* states = updateEffects();
+void SpriteAnimation::draw(sf::RenderWindow* renderWindow, sf::RenderStates* state) {
     updateSprite();
-    renderWindow->draw(mSprite, *states);
+
+    if (state == nullptr) {
+        state = updateEffects();
+    }
+    
+    renderWindow->draw(mSprite, *state);
 }
 
 void SpriteAnimation::setPosition(const Vect2f& pos) {

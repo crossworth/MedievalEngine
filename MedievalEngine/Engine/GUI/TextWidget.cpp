@@ -1,5 +1,6 @@
 #include "TextWidget.h"
 
+
 using namespace ME;
 
 TextWidget::TextWidget(const sf::String& text,
@@ -12,11 +13,16 @@ TextWidget::TextWidget(const sf::String& text,
     mTextSize    = textSize;
     mIsMouseOver = false;
     mFontID      = fontID;
+    mTextRef     = nullptr;
 
 }
 
 void TextWidget::setFont(const ResourceID& fontID) {
     mFontID = fontID;
+
+    if (mTextRef != nullptr) {
+        mTextRef->setFont(*mResources->getResource<Font>(mFontID));
+    }
 }
 
 ResourceID TextWidget::getFont() {
@@ -105,7 +111,7 @@ Area TextWidget::getGlobalBounds() {
 
 void TextWidget::draw(Window& window) {
     if (mIsVisible) {
-        window.draw(mTextRef);
+        window.draw(mTextRef, updateEffects());
     }
 }
 

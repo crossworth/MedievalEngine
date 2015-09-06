@@ -11,7 +11,7 @@ public:
     Shader(const std::string& fileName, const Shader::Type& type);
     Shader(const std::string& vertexShader, const std::string& fragmentShader);
     void setParameter(const std::string& parameter, const double& data);
-    void update(Drawable* object);
+    sf::RenderStates* update(Drawable* object);
 private:
     bool isShaderEnable();
     Shader();

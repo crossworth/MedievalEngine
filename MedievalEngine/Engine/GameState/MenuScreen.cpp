@@ -152,9 +152,21 @@ void MenuScreen::create() {
 void MenuScreen::init() {
     LOG << Log::VERBOSE << "[MenuScreen::init]" << std::endl;
 
-    mFadeTime = 200;
+    mFadeTime = 500;
+
+    // mNewGame->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
+    blurEffect = new Shader("blur.frag", Shader::Type::FRAGMENT);
+    blurEffect->setParameter("blur_radius", 0.010f);
+
+    mNewGame->addEffect(blurEffect);
+    mContinue->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
+    mMultiplayer->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
+    mOptions->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
+    mExit->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
+
     mResources->getResource<Sprite>(bgID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
-    mResources->getResource<Sprite>(logoID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
+    // mResources->getResource<Sprite>(logoID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
+    mResources->getResource<Sprite>(logoID)->addEffect(blurEffect);
     mResources->getResource<Sprite>(bgOptionsID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN, [this] (void) {
         this->setCurrentStatus(GameState::Status::ON_PLAYING);
     }));
@@ -164,6 +176,7 @@ void MenuScreen::onEnable(Window &window) {
     window.draw(mResources->getResource<Sprite>(bgID));
     window.draw(mResources->getResource<Sprite>(bgOptionsID));
     window.draw(mResources->getResource<Sprite>(logoID));
+    window.draw(&mGUI);
 }
 
 void MenuScreen::onDisable(Window &window) {

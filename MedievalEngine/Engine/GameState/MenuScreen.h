@@ -7,6 +7,8 @@
 
 namespace ME {
 
+class Shader;
+
 class MenuScreen : public GameState {
 public:
     MenuScreen(MedievalEngine* engine);
@@ -22,6 +24,9 @@ private:
     ResourceID bgID;
     ResourceID bgOptionsID;
     ResourceID logoID;
+
+
+    Shader* blurEffect;
 
     unsigned int mFadeTime;
 

@@ -3,10 +3,12 @@
 using namespace ME;
 
 ButtonWidget::ButtonWidget(const sf::String& text, Vect2f pos,  ResourceID fontID) {
-    mType   = "ButtonWidget";
-    mText   = text;
-    mPos    = pos;
-    mFontID = fontID;
+    mType     = "ButtonWidget";
+    mText     = text;
+    mPos      = pos;
+    mFontID   = fontID;
+    mTextRef  = nullptr;
+    mShapeRef = nullptr; 
 }
 
 void ButtonWidget::init() {
@@ -25,6 +27,9 @@ void ButtonWidget::init() {
 
     mShapeID  = mResources->createShape(Vect2f(width, 30.0f), Color(0, 0, 0), mPos);
     mShapeRef = mResources->getResource<Shape>(mShapeID);
+    // TODO(Pedro): Get the Color's from our GUI Object
+    // Like GUI::Style::BUTTON_C1 or something like that
+    // So we can load a different GUI style on runtime (or compilation I guess)
     mShapeRef->setColor(ColorGradient(Color::BUTTON_C1, Color::BUTTON_C2));
     mShapeRef->setRadius(2.0f);
 
@@ -33,13 +38,16 @@ void ButtonWidget::init() {
                 Vect2f(mShapeRef->getPosition().x+(mShapeRef->getSize().x/2),
                        mShapeRef->getPosition().y+(mTextRef->getSize().y/2)));
 
+
+    // GUI::Style::BUTTON_TEXT_COLOR
     mTextRef->setColor(Color::BLACK);
 }
 
 void ButtonWidget::draw(Window& window) {
-    // TODO(Pedro): If its visible
-    window.draw(mShapeRef);
-    window.draw(mTextRef);
+    if (isVisible()) {
+        window.draw(mShapeRef);
+        window.draw(mTextRef);
+    }
 }
 
 void ButtonWidget::update() {

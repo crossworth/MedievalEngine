@@ -15,7 +15,7 @@ public:
     // strobe de até 50% de opacidade
 
     Strobe(double time, float negativeRange, unsigned int duration = 50000, VoidCallback func = EMPTY_VOID_CALLBACK);
-    void update(Drawable* object);
+    sf::RenderStates* update(Drawable* object);
 private:
     bool mIsInitialized;
     int mDirection;

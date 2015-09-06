@@ -14,7 +14,7 @@ void Widget::registerWindow(Window* window) {
     mWindow = window;
 }
 
-void Widget::draw(sf::RenderWindow* renderWindow) {
+void Widget::draw(sf::RenderWindow* renderWindow, sf::RenderStates* state) {
 
 }
 

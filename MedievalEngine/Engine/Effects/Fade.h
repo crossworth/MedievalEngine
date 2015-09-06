@@ -11,7 +11,7 @@ public:
 public:
     // Em milesegundos
     Fade(double time, const Type& type, VoidCallback func = EMPTY_VOID_CALLBACK);
-    void update(Drawable* object);
+    sf::RenderStates* update(Drawable* object);
 private:
 	Fade();
     double mFadeTime;

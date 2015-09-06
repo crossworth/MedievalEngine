@@ -25,7 +25,7 @@ Strobe::Strobe(double time, float negativeRange, unsigned int duration, VoidCall
     mNegativeRange = 1.0f - mNegativeRange;
 }
 
-void Strobe::update(Drawable* object) {
+sf::RenderStates* Strobe::update(Drawable* object) {
     if (!mIsInitialized) {
         mBaseColor     = object->getColor();
         mIsInitialized = true;
@@ -62,4 +62,6 @@ void Strobe::update(Drawable* object) {
         object->setColor(Color(tmpColor.red, tmpColor.green, tmpColor.blue,
                                static_cast<int>(mStrobeCounter)));
     }
+
+    return new sf::RenderStates();
 }

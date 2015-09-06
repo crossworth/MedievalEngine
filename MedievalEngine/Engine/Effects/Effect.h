@@ -16,7 +16,7 @@ public:
     enum Type {FADE, STROBE, SHADER};
 public:
     Effect();
-    virtual void update(Drawable* object) = 0;
+    virtual sf::RenderStates* update(Drawable* object) = 0;
     Type getType();
     std::string getTypeStd();
 

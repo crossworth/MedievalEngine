@@ -21,7 +21,7 @@ public:
     void update();
     void handleEvents(Event evt);
 
-    void draw(sf::RenderWindow* renderWindow);
+    void draw(sf::RenderWindow* renderWindow, sf::RenderStates* state);
 
     void setPosition(const Vect2f& pos);
     Vect2f getPosition();

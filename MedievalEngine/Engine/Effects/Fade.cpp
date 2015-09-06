@@ -19,7 +19,7 @@ Fade::Fade(double time, const Type &type, VoidCallback func) {
     }
 }
 
-void Fade::update(Drawable* object) {
+sf::RenderStates* Fade::update(Drawable* object) {
     if (!isDone()) {
         // UTF-8 que removeu todos os acentos =/
         // O codigo abaixo utiliza de magia para funcionar
@@ -54,4 +54,6 @@ void Fade::update(Drawable* object) {
         object->setColor(Color(tmpColor.red, tmpColor.green,
                                tmpColor.blue, static_cast<int>(mFadeCounter)));
     }
+
+    return new sf::RenderStates();
 }
