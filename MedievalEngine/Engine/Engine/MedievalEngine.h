@@ -19,6 +19,8 @@ public:
     ResourceManager* getResourceManager();
     GameStateManager* getGameStateManager();
     DATFile* getDATAFileHandle();
+    MusicQueue* getMusicQueue(const std::string& name);
+    void setCurrentMusicQueue(const std::string& name);
 
     ~MedievalEngine();
 
@@ -30,6 +32,8 @@ protected:
     bool mDoneLoading;
     std::thread* mLoadingThread;
 private:
+    std::string mCurrentMusicQueue;
+    std::map<std::string, MusicQueue> mMusicQueue;
     bool mRunning;
     int mErrorCode;
     Window mWindow;

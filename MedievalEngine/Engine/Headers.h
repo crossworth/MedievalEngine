@@ -22,6 +22,7 @@
 
 #include "Resources/ResourceIDGenerator.h"
 #include "Resources/ResourceManager.h"
+#include "Resources/MusicQueue.h"
 
 #include "Graphics/Drawable.h"
 #include "Graphics/WindowInfo.h"

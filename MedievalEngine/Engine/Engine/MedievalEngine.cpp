@@ -177,6 +177,10 @@ void MedievalEngine::run() {
     }
     while(mWindow.isOpen()) {
 
+        if (mMusicQueue.find(mCurrentMusicQueue) != mMusicQueue.end()) {
+            mMusicQueue[mCurrentMusicQueue].update();
+        }
+
         Event event;
         while(mWindow.pollEvent(event)) {
             mGameStateManager.handleEvents(event);
@@ -196,6 +200,22 @@ int MedievalEngine::getErrorCode() {
 
 bool MedievalEngine::isRunning() {
     return mRunning;
+}
+
+void MedievalEngine::setCurrentMusicQueue(const std::string& name) {
+    mCurrentMusicQueue = name;
+}
+
+MusicQueue* MedievalEngine::getMusicQueue(const std::string& name) {
+    if (!(mMusicQueue.find(name) != mMusicQueue.end())) {
+        LOG << Log::VERBOSE << "[MedievalEngine::getMusicQueue] " 
+            << "Muisc Queue " + name + " not found, creating new Music Queue" << std::endl;    
+
+        mMusicQueue[name] = MusicQueue();
+        mMusicQueue[name].registerEngine(this);
+    }
+
+    return &mMusicQueue[name];
 }
 
 void MedievalEngine::close() {

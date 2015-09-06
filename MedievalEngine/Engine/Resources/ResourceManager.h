@@ -12,6 +12,7 @@
 #include "Resources/Text.h"
 #include "Resources/SpriteAnimation.h"
 #include "Resources/Music.h"
+#include "Resources/MusicQueue.h"
 #include "Resources/Sound.h"
 #include "Resources/Shape.h"
 

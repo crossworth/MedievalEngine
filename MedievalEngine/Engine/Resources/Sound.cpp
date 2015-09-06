@@ -10,8 +10,8 @@ Sound::Sound(const std::string &fileName, const AudioType& type) {
 
 sf::Sound* Sound::loadFromFile(const std::string &fileName, const AudioType& type) {
     if (!mSoundBuffer.loadFromFile(ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
-        LOG << ("[Sound::loadFromFile] Error while opening sound: " +
-                ENGINE_DEFAULTS::ASSETS_PATH + fileName).c_str() << std::endl;
+        LOG << Log::VERBOSE << "[Sound::loadFromFile] Error while opening sound: "
+            << ENGINE_DEFAULTS::ASSETS_PATH + fileName << std::endl;
     }
     mSound.setBuffer(mSoundBuffer);
 

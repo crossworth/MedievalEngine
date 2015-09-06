@@ -37,10 +37,12 @@ void LoadingScreen::create() {
     textLoadingScreenPtr->setPosition(Vect2f(windowSize.x / 2, windowSize.y - (textLoadingScreenPtr->getSize().y * 4)));
 
 
-    LoadingScreen::menuMusic = mResources->loadMusic("menu/menu.ogg");
-    Music* music             = mResources->getResource<Music>(LoadingScreen::menuMusic);
-    music->setLoopMode(true);
-    music->play();
+
+    mEngine->getMusicQueue("menu")->insert("menu/menu.ogg");
+
+    mEngine->setCurrentMusicQueue("menu");
+    mEngine->getMusicQueue("menu")->setLoopMode(true);
+    mEngine->getMusicQueue("menu")->play();
 }
 
 void LoadingScreen::init() {
