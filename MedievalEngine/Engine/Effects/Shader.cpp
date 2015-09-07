@@ -23,7 +23,6 @@ Shader::Shader(const std::string& fileName, const Shader::Type& type) : mIsShade
                     << std::endl;
             } 
         }
-
     }
 }
 
@@ -50,6 +49,7 @@ void Shader::setParameter(const std::string& paramenter, const double& data) {
 }
 
 sf::RenderStates* Shader::update(Drawable* object) {
+    mShader.setParameter("texture", sf::Shader::CurrentTexture);
     mRenderStates->shader = &mShader;
     return mRenderStates;
 }

@@ -3,8 +3,7 @@
 
 using namespace ME;
 
-LoadingScreen::LoadingScreen(MedievalEngine* engine) : fadeTextInit(false), mIsStateChanging(false) {
-    mEngine = engine;
+LoadingScreen::LoadingScreen() : fadeTextInit(false), mIsStateChanging(false) {
     LOG << Log::VERBOSE << "[LoadingScreen::LoadingScreen]" << std::endl;
 }
 

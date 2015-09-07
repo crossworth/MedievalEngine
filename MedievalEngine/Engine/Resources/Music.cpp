@@ -3,7 +3,7 @@
 using namespace ME;
 
 Music::Music(const std::string &fileName, const AudioType& type) {
-    m_type = Resource::Type::MUSIC;
+    mType = Resource::Type::MUSIC;
     loadFromFile(fileName, type);
 }
 

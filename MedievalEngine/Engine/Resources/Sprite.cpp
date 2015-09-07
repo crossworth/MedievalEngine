@@ -3,7 +3,7 @@
 using namespace ME;
 
 Sprite::Sprite() : mSprite() {
-    m_type = Resource::Type::SPRITE;
+    mType = Resource::Type::SPRITE;
 }
 
 sf::Sprite* Sprite::getResourcePointer() {

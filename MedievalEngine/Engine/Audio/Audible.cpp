@@ -12,9 +12,9 @@ Audible::Audible() {
 }
 
 AudioType Audible::getType() {
-    return mType;
+    return mAudioType;
 }
 
 void Audible::setType(const AudioType& type) {
-    mType = type;
+    mAudioType = type;
 }

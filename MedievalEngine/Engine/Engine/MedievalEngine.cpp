@@ -5,13 +5,19 @@ using namespace ME;
 MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     mErrorCode(0), gameFontID(0), mDoneLoading(false), mRunning(true) {
 
+    // We verify if a config argument has been passed, if so We load the engine 
+    // with the specified configuration file
     if (mArguments.hasArgument("config")) {
         mConfigurations.readFile(mArguments.getArgument("config"));
     } else {
+        // TODO(Pedro): if configuration file not found 
+        // do something
         mConfigurations.readFile(ENGINE_DEFAULTS::CONFIG_FILE);
     }
 
-     mWindowInfo_;
+    // Since its the creation of our engine we create a temporary window object
+    // to initialize our window
+    mWindowInfo_;
 
     std::string width;
     std::string height;
@@ -24,6 +30,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     std::string musicVolume;
     std::string ambientVolume;
 
+    // Try the keys of the configuration file
     bitsPerPixel  = mConfigurations.getKey("bits_per_pixel");
     height        = mConfigurations.getKey("height");
     width         = mConfigurations.getKey("width");
@@ -35,6 +42,9 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     musicVolume   = mConfigurations.getKey("music_volume");
     ambientVolume = mConfigurations.getKey("ambient_volume");
 
+
+    // Verify each key to see if we do have a valid information if so we parse 
+    // to the correct type and put on the appropriate place
     if(bitsPerPixel != "") {
         mWindowInfo_.bitsPerPixel = Kit::str_int(bitsPerPixel);
     }
@@ -55,10 +65,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
         mWindowInfo_.windowName = windowName;
     }
 
-    if (language == "") {
-        language = ENGINE_DEFAULTS::LANGUAGE;
-    }
-
+    // Max volume 100
     if (volume != "") {
         Audible::VOLUME = std::min(Kit::str_float(volume), 100.f);
     }
@@ -75,7 +82,12 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
         Audible::AMBIENT_VOLUME = std::min(Kit::str_float(ambientVolume), 100.f);
     }
 
-    if (!Strings::openLanguageFile(ENGINE_DEFAULTS::LANG_PATH + language)) {
+    // Try to open the language file specified on the configuration file
+    // If we failed to load the language file or its not informed on the configuration file
+    // we try to load the default language file
+    if (language == "" || !Strings::openLanguageFile(ENGINE_DEFAULTS::LANG_PATH + language)) {
+
+        // If we failed to open the default language file we close the engine
         if (!Strings::openLanguageFile(ENGINE_DEFAULTS::LANG_PATH + ENGINE_DEFAULTS::LANGUAGE)) {
             LOG << Log::CRITICAL
                 << "[MedievalEngine::MedievalEngine] Could not open the language pack "
@@ -86,6 +98,9 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
         }
     }
 
+
+    // Try to open the default engine data file
+    // If we cant open it we close the engine
     if (!mDataFiles.openFile(ENGINE_DEFAULTS::DATA_PATH +
                              ENGINE_DEFAULTS::DEFAULT_DATFILE)) {
         LOG << Log::CRITICAL
@@ -95,8 +110,13 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
         mWindow.close();
         mErrorCode = 1;
     } else {
+
+        // If we can open the file but the signature its different we close the engine as well
         if (mDataFiles.getName() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_NAME &&
             mDataFiles.getVersion() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_VERSION ) {
+
+            // Load the default engine font for the engine, its the fallback font for all the
+            // string related stuff
             Font::DEFAULT_FONT = mResourceManager.loadFont(mDataFiles.getFile("default.ttf"),
                                                          mDataFiles.getFileEntrySize("default.ttf"));
 
@@ -121,9 +141,12 @@ void MedievalEngine::loadingThread() {
     LOG << Log::VERBOSE << "[MedievalEngine::loadingThread]" << std::endl;
     // Here we register all our game states and call all the init create methods
 
-    mGameStateManager.add("menu", new MenuScreen(this));
+    mGameStateManager.add("menu", new MenuScreen());
     mGameStateManager.getGameState("menu")->registerEngine(this);
 
+
+    // Once we loaded all the gameStates and assets we set this mDoneLoading to true
+    // to stop the loading screen
     mDoneLoading = true;
 }
 
@@ -138,6 +161,11 @@ void MedievalEngine::init() {
 
     LOG << Log::VERBOSE << "[MedievalEngine::init]" << std::endl;
 
+    // Verify if we do have a game font key
+    // if so we load it else we set to the fallback font
+    // NOTE(Pedro): If the font its not load correctly it still get its ResourceID
+    // and the font can be access to be load another font
+    // A Log::WARNING should be emited
     if (mConfigurations.getKey("game_font") != "") {
         gameFontID = mResourceManager.loadFont(mConfigurations.getKey("game_font"));
     } else {
@@ -148,12 +176,15 @@ void MedievalEngine::init() {
     mWindow.create(mWindowInfo_);
 
 
-    mGameStateManager.add("loading", new LoadingScreen(this));
+    mGameStateManager.add("loading", new LoadingScreen());
     mGameStateManager.getGameState("loading")->registerEngine(this);
     mGameStateManager.setGameState("loading");
 
+    // Open the window only after the loading screen has been initialized
     mWindow.open();
 
+
+    // Set an icon and cursor if we find it on the configuration file
     std::string iconName;
     std::string cursorName;
     iconName   = mConfigurations.getKey("icon");
@@ -220,10 +251,12 @@ MusicQueue* MedievalEngine::getMusicQueue(const std::string& name) {
 
 void MedievalEngine::close() {
     LOG << Log::VERBOSE << "[MedievalEngine::close]" << std::endl;
-    // We dont close if We are in the loading Thread
     if (mWindow.isOpen()) {
         mRunning = false;
         mWindow.close();
+
+        // Close the window and wait for the thread to finish the loading
+        // if we dont the engine crash horrible
         mLoadingThread->join();
     }
 }

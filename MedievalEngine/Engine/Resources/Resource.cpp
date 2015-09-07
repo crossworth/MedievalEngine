@@ -11,6 +11,6 @@ Resource::~Resource() {
 }
 
 Resource::Type Resource::getType() {
-    return m_type;
+    return mType;
 }
 

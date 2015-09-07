@@ -4,7 +4,9 @@
 
 namespace ME {
 
+
 typedef unsigned long int ResourceID;
+
 
 class ResourceIDGenerator {
 public:

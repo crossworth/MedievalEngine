@@ -18,7 +18,7 @@ class Window;
 
 typedef std::shared_ptr<Effect> EffectPtr;
 
-enum Padding { TOP, BOTTOM, LEFT, RIGHT, ALL};
+enum Padding {TOP, BOTTOM, LEFT, RIGHT, ALL};
 
 class Drawable {
 public:

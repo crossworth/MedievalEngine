@@ -3,7 +3,7 @@
 using namespace ME;
 
 Text::Text() : mHasTextShadow(false) {
-    m_type = Resource::Type::TEXT;
+    mType = Resource::Type::TEXT;
 }
 
 std::string Text::getString() {

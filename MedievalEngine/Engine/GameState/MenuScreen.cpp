@@ -3,8 +3,7 @@
 
 using namespace ME;
 
-MenuScreen::MenuScreen(MedievalEngine* engine) {
-    mEngine = engine;
+MenuScreen::MenuScreen() {
     LOG << Log::VERBOSE << "[MenuScreen::MenuScreen]" << std::endl;
 }
 
@@ -154,11 +153,6 @@ void MenuScreen::init() {
 
     mFadeTime = 500;
 
-    blurEffect = new Shader("blur.frag", Shader::Type::FRAGMENT);
-    blurEffect->setParameter("blur_radius", 0.015f);
-
-    mGUI.addEffect(blurEffect);
-
     mNewGame->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
     mContinue->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
     mMultiplayer->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
@@ -167,7 +161,6 @@ void MenuScreen::init() {
 
     mResources->getResource<Sprite>(bgID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
     mResources->getResource<Sprite>(logoID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
-    // mResources->getResource<Sprite>(logoID)->addEffect(blurEffect);
     mResources->getResource<Sprite>(bgOptionsID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN, [this] (void) {
         this->setCurrentStatus(GameState::Status::ON_PLAYING);
     }));

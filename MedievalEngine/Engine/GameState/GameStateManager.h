@@ -5,6 +5,7 @@
 #include <iostream>
 #include "GameState/LoadingScreen.h"
 #include "GameState/MenuScreen.h"
+#include "GameState/OptionsScreen.h"
 
 
 namespace  ME {

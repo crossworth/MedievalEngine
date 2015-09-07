@@ -11,7 +11,7 @@ class Shader;
 
 class MenuScreen : public GameState {
 public:
-    MenuScreen(MedievalEngine* engine);
+    MenuScreen();
     void init();
     void create();
     void onEnable(Window& window);
@@ -24,9 +24,6 @@ private:
     ResourceID bgID;
     ResourceID bgOptionsID;
     ResourceID logoID;
-
-
-    Shader* blurEffect;
 
     unsigned int mFadeTime;
 

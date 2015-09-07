@@ -13,7 +13,7 @@ public:
     virtual ~Resource();
     Type getType();
 protected:
-    Type m_type;
+    Type mType;
 };
 
 }

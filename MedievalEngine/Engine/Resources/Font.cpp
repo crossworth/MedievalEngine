@@ -5,11 +5,11 @@ using namespace ME;
 ResourceID Font::DEFAULT_FONT = 0;
 
 Font::Font() {
-    m_type = Resource::Type::FONT;
+    mType = Resource::Type::FONT;
 }
 
 Font::Font(const std::string &fileName) {
-    m_type = Resource::Type::FONT;
+    mType = Resource::Type::FONT;
     loadFromFile(fileName);
 }
 

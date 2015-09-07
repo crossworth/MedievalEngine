@@ -7,9 +7,30 @@
 
 namespace ME{
 
-enum AudioStatus {STOPPED, PLAYING, PAUSED};
-enum AudioType {MUSIC, VOICE, AMBIENT};
+/**
+ * AudioStatus enum
+ * The current Audio Status
+ */
+enum AudioStatus {
+    STOPPED, /*<! Audio is stopped */
+    PLAYING, /*<! Audio is playing */
+    PAUSED   /*<! Audio is paused  */
+};
 
+/**
+ * AudioType enum
+ * The type of the sound/music
+ */
+enum AudioType {
+    MUSIC,  /*<! Type music   */
+    VOICE,  /*<! Type voice   */
+    AMBIENT /*<! Type ambient */
+};
+
+/**
+ * @brief The Audible class
+ * Define the base class of sound and music
+ */
 class Audible {
 public:
     Audible();
@@ -43,7 +64,7 @@ public:
     static float MUSIC_VOLUME;
     static float AMBIENT_VOLUME;
 protected:
-    AudioType mType;
+    AudioType mAudioType;
 };
 
 }

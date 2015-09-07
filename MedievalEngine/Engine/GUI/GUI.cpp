@@ -11,9 +11,6 @@ void GUI::registerEngine(MedievalEngine* engine) {
     mEngine = engine;
 }
 
-
-
-
 void GUI::draw(Window& window, sf::RenderStates* state) {
     if (isVisible()) {
         if (state == nullptr) {
