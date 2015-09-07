@@ -14,6 +14,11 @@ Shape::Shape(const Vect2f& size, const Color& color, const Vect2f& pos) {
     mNumberPoints    = 30;
 }
 
+
+void Shape::draw(Window& window, sf::RenderStates* state) {
+
+}
+
 void Shape::draw(sf::RenderWindow* renderWindow, sf::RenderStates* state) {
     std::vector<sf::Vertex> vertexVector;
 

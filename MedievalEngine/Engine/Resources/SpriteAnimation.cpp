@@ -54,6 +54,10 @@ sf::Sprite* SpriteAnimation::getResourcePointer() {
     return &mSprite;
 }
 
+void SpriteAnimation::draw(Window& window, sf::RenderStates* state) {
+
+}
+
 void SpriteAnimation::draw(sf::RenderWindow* renderWindow, sf::RenderStates* state) {
     updateSprite();
 

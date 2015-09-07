@@ -14,6 +14,10 @@ void Sprite::setTexture(Texture *texture) {
     mSprite.setTexture(*texture->getResourcePointer());
 }
 
+void Sprite::draw(Window& window, sf::RenderStates* state) {
+
+}
+
 void Sprite::draw(sf::RenderWindow *renderWindow, sf::RenderStates* state) {
     if (state == nullptr) {
         state = updateEffects();

@@ -10,6 +10,7 @@ class Shape : public Resource, public Drawable {
 public:
     Shape(const Vect2f& size, const Color& color, const Vect2f& pos);
 
+    void draw(Window& window, sf::RenderStates* state);
     void draw(sf::RenderWindow* renderWindow, sf::RenderStates* state);
 
     sf::RectangleShape* getResourcePointer();

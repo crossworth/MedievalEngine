@@ -15,7 +15,7 @@ public:
     ButtonWidget(const sf::String& text,
                  Vect2f pos, ResourceID fontID = 0);
     void init();
-    void draw(Window& window);
+    void draw(Window& window, sf::RenderStates* state);
     void update();
     void handleEvents(Event evt);
 

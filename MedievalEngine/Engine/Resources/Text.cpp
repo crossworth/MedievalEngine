@@ -75,6 +75,10 @@ void Text::setStyle(const Text::FontStyle& style) {
     }
 }
 
+void Text::draw(Window& window, sf::RenderStates* state) {
+
+}
+
 void Text::draw(sf::RenderWindow* renderWindow, sf::RenderStates* state) {
     if (isTextShadowEnable()) {
         Color tmpColor    = getColor();

@@ -154,19 +154,20 @@ void MenuScreen::init() {
 
     mFadeTime = 500;
 
-    // mNewGame->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
     blurEffect = new Shader("blur.frag", Shader::Type::FRAGMENT);
-    blurEffect->setParameter("blur_radius", 0.010f);
+    blurEffect->setParameter("blur_radius", 0.015f);
 
-    mNewGame->addEffect(blurEffect);
+    mGUI.addEffect(blurEffect);
+
+    mNewGame->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
     mContinue->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
     mMultiplayer->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
     mOptions->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
     mExit->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
 
     mResources->getResource<Sprite>(bgID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
-    // mResources->getResource<Sprite>(logoID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
-    mResources->getResource<Sprite>(logoID)->addEffect(blurEffect);
+    mResources->getResource<Sprite>(logoID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
+    // mResources->getResource<Sprite>(logoID)->addEffect(blurEffect);
     mResources->getResource<Sprite>(bgOptionsID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN, [this] (void) {
         this->setCurrentStatus(GameState::Status::ON_PLAYING);
     }));

@@ -15,7 +15,7 @@ public:
     TextListWidget();
     void init();
     void addText(const sf::String& text);
-    void draw(Window& window);
+    void draw(Window& window, sf::RenderStates* state);
     void update();
     void handleEvents(Event evt);
     void setScrollSpeed(float& scrollspeed);

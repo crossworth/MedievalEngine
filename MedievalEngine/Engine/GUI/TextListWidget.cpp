@@ -65,7 +65,12 @@ void TextListWidget::addText(const sf::String& text) {
     }
 }
 
-void TextListWidget::draw(Window& window) {
+void TextListWidget::draw(Window& window, sf::RenderStates* state) {
+
+    if (state == nullptr) {
+        state = updateEffects();
+    }
+
     // TODO(Pedro): If its visible
     winSize  = window.getWindowInfo();
 
@@ -82,14 +87,14 @@ void TextListWidget::draw(Window& window) {
 
     panelView.setViewport(panelRect);
 
-    window.draw(mShapeRef);
+    window.draw(mShapeRef, state);
 
     if (mIsExpanded && mShowScrollBar) {
-        window.draw(mScrollBarRef);
+        window.draw(mScrollBarRef, state);
     }
 
     window.getWindowPtr()->setView(panelView);
-    window.draw(mTextRef);
+    window.draw(mTextRef, state);
     window.getWindowPtr()->setView(window.getWindowPtr()->getDefaultView());
 }
 

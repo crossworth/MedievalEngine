@@ -26,6 +26,7 @@ public:
 
     sf::Sprite* getResourcePointer();
 
+    void draw(Window& window, sf::RenderStates* state);
     void draw(sf::RenderWindow* renderWindow, sf::RenderStates* state);
 
     void setPosition(const Vect2f& pos);

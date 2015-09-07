@@ -16,7 +16,7 @@ Drawable::~Drawable() {
     delete mRenderStates;
 }
 
-void Drawable::draw(Window& window) {
+void Drawable::draw(Window& window, sf::RenderStates* state) {
 
 }
 

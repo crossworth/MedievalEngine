@@ -179,7 +179,7 @@ bool Window::isValidWindow(const WindowInfo& info) {
     }
 
     sf::VideoMode tmp(info.width, info.height, info.bitsPerPixel);
-    return  tmp.isValid();
+    return tmp.isValid();
 }
 
 void Window::clear() {
@@ -200,7 +200,7 @@ void Window::draw(Drawable* obj) {
 void Window::draw(Drawable *obj, sf::RenderStates* states) {
     assert(obj != nullptr);
     if (obj->requireWindowObject()) {
-        obj->draw(*this);
+        obj->draw(*this, states);
     } else {
         obj->draw(mWindow, states);
     }

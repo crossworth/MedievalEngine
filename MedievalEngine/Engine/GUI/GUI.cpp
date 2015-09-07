@@ -11,11 +11,18 @@ void GUI::registerEngine(MedievalEngine* engine) {
     mEngine = engine;
 }
 
-void GUI::draw(Window& window) {
+
+
+
+void GUI::draw(Window& window, sf::RenderStates* state) {
     if (isVisible()) {
+        if (state == nullptr) {
+            state = updateEffects();
+        }
+
         for(auto it = mWidgets.begin(); it != mWidgets.end(); it++) {
             if ((*it).second->isVisible()) {
-                (*it).second->draw(window);
+                (*it).second->draw(window, state);
             }
         }
     }

@@ -25,7 +25,7 @@ public:
     Drawable();
     virtual ~Drawable();
 
-    virtual void draw(Window& window);
+    virtual void draw(Window& window, sf::RenderStates* state = nullptr) = 0;
     virtual void draw(sf::RenderWindow* renderWindow, sf::RenderStates* state = nullptr) = 0;
 
     virtual void setPosition(const Vect2f& pos) = 0;
