@@ -10,14 +10,14 @@
 
 /**
  * @namespace ME
- * @brief The Global MedievalEngine namespace
+ * @brief The Global Medieval Engine namespace
  *
  * All the Medieval Engine code it's on the ME namespace
  */
 namespace ME {
 
 /**
- * @namespace ENGINE_DEFAULTS
+ * @namespace ME::ENGINE_DEFAULTS
  * @brief The namespace for the default configurations variables and constants
  *
  * All the default configurations are placed on this namespace, all the user defined
