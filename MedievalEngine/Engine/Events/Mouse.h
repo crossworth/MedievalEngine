@@ -10,7 +10,7 @@ class Window;
 
 class Mouse {
 public:
-
+    
     enum Button {
         Left,       ///< The left mouse button
         Right,      ///< The right mouse button

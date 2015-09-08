@@ -12,7 +12,13 @@ class ResourceManager;
 
 class GameState {
 public:
-    enum Status {ON_ENABLE, ON_PLAYING, ON_DISABLE, ON_DONE };
+    // TODO(Pedro): 
+    enum Status {
+        ON_ENABLE,
+        ON_PLAYING,
+        ON_DISABLE,
+        ON_DONE
+    };
 public:
     GameState();
     virtual void create() = 0;

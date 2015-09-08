@@ -5,7 +5,7 @@ using namespace ME;
 MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     mErrorCode(0), gameFontID(0), mDoneLoading(false), mRunning(true) {
 
-    // We verify if a config argument has been passed, if so We load the engine
+    // We verify if a config argument has been passed, if so we load the engine
     // with the specified configuration file
     if (mArguments.hasArgument("config")) {
         mConfigurations.readFile(mArguments.getArgument("config"));
@@ -33,12 +33,14 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     std::string ambientVolume;
 
     // Try the keys of the configuration file
+    // TODO(Pedro): Load the vsync and frame limit
     bitsPerPixel  = mConfigurations.getKey("bits_per_pixel");
     height        = mConfigurations.getKey("height");
     width         = mConfigurations.getKey("width");
     fullScreen    = mConfigurations.getKey("fullscreen");
     windowName    = mConfigurations.getKey("engine_name");
     language      = mConfigurations.getKey("language");
+    // TODO(Pedro): Change this to globalVolume
     volume        = mConfigurations.getKey("volume");
     voiceVolume   = mConfigurations.getKey("voice_volume");
     musicVolume   = mConfigurations.getKey("music_volume");
@@ -67,7 +69,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
         mWindowInfo_.windowName = windowName;
     }
 
-    // Max volume 100
+    // Max volume 100.f
     if (volume != "") {
         Audible::VOLUME = std::min(Kit::str_float(volume), 100.f);
     }

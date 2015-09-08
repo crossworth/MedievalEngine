@@ -24,10 +24,14 @@ public:
 
     ~MedievalEngine();
 
+    // TODO(Pedro): Rename to GAME_FONT_ID and make it static
     ResourceID gameFontID;
 
+    // TODO(Pedro): Could this be private?
     bool doneLoading();
     void loadingThread();
+
+// TODO(Pedro): Could this be private as well?
 protected:
     bool mDoneLoading;
     std::thread* mLoadingThread;
@@ -37,6 +41,7 @@ private:
     bool mRunning;
     int mErrorCode;
     Window mWindow;
+    // TODO(Pedro): Rename this variable to mWindowInfoInput
     WindowInfo mWindowInfo_;
     ResourceManager mResourceManager;
     CFGParser mConfigurations;

@@ -2,7 +2,6 @@
 #include "Graphics/Window.h"
 
 
-
 using namespace ME;
 
 bool Mouse::isButtonPressed(Mouse::Button button) {
