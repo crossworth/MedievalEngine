@@ -18,7 +18,19 @@ class Window;
 
 typedef std::shared_ptr<Effect> EffectPtr;
 
-enum Padding {TOP, BOTTOM, LEFT, RIGHT, ALL};
+// TODO(Pedro): Put this enum on a namespace
+
+/**
+ * The Padding enum
+ * Define the position which apply the padding to a Drawable element
+ */
+enum Padding {
+    TOP,    ///< Relative to top
+    BOTTOM, ///< Relative to bottom
+    LEFT,   ///< Relative to left
+    RIGHT,  ///< Relative to right
+    ALL     ///< All the sides
+};
 
 class Drawable {
 public:
@@ -65,12 +77,25 @@ public:
     void removeEffect(std::string effectType);
     void removeAllEffects();
 
-    // Helper method to tell if We require the Window Object insted of a RenderWindow
-    // We use this to reander our GUI's object, since they require more information
-    // to be able to render
+    /**
+     * Helper method that inform that the current Drawable object need pass a Window as
+     * parameter to the Drawable::draw
+     * @return bool - object need or not a Window Object on Draw function or a sf::RenderWindow
+     */
     virtual bool requireWindowObject();
 
+    /**
+     * Define the padding relative to the Window object
+     * @param const float& percent - The padding percentage (max 1.0f)
+     * @param Padding type - The padding type (default Padding::ALL)
+     */
     void setPadding(const float& percent, Padding type = Padding::ALL);
+
+    //TODO(Pedro): implement a setPaddingRelative
+    // to set the padding relative to the current object that it reside on
+    // or maybe do something different, like implement setPadding only on widget
+    // objects and keep the widget a pointer to all childerns so we can update all the childerns
+    // relative to the parent position or something like that
 
     float mPaddingTop;
     float mPaddingBottom;

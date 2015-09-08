@@ -98,6 +98,10 @@ void MenuScreen::create() {
 
     GUIEventPtr optionsEvent = GUIEventPtr(new GUIEvent());
 
+    // NOTE(Pedro): Test this
+    // For some reason we could not pass this to the lambda function
+    // somehow it don't work as expect
+    // try something like this->bgOptionsSPT since it's obvious on the scope of this
     optionsEvent->setOnClick([=](Widget* widget) {
         Window::fullScreen(bgOptionsSPT);
         Window::setPosition(bgOptionsSPT, Window::Position::CENTER, Window::Position::TOP);

@@ -12,6 +12,8 @@ void Effect::setDone() {
     << std::endl;
 
     mDone = true;
+
+    // We call our Callback function after the effect it's done
     mCallback();
 }
 
@@ -19,6 +21,7 @@ bool Effect::isDone() {
     return mDone;
 }
 
+// TODO(Pedro): Verify if this is used
 void Effect::registerRenderStates(sf::RenderStates* states) {
     mRenderStates = states;
 }
@@ -27,6 +30,7 @@ Effect::Type Effect::getType() {
     return mType;
 }
 
+// Rename this to getTypeStr and not STD(?)
 std::string Effect::getTypeStd() {
     switch(mType) {
     case Type::FADE:

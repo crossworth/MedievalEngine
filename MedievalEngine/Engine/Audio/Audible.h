@@ -7,14 +7,17 @@
 
 namespace ME{
 
+
+// TODO(Pedro): Put this enum's on a namespace
+
 /**
- * AudioStatus enum
+ * AudioStatus
  * The current Audio Status
  */
 enum AudioStatus {
-    STOPPED, /*<! Audio is stopped */
-    PLAYING, /*<! Audio is playing */
-    PAUSED   /*<! Audio is paused  */
+    STOPPED, ///< Audio is stopped
+    PLAYING, ///< Audio is playing
+    PAUSED   ///< Audio is paused
 };
 
 /**
@@ -22,9 +25,9 @@ enum AudioStatus {
  * The type of the sound/music
  */
 enum AudioType {
-    MUSIC,  /*<! Type music   */
-    VOICE,  /*<! Type voice   */
-    AMBIENT /*<! Type ambient */
+    MUSIC,  ///< Type music
+    VOICE,  ///< Type voice
+    AMBIENT ///< Type ambient
 };
 
 /**
@@ -49,7 +52,7 @@ public:
     virtual void setPitch(const float& pitch) = 0;
     virtual AudioStatus getStatus() = 0;
     virtual unsigned int getPlayingOffSet() = 0;
-    virtual void setPlayingOffSet(const unsigned int offSet) = 0;
+    virtual void setPlayingOffSet(const unsigned int offset) = 0;
     virtual bool isLoopMode() = 0;
     virtual void setLoopMode(const bool& loop) = 0;
     virtual void play() = 0;
@@ -59,6 +62,7 @@ public:
     AudioType getType();
     void setType(const AudioType& type);
 public:
+    // TODO(Pedro): rename this VOLUME -> GLOBAL_VOLUME
     static float VOLUME;
     static float VOICE_VOLUME;
     static float MUSIC_VOLUME;

@@ -13,11 +13,21 @@ class Drawable;
 
 class Effect {
 public:
-    enum Type {FADE, STROBE, SHADER};
+    /**
+     * Effect Type
+     * Define the type of effect
+     */
+    enum Type {
+        FADE,   ///< Fade type
+        STROBE, ///< Strobe type
+        SHADER  ///< Shade type
+    };
 public:
     Effect();
     virtual sf::RenderStates* update(Drawable* object) = 0;
     Type getType();
+
+    // TODO(Pedro): Rename this
     std::string getTypeStd();
 
     void restartClock();
