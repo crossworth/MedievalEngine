@@ -203,6 +203,9 @@ const std::string _LOG_FILE_NAME = "output.log";
 }
 
 #ifndef nullptr
+/**
+ * Define a nullptr to 0 if for some reason we're not compiling on c++11
+ */
 #define nullptr 0
 #endif
 
