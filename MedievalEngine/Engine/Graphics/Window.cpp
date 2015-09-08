@@ -10,14 +10,18 @@ Window::Window() : mIsWindowOpen(false), mHasCustomCursor(false) {
 }
 
 void Window::setCursor(const std::string& cursor) {
+    // Try to load the cursor file, if fails just do a log and nothing more
+    // We dont use our ResourceManager here for better performance and control
+    // of the existence of our cursor texture and sprite
     if (mCursorTexture.loadFromFile(ME::ENGINE_DEFAULTS::DATA_PATH + cursor)) {
         mHasCustomCursor = true;
+        // Disable the default system cursor
         mWindow->setMouseCursorVisible(false);
         mCursor.setTexture(mCursorTexture, true);
         LOG << Log::VERBOSE << "[Window::setCursor] Custom cursor set: "
             << ME::ENGINE_DEFAULTS::DATA_PATH + cursor << std::endl;
     } else {
-        LOG << Log::VERBOSE << "[Window::setCursor] Custom not found: "
+        LOG << Log::WARNING << "[Window::setCursor] Custom not found: "
             << ME::ENGINE_DEFAULTS::DATA_PATH + cursor << std::endl;
     }
 }
@@ -32,9 +36,17 @@ Window::~Window() {
 
 void Window::fullScreen(Drawable* object) {
     Vect2f objectSize;
+    // Get the real object size
     objectSize.x = object->getLocalBounds().width;
     objectSize.y = object->getLocalBounds().height;
 
+    // Calculate the ratio based on the minimum size of the Drawable
+    // For exemple:
+    // If the width of the screen is 700 and height is 500
+    // and the Drawable has a resolution of 1000x700
+    // we scale the Drawable so that the Drawable height (min size)
+    // Can fit on the height of the screen
+    // This way we dont distort the Drawable aspect ratio
     int minWin    = std::min(Window::mWindowInfo.width, Window::mWindowInfo.height);
     float minSize = std::min(objectSize.x, objectSize.y);
     float ratio   = minWin / minSize;
@@ -48,23 +60,36 @@ void Window::fullScreen(Drawable* object) {
 int Window::fontSize(const float& size) {
     int minWin = std::min(Window::mWindowInfo.width, Window::mWindowInfo.height);
 
-    float sizeTmp = size;
-    if (sizeTmp > 1.f) {
-        sizeTmp = 1.f;
+    float fontSize = size;
+
+    // Max font size is 1.0f
+    // if we pass that point we just reset it to 1.0f
+    if (fontSize > 1.0f) {
+        fontSize = 1.0f;
     }
 
-    float fontSize = sizeTmp / 10.f;
+    // We than normalize the font size
+    // by a  const value that we found during experimentation
+    fontSize = fontSize / 10.f;
 
+    // And finally we just convert it to a value based on the
+    // screen min size
     return static_cast<int>(minWin * fontSize);
 }
 
 void Window::setRelative(Drawable* object) {
+    // This function just scale an image to base width and size of the textures
+    // definied on the configuration file
+    //
+    // Exemple: If we are creating resources on a 1920x1080 resolution
+    // We can then resize the resources for the resolution utilized during creation
+    // and don't worry about the aspect ratio of the image
     Vect2f objectSize = object->getSize();
 
     int minWin    = std::min(Window::mWindowInfo.width, Window::mWindowInfo.height);
     float minSize = static_cast<float>(std::min(ENGINE_DEFAULTS::BASE_WIDTH_SIZE,
                                                 ENGINE_DEFAULTS::BASE_HEIGHT_SIZE));
-    float ratio   = minWin / minSize;
+    float ratio = minWin / minSize;
 
     objectSize.x = objectSize.x * ratio;
     objectSize.y = objectSize.y * ratio;
@@ -73,6 +98,12 @@ void Window::setRelative(Drawable* object) {
 }
 
 void Window::setPosition(Drawable* object, const Window::Position& posX, const Window::Position& posY, Drawable* reference) {
+    // TODO(Pedro): Create a innerPadding variables to keep the current padding
+    // of the elements inside the window/drawable so this way we get a more
+    // CSS like style of padding and avoid using that bullshit of setting the
+    // padding to a higher and higher value each time
+
+    // We can't use the getOrigin since it's not right if the object has been resized
     Vect2f origin = object->getOriginRelative();
 
     Vect2f position(0.f, 0.f);
@@ -80,30 +111,43 @@ void Window::setPosition(Drawable* object, const Window::Position& posX, const W
     float width  = static_cast<float>(Window::mWindowInfo.width);
     float height = static_cast<float>(Window::mWindowInfo.height);
 
+    // base variables for position, so if we are relative to an Drawable
+    // we can set the position of the Drawable + the object we want to draw
     float baseX = 0.f;
     float baseY = 0.f;
 
-
+    // We set the padding variables based on the window width
+    // TODO(Pedro): With our CSS like padding, probabily we
+    // will have to do some padding + previusPaddig or something
     float paddingLeft   = Window::mWindowInfo.width * object->mPaddingLeft;
     float paddingRight  = Window::mWindowInfo.width * object->mPaddingRight;
     float paddingTop    = Window::mWindowInfo.height * object->mPaddingTop;
     float paddingBottom = Window::mWindowInfo.height * object->mPaddingBottom;
 
+    // If we are relative to an Drawable
     if (reference != nullptr) {
+        // We get the current object size and not the localBounds to perform this operation
         Vect2f referenceSize = reference->getSize();
+
+        // Update the variables so we can have relatives values
         width  = referenceSize.x;
         height = referenceSize.y;
         baseX  = reference->getPosition().x;
         baseY  = reference->getPosition().y;
 
+        // And finally update the padding size
+        // TODO(Pedro): With our CSS like padding, probabily we
+        // will have to do some padding + previusPaddig or something
         paddingLeft   = referenceSize.x * object->mPaddingLeft;
         paddingRight  = referenceSize.x * object->mPaddingRight;
         paddingTop    = referenceSize.y * object->mPaddingTop;
         paddingBottom = referenceSize.y * object->mPaddingBottom;
     }
 
+    // Handle the positions
+
     if (posX == Window::Position::LEFT) {
-        position.x = paddingLeft + baseX + 0.0f + origin.x;
+        position.x = paddingLeft + baseX + origin.x;
     } else if (posX == Window::Position::RIGHT) {
         position.x = paddingRight + baseX + width - object->getSize().x + origin.x;
     } else if (posX == Window::Position::CENTER) {
@@ -111,7 +155,7 @@ void Window::setPosition(Drawable* object, const Window::Position& posX, const W
     }
 
     if (posY == Window::Position::TOP) {
-        position.y = paddingTop + baseY + 0.0f + origin.y;
+        position.y = paddingTop + baseY + origin.y;
     } else if (posY == Window::Position::BOTTOM) {
         position.y = paddingBottom + baseY + height - object->getSize().y + origin.y;;
     } else if (posY == Window::Position::CENTER) {
@@ -122,12 +166,16 @@ void Window::setPosition(Drawable* object, const Window::Position& posX, const W
 }
 
 void Window::setPosition(WidgetPtr object, const Window::Position& posX, const Window::Position& posY, Drawable* reference) {
+    // We just call our setPosition function dereferencing the smartpointer
     Window::setPosition(object.get(), posX, posY, reference);
 }
 
 void Window::open() {
     if (!mIsWindowOpen) {
         sf::ContextSettings settings;
+        // Default antialiasing Level
+        // We don't provide a way to change this
+        // since it's relave inexpensive
         settings.antialiasingLevel = 8;
 
         if (Window::mWindowInfo.fullScreen) {
@@ -140,11 +188,14 @@ void Window::open() {
                         Window::mWindowInfo.windowName, sf::Style::Close, settings);
         }
 
+        // We get an default view for drawing the cursor at end
         mFixedView = mWindow->getView();
 
+        // TODO(Pedro): Where the fuck we set this values?
         mWindow->setFramerateLimit(Window::mWindowInfo.frameLimit);
         mWindow->setVerticalSyncEnabled(Window::mWindowInfo.vsync);
 
+        // Finally we open the window and reset the default clock time
         mIsWindowOpen = true;
         mClock.restart();
 
@@ -153,18 +204,21 @@ void Window::open() {
 }
 
 void Window::create(const WindowInfo& info) {
-
+    // If we are trying to create a Fullscreen window
+    // We must verify if it's a valid window first
+    // if not we just set the fullScreen to false
+    // since a non-fullscreen window are always valid
     if (info.fullScreen == true && isValidWindow(info)) {
-        Window::mWindowInfo.fullScreen   = true;
+        Window::mWindowInfo.fullScreen = true;
     } else {
-        Window::mWindowInfo.fullScreen   = false;
+        Window::mWindowInfo.fullScreen = false;
     }
-
 
     Window::mWindowInfo.bitsPerPixel = info.bitsPerPixel;
     Window::mWindowInfo.height       = info.height;
     Window::mWindowInfo.width        = info.width;
     Window::mWindowInfo.windowName   = info.windowName;
+    // TODO(Pedro): vsync and framelimit options
 
     LOG << Log::VERBOSE << "[Window::create] Window created" << std::endl;
 }
@@ -174,6 +228,7 @@ unsigned int Window::getDelta() {
 }
 
 bool Window::isValidWindow(const WindowInfo& info) {
+    // non-fullscreen windows are always valid
     if (!info.fullScreen) {
         return true;
     }
@@ -189,16 +244,24 @@ void Window::clear() {
 
 void Window::draw(Drawable* obj) {
     assert(obj != nullptr);
+
+    // Some GUI objects require a Window object and not a RenderWindow
+    // so we verify if it require an window object and call
+    // the approprietade methodo
+    // NOTE(Pedro): this is a little messy and should not be implemented this way
+    // but it is are it is
     if (obj->requireWindowObject()) {
         obj->draw(*this);
     } else {
         obj->draw(mWindow);
     }
-
 }
 
 void Window::draw(Drawable *obj, sf::RenderStates* states) {
     assert(obj != nullptr);
+    // We just pass the state object down the call stack so
+    // whatever use the real RenderWindow can pass the already
+    // computed renderstate
     if (obj->requireWindowObject()) {
         obj->draw(*this, states);
     } else {
@@ -218,6 +281,7 @@ bool Window::pollEvent(Event& evt) {
     sf::Event sfEvent;
     bool ret = mWindow->pollEvent(sfEvent);
 
+    // If we have a custom cursor we update its position
     if (hasCustomCursor()) {
         mCursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*mWindow)));
     }
@@ -257,7 +321,7 @@ bool Window::pollEvent(Event& evt) {
         evt.key.shift   = sfEvent.key.shift;
         evt.key.system  = sfEvent.key.system;
         break;
-    // TODO(Pedro): Verificar compatibilidade com nova versão do SFML
+    // TODO(Pedro): This is for the newer version of SFML
     // case sf::Event::MouseWheelMoved:
     //     evt.type             = Event::EventType::MouseWheelMoved;
     //     evt.mouseWheel.delta = sfEvent.mouseWheel.delta;
@@ -330,6 +394,9 @@ void Window::setTile(const std::string& title) {
 }
 
 void Window::setIcon(const std::string& fileName) {
+    // TODO(Pedro): Verify if this work as expected since
+    // it can cause a pointer dereferencing early
+    // since iconImage is local variable
     sf::Image iconImage;
     if (iconImage.loadFromFile(ME::ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
         mWindow->setIcon(iconImage.getSize().x,
@@ -344,6 +411,9 @@ void Window::setVisible(const bool& visible) {
 }
 
 void Window::display() {
+    // We have to draw the cursor on the display method
+    // the draw method can and is called multiple times
+    // the display method should be called only one time
     if (hasCustomCursor()) {
         mWindow->setView(mFixedView);
         mWindow->draw(mCursor);

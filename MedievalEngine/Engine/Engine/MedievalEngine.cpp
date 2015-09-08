@@ -5,12 +5,12 @@ using namespace ME;
 MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     mErrorCode(0), gameFontID(0), mDoneLoading(false), mRunning(true) {
 
-    // We verify if a config argument has been passed, if so We load the engine 
+    // We verify if a config argument has been passed, if so We load the engine
     // with the specified configuration file
     if (mArguments.hasArgument("config")) {
         mConfigurations.readFile(mArguments.getArgument("config"));
     } else {
-        // TODO(Pedro): if configuration file not found 
+        // TODO(Pedro): if configuration file not found
         // do something
         mConfigurations.readFile(ENGINE_DEFAULTS::CONFIG_FILE);
     }
@@ -19,6 +19,8 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     // to initialize our window
     mWindowInfo_;
 
+
+    // TODO(Pedro): add the vsync and framelimit options
     std::string width;
     std::string height;
     std::string bitsPerPixel;
@@ -43,7 +45,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     ambientVolume = mConfigurations.getKey("ambient_volume");
 
 
-    // Verify each key to see if we do have a valid information if so we parse 
+    // Verify each key to see if we do have a valid information if so we parse
     // to the correct type and put on the appropriate place
     if(bitsPerPixel != "") {
         mWindowInfo_.bitsPerPixel = Kit::str_int(bitsPerPixel);
@@ -135,7 +137,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
 
 
 /**
-* We call this from a Thread
+* This is our loading thread
 **/
 void MedievalEngine::loadingThread() {
     LOG << Log::VERBOSE << "[MedievalEngine::loadingThread]" << std::endl;
@@ -209,11 +211,18 @@ void MedievalEngine::run() {
     while(mWindow.isOpen()) {
 
         if (mMusicQueue.find(mCurrentMusicQueue) != mMusicQueue.end()) {
+            // Update the current music queue
+            // even if the music it's aready playing this should be called
+            // to update the next music and verifiy if the current music status
             mMusicQueue[mCurrentMusicQueue].update();
         }
 
         Event event;
         while(mWindow.pollEvent(event)) {
+            // We pass the handle events responsability
+            // to the current game state, so this way
+            // if the current game state it's doing something
+            // critical it can decide what it should do.
             mGameStateManager.handleEvents(event);
         }
 
@@ -238,9 +247,11 @@ void MedievalEngine::setCurrentMusicQueue(const std::string& name) {
 }
 
 MusicQueue* MedievalEngine::getMusicQueue(const std::string& name) {
+    // If we dont find any music queue we just create one
+    // and register our engine on it
     if (!(mMusicQueue.find(name) != mMusicQueue.end())) {
-        LOG << Log::VERBOSE << "[MedievalEngine::getMusicQueue] " 
-            << "Muisc Queue " + name + " not found, creating new Music Queue" << std::endl;    
+        LOG << Log::VERBOSE << "[MedievalEngine::getMusicQueue] "
+            << "Muisc Queue " + name + " not found, creating new Music Queue" << std::endl;
 
         mMusicQueue[name] = MusicQueue();
         mMusicQueue[name].registerEngine(this);

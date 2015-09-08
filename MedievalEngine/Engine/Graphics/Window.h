@@ -40,8 +40,11 @@ public:
     void draw(Drawable *obj, sf::RenderStates* states);
     void display();
 
-
+    // TODO(Pedro): rename this function to some action
+    // like setSizeFullScreen
     static void fullScreen(Drawable* object);
+    // TODO(Pedro): rename this function to something more
+    // easy to understand like setSizeRelative
     static void setRelative(Drawable* object);
 
     static void setPosition(Drawable* object,
