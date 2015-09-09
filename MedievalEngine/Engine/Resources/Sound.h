@@ -9,8 +9,8 @@ namespace ME{
 
 class Sound : public Resource, public Audible {
 public:
-    Sound(const std::string& fileName, const AudioType& type = AudioType::MUSIC);
-    sf::Sound* loadFromFile(const std::string& fileName, const AudioType& type = AudioType::MUSIC);
+    Sound(const std::string& fileName, const Audio::AudioType& type = Audio::AudioType::MUSIC);
+    sf::Sound* loadFromFile(const std::string& fileName, const Audio::AudioType& type = Audio::AudioType::MUSIC);
     sf::Sound* getResourcePointer();
 
     unsigned int getDuration();
@@ -26,9 +26,9 @@ public:
     void setPosition(const Vect3f& pos);
     void setVolume(const float& volume);
     void setPitch(const float& pitch);
-    AudioStatus getStatus();
+    Audio::AudioStatus getStatus();
     unsigned int getPlayingOffSet();
-    void setPlayingOffSet(const unsigned int offSet);
+    void setPlayingOffSet(const unsigned int offset);
     bool isLoopMode();
     void setLoopMode(const bool& loop);
     void play();

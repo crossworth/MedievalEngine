@@ -8,7 +8,7 @@ Effect::Effect() : mDone(false) {
 
 void Effect::setDone() {
     LOG << Log::VERBOSE
-    << "[Effect::setDone] Effect " + getTypeStd() + " done"
+    << "[Effect::setDone] Effect " + getTypeStr() + " done"
     << std::endl;
 
     mDone = true;
@@ -30,8 +30,7 @@ Effect::Type Effect::getType() {
     return mType;
 }
 
-// Rename this to getTypeStr and not STD(?)
-std::string Effect::getTypeStd() {
+std::string Effect::getTypeStr() {
     switch(mType) {
     case Type::FADE:
         return "Fade";

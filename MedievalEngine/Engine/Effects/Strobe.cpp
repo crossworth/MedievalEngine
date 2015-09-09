@@ -91,7 +91,6 @@ sf::RenderStates* Strobe::update(Drawable* object) {
         object->setColor(Color(tmpColor.red, tmpColor.green, tmpColor.blue,
                                static_cast<int>(mStrobeCounter)));
     }
-
-    // Return an empty sf::RenderStates since we dont change anything on it.
-    return new sf::RenderStates();
+    // We return our sf::RenderStates object because in this particular effect we dont use it
+    return mRenderStates;
 }

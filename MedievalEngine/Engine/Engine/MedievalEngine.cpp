@@ -27,7 +27,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     std::string fullScreen;
     std::string windowName;
     std::string language;
-    std::string volume;
+    std::string globalVolume;
     std::string voiceVolume;
     std::string musicVolume;
     std::string ambientVolume;
@@ -40,8 +40,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     fullScreen    = mConfigurations.getKey("fullscreen");
     windowName    = mConfigurations.getKey("engine_name");
     language      = mConfigurations.getKey("language");
-    // TODO(Pedro): Change this to globalVolume
-    volume        = mConfigurations.getKey("volume");
+    globalVolume  = mConfigurations.getKey("global_volume");
     voiceVolume   = mConfigurations.getKey("voice_volume");
     musicVolume   = mConfigurations.getKey("music_volume");
     ambientVolume = mConfigurations.getKey("ambient_volume");
@@ -70,8 +69,8 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     }
 
     // Max volume 100.f
-    if (volume != "") {
-        Audible::VOLUME = std::min(Kit::str_float(volume), 100.f);
+    if (globalVolume != "") {
+        Audible::GLOBAL_VOLUME = std::min(Kit::str_float(globalVolume), 100.f);
     }
 
     if (voiceVolume != "") {

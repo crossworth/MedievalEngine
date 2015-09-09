@@ -64,8 +64,6 @@ sf::RenderStates* Fade::update(Drawable* object) {
         object->setColor(Color(tmpColor.red, tmpColor.green,
                                tmpColor.blue, static_cast<int>(mFadeCounter)));
     }
-    // We return an empty sf::RenderStates because in this particular effect we dont use it
-    // TODO(Pedro): Verify if this don't create a memory leak, since we're returning a pointer
-    // and never deleting it
-    return new sf::RenderStates();
+    // We return our sf::RenderStates object because in this particular effect we dont use it
+    return mRenderStates;
 }

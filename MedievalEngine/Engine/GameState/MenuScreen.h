@@ -25,6 +25,8 @@ private:
     ResourceID bgOptionsID;
     ResourceID logoID;
 
+    Shader* shader;
+
     unsigned int mFadeTime;
 
     TextWidgetPtr mNewGame;

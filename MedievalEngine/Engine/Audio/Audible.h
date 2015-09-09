@@ -7,9 +7,12 @@
 
 namespace ME{
 
-
-// TODO(Pedro): Put this enum's on a namespace
-
+/**
+ * @namespace ME::Audio
+ * @brief The Audio namespace with all the enum's for the audio related functions
+ *
+ */
+namespace Audio {
 /**
  * AudioStatus
  * The current Audio Status
@@ -30,14 +33,30 @@ enum AudioType {
     AMBIENT ///< Type ambient
 };
 
+}
+
 /**
- * @brief The Audible class
+ * The Audible class
  * Define the base class of sound and music
  */
 class Audible {
 public:
+
+    /**
+     * The default empty constructor
+     */
     Audible();
+
+    /**
+     * Return the duration of the sound/music
+     * @return  unsigned int - duration in milliseconds
+     */
     virtual unsigned int getDuration() = 0;
+
+    /**
+     * Get the sound/music attenuation
+     * @return float
+     */
     virtual float getAttenuation() = 0;
     virtual float getMinDistance() = 0;
     virtual bool isRelativeToListener() = 0;
@@ -50,7 +69,7 @@ public:
     virtual void setPosition(const Vect3f& pos) = 0;
     virtual void setVolume(const float& volume) = 0;
     virtual void setPitch(const float& pitch) = 0;
-    virtual AudioStatus getStatus() = 0;
+    virtual Audio::AudioStatus getStatus() = 0;
     virtual unsigned int getPlayingOffSet() = 0;
     virtual void setPlayingOffSet(const unsigned int offset) = 0;
     virtual bool isLoopMode() = 0;
@@ -59,16 +78,15 @@ public:
     virtual void pause() = 0;
     virtual void stop() = 0;
 
-    AudioType getType();
-    void setType(const AudioType& type);
+    Audio::AudioType getType();
+    void setType(const Audio::AudioType& type);
 public:
-    // TODO(Pedro): rename this VOLUME -> GLOBAL_VOLUME
-    static float VOLUME;
+    static float GLOBAL_VOLUME;
     static float VOICE_VOLUME;
     static float MUSIC_VOLUME;
     static float AMBIENT_VOLUME;
 protected:
-    AudioType mAudioType;
+    Audio::AudioType mAudioType;
 };
 
 }

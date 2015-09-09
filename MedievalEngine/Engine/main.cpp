@@ -29,6 +29,25 @@
  *
  */
 
+/**
+ * Cool profiler idea
+ *
+ * make a clas that have only two method the constructor and the destructor
+ * the constructor just store the time that it was constructed
+ * and the destructor compare the time
+ *
+ * and we could do something like
+ *
+ * RECORD_BLOCK(); as a macro
+ *
+ * which would call somethig like
+ *
+ *
+ * Profile(__LINE__, __FUNCTION__, __FILE__)
+ *
+ * or something like that
+ */
+
 #include "Helper/Profiler.h"
 #include "Engine/MedievalEngine.h"
 #include <iostream>

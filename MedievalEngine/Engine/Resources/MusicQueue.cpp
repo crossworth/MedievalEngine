@@ -79,7 +79,7 @@ void MusicQueue::setPitch(const float& pitch) {
     mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->setPitch(pitch);
 }
 
-AudioStatus MusicQueue::getStatus() {
+Audio::AudioStatus MusicQueue::getStatus() {
     return mStatus;
 }
 
@@ -87,8 +87,8 @@ unsigned int MusicQueue::getPlayingOffSet() {
     return mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->getPlayingOffSet();
 }
 
-void MusicQueue::setPlayingOffSet(const unsigned int offSet) {
-    mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->setPlayingOffSet(offSet);
+void MusicQueue::setPlayingOffSet(const unsigned int offset) {
+    mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->setPlayingOffSet(offset);
 }
 
 
@@ -105,7 +105,7 @@ bool MusicQueue::isRandomPlay() {
 }
 
 
-// Here the loop mode works a litte bit different 
+// Here the loop mode works a litte bit different
 // We gonna loop all the queue and not only one music
 bool MusicQueue::isLoopMode() {
     return mIsLoopMode;
@@ -116,32 +116,32 @@ void MusicQueue::setLoopMode(const bool& loop) {
 }
 
 void MusicQueue::play() {
-    mStatus = AudioStatus::PLAYING;
+    mStatus = Audio::AudioStatus::PLAYING;
     mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->play();
 }
 
 void MusicQueue::pause() {
-    mStatus = AudioStatus::PAUSED;
+    mStatus = Audio::AudioStatus::PAUSED;
     mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->pause();
 }
 
 void MusicQueue::stop() {
-    mStatus = AudioStatus::STOPPED;
+    mStatus = Audio::AudioStatus::STOPPED;
     mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->stop();
 }
 
 void MusicQueue::update() {
     if (mCurrentMusic != mMusics.end()) {
-        AudioStatus status = mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->getStatus();   
+        Audio::AudioStatus status = mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->getStatus();
 
-        if (status == AudioStatus::STOPPED) {
-            mStatus = AudioStatus::STOPPED;
+        if (status == Audio::AudioStatus::STOPPED) {
+            mStatus = Audio::AudioStatus::STOPPED;
             mCurrentMusic++;
 
             if (mCurrentMusic == mMusics.end()) {
                 if (isRandomPlay()) {
                     mMusics.sort();
-                } 
+                }
 
                 mCurrentMusic = mMusics.begin();
 

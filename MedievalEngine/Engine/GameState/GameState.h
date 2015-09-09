@@ -12,7 +12,7 @@ class ResourceManager;
 
 class GameState {
 public:
-    // TODO(Pedro): 
+    // TODO(Pedro): Rename this enum?
     enum Status {
         ON_ENABLE,
         ON_PLAYING,
@@ -25,8 +25,8 @@ public:
     virtual void init() = 0;
     virtual void onEnable(Window& window)  = 0;
     virtual void onDisable(Window& window) = 0;
-    virtual void update() = 0;
     virtual void onPlaying(Window& window) = 0;
+    virtual void update() = 0;
     virtual void handleEvents(Event& evt) = 0;
 
     void registerEngine(MedievalEngine* engine);
@@ -39,14 +39,14 @@ public:
 
     GameState::Status getCurrentStatus();
 protected:
+    void setCurrentStatus(const GameState::Status& status);
+
     MedievalEngine* mEngine;
     ResourceManager* mResources;
+    GameState::Status mCurrentStatus;
     GUI mGUI;
-
-    void setCurrentStatus(const GameState::Status& status);
     bool mIsPlaying;
     bool mIsDone;
-    GameState::Status mCurrentStatus;
 };
 
 }

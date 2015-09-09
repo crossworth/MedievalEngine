@@ -27,8 +27,7 @@ public:
     virtual sf::RenderStates* update(Drawable* object) = 0;
     Type getType();
 
-    // TODO(Pedro): Rename this
-    std::string getTypeStd();
+    std::string getTypeStr();
 
     void restartClock();
     void setDone();

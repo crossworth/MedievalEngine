@@ -33,9 +33,9 @@ public:
     void setPosition(const Vect3f& pos);
     void setVolume(const float& volume);
     void setPitch(const float& pitch);
-    AudioStatus getStatus();
+    Audio::AudioStatus getStatus();
     unsigned int getPlayingOffSet();
-    void setPlayingOffSet(const unsigned int offSet);
+    void setPlayingOffSet(const unsigned int offset);
 
     // We set to play the queue in a random order
     // Which don't make much sense since its a QUEUE
@@ -44,7 +44,7 @@ public:
     void setRandomPlay(const bool& random);
     bool isRandomPlay();
 
-    // Here the loop mode works a litte bit different 
+    // Here the loop mode works a litte bit different
     // We gonna loop all the queue and not only one music
     bool isLoopMode();
     void setLoopMode(const bool& loop);
@@ -59,7 +59,7 @@ private:
     MedievalEngine* mEngine;
     std::list<ResourceID> mMusics;
     std::list<ResourceID>::iterator mCurrentMusic;
-    AudioStatus mStatus;
+    Audio::AudioStatus mStatus;
 };
 
 }

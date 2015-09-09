@@ -45,11 +45,19 @@ Shader::Shader(const std::string& vertexShader, const std::string& fragmentShade
                 << "[Shader::Shader] Shaders not found " + vertShaderLocation
                 << " " + fragShaderLocation << std::endl;
         }
+    } else {
+        LOG << Log::WARNING
+            << "[Shader::Shader] Shaders are not available" << std::endl;
     }
-
 }
 
-// TODO(Pedro): Since we are down casting it, could we just float?
+// TODO(Pedro): Implement all the supported paramenter's types
+// 2 floats, sf::Vector2f (GLSL type vec2)
+// 3 floats, sf::Vector3f (GLSL type vec3)
+// 4 floats (GLSL type vec4)
+// sf::Color (GLSL type vec4)
+// sf::Transform (GLSL type mat4)
+// sf::Texture (GLSL type sampler2D)
 void Shader::setParameter(const std::string& paramenter, const double& data) {
     if (isShaderEnable()) {
         mShader.setParameter(paramenter, static_cast<float>(data));
@@ -57,9 +65,9 @@ void Shader::setParameter(const std::string& paramenter, const double& data) {
 }
 
 sf::RenderStates* Shader::update(Drawable* object) {
-    // TODO(Pedro): What this texture do?
-    // Verify if this have any effect somehow
     // TODO(Pedro): Make an if we have loaded the shader without problems and if the shader is available
+
+    // set the texture if we need work with on the GLSL land
     mShader.setParameter("texture", sf::Shader::CurrentTexture);
     mRenderStates->shader = &mShader;
     // Return an sf::RenderStates with the shader
@@ -74,10 +82,6 @@ bool Shader::isShaderEnable() {
 
         // We call setDone so we can remove our-selves from the object
         setDone();
-
-        // TODO(Pedro): Move this log message
-        LOG << Log::WARNING
-            << "[Shader::isShaderEnable] Shaders are not available" << std::endl;
     }
     return mIsShaderEnable;
 }
