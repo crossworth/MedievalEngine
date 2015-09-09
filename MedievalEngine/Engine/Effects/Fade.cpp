@@ -37,7 +37,7 @@ sf::RenderStates* Fade::update(Drawable* object) {
         // on the set color function the value will be cliped anyway
         // but using float/double we can make sure that we have all
         // the data until last minute
-        double mStep =  (mClock.getTime() * 255) / mFadeTime;
+        double mStep =  (mClock.getMilliSeconds() * 255) / mFadeTime;
 
         // This should be pretty straight forward
         // We check the fade type and do the calculations based on it

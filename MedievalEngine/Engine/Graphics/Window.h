@@ -40,6 +40,9 @@ public:
     void draw(Drawable *obj, sf::RenderStates* states);
     void display();
 
+    //TODO(Pedro): create a setCursor visible even if we are using custom cursor
+    // so we can call it on the cinematic
+
     // TODO(Pedro): rename this function to some action
     // like setSizeFullScreen
     static void fullScreen(Drawable* object);

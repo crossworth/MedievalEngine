@@ -224,7 +224,7 @@ void Window::create(const WindowInfo& info) {
 }
 
 unsigned int Window::getDelta() {
-    return mClock.getTime();
+    return mClock.getMilliSeconds();
 }
 
 bool Window::isValidWindow(const WindowInfo& info) {

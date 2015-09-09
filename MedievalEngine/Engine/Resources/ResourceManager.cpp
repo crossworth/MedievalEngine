@@ -9,7 +9,7 @@ ResourceManager::ResourceManager() {
 
 ResourceID ResourceManager::loadTexture(const std::string& fileName) {
     ResourceID textureID   = ResourceIDGenerator::get();
-    m_resources[textureID] = ResourcePtr(new Texture(fileName));
+    mResources[textureID] = ResourcePtr(new Texture(fileName));
 
     LOG << Log::VERBOSE
         << ("[AssetsManager::loadTexture] Texture loaded ID: " +
@@ -20,7 +20,7 @@ ResourceID ResourceManager::loadTexture(const std::string& fileName) {
 
 ResourceID ResourceManager::loadFont(const std::string& fileName) {
     ResourceID fontID   = ResourceIDGenerator::get();
-    m_resources[fontID] = ResourcePtr(new Font(fileName));
+    mResources[fontID] = ResourcePtr(new Font(fileName));
 
     LOG << Log::VERBOSE << ("[AssetsManager::loadFont] Font loaded ID: " +
                             Kit::int_str(fontID)).c_str() << std::endl;
@@ -30,7 +30,7 @@ ResourceID ResourceManager::loadFont(const std::string& fileName) {
 
 ResourceID ResourceManager::loadFont(MEByte* bytes, std::size_t size) {
     ResourceID fontID   = ResourceIDGenerator::get();
-    m_resources[fontID] = ResourcePtr(new Font());
+    mResources[fontID] = ResourcePtr(new Font());
     getResource<Font>(fontID)->loadFromMemory(bytes, size);
 
     LOG << Log::VERBOSE
@@ -42,7 +42,7 @@ ResourceID ResourceManager::loadFont(MEByte* bytes, std::size_t size) {
 
 ResourceID ResourceManager::loadMusic(const std::string& fileName) {
     ResourceID musicID   = ResourceIDGenerator::get();
-    m_resources[musicID] = ResourcePtr(new Music(fileName));
+    mResources[musicID] = ResourcePtr(new Music(fileName));
 
     LOG << Log::VERBOSE << ("[AssetsManager::loadMusic] Music loaded ID: " +
                             Kit::int_str(musicID)).c_str() << std::endl;
@@ -52,7 +52,7 @@ ResourceID ResourceManager::loadMusic(const std::string& fileName) {
 
 ResourceID ResourceManager::loadSound(const std::string& fileName) {
     ResourceID soundID   = ResourceIDGenerator::get();
-    m_resources[soundID] = ResourcePtr(new Sound(fileName));
+    mResources[soundID] = ResourcePtr(new Sound(fileName));
 
     LOG << Log::VERBOSE << ("[AssetsManager::loadSound] Sound loaded ID: " +
                             Kit::int_str(soundID)).c_str() << std::endl;
@@ -62,7 +62,7 @@ ResourceID ResourceManager::loadSound(const std::string& fileName) {
 
 ResourceID ResourceManager::createSprite(const ResourceID& texture) {
     ResourceID spriteID   = ResourceIDGenerator::get();
-    m_resources[spriteID] = ResourcePtr(new Sprite());
+    mResources[spriteID] = ResourcePtr(new Sprite());
     getResource<Sprite>(spriteID)->setTexture(getResource<Texture>(texture));
 
     LOG << Log::VERBOSE
@@ -74,7 +74,7 @@ ResourceID ResourceManager::createSprite(const ResourceID& texture) {
 
 ResourceID ResourceManager::createSpriteAnimation() {
     ResourceID spriteAnID   = ResourceIDGenerator::get();
-    m_resources[spriteAnID] = ResourcePtr(new SpriteAnimation());
+    mResources[spriteAnID] = ResourcePtr(new SpriteAnimation());
 
     LOG << Log::VERBOSE
         << ("[AssetsManager::createSpriteAnimation] SpriteAnimation created ID: "
@@ -88,7 +88,7 @@ ResourceID ResourceManager::createShape(const Vect2f& size,
                                 const Vect2f& pos) {
 
     ResourceID shapeID   = ResourceIDGenerator::get();
-    m_resources[shapeID] = ResourcePtr(new Shape(size, color, pos));
+    mResources[shapeID] = ResourcePtr(new Shape(size, color, pos));
 
     LOG << Log::VERBOSE << ("[AssetsManager::createShape] Shape created ID: " +
                             Kit::int_str(shapeID)).c_str() << std::endl;
@@ -101,7 +101,7 @@ ResourceID ResourceManager::createText(const sf::String& text,
                                const ResourceID& font) {
 
     ResourceID textID   = ResourceIDGenerator::get();
-    m_resources[textID] = ResourcePtr(new Text());
+    mResources[textID] = ResourcePtr(new Text());
     getResource<Text>(textID)->setFont(*getResource<Font>(font));
     getResource<Text>(textID)->setFontSize(fontSize);
     getResource<Text>(textID)->setString(text);
@@ -117,8 +117,8 @@ ResourceManager::~ResourceManager() {
         << "[AssetsManager::~AssetsManage] Cleaning everything..."
         << std::endl;
 
-    for (unsigned int i = 0; i < m_resources.size(); i++) {
-        m_resources.at(i).reset();
+    for (unsigned int i = 0; i < mResources.size(); i++) {
+        mResources.at(i).reset();
     }
-    m_resources.clear();
+    mResources.clear();
 }

@@ -55,7 +55,7 @@ sf::RenderStates* Strobe::update(Drawable* object) {
     // Since this effect don't have a done mark
     // we just wait until the time has passed by
     // and set it to done
-    if (mClockDuration.getTime() >= mDuration) {
+    if (mClockDuration.getMilliSeconds() >= mDuration) {
         // TODO(Pedro): Should we reset it's values to the default?
         // Or leave at it is? Maybe we could verify if the duration has been reach and
         // that the mStrobeCounter is greater than some value or less than some value
@@ -66,7 +66,7 @@ sf::RenderStates* Strobe::update(Drawable* object) {
     // Maybe we can gain some speed or just to make the code looks more organized
     if (!isDone()) {
         // Calculate the step based on the time and the base alpha color plus the strobe time
-        float mStep =  (mClock.getTime() * mBaseColor.alpha) / static_cast<float>(mStrobeTime);
+        float mStep =  (mClock.getMilliSeconds() * mBaseColor.alpha) / static_cast<float>(mStrobeTime);
 
         // We check our direction
         if (mDirection < 0) {

@@ -69,12 +69,12 @@ void LoadingScreen::onPlaying(Window& window) {
 }
 
 void LoadingScreen::update() {
-    if (mClock.getTime() > 100 && fadeTextInit == false) {
+    if (mClock.getMilliSeconds() > 100 && fadeTextInit == false) {
         fadeTextInit = true;
         mResources->getResource<Text>(textMessageScreen)->addEffect(new Fade(500, Fade::Type::FADEIN));
     }
 
-    if (mClock.getTime() > 500) {
+    if (mClock.getMilliSeconds() > 500) {
         counter++;
 
         if (counter > 3) {
@@ -95,7 +95,7 @@ void LoadingScreen::update() {
 
     unsigned int delayTime = 1500;
 
-    if (mMinWaitTime.getTime() > delayTime && mEngine->doneLoading() && mIsStateChanging == false) {
+    if (mMinWaitTime.getMilliSeconds() > delayTime && mEngine->doneLoading() && mIsStateChanging == false) {
         mIsStateChanging = true;
 
         unsigned int fadeTime = 1000;

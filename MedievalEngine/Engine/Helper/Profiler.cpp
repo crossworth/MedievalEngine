@@ -1,20 +1,90 @@
 #include "Profiler.h"
+#include "Engine/MedievalEngine.h"
 
 using namespace ME;
 
-Profiler::Profiler() {
-}
 
+std::map<std::string, MEUInt64> Profiler::Records;
+Profiler::Type Profiler::mType = Profiler::Type::MICROSECONDS;
 
-time_t Profiler::profileStart() {
-    return time(0);
-}
+Profiler::Profiler(char* functionName, char* text) {
+    std::string strFunctioName = std::string(functionName);
+    std::string strText        = std::string(text);
 
-void Profiler::profileEnd(std::string what, time_t& timeProfile) {
-    if (SHOW_PROFILER_INFO) {
-        LOG << "[Profiler::profileEnd] " + what 
-            << " duration: " + Kit::int_str(static_cast<int>(time(0)) - static_cast<int>(timeProfile))
-            << " seconds" << std::endl;
+    mFunctionName = strFunctioName;
+
+    if (strText != "") {
+        mFunctionName = mFunctionName + " " + strText;
     }
-    timeProfile = NULL;
+
+    mClock.restart();
+}
+
+Profiler::~Profiler() {
+    Profiler::Records[mFunctionName] = mClock.getMicroSeconds();
+}
+
+void Profiler::setOutputType(const Profiler::Type& type) {
+    Profiler::mType = type;
+}
+
+void Profiler::printRecords() {
+    auto it  = Profiler::Records.begin();
+    auto end = Profiler::Records.end();
+
+    std::cout << "-------------------PROFILER-------------------" << std::endl;
+    for(;it != end; it++) {
+        std::cout << it->first << ": ";
+
+        switch(Profiler::mType) {
+        case Profiler::Type::SECONDS:
+            std::cout << Clock::getSeconds(it->second) << "s";
+            break;
+        case Profiler::Type::MILLISECONDS:
+            std::cout << Clock::getMilliSeconds(it->second) << "m";
+            break;
+        default:
+            std::cout << it->second << "u"; // Default to microseconds
+        }
+
+        std::cout << std::endl;
+    }
+    std::cout << "----------------------------------------------" << std::endl;
+}
+
+void Profiler::printRecords(MedievalEngine* engine) {
+    auto it  = Profiler::Records.begin();
+    auto end = Profiler::Records.end();
+
+    // We dont load our debug text on the resource manager since we dont
+    // want to create any overhead and put stuff on there
+    sf::Text debugText;
+    sf::Font* font = engine->getResourceManager()->getResource<Font>(Font::DEFAULT_FONT)->getResourcePointer();
+
+    debugText.setFont(*font);
+    debugText.setCharacterSize(14);
+
+    std::string finalDebugText;
+
+    finalDebugText = "DEBUG\n";
+
+    for(;it != end; it++) {
+        finalDebugText = finalDebugText + std::string(it->first) +  ": ";
+
+        switch(Profiler::mType) {
+        case Profiler::Type::SECONDS:
+            finalDebugText = finalDebugText + std::to_string(Clock::getSeconds(it->second)) + "s";
+            break;
+        case Profiler::Type::MILLISECONDS:
+            finalDebugText = finalDebugText + std::to_string(Clock::getMilliSeconds(it->second)) + "m";
+            break;
+        default:
+            finalDebugText = finalDebugText + std::to_string(it->second) + "u"; // Default to microseconds
+        }
+
+        finalDebugText = finalDebugText + "\n";
+    }
+    debugText.setString(finalDebugText);
+
+    engine->getWindow()->getWindowPtr()->draw(debugText);
 }

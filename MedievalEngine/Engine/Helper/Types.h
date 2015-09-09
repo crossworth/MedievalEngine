@@ -17,6 +17,7 @@ namespace ME {
 
 class Widget;
 
+// TODO(Pedro): Improve the name of the types and separete all files
 typedef char MEByte;
 
 typedef std::int32_t MEInt32;

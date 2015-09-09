@@ -5,6 +5,8 @@ using namespace ME;
 MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     mErrorCode(0), gameFontID(0), mDoneLoading(false), mRunning(true) {
 
+    ProfileBlock();
+
     // We verify if a config argument has been passed, if so we load the engine
     // with the specified configuration file
     if (mArguments.hasArgument("config")) {
@@ -89,7 +91,6 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     // If we failed to load the language file or its not informed on the configuration file
     // we try to load the default language file
     if (language == "" || !Strings::openLanguageFile(ENGINE_DEFAULTS::LANG_PATH + language)) {
-
         // If we failed to open the default language file we close the engine
         if (!Strings::openLanguageFile(ENGINE_DEFAULTS::LANG_PATH + ENGINE_DEFAULTS::LANGUAGE)) {
             LOG << Log::CRITICAL
@@ -113,7 +114,6 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
         mWindow.close();
         mErrorCode = 1;
     } else {
-
         // If we can open the file but the signature its different we close the engine as well
         if (mDataFiles.getName() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_NAME &&
             mDataFiles.getVersion() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_VERSION ) {
@@ -141,6 +141,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
 * This is our loading thread
 **/
 void MedievalEngine::loadingThread() {
+    ProfileBlock();
     LOG << Log::VERBOSE << "[MedievalEngine::loadingThread]" << std::endl;
     // Here we register all our game states and call all the init create methods
 
@@ -162,6 +163,7 @@ void MedievalEngine::init() {
         return;
     }
 
+    ProfileBlock();
     LOG << Log::VERBOSE << "[MedievalEngine::init]" << std::endl;
 
     // Verify if we do have a game font key
@@ -209,9 +211,12 @@ void MedievalEngine::run() {
     if (!isRunning()) {
        return;
     }
+
+    ProfileBlock();
     while(mWindow.isOpen()) {
 
         if (mMusicQueue.find(mCurrentMusicQueue) != mMusicQueue.end()) {
+            ProfileBlockStr("update music queue");
             // Update the current music queue
             // even if the music it's aready playing this should be called
             // to update the next music and verifiy if the current music status
@@ -220,17 +225,32 @@ void MedievalEngine::run() {
 
         Event event;
         while(mWindow.pollEvent(event)) {
+            ProfileBlockStr("poll events");
             // We pass the handle events responsability
             // to the current game state, so this way
             // if the current game state it's doing something
             // critical it can decide what it should do.
             mGameStateManager.handleEvents(event);
+
+            if(event.type == Event::KeyPressed) {
+                Profiler::setOutputType(Profiler::Type::SECONDS);
+            }
         }
 
-        mGameStateManager.update();
+        {
+            ProfileBlockStr("update game state");
+            mGameStateManager.update();
+        }
 
         mWindow.clear();
-        mGameStateManager.draw(mWindow);
+
+        {
+            ProfileBlockStr("draw game state");
+            mGameStateManager.draw(mWindow);
+        }
+
+        Profiler::printRecords(this);
+
         mWindow.display();
     }
 }

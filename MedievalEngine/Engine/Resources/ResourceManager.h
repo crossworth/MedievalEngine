@@ -45,13 +45,13 @@ public:
     ~ResourceManager();
 private:
     typedef std::shared_ptr<Resource> ResourcePtr;
-    std::unordered_map<ResourceID, ResourcePtr> m_resources;
+    std::unordered_map<ResourceID, ResourcePtr> mResources;
 };
 
 template<typename T>
 T* ResourceManager::getResource(const ResourceID &id) {
-    if (m_resources.find(id) != m_resources.end()) {
-        return static_cast<T*>(m_resources[id].get());
+    if (mResources.find(id) != mResources.end()) {
+        return static_cast<T*>(mResources[id].get());
     } else {
         LOG << Log::WARNING << ("[AssetsManager::getAsset] Asset not found ID: "
                                 + Kit::int_str(id)).c_str() << std::endl;

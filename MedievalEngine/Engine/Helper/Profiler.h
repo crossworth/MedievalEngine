@@ -1,27 +1,41 @@
 #ifndef PROFILER_H
 #define PROFILER_H
-#include <ctime>
-#include <iostream>
+#include <map>
 #include <string>
-#include "LogInc.h"
-#include "Helper/Kit.h"
+#include <iostream>
+#include "Helper/Clock.h"
 
+
+#define ProfileBlock() ME::Profiler _me_profiler(__FUNCTION__, "")
+#define ProfileBlockStr(x) ME::Profiler _me_profiler(__FUNCTION__, x)
 
 namespace ME {
 
-const bool SHOW_PROFILER_INFO             = true;
-#define ProfileInit() time_t _ME_profile_ = 0;
-#define ProfileStart() _ME_profile_       = ME::Profiler::profileStart();\
-LOG << "[Profiler::profileStart] Profiler started" << std::endl;
-
-#define ProfileEnd(x) ME::Profiler::profileEnd(x, _ME_profile_);
+class MedievalEngine;
 
 class Profiler {
 public:
-    static time_t profileStart();
-    static void profileEnd(std::string what, time_t& timeProfile);
+    /**
+     * The default Metric system for the profiler
+     */
+    enum Type {
+        SECONDS,      ///< Seconds
+        MILLISECONDS, ///< MilliSeconds
+        MICROSECONDS  ///< MicroSeconds
+    };
+public:
+    Profiler(char* functionName, char* text = "");
+    ~Profiler();
+
+    static void printRecords();
+    static void printRecords(MedievalEngine* engine);
+    static void setOutputType(const Profiler::Type& type);
 private:
+    static std::map<std::string, MEUInt64> Records;
     Profiler();
+    Clock mClock;
+    static Type mType;
+    std::string mFunctionName;
 };
 
 }

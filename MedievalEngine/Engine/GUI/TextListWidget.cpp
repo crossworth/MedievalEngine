@@ -114,7 +114,7 @@ void TextListWidget::update() {
 
         diff = diff / 100;
 
-        mTextRef->move(Vect2f(0.0f, -((mScrollSpeed / 100) * mClock.getTime() * diff) ));
+        mTextRef->move(Vect2f(0.0f, -((mScrollSpeed / 100) * mClock.getMilliSeconds() * diff) ));
     } else {
         setTextAutoScroll(false);
     }
@@ -131,12 +131,12 @@ void TextListWidget::update() {
             float diff = (mMaxiumExpandSize.x - mShapeRef->getSize().x) / 10;
             mShapeRef->setSize(
                         Vect2f(mShapeRef->getSize().x + ((mExpandVelocity / 100) *
-                               mClock.getTime() * diff), mShapeRef->getSize().y));
+                               mClock.getMilliSeconds() * diff), mShapeRef->getSize().y));
         }
 
         if (mShapeRef->getSize().y < mMaxiumExpandSize.y) {
             float diff = (mMaxiumExpandSize.y - mShapeRef->getSize().y) / 10;
-            float pos  = ((mExpandVelocity / 100) * mClock.getTime() * diff);
+            float pos  = ((mExpandVelocity / 100) * mClock.getMilliSeconds() * diff);
 
             mShapeRef->setSize(Vect2f(mShapeRef->getSize().x,
                                       mShapeRef->getSize().y + pos));

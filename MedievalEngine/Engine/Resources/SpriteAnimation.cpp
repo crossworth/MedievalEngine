@@ -64,7 +64,7 @@ void SpriteAnimation::draw(sf::RenderWindow* renderWindow, sf::RenderStates* sta
     if (state == nullptr) {
         state = updateEffects();
     }
-    
+
     renderWindow->draw(mSprite, *state);
 }
 
@@ -116,7 +116,7 @@ Area SpriteAnimation::getGlobalBounds() {
 }
 
 void SpriteAnimation::updateSprite() {
-    if (isPlaying() && mClock.getTime() > mFrameIterator->first) {
+    if (isPlaying() && mClock.getMilliSeconds() > mFrameIterator->first) {
         mFrameIterator++;
 
         if (mFrameIterator == mFrames.end()) {

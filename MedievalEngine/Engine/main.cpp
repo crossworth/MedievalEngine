@@ -15,7 +15,8 @@
  * - Resource improve on failed to load resource (open a default_failed_to_load file like Valve Engine)
  * - Memory (free all the pointers)
  *
- * EFFECTS
+ * EFFECTS <-- BROKEN
+ * - Verify everything!!!
  * - Verify the shader class if everything works
  *
  * GUI
@@ -26,29 +27,14 @@
  * - Update the volume of all the Music's queue's based on the configuration state
  * - Update the resolution of all the textures and images based on the screen size definied
  *
- *
+ * LUA LANGUAGE AND CONSOLE
+ * - Create an interface with only one virtual method called something like exposeLua
+ * - Most the classes will be implementing this method and will expose functions to the LUA
+ * - Create a console interface which we will be able to call any of the exposed method's
+ * - like show_debug
+ * - use underscore on the lua land
  */
 
-/**
- * Cool profiler idea
- *
- * make a clas that have only two method the constructor and the destructor
- * the constructor just store the time that it was constructed
- * and the destructor compare the time
- *
- * and we could do something like
- *
- * RECORD_BLOCK(); as a macro
- *
- * which would call somethig like
- *
- *
- * Profile(__LINE__, __FUNCTION__, __FILE__)
- *
- * or something like that
- */
-
-#include "Helper/Profiler.h"
 #include "Engine/MedievalEngine.h"
 #include <iostream>
 
@@ -61,15 +47,13 @@
  * @return      Error code
  */
 int main(int argc, char** argv) {
-    ProfileInit();
-    ProfileStart();
+
+    ProfileBlock();
 
     ME::MedievalEngine app(argc, argv);
     app.init();
     app.run();
     app.close();
-
-    ProfileEnd("GameEngine total");
 
     return app.getErrorCode();
 }

@@ -157,10 +157,12 @@ void MenuScreen::init() {
 
     mFadeTime = 500;
 
-    shader = new Shader("blur.frag", Shader::Type::VERTEX);
-    shader->setParameter("blur_radius", 0.005f);
+    shader = new Shader("blur.frag", Shader::Type::FRAGMENT);
+    shader->setParameter("blur_radius", 0.025f);
 
+    mGUI.addEffect(shader);
 
+    // TODO(Pedro): Looks like this is broken
     mNewGame->addEffect(shader);
     mContinue->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
     mMultiplayer->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));

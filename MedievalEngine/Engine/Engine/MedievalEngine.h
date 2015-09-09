@@ -2,6 +2,7 @@
 #define MEDIEVALENGINE_H
 #include <algorithm>
 #include <thread>
+#include "Helper/Profiler.h"
 #include "Headers.h"
 
 namespace ME {
