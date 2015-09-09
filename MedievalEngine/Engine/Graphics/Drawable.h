@@ -13,9 +13,11 @@
 
 namespace ME {
 
+// TODO(Pedro): Put this on the definition class as well?
 class Effect;
 class Window;
 
+// TODO(Pedro): Move this out of here
 typedef std::shared_ptr<Effect> EffectPtr;
 
 // TODO(Pedro): Put this enum on a namespace
@@ -74,6 +76,7 @@ public:
     void pauseEffects();
     bool isPlayingEffects();
 
+    // TODO(Pedro): Test if this work
     void removeEffect(std::string effectType);
     void removeAllEffects();
 
@@ -102,6 +105,8 @@ public:
     float mPaddingRight;
     float mPaddingLeft;
 protected:
+    // TODO(Pedro): We have to make this work more nicily
+    // maybe put the RenderStates on ech Drawable object
     sf::RenderStates* updateEffects();
     sf::RenderStates* mRenderStates;
     std::vector<EffectPtr> mEffects;

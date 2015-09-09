@@ -8,6 +8,8 @@
 
 namespace ME {
 
+
+// TODO(Pedro): Move this out of here
 class GUIEvent;
 class Widget;
 

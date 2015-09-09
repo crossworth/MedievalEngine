@@ -17,10 +17,12 @@ public:
     GUI();
     void registerEngine(MedievalEngine* engine);
 
+    // TODO(Pedro): Do we need another window object?
     void draw(Window& window);
     void update();
     void handleEvents(Event evt);
 
+    // TODO(Pedro): Do we need another window object?
     void draw(Window& window, sf::RenderStates* state);
     void draw(sf::RenderWindow* renderWindow, sf::RenderStates* state);
 

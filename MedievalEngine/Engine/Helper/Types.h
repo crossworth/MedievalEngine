@@ -55,7 +55,7 @@ struct FileHeader {
 
 
 
-
+// TODO(Pedro): Remove this
 #ifndef nullptr
 #define nullptr NULL
 #endif

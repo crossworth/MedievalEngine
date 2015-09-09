@@ -2,8 +2,8 @@
 
 using namespace ME;
 
-WindowInfo::WindowInfo(int width, int height, int bitsPerPixel,
-                       bool fullScreen, std::string name) {
+// TODO(Pedro): change this to accept frame limit and vsync
+WindowInfo::WindowInfo(int width, int height, int bitsPerPixel, bool fullScreen, std::string name) {
     this->width        = width;
     this->height       = height;
     this->bitsPerPixel = bitsPerPixel;

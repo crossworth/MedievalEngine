@@ -10,6 +10,7 @@ namespace ME {
 
 class Texture : public Resource {
 public:
+    // TODO(Pedro): Remove the constructor that can fail
     Texture(const std::string& fileName);
     sf::Texture* loadFromFile(const std::string& fileName);
     sf::Texture* getResourcePointer();

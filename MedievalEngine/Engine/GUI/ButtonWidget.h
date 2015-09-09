@@ -6,6 +6,7 @@
 
 namespace ME {
 
+// TODO(Pedro): Remove this out of here
 class ButtonWidget;
 
 typedef std::shared_ptr<ButtonWidget> ButtonWidgetPtr;

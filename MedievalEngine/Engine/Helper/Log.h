@@ -8,7 +8,8 @@
 
 
 namespace ME {
-
+    
+// TODO(Pedro): Make this thread safe
 class Log {
 public:
     enum LogType {VERBOSE, LUA_VERBOSE, WARNING, LUA_WARNING, CRITICAL, LUA_CRITICAL};

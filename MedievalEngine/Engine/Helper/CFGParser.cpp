@@ -7,25 +7,37 @@ CFGParser::CFGParser() {
 }
 
 void CFGParser::readFile(const std::string& configFile) {
-
+    // Store the configuration file name
     this->mFileName = configFile;
 
+    // configuration file input
     std::fstream file;
+    // try to open the file
     file.open(configFile.c_str(), std::ios::out | std::ios::in);
+    // if we can open the file
     if (file.is_open()) {
-      std::string line;
-      while(!file.eof()) {
-          std::getline(file, line);
+        // our buffer string
+        std::string line;
 
-         if (validateLine(line)) {
-             std::string tmpKey, tmpValue;
-             tmpKey           = mGetKey(line);
-             tmpValue         = mGetValue(line);
-             mContents[tmpKey] = tmpValue;
-         }
-      }
-       file.close();
+        // while we are not on the end of the file
+        while(!file.eof()) {
+            // read the line
+            std::getline(file, line);
+
+            // validate the line
+            if (validateLine(line)) {
+
+                // store the line on the content
+                std::string tmpKey, tmpValue;
+                tmpKey           = mGetKey(line);
+                tmpValue         = mGetValue(line);
+                mContents[tmpKey] = tmpValue;
+            }
+        }
+        // close the file
+        file.close();
     } else {
+        // TODO(Pedro): Use the new log method
         LOG << Log::WARNING
             << ("[CFGParser::readFile] Configuration file (" + this->mFileName + ") not found").c_str()
             << std::endl;
@@ -37,10 +49,13 @@ void CFGParser::clear() {
 }
 
 void CFGParser::saveFile(const std::string& configFile){
+    // configuration file output
     std::ofstream outFile;
+    // try to open the file
     outFile.open(configFile.c_str(), std::ios::out);
-
+    // if we can open the file
     if (outFile.is_open()) {
+        // sample engine header
         outFile << "# " << ENGINE_DEFAULTS::ENGINE_NAME
                 << " Version: " << ENGINE_DEFAULTS::ENGINE_VERSION
                 << " - CFGParser" << std::endl;
@@ -48,12 +63,14 @@ void CFGParser::saveFile(const std::string& configFile){
         std::map<std::string, std::string>::iterator it = mContents.begin();
 
         while(it != mContents.end()) {
+            // write all the lines to the file
             outFile << it->first << "=" << it->second << std::endl;
             it++;
         }
-
+        // close the file
         outFile.close();
     } else {
+        // TODO(Pedro): Use the new log method
         LOG << Log::WARNING
             << ("[CFGParser::saveFile] Could not save Configuration file (" + this->mFileName + ")" ).c_str()
             << std::endl;
@@ -79,10 +96,12 @@ std::string CFGParser::getKey(std::string key) {
     if (keyExists(key)) {
         return mContents[key];
     } else {
+        // TODO(Pedro): Use the new log method
         LOG << Log::WARNING
             << ("[CFGParser::getKey] Key (" + key + ") not found").c_str()
             << std::endl;
     }
+    // if we dont find the key we just return an empty string
     return "";
 }
 
@@ -95,37 +114,42 @@ std::map<std::string, std::string> CFGParser::getContents() {
 }
 
 bool CFGParser::validateLine(std::string& line){
+    // if the line is empty we just return
     if (line.empty()) {
         return false;
     }
 
-    // Remove os espaços em branco no começo
+    // remove all the spaces and tab from the start
     size_t pos = line.find_first_not_of("\t ");
 
-    // Erro de uma unica tabulaçao na linha
+    // error if we had only one tab on the line
     if(pos < 0) {
         return false;
     }
 
+    // remove the tab
     line = line.substr(pos, line.size());
 
-    // Remove comentário
+    // try find the comment
     pos = line.find_first_of("#");
 
-    // somente se encontrar comentario
-    if (pos >=0) {
+    // we just remove the comment until the end
+    // so we can put a comment on a line
+    if (pos >= 0) {
        line = line.substr(0, pos);
     }
 
-    // Remove os espaços em branco no final
+    // Remove the space at the end as well
     pos  = line.find_last_not_of("\t ");
-    line = line.substr(0, pos+1);
+    line = line.substr(0, pos + 1);
 
-    // Verifica se o igual esta na posição correta
-    if (  line.find("=") <= 0 || line.find("=") >= line.size()-1) {
+    // verify if  the equals is on the right position
+    // if start with equals or it's at end we just return false
+    if (line.find("=") <= 0 || line.find("=") >= line.size() - 1) {
         return false;
     }
 
+    // else everything is ok
     return true;
 }
 

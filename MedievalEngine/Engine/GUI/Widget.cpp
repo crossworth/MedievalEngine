@@ -3,6 +3,7 @@
 using namespace ME;
 
 Widget::Widget() : mIsVisible(true), mIsActive(true), mOpacity(1.f) {
+    // TODO(Pedro): Create a setFont function to change the default font of widget
     mDefaultFontID = Font::DEFAULT_FONT;
 }
 
@@ -78,6 +79,7 @@ Window* Widget::getWindow() {
     return mWindow;
 }
 
+// TODO(Pedro): DO we need this?
 ResourceManager* Widget::getResourceManager() {
     return mResources;
 }
@@ -99,6 +101,8 @@ void Widget::removeEventHandle(GUIEventPtr event) {
 }
 
 void Widget::notify(GUIEvent::Type type, Widget* widget) {
+    // TODO(Pedro): mEvents.end() interaction make any difference?
+    // Make some benchmark tests
     for(auto it = mEvents.begin(); it != mEvents.end(); it++) {
         (*it)->notify(type, widget);
     }

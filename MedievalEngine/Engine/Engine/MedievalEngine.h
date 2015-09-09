@@ -1,6 +1,6 @@
 #ifndef MEDIEVALENGINE_H
 #define MEDIEVALENGINE_H
-#include <algorithm>
+#include <algorithm> // TODO(Pedro): Do we need this?
 #include <thread>
 #include "Helper/Profiler.h"
 #include "Headers.h"

@@ -12,6 +12,7 @@
 namespace ME {
 
 class Widget;
+//TODO(Pedro): Move this out of here
 typedef std::shared_ptr<Widget> WidgetPtr;
 
 

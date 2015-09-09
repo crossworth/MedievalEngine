@@ -12,6 +12,7 @@ namespace ME {
 
 class Font : public Resource {
 public:
+    // TODO(Pedro): put this on the private and don't make any constructor that can fail
     Font();
     Font(const std::string& fileName);
     sf::Font* loadFromFile(const std::string& fileName);

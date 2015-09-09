@@ -9,6 +9,7 @@ namespace ME{
 
 class Sound : public Resource, public Audible {
 public:
+    // TODO(Pedro): Remove the constructor that can fail
     Sound(const std::string& fileName, const Audio::AudioType& type = Audio::AudioType::MUSIC);
     sf::Sound* loadFromFile(const std::string& fileName, const Audio::AudioType& type = Audio::AudioType::MUSIC);
     sf::Sound* getResourcePointer();
