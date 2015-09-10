@@ -191,7 +191,6 @@ void Window::open() {
         // We get an default view for drawing the cursor at end
         mFixedView = mWindow->getView();
 
-        // TODO(Pedro): Where the fuck we set this values?
         mWindow->setFramerateLimit(Window::mWindowInfo.frameLimit);
         mWindow->setVerticalSyncEnabled(Window::mWindowInfo.vsync);
 

@@ -52,6 +52,11 @@ typedef std::int64_t MEInt64;
 typedef std::uint64_t MEUInt64;
 
 /**
+ * The ME::ResourceID type used on all the ME::Resource and ME::ResourceManager
+ */
+typedef unsigned long int ResourceID;
+
+/**
  * Define the ME::WidgetPtr with a shared pointer to a ME::Widget
  */
 typedef std::shared_ptr<Widget> WidgetPtr;

@@ -66,7 +66,7 @@ void Profiler::printRecords(MedievalEngine* engine) {
 
     std::string finalDebugText;
 
-    finalDebugText = "DEBUG\n";
+    finalDebugText = "PROFILER\n";
 
     for(;it != end; it++) {
         finalDebugText = finalDebugText + std::string(it->first) +  ": ";

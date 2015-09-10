@@ -7,23 +7,36 @@ Log* Log::getInstance(const bool& logToFile, const std::string& fileName) {
     return m_instance;
 }
 
-Log::Log(const bool& logToFile, const std::string& fileName) : m_coutStream(std::cout) {
-    if (logToFile) {
-        m_ofStream.open(fileName.c_str(), std::ios_base::app);
-        m_outStream = &m_ofStream;
+Log::Log(const bool& logToFile, const std::string& fileName) : mCout(std::cout) {
+    mLogToFile = logToFile;
+    if (mLogToFile) {
+        mOfstream.open(fileName.c_str(), std::ios_base::app);
+        mOutstream = &mOfstream;
     } else {
-        m_outStream = &m_coutStream;
+        mOutstream = &mCout;
     }
 
-    *m_outStream << std::endl;
-    *m_outStream << "------------------------------------------";
-    *m_outStream << std::endl;
-    *m_outStream << Log::getTime() << std::endl;
+    mTempOutstream << std::endl;
+    mTempOutstream << "------------------------------------------";
+    mTempOutstream << std::endl;
+    mTempOutstream << Log::getTime() << std::endl;
 }
 
 std::string Log::getTime() {
-    time_t time            = std::time(0);
-    std::string timeString = std::ctime(&time);
-    timeString             = timeString.substr(0, timeString.length() - 1);
+    time_t time  = std::time(0);
+    tm* timeInfo = localtime(&time);
+
+    char buffer[80];
+
+    strftime(buffer, sizeof(buffer), "%d/%m/%Y %H:%M:%S", timeInfo);
+
+    std::string timeString(buffer);
     return std::string(timeString + " ");
+}
+
+
+Log::~Log() {
+    if (mLogToFile) {
+        mOfstream.close();
+    }
 }

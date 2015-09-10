@@ -14,8 +14,8 @@ public:
         int bitsPerPixel,
        bool fullScreen, 
        std::string name,
-       int frameLimit = 60, 
-       bool vsync = true
+       int frameLimit = ENGINE_DEFAULTS::FRAME_LIMIT, 
+       bool vsync = ENGINE_DEFAULTS::VSYNC
    );
 
     int width;

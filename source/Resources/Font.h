@@ -2,7 +2,6 @@
 #define FONT_H
 #include <SFML/Graphics.hpp>
 #include "LogInc.h"
-#include "Helper/Types.h"
 #include "Resources/Resource.h"
 #include "Resources/ResourceIDGenerator.h"
 

@@ -1,14 +1,12 @@
 #ifndef RESOURCEIDGENERATOR_H
 #define RESOURCEIDGENERATOR_H
+#include "Helper/Types.h"
 
 
 namespace ME {
 
-
-typedef unsigned long int ResourceID;
-
-// TODO(Pedro): Make this thread safe
-// by using std::atomic
+// NOTE(Pedro): This is thread safe
+// since we initialize the member during the static initialization
 class ResourceIDGenerator {
 public:
     static ResourceID get();
