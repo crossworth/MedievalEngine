@@ -1,20 +1,11 @@
 #ifndef WIDGET_H
 #define WIDGET_H
-#include <list>
-#include <memory>
-#include <algorithm>
-#include "LogInc.h"
 #include "Resources/ResourceManager.h"
-#include "Graphics/Drawable.h"
 #include "Graphics/Window.h"
-#include "Events/Event.h"
 #include "GUI/GUIEvent.h"
 
 namespace ME {
 
-// TODO(Pedro): Put on a typedef file?
-class Widget;
-typedef std::shared_ptr<Widget> WidgetPtr;
 
 class Widget : public Drawable {
 public:

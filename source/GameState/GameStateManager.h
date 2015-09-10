@@ -1,8 +1,5 @@
 #ifndef GAMESTATEMANAGER_H
 #define GAMESTATEMANAGER_H
-#include <map>
-#include <string>
-#include <iostream>
 #include "GameState/LoadingScreen.h"
 #include "GameState/MenuScreen.h"
 #include "GameState/OptionsScreen.h"

@@ -1,15 +1,9 @@
 #ifndef BUTTONWIDGET_H
 #define BUTTONWIDGET_H
-#include "Resources/ResourceManager.h"
 #include "GUI/Widget.h"
 
 
 namespace ME {
-
-// TODO(Pedro): Remove this out of here
-class ButtonWidget;
-
-typedef std::shared_ptr<ButtonWidget> ButtonWidgetPtr;
 
 class ButtonWidget : public Widget {
 public:

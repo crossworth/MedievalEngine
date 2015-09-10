@@ -1,8 +1,6 @@
 #ifndef LOADINGSCREEN_H
 #define LOADINGSCREEN_H
-#include "Resources/ResourceIDGenerator.h"
 #include "GameState/GameState.h"
-#include "Helper/Clock.h"
 
 namespace ME {
 

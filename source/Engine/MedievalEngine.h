@@ -1,9 +1,19 @@
 #ifndef MEDIEVALENGINE_H
 #define MEDIEVALENGINE_H
-#include <algorithm> // TODO(Pedro): Do we need this?
 #include <thread>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
+#include <SFML/OpenGL.hpp>
 #include "Helper/Profiler.h"
-#include "Headers.h"
+#include "Helper/DATFile.h"
+#include "Helper/ArgumentsParser.h"
+#include "Helper/Strings.h"
+#include "Effects/Fade.h"
+#include "Effects/Strobe.h"
+#include "Effects/Shader.h"
+#include "GameState/GameStateManager.h"
+
+
 
 namespace ME {
 
@@ -25,25 +35,23 @@ public:
 
     ~MedievalEngine();
 
-    // TODO(Pedro): Rename to GAME_FONT_ID and make it static
-    ResourceID gameFontID;
+    ResourceID GAME_FONT_ID;
 
-    // TODO(Pedro): Could this be private?
-    bool doneLoading();
+    bool isLoadingThreadDone();
+
+private:
     void loadingThread();
 
-// TODO(Pedro): Could this be private as well?
-protected:
     bool mDoneLoading;
-    std::thread* mLoadingThread;
-private:
+    std::thread mLoadingThread;
+
     std::string mCurrentMusicQueue;
     std::map<std::string, MusicQueue> mMusicQueue;
     bool mRunning;
     int mErrorCode;
     Window mWindow;
-    // TODO(Pedro): Rename this variable to mWindowInfoInput
-    WindowInfo mWindowInfo_;
+    
+    WindowInfo mWindowInfoInput;
     ResourceManager mResourceManager;
     CFGParser mConfigurations;
     ArgumentsParser mArguments;

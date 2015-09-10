@@ -1,14 +1,9 @@
 #ifndef TEXTLISTWIDGET_H
 #define TEXTLISTWIDGET_H
-#include "Helper/Clock.h"
-#include "Events/Mouse.h"
 #include "GUI/Widget.h"
 
 namespace ME {
 
-class TextListWidget;
-
-typedef std::shared_ptr<TextListWidget> TextListWidgetPtr;
 
 class TextListWidget : public Widget {
 public:

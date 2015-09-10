@@ -46,7 +46,7 @@ void MenuScreen::create() {
     int fontSize = Window::fontSize(0.5f);
 
     // Create the new Game button Text Widget
-    mNewGame = TextWidgetPtr(new TextWidget(Strings::get("new_game"), fontSize, Vect2f(0.f, 0.f), mEngine->gameFontID));
+    mNewGame = TextWidgetPtr(new TextWidget(Strings::get("new_game"), fontSize, Vect2f(0.f, 0.f), mEngine->GAME_FONT_ID));
     // Add the Widget to the GUI
     mGUI.addWidget("new_game_btn", mNewGame);
 
@@ -59,7 +59,7 @@ void MenuScreen::create() {
 
 
     // Create the new Game button Text Widget
-    mContinue = TextWidgetPtr(new TextWidget(Strings::get("continue"), fontSize, Vect2f(0.f, 0.f), mEngine->gameFontID));
+    mContinue = TextWidgetPtr(new TextWidget(Strings::get("continue"), fontSize, Vect2f(0.f, 0.f), mEngine->GAME_FONT_ID));
     // Add the Widget to the GUI
     mGUI.addWidget("continue_btn", mContinue);
 
@@ -72,7 +72,7 @@ void MenuScreen::create() {
 
 
     // Create the new Game button Text Widget
-    mMultiplayer = TextWidgetPtr(new TextWidget(Strings::get("multiplayer"), fontSize, Vect2f(0.f, 0.f), mEngine->gameFontID));
+    mMultiplayer = TextWidgetPtr(new TextWidget(Strings::get("multiplayer"), fontSize, Vect2f(0.f, 0.f), mEngine->GAME_FONT_ID));
     // Add the Widget to the GUI
     mGUI.addWidget("multiplayer_btn", mMultiplayer);
 
@@ -85,7 +85,7 @@ void MenuScreen::create() {
 
 
     // Create the new Game button Text Widget
-    mOptions = TextWidgetPtr(new TextWidget(Strings::get("options"), fontSize, Vect2f(0.f, 0.f), mEngine->gameFontID));
+    mOptions = TextWidgetPtr(new TextWidget(Strings::get("options"), fontSize, Vect2f(0.f, 0.f), mEngine->GAME_FONT_ID));
     // Add the Widget to the GUI
     mGUI.addWidget("options_btn", mOptions);
 
@@ -121,7 +121,7 @@ void MenuScreen::create() {
 
 
     // Create the new Game button Text Widget
-    mExit = TextWidgetPtr(new TextWidget(Strings::get("exit"), fontSize, Vect2f(0.f, 0.f), mEngine->gameFontID));
+    mExit = TextWidgetPtr(new TextWidget(Strings::get("exit"), fontSize, Vect2f(0.f, 0.f), mEngine->GAME_FONT_ID));
     // Add the Widget to the GUI
     mGUI.addWidget("exit_btn", mExit);
 

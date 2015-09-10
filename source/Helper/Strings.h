@@ -1,6 +1,5 @@
 #ifndef STRINGS_H
 #define STRINGS_H
-#include <map>
 #include <SFML/System/String.hpp>
 #include "Helper/CFGParser.h"
 

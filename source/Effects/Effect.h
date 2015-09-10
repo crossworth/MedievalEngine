@@ -1,8 +1,5 @@
 #ifndef EFFECT_H
 #define EFFECT_H
-#include <iostream>
-#include <SFML/Graphics.hpp>
-#include "Helper/Types.h"
 #include "Helper/Clock.h"
 #include "Graphics/Drawable.h"
 

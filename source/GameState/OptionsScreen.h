@@ -1,7 +1,6 @@
 #ifndef OPTIONSSCREEN_H
 #define OPTIONSSCREEN_H
 #include "GameState/GameState.h"
-#include "GUI/GUI.h"
 
 
 namespace ME {

@@ -1,6 +1,5 @@
 #ifndef WINDOWINFO_H
 #define WINDOWINFO_H
-#include <iostream>
 #include "Config.h"
 
 namespace ME {
@@ -14,7 +13,9 @@ public:
         int height,
         int bitsPerPixel,
        bool fullScreen, 
-       std::string name
+       std::string name,
+       int frameLimit = 60, 
+       bool vsync = true
    );
 
     int width;

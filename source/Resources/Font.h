@@ -1,6 +1,5 @@
 #ifndef FONT_H
 #define FONT_H
-#include <iostream>
 #include <SFML/Graphics.hpp>
 #include "LogInc.h"
 #include "Helper/Types.h"

@@ -1,8 +1,5 @@
 #ifndef DATFILE_H
 #define DATFILE_H
-#include <iostream>
-#include <fstream>
-#include <vector>
 #include <unordered_map>
 #include <cstring>
 #include "LogInc.h"

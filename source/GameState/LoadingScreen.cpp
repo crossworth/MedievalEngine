@@ -21,8 +21,8 @@ void LoadingScreen::create() {
 
     Window::fullScreen(sceneBGPtr);
 
-    textMessageScreen = mResources->createText(Strings::get("loading_text"), Window::fontSize(0.4f), mEngine->gameFontID);
-    textLoadingScreen = mResources->createText(Strings::get("loading"), Window::fontSize(0.45f), mEngine->gameFontID);
+    textMessageScreen = mResources->createText(Strings::get("loading_text"), Window::fontSize(0.4f), mEngine->GAME_FONT_ID);
+    textLoadingScreen = mResources->createText(Strings::get("loading"), Window::fontSize(0.45f), mEngine->GAME_FONT_ID);
 
     Text* textMessageScreenPtr = mResources->getResource<Text>(textMessageScreen);
     Text* textLoadingScreenPtr = mResources->getResource<Text>(textLoadingScreen);
@@ -95,7 +95,7 @@ void LoadingScreen::update() {
 
     unsigned int delayTime = 1500;
 
-    if (mMinWaitTime.getMilliSeconds() > delayTime && mEngine->doneLoading() && mIsStateChanging == false) {
+    if (mMinWaitTime.getMilliSeconds() > delayTime && mEngine->isLoadingThreadDone() && mIsStateChanging == false) {
         mIsStateChanging = true;
 
         unsigned int fadeTime = 1000;

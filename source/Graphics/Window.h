@@ -1,19 +1,12 @@
 #ifndef WINDOW_H
 #define WINDOW_H
-#include <memory>
-#include <SFML/Graphics.hpp>
 #include "Events/Event.h"
 #include "Graphics/WindowInfo.h"
 #include "Graphics/Drawable.h"
-#include "Helper/Vect2.h"
 #include "Helper/Clock.h"
 
 
 namespace ME {
-
-class Widget;
-//TODO(Pedro): Move this out of here
-typedef std::shared_ptr<Widget> WidgetPtr;
 
 
 class Window {

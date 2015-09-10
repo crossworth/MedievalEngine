@@ -1,10 +1,7 @@
 #ifndef ENGINE_CONFIG_H
 #define ENGINE_CONFIG_H
-#include <iostream>
-#include <string>
 #include <map>
 #include <vector>
-#include <string>
 #include <fstream>
 #include "Helper/Dir.h"
 
@@ -198,12 +195,6 @@ const std::string _LOG_FILE_NAME = "output.log";
 
 }
 
-#ifndef nullptr
-/**
- * Define a nullptr to 0 if for some reason we're not compiling on c++11
- */
-#define nullptr 0
-#endif
 
 
 

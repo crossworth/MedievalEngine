@@ -1,19 +1,11 @@
 #ifndef GUIEVENT_H
 #define GUIEVENT_H
-#include <map>
-#include <memory>
 #include "Helper/Types.h"
 #include "LogInc.h"
 
 
 namespace ME {
 
-
-// TODO(Pedro): Move this out of here
-class GUIEvent;
-class Widget;
-
-typedef std::shared_ptr<GUIEvent> GUIEventPtr;
 
 class GUIEvent {
 public:

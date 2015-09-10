@@ -1,6 +1,5 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
-#include <iostream>
 #include <SFML/Graphics.hpp>
 #include "LogInc.h"
 #include "Resources/Resource.h"

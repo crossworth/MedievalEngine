@@ -1,8 +1,5 @@
 #ifndef GUI_H
 #define GUI_H
-#include <map>
-#include <memory>
-#include "Graphics/Drawable.h"
 #include "GUI/TextWidget.h"
 #include "GUI/ButtonWidget.h"
 #include "GUI/TextListWidget.h"

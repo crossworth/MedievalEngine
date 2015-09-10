@@ -1,14 +1,6 @@
 #ifndef SPRITEANIMATION_H
 #define SPRITEANIMATION_H
-#include <vector>
 #include <utility>
-#include <SFML/Graphics.hpp>
-#include "LogInc.h"
-#include "Helper/Vect2.h"
-#include "Helper/Color.h"
-#include "Helper/Clock.h"
-#include "Graphics/Drawable.h"
-#include "Resources/Resource.h"
 #include "Resources/Texture.h"
 #include "Effects/Effect.h"
 

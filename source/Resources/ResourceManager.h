@@ -1,17 +1,10 @@
 #ifndef RESOURCEMANAGER_H
 #define RESOURCEMANAGER_H
 #include <unordered_map>
-#include <memory>
-#include "LogInc.h"
 #include "Helper/Kit.h"
-#include "Helper/Types.h"
-#include "Resources/ResourceIDGenerator.h"
-#include "Resources/Texture.h"
 #include "Resources/Sprite.h"
-#include "Resources/Font.h"
 #include "Resources/Text.h"
 #include "Resources/SpriteAnimation.h"
-#include "Resources/Music.h"
 #include "Resources/MusicQueue.h"
 #include "Resources/Sound.h"
 #include "Resources/Shape.h"

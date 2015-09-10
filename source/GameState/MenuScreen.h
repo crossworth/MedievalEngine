@@ -1,9 +1,6 @@
 #ifndef MENUSCREEN_H
 #define MENUSCREEN_H
-#include "Resources/ResourceIDGenerator.h"
 #include "GameState/GameState.h"
-#include "Helper/Clock.h"
-#include "GUI/GUI.h"
 
 
 namespace ME {

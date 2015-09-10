@@ -1,24 +1,14 @@
 #ifndef DRAWABLE_H
 #define DRAWABLE_H
-#include <vector>
-#include <memory>
-#include <functional>
 #include <SFML/Graphics.hpp>
 #include "LogInc.h"
-#include "Helper/Vect2.h"
+#include  "Helper/Types.h"
 #include "Helper/Area.h"
-#include "Helper/Color.h"
 #include "Helper/ColorGradient.h"
 
 
 namespace ME {
 
-// TODO(Pedro): Put this on the definition class as well?
-class Effect;
-class Window;
-
-// TODO(Pedro): Move this out of here
-typedef std::shared_ptr<Effect> EffectPtr;
 
 // TODO(Pedro): Put this enum on a namespace
 

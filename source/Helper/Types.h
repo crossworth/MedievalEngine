@@ -4,61 +4,141 @@
 #include <cstdio>
 #include <cstdint>
 #include <functional>
+#include <memory>
 
 
-// NOTE(Pedro): FILENAME_MAX is 260 on Windows and 1024 on MacOSX
-// So We have to use our own version of FILE_NAME_MAX
 
-// NOTE(Pedro): Since We are using lambda functions, We require C++11
-// Since #define is a preprocessor We can use this Way (where it's don't know about the class yet)
+/**
+ * Define an empty void lambda function <br>
+ * NOTE(Pedro): Since we are using lambda functions, we require C++11<br>
+ */
 #define EMPTY_VOID_CALLBACK [] (void) {}
 
 namespace ME {
 
-class Widget;
 
-// TODO(Pedro): Improve the name of the types and separete all files
+class Effect;
+class Window;
+class Widget;
+class TextWidget;
+class TextListWidget;
+class GUIEvent;
+class ButtonWidget;
+
+
+/**
+ * One byte variable type
+ */
 typedef char MEByte;
 
+/**
+ * int 32 variable type
+ */
 typedef std::int32_t MEInt32;
+
+/**
+ * unsigned int 32 variable type
+ */
 typedef std::uint32_t MEUInt32;
 
+/**
+ * int 64 variable type
+ */
 typedef std::int64_t MEInt64;
+
+/**
+ * unsigned int 64 variable type
+ */
 typedef std::uint64_t MEUInt64;
 
+/**
+ * Define the ME::WidgetPtr with a shared pointer to a ME::Widget
+ */
+typedef std::shared_ptr<Widget> WidgetPtr;
+
+/**
+ * Define the ME::VoidCallback with a function pointer
+ */
 typedef std::function<void(void)> VoidCallback;
+
+/**
+ * Define the ME::WidgetCallback with a function pointer
+ */
 typedef std::function<void(Widget*)> WidgetCallback;
 
-const MEInt32 ME_MAX_FILE_NAME = 255;
-const MEInt32 ME_MAX_DAT_FILES = 10000;
 /**
- * @brief The FileEntry struct
+ * Define the ME::EffectPtr with a shared pointer to a ME::Effect
+ */
+typedef std::shared_ptr<Effect> EffectPtr;
+
+/**
+ * Define the ME::TextWdigetPtr with a shared pointer to a ME::TextWidget
+ */
+typedef std::shared_ptr<TextWidget> TextWidgetPtr;
+
+/**
+ * Define the TextListWidgetPtr with a shared pointer to a ME::TextListWidget
+ */
+typedef std::shared_ptr<TextListWidget> TextListWidgetPtr;
+
+/**
+ * Define the ME::GUIEVentPtr with a shared pointer to a ME::GUIEvent
+ */
+typedef std::shared_ptr<GUIEvent> GUIEventPtr;
+
+/**
+ * Define the ME::ButtonWidgetPtr with a shared pointer to a ME::ButtonWidget
+ */
+typedef std::shared_ptr<ButtonWidget> ButtonWidgetPtr;
+
+
+/**
+ * Max file name<br>
+ * We use this on the ME::DATFile <br>
+ * <br>
+ * NOTE(Pedro): FILENAME_MAX is 260 on Windows and 1024 on MacOSX<br>
+ * So we have to use our own version of FILE_NAME_MAX<br>
+ * We set it to 255 since it's a comum value on Window and MacOS<br>
+ */
+const MEInt32 ME_MAX_FILE_NAME = 255;
+
+/**
+ * Max number of files on a ME::DATFile
+ */
+const MEInt32 ME_MAX_DAT_FILES = 10000;\
+
+/**
+ * @brief The ME::FileEntry struct used on the ME::DATFile
  */
 struct FileEntry {
-    char name[300];  // The name of the file
-    char fileLocation[ME_MAX_FILE_NAME];  // The real location of the file (memory or disk path)
-    MEInt64 size;    // The size of the file
-    MEInt64 offset;  // Where in the final file the data is
+    char name[300];  ///< The name of the file
+    char fileLocation[ME_MAX_FILE_NAME];  ///< The real location of the file (memory or disk path)
+    MEInt64 size;    ///< The size of the file
+    MEInt64 offset;  ///< Where in the final file the data is
 };
 
 /**
- * @brief The FileHeader struct
+ * @brief The ME::FileHeader struct used on the ME::DATFile
  */
 struct FileHeader {
-    char version[6];       // Version of the dat file
-    char name[300];        // Name of the dat file
-    char description[512]; // The description of the dat file
-    MEInt32 filesNumber;   // The number of files
-    MEInt64 createOn;      // When the file was created (time_t)
+    char version[6];       ///< Version of the dat file
+    char name[300];        ///< Name of the dat file
+    char description[512]; ///< The description of the dat file
+    MEInt32 filesNumber;   ///< The number of files
+    MEInt64 createOn;      ///< When the file was created (time_t)
 };
 
+}
 
 
-
-// TODO(Pedro): Remove this
 #ifndef nullptr
-#define nullptr NULL
+/**
+ * Define a nullptr to 0 if for some reason we're not compiling on c++11<br>
+ * NOTE(Pedro): We require to compile with c++11 since we use features that are not<br>
+ * available before c++11
+ */
+#define nullptr 0
 #endif
 
-}
+
 #endif // FILEENTRY_H

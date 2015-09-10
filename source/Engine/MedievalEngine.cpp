@@ -3,7 +3,7 @@
 using namespace ME;
 
 MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
-    mErrorCode(0), gameFontID(0), mDoneLoading(false), mRunning(true) {
+    mErrorCode(0), GAME_FONT_ID(0), mDoneLoading(false), mRunning(true) {
 
     ProfileBlock();
 
@@ -19,7 +19,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
 
     // Since its the creation of our engine we create a temporary window object
     // to initialize our window
-    mWindowInfo_;
+    mWindowInfoInput;
 
 
     // TODO(Pedro): add the vsync and framelimit options
@@ -33,6 +33,8 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     std::string voiceVolume;
     std::string musicVolume;
     std::string ambientVolume;
+    std::string vsync;
+    std::string frameLimit;
 
     // Try the keys of the configuration file
     // TODO(Pedro): Load the vsync and frame limit
@@ -40,6 +42,8 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     height        = mConfigurations.getKey("height");
     width         = mConfigurations.getKey("width");
     fullScreen    = mConfigurations.getKey("fullscreen");
+    vsync         = mConfigurations.getKey("vsync");
+    frameLimit    = mConfigurations.getKey("frame_limit");
     windowName    = mConfigurations.getKey("engine_name");
     language      = mConfigurations.getKey("language");
     globalVolume  = mConfigurations.getKey("global_volume");
@@ -51,23 +55,31 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     // Verify each key to see if we do have a valid information if so we parse
     // to the correct type and put on the appropriate place
     if(bitsPerPixel != "") {
-        mWindowInfo_.bitsPerPixel = Kit::str_int(bitsPerPixel);
+        mWindowInfoInput.bitsPerPixel = Kit::str_int(bitsPerPixel);
     }
 
     if(height != "") {
-        mWindowInfo_.height = Kit::str_int(height);
+        mWindowInfoInput.height = Kit::str_int(height);
     }
 
     if(width != "") {
-        mWindowInfo_.width = Kit::str_int(width);
+        mWindowInfoInput.width = Kit::str_int(width);
     }
 
     if(fullScreen != "") {
-        mWindowInfo_.fullScreen = Kit::str_bool(fullScreen);
+        mWindowInfoInput.fullScreen = Kit::str_bool(fullScreen);
+    }
+
+    if(vsync != "") {
+        mWindowInfoInput.vsync = Kit::str_bool(vsync);
+    }
+
+    if(frameLimit != "") {
+        mWindowInfoInput.frameLimit = Kit::str_int(frameLimit);
     }
 
     if (windowName != "") {
-        mWindowInfo_.windowName = windowName;
+        mWindowInfoInput.windowName = windowName;
     }
 
     // Max volume 100.f
@@ -154,7 +166,7 @@ void MedievalEngine::loadingThread() {
     mDoneLoading = true;
 }
 
-bool MedievalEngine::doneLoading() {
+bool MedievalEngine::isLoadingThreadDone() {
     return mDoneLoading;
 }
 
@@ -172,13 +184,13 @@ void MedievalEngine::init() {
     // and the font can be access to be load another font
     // A Log::WARNING should be emited
     if (mConfigurations.getKey("game_font") != "") {
-        gameFontID = mResourceManager.loadFont(mConfigurations.getKey("game_font"));
+        GAME_FONT_ID = mResourceManager.loadFont(mConfigurations.getKey("game_font"));
     } else {
-        gameFontID = Font::DEFAULT_FONT;
+        GAME_FONT_ID = Font::DEFAULT_FONT;
     }
 
     // We create the window here so We dont have any freeze on the screen
-    mWindow.create(mWindowInfo_);
+    mWindow.create(mWindowInfoInput);
 
 
     mGameStateManager.add("loading", new LoadingScreen());
@@ -204,7 +216,7 @@ void MedievalEngine::init() {
     }
 
     // Initilize our loading thread
-    mLoadingThread = new std::thread(&MedievalEngine::loadingThread, this);
+    mLoadingThread = std::thread(&MedievalEngine::loadingThread, this);
 }
 
 void MedievalEngine::run() {
@@ -289,7 +301,7 @@ void MedievalEngine::close() {
 
         // Close the window and wait for the thread to finish the loading
         // if we dont the engine crash horrible
-        mLoadingThread->join();
+        mLoadingThread.join();
     }
 }
 
@@ -311,5 +323,4 @@ DATFile* MedievalEngine::getDATAFileHandle() {
 
 MedievalEngine::~MedievalEngine() {
     LOG << Log::VERBOSE << "[MedievalEngine::~MedievalEngine]" << std::endl;
-    delete mLoadingThread;
 }

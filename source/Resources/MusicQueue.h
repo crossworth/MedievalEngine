@@ -1,11 +1,8 @@
 #ifndef MUSICQUEUE_H
 #define MUSICQUEUE_H
 #include <list>
-#include "LogInc.h"
-#include "Resources/Resource.h"
 #include "Resources/ResourceIDGenerator.h"
 #include "Resources/Music.h"
-#include "Audio/Audible.h"
 
 namespace ME  {
 

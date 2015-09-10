@@ -218,7 +218,8 @@ void Window::create(const WindowInfo& info) {
     Window::mWindowInfo.height       = info.height;
     Window::mWindowInfo.width        = info.width;
     Window::mWindowInfo.windowName   = info.windowName;
-    // TODO(Pedro): vsync and framelimit options
+    Window::mWindowInfo.frameLimit   = info.frameLimit; 
+    Window::mWindowInfo.vsync        = info.vsync; 
 
     LOG << Log::VERBOSE << "[Window::create] Window created" << std::endl;
 }

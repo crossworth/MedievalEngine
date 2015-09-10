@@ -1,9 +1,5 @@
 #ifndef TEXT_H
 #define TEXT_H
-#include <iostream>
-#include <SFML/Graphics.hpp>
-#include "Graphics/Drawable.h"
-#include "Resources/Resource.h"
 #include "Resources/Font.h"
 #include "Effects/Effect.h"
 

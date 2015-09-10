@@ -1,14 +1,10 @@
 #ifndef TEXTWIDEGET_H
 #define TEXTWIDEGET_H
-#include "Resources/ResourceManager.h"
 #include "GUI/Widget.h"
 
 
 namespace ME {
 
-class TextWidget;
-
-typedef std::shared_ptr<TextWidget> TextWidgetPtr;
 
 class TextWidget : public Widget {
 public:

@@ -4,14 +4,12 @@
  *
  * All files should be using the ISO 8859-1 enconding
  *
- * MEDIEVAL ENGINE TODO LIST
- *
+ * MEDIEVAL ENGINE TODO LIST *
  * - Try saving the log to a file, maybe the thread will crash it
  * - Make it thread safe
  *
  * GENERAL
  * - Better logging (put more logging call on the methods, improve time stamp, line number and file name)
- * - Better profiler
  * - Comment the code
  * - CFGParser enable array's
  * - Documentation the code
@@ -95,7 +93,6 @@
  */
 
 #include "Engine/MedievalEngine.h"
-#include <iostream>
 
 
 /**
