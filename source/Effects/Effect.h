@@ -21,7 +21,7 @@ public:
     };
 public:
     Effect();
-    virtual sf::RenderStates* update(Drawable* object) = 0;
+    virtual void update(Drawable* object) = 0;
     Type getType();
 
     std::string getTypeStr();
@@ -29,9 +29,7 @@ public:
     void restartClock();
     void setDone();
     bool isDone();
-    void registerRenderStates(sf::RenderStates* states);
 protected:
-    sf::RenderStates* mRenderStates;
     VoidCallback mCallback;
     Type mType;
     Clock mClock;

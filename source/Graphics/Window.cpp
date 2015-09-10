@@ -34,7 +34,7 @@ Window::~Window() {
     delete mWindow;
 }
 
-void Window::fullScreen(Drawable* object) {
+void Window::setSizeFullScreen(Drawable* object) {
     Vect2f objectSize;
     // Get the real object size
     objectSize.x = object->getLocalBounds().width;
@@ -244,29 +244,7 @@ void Window::clear() {
 
 void Window::draw(Drawable* obj) {
     assert(obj != nullptr);
-
-    // Some GUI objects require a Window object and not a RenderWindow
-    // so we verify if it require an window object and call
-    // the approprietade methodo
-    // NOTE(Pedro): this is a little messy and should not be implemented this way
-    // but it is are it is
-    if (obj->requireWindowObject()) {
-        obj->draw(*this);
-    } else {
-        obj->draw(mWindow);
-    }
-}
-
-void Window::draw(Drawable *obj, sf::RenderStates* states) {
-    assert(obj != nullptr);
-    // We just pass the state object down the call stack so
-    // whatever use the real RenderWindow can pass the already
-    // computed renderstate
-    if (obj->requireWindowObject()) {
-        obj->draw(*this, states);
-    } else {
-        obj->draw(mWindow, states);
-    }
+    obj->draw(*this);
 }
 
 void Window::close() {

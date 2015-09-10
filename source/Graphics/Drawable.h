@@ -29,8 +29,7 @@ public:
     Drawable();
     virtual ~Drawable();
 
-    virtual void draw(Window& window, sf::RenderStates* state = nullptr) = 0;
-    virtual void draw(sf::RenderWindow* renderWindow, sf::RenderStates* state = nullptr) = 0;
+    virtual void draw(Window& window) = 0;
 
     virtual void setPosition(const Vect2f& pos) = 0;
     virtual Vect2f getPosition() = 0;
@@ -57,8 +56,11 @@ public:
     virtual Area getLocalBounds() = 0;
     virtual Area getGlobalBounds() = 0;
 
-    void setOpacity(float opacity);
+    virtual void setOpacity(float opacity);
     float getOpacity();
+
+    void setRenderState(sf::RenderStates renderState);
+    sf::RenderStates* getRenderState();
 
     void addEffect(Effect* effect);
 
@@ -69,13 +71,6 @@ public:
     // TODO(Pedro): Test if this work
     void removeEffect(std::string effectType);
     void removeAllEffects();
-
-    /**
-     * Helper method that inform that the current Drawable object need pass a Window as
-     * parameter to the Drawable::draw
-     * @return bool - object need or not a Window Object on Draw function or a sf::RenderWindow
-     */
-    virtual bool requireWindowObject();
 
     /**
      * Define the padding relative to the Window object
@@ -96,9 +91,9 @@ public:
     float mPaddingLeft;
 protected:
     // TODO(Pedro): We have to make this work more nicily
-    // maybe put the RenderStates on ech Drawable object
-    sf::RenderStates* updateEffects();
-    sf::RenderStates* mRenderStates;
+    // maybe put the RenderStates on each Drawable object
+    void updateEffects();
+    sf::RenderStates mRenderStates;
     std::vector<EffectPtr> mEffects;
     bool mIsEffectPlaying;
 };

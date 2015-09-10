@@ -2,20 +2,16 @@
 
 using namespace ME;
 
-Shader::Shader(const std::string& fileName, const Shader::Type& type) : mIsShaderEnable(false) {
+Shader::Shader(const std::string& fileName, const Shader::Type& type) : mIsShaderEnable(false), mLoadedWithoutErros(true) {
     mType = Effect::SHADER;
 
-    // TODO(Pedro): Log here if the shader is not enable
-    // and not on the isShaderEnable
-    if (isShaderEnable()) {
+    if (isShaderAvailable()) {
 
         std::string shaderLocation = ME::ENGINE_DEFAULTS::SHADER_PATH + fileName;
 
-        //TODO(Pedro): Set a variable if we could not load a shader and
-        // on the update method we just verify if we loaded the shader first
-        // no pointer updating something that it's not doing nothing
         if (type == Shader::Type::VERTEX) {
             if(!mShader.loadFromFile(shaderLocation, sf::Shader::Type::Vertex)) {
+                mLoadedWithoutErros = false;
                 LOG << Log::WARNING
                     << "[Shader::Shader] Vertex Shader not found " + shaderLocation
                     << std::endl;
@@ -23,27 +19,31 @@ Shader::Shader(const std::string& fileName, const Shader::Type& type) : mIsShade
 
         } else {
             if(!mShader.loadFromFile(shaderLocation, sf::Shader::Type::Fragment)) {
+                mLoadedWithoutErros = false;
                 LOG << Log::WARNING
                     << "[Shader::Shader] Fragment Shader not found " + shaderLocation
                     << std::endl;
             }
         }
+    } else {
+        LOG << Log::WARNING
+            << "[Shader::Shader] The Shader is not available"
+            << std::endl;
     }
 }
 
-// TODO(Pedro): Could we remove one of theses?
-// Make a private loader maybe or something different
 Shader::Shader(const std::string& vertexShader, const std::string& fragmentShader) {
     mType = Effect::SHADER;
 
-    if (isShaderEnable()) {
+    if (isShaderAvailable()) {
         std::string vertShaderLocation = ME::ENGINE_DEFAULTS::SHADER_PATH + vertexShader;
         std::string fragShaderLocation = ME::ENGINE_DEFAULTS::SHADER_PATH + fragmentShader;
 
         if (!mShader.loadFromFile(vertShaderLocation, fragShaderLocation)) {
-                LOG << Log::WARNING
-                << "[Shader::Shader] Shaders not found " + vertShaderLocation
-                << " " + fragShaderLocation << std::endl;
+            mLoadedWithoutErros = false;
+            LOG << Log::WARNING
+            << "[Shader::Shader] Shaders not found " + vertShaderLocation
+            << " " + fragShaderLocation << std::endl;
         }
     } else {
         LOG << Log::WARNING
@@ -59,29 +59,27 @@ Shader::Shader(const std::string& vertexShader, const std::string& fragmentShade
 // sf::Transform (GLSL type mat4)
 // sf::Texture (GLSL type sampler2D)
 void Shader::setParameter(const std::string& paramenter, const double& data) {
-    if (isShaderEnable()) {
+    if (isShaderAvailable() && mLoadedWithoutErros) {
         mShader.setParameter(paramenter, static_cast<float>(data));
     }
 }
 
-sf::RenderStates* Shader::update(Drawable* object) {
-    // TODO(Pedro): Make an if we have loaded the shader without problems and if the shader is available
-
-    // set the texture if we need work with on the GLSL land
-    mShader.setParameter("texture", sf::Shader::CurrentTexture);
-    mRenderStates->shader = &mShader;
-    // Return an sf::RenderStates with the shader
-    return mRenderStates;
+void Shader::update(Drawable* object) {
+    if (isShaderAvailable() && mLoadedWithoutErros) {
+        mShader.setParameter("texture", sf::Shader::CurrentTexture);
+        // NOTE(Pedro): If we use a RenderImage we can add more shaders to the same drawable
+        object->getRenderState()->shader = &mShader;
+    } else {
+        setDone();
+    }
 }
 
-bool Shader::isShaderEnable() {
+bool Shader::isShaderAvailable() {
     if (sf::Shader::isAvailable()) {
         mIsShaderEnable = true;
     } else {
         mIsShaderEnable = false;
-
-        // We call setDone so we can remove our-selves from the object
-        setDone();
     }
+    
     return mIsShaderEnable;
 }

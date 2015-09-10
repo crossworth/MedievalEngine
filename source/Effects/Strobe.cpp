@@ -2,7 +2,7 @@
 
 using namespace ME;
 
-Strobe::Strobe(double time, float negativeRange, unsigned int duration, VoidCallback func) {
+Strobe::Strobe(unsigned int time, float negativeRange, unsigned int duration, VoidCallback func) : mDuration(0) {
     mType     = Effect::Type::STROBE;
     mCallback = VoidCallback(func);
 
@@ -11,10 +11,8 @@ Strobe::Strobe(double time, float negativeRange, unsigned int duration, VoidCall
     mIsInitialized = false;
 
     // The strobe time, thats means the time that we will go over all the opacity
-    mStrobeTime = time;
+    mStrobeTime = static_cast<float>(time);
 
-    // The strobe duration
-    // TODO(Pedro): infinit mode?
     mDuration = duration;
 
     // Which direction we are going
@@ -36,37 +34,36 @@ Strobe::Strobe(double time, float negativeRange, unsigned int duration, VoidCall
         mNegativeRange = 0.0f;
     }
 
-    // TODO(Pedro): Why do we have an 1.0f here?
+    // We subtrack by 1.0f to convert the value
+    // if the user pass 0.9f he wants to go from 10% until 100%
+    // so doing 1.0f - 0.9f we can get the number 0.1f that we will
+    // use to calcule the correct opacity
     mNegativeRange = 1.0f - mNegativeRange;
 }
 
-sf::RenderStates* Strobe::update(Drawable* object) {
-    // Since we only have access to the object on the update function we
-    // verify if we are initialized and if not we just fill some variables
-    // TODO(Pedro): How this work with multiple Drawable objects and only one effect?
-    // It keeps updating the baseColor from the other objects? How avoid it?
-    if (!mIsInitialized) {
-        mBaseColor     = object->getColor();
-        mIsInitialized = true;
-        mStrobeCounter = static_cast<float>(mBaseColor.alpha);
-        restartClock();
-    }
-
-    // Since this effect don't have a done mark
-    // we just wait until the time has passed by
-    // and set it to done
-    if (mClockDuration.getMilliSeconds() >= mDuration) {
-        // TODO(Pedro): Should we reset it's values to the default?
-        // Or leave at it is? Maybe we could verify if the duration has been reach and
-        // that the mStrobeCounter is greater than some value or less than some value
-        setDone();
-    }
-
-    // TODO(Pedro): Should we put all the code inside this if?
-    // Maybe we can gain some speed or just to make the code looks more organized
+void Strobe::update(Drawable* object) {
     if (!isDone()) {
+        // Since we only have access to the object on the update function we
+        // verify if we are initialized and if not we just fill some variables
+
+        if (!mIsInitialized) {
+            mIsInitialized = true;
+            mBaseColor     = object->getColor();
+            mStrobeCounter = static_cast<float>(mBaseColor.alpha);
+            restartClock();
+        }
+
+        // Since this effect don't have a done mark
+        // we just wait until the time has passed by 
+        // if the mDuration it's not -1 (which is infinity)
+        // and  then set it to done after we get to our normal state (initial state)
+        if (mDuration != -1 && mClockDuration.getMilliSeconds() >= mDuration && 
+            mStrobeCounter >= static_cast<float>(mBaseColor.alpha)) {
+            setDone();
+        }
+    
         // Calculate the step based on the time and the base alpha color plus the strobe time
-        float mStep =  (mClock.getMilliSeconds() * mBaseColor.alpha) / static_cast<float>(mStrobeTime);
+        float mStep =  (mClock.getMilliSeconds() * mBaseColor.alpha) / mStrobeTime;
 
         // We check our direction
         if (mDirection < 0) {
@@ -87,10 +84,6 @@ sf::RenderStates* Strobe::update(Drawable* object) {
         }
         restartClock();
 
-        Color tmpColor = object->getColor();
-        object->setColor(Color(tmpColor.red, tmpColor.green, tmpColor.blue,
-                               static_cast<int>(mStrobeCounter)));
+        object->setOpacity(static_cast<float>(mStrobeCounter) / 255);
     }
-    // We return our sf::RenderStates object because in this particular effect we dont use it
-    return mRenderStates;
 }

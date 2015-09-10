@@ -31,6 +31,38 @@ void CFGParser::readFile(const std::string& configFile) {
                 std::string tmpKey, tmpValue;
                 tmpKey           = mGetKey(line);
                 tmpValue         = mGetValue(line);
+
+
+                // if we are loading an array
+                // first verify we have found empty brackts
+                // and get the position
+                size_t arrayPos  = tmpKey.find_last_of("[]");
+
+                // if we have found
+                if (arrayPos != std::string::npos) {
+                    // current index set to zero
+                    int currentIndex = 0;
+
+                    // loop through all the elements lookin for the key
+                    for(auto it = mContents.begin(); it != mContents.end(); it++) {
+                        std::string keyName;
+
+                        // create the key name for look for
+                        // in this case NAME_ar_1 or NAME_ar_2
+                        keyName = tmpKey.substr(0, arrayPos - 1);
+                        keyName = keyName + "_ar_" + std::to_string(currentIndex);
+
+                        // if we found we increment the index
+                        if (mContents.find(keyName) != mContents.end()){
+                            currentIndex++;
+                        }
+                    }
+
+                    // and finally create the correct name
+                    tmpKey = tmpKey.substr(0, arrayPos - 1);
+                    tmpKey = tmpKey + "_ar_" + std::to_string(currentIndex);
+                }
+
                 mContents[tmpKey] = tmpValue;
             }
         }

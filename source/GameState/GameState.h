@@ -10,12 +10,13 @@ class ResourceManager;
 
 class GameState {
 public:
-    // TODO(Pedro): Rename this enum?
+    /**
+     * The ME::GameState::Status enum
+     */
     enum Status {
-        ON_ENABLE,
-        ON_PLAYING,
-        ON_DISABLE,
-        ON_DONE
+        ON_ENABLE,  ///< GameState on enable status
+        ON_PLAYING, ///< GameState on playing status
+        ON_DISABLE ///< GameState on disable status
     };
 public:
     GameState();
@@ -44,7 +45,6 @@ protected:
     GameState::Status mCurrentStatus;
     GUI mGUI;
     bool mIsPlaying;
-    bool mIsDone;
 };
 
 }

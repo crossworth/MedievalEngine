@@ -1,4 +1,5 @@
 #include "Sprite.h"
+#include "Graphics/Window.h"
 
 using namespace ME;
 
@@ -14,16 +15,9 @@ void Sprite::setTexture(Texture *texture) {
     mSprite.setTexture(*texture->getResourcePointer());
 }
 
-void Sprite::draw(Window& window, sf::RenderStates* state) {
-
-}
-
-void Sprite::draw(sf::RenderWindow *renderWindow, sf::RenderStates* state) {
-    if (state == nullptr) {
-        state = updateEffects();
-    }
-
-    renderWindow->draw(mSprite, *state);
+void Sprite::draw(Window& window) {
+    updateEffects();
+    window.getWindowPtr()->draw(mSprite, mRenderStates);
 }
 
 void Sprite::move(const Vect2f &pos) {

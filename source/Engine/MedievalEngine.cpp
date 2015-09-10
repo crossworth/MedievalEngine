@@ -21,8 +21,6 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     // to initialize our window
     mWindowInfoInput;
 
-
-    // TODO(Pedro): add the vsync and framelimit options
     std::string width;
     std::string height;
     std::string bitsPerPixel;
@@ -37,7 +35,6 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     std::string frameLimit;
 
     // Try the keys of the configuration file
-    // TODO(Pedro): Load the vsync and frame limit
     bitsPerPixel  = mConfigurations.getKey("bits_per_pixel");
     height        = mConfigurations.getKey("height");
     width         = mConfigurations.getKey("width");

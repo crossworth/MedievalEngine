@@ -48,3 +48,34 @@ sf::String Strings::get(const std::string& name) {
         return sf::String(name);
     }
 }
+
+sf::String Strings::getItemArrayRandom(const std::string& name) {
+    // append the prefixe _ar_
+    std::string nameTmp = name + "_ar_";
+    // our counter variable
+    MEInt64 max = 0;
+
+    // loop through all the itens 
+    for(auto it = Strings::mStrings.begin(); it != Strings::mStrings.end(); it++) {
+        // if it's contain our name we increment the array
+        if (it->first.find(nameTmp) != sf::String::InvalidPos) {
+            max++;
+        }
+    }
+
+    // Remove one number just to be on bounds of the array
+    if (max > 0) {
+        max--;
+    }
+
+    // generate the final name with the random number
+    // NOTE(Pedro): This could call NAME_ar_0 which may be undefined
+    // so we just return a string with the name
+    nameTmp = nameTmp + std::to_string(Random::get(max));
+
+    if (Strings::mStrings.find(nameTmp) != Strings::mStrings.end()) {
+        return Strings::mStrings[nameTmp];
+    } else {
+        return sf::String(nameTmp);
+    }
+}

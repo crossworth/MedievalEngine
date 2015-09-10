@@ -16,7 +16,7 @@ public:
     ResourceID getFont();
 
     void init();
-    void draw(Window& window, sf::RenderStates* state);
+    void draw(Window& window);
     void update();
     void handleEvents(Event evt);
 

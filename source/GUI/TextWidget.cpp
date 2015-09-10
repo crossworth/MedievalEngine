@@ -109,14 +109,11 @@ Area TextWidget::getGlobalBounds() {
     return mTextRef->getGlobalBounds();
 }
 
-void TextWidget::draw(Window& window, sf::RenderStates* state) {
+void TextWidget::draw(Window& window) {
     if (mIsVisible) {
-
-        if (state == nullptr) {
-            state = updateEffects();
-        }
-
-        window.draw(mTextRef, state);
+        updateEffects();
+        mTextRef->setRenderState(mRenderStates);
+        window.draw(mTextRef);
     }
 }
 

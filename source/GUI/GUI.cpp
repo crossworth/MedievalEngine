@@ -11,15 +11,13 @@ void GUI::registerEngine(MedievalEngine* engine) {
     mEngine = engine;
 }
 
-void GUI::draw(Window& window, sf::RenderStates* state) {
+void GUI::draw(Window& window) {
     if (isVisible()) {
-        if (state == nullptr) {
-            state = updateEffects();
-        }
-
+        updateEffects();
         for(auto it = mWidgets.begin(); it != mWidgets.end(); it++) {
             if ((*it).second->isVisible()) {
-                (*it).second->draw(window, state);
+                (*it).second->setRenderState(mRenderStates);
+                (*it).second->draw(window);
             }
         }
     }
@@ -105,10 +103,6 @@ WidgetPtr GUI::findWidget(const std::string& name) {
     return nullptr;
 }
 
-void GUI::draw(sf::RenderWindow* renderWindow, sf::RenderStates* state) {
-    // Do nothing since We require an Window object and not a renderWindow
-}
-
 void GUI::setPosition(const Vect2f& pos) {
     mRelativePostion = pos;
 }
@@ -185,6 +179,8 @@ Area GUI::getGlobalBounds() {
     return Area(0.f, 0.f, 1200.f, 700.f);
 }
 
-bool GUI::requireWindowObject() {
-    return true;
+void GUI::setOpacity(float opacity) {
+    for(auto it = mWidgets.begin(); it != mWidgets.end(); it++) {
+        (*it).second->setOpacity(opacity);
+    }
 }

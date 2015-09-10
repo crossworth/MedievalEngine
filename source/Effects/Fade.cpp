@@ -26,7 +26,7 @@ Fade::Fade(double time, const Type &type, VoidCallback func) {
     }
 }
 
-sf::RenderStates* Fade::update(Drawable* object) {
+void Fade::update(Drawable* object) {
     // If the effect it's done we do nothing, just return an empty sf::RenderStates
     // Probably this will be always true since we remove the effect after it's done
     // but anyway's better safe than sorry
@@ -60,10 +60,6 @@ sf::RenderStates* Fade::update(Drawable* object) {
         }
         restartClock();
 
-        Color tmpColor = object->getColor();
-        object->setColor(Color(tmpColor.red, tmpColor.green,
-                               tmpColor.blue, static_cast<int>(mFadeCounter)));
+        object->setOpacity(static_cast<float>(mFadeCounter) / 255);
     }
-    // We return our sf::RenderStates object because in this particular effect we dont use it
-    return mRenderStates;
 }

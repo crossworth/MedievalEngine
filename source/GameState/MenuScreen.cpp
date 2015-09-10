@@ -29,7 +29,7 @@ void MenuScreen::create() {
     Sprite* bgOptionsSPT = mResources->getResource<Sprite>(bgOptionsID);
 
     // Set the background image to fullScreen
-    Window::fullScreen(bgSPT);
+    Window::setSizeFullScreen(bgSPT);
     // Set the menu options background to the relative size
     Window::setRelative(bgOptionsSPT);
     // Do the same for the logo
@@ -103,7 +103,7 @@ void MenuScreen::create() {
     // somehow it don't work as expect
     // try something like this->bgOptionsSPT since it's obvious on the scope of this
     optionsEvent->setOnClick([=](Widget* widget) {
-        Window::fullScreen(bgOptionsSPT);
+        Window::setSizeFullScreen(bgOptionsSPT);
         Window::setPosition(bgOptionsSPT, Window::Position::CENTER, Window::Position::TOP);
     });
 
@@ -112,7 +112,7 @@ void MenuScreen::create() {
     });
 
     optionsEvent->setOnMouseOver([this](Widget* widget) {
-        mOptions->setColor(Color::BROWN);
+        mOptions->setColor(Color::DODGER_BLUE);
     });
 
     mOptions->addEventHandle(optionsEvent);
@@ -145,7 +145,7 @@ void MenuScreen::create() {
     });
 
     exitEvent->setOnMouseOver([this](Widget* widget) {
-        mExit->setColor(Color::BROWN);
+        mExit->setColor(Color::DODGER_BLUE);
     });
 
     mExit->addEventHandle(exitEvent);
@@ -160,10 +160,9 @@ void MenuScreen::init() {
     shader = new Shader("blur.frag", Shader::Type::FRAGMENT);
     shader->setParameter("blur_radius", 0.025f);
 
-    mGUI.addEffect(shader);
+    mGUI.addEffect(new Strobe(10000, 0.6f, -1));
 
-    // TODO(Pedro): Looks like this is broken
-    mNewGame->addEffect(shader);
+    // mNewGame->addEffect(shader);
     mContinue->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
     mMultiplayer->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
     mOptions->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));

@@ -6,6 +6,8 @@ namespace ME {
 
 // TODO(Pedro): Can we have two shader at the same time on the same object?
 // Verify sfml exemples to more info about this
+// NOTE(Pedro): Yep, we can have more than one shader but we need to draw it to a RenderImage first
+// and than apply the second shader to the RenderImage
 class Shader : public Effect {
 public:
     /**
@@ -19,9 +21,10 @@ public:
     Shader(const std::string& fileName, const Shader::Type& type);
     Shader(const std::string& vertexShader, const std::string& fragmentShader);
     void setParameter(const std::string& parameter, const double& data);
-    sf::RenderStates* update(Drawable* object);
+    void update(Drawable* object);
 private:
-    bool isShaderEnable();
+    bool isShaderAvailable();
+    bool mLoadedWithoutErros;
     Shader();
     sf::Shader mShader;
     bool mIsShaderEnable;

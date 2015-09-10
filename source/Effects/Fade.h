@@ -32,7 +32,7 @@ public:
      * @param  Drawable* object - The object to apply the effect
      * @return  sf::RenderStates* - Return an updated state with all the changes
      */
-    sf::RenderStates* update(Drawable* object);
+    void update(Drawable* object);
 private:
 	Fade();
     double mFadeTime;

@@ -15,9 +15,7 @@ public:
 
     virtual void init() = 0;
     // TODO(Pedro): Since we have a window object do we need a window object again
-    virtual void draw(Window& window, sf::RenderStates* state = nullptr) = 0;
-    // TODO(Pedro): Remove one of theses
-    virtual void draw(sf::RenderWindow* renderWindow, sf::RenderStates* state);
+    virtual void draw(Window& window) = 0;
     virtual void update() = 0;
     virtual void handleEvents(Event evt) = 0;
 

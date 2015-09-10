@@ -41,7 +41,6 @@ cd "H:\Dev\MedievalEngine"
 
 IF NOT EXIST "H:\Dev\MedievalEngine\build" mkdir "H:\Dev\MedievalEngine\build"
 cd "H:\Dev\MedievalEngine\build"
-IF EXIST %outexe% DEL %outexe%
 IF NOT EXIST .\obj mkdir .\obj
 cl %flags% %defines% %includes% %sources% %libs%
 cd "H:\Dev\MedievalEngine"

@@ -43,15 +43,13 @@ void ButtonWidget::init() {
     mTextRef->setColor(Color::BLACK);
 }
 
-void ButtonWidget::draw(Window& window, sf::RenderStates* state) {
+void ButtonWidget::draw(Window& window) {
     if (isVisible()) {
-
-        if (state == nullptr) {
-            state = updateEffects();
-        }
-
-        window.draw(mShapeRef, state);
-        window.draw(mTextRef, state);
+        updateEffects();
+        mShapeRef->setRenderState(mRenderStates);
+        mTextRef->setRenderState(mRenderStates);
+        window.draw(mShapeRef);
+        window.draw(mTextRef);
     }
 }
 

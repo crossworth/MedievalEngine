@@ -1,4 +1,5 @@
 #include "Text.h"
+#include "Graphics/Window.h"
 
 using namespace ME;
 
@@ -75,11 +76,7 @@ void Text::setStyle(const Text::FontStyle& style) {
     }
 }
 
-void Text::draw(Window& window, sf::RenderStates* state) {
-
-}
-
-void Text::draw(sf::RenderWindow* renderWindow, sf::RenderStates* state) {
+void Text::draw(Window& window) {
     if (isTextShadowEnable()) {
         Color tmpColor    = getColor();
         Vect2f tmpPos     = getPosition();
@@ -89,17 +86,14 @@ void Text::draw(sf::RenderWindow* renderWindow, sf::RenderStates* state) {
         setPosition(Vect2f(getPosition().x,
                            getPosition().y + mTextShadowFactor));
 
-        renderWindow->draw(mText);
+        window.getWindowPtr()->draw(mText);
 
         setColor(tmpColor);
         setPosition(tmpPos);
     }
 
-    if (state == nullptr) {
-        state = updateEffects();
-    }
-
-    renderWindow->draw(mText, *state);
+    updateEffects();
+    window.getWindowPtr()->draw(mText, mRenderStates);
 }
 
 void Text::move(const Vect2f& pos) {

@@ -30,8 +30,7 @@ public:
     Text::FontStyle getStyle();
 
 
-    void draw(Window& window, sf::RenderStates* state);
-    void draw(sf::RenderWindow* renderWindow, sf::RenderStates* state);
+    void draw(Window& window);
 
     void setPosition(const Vect2f& pos);
     Vect2f getPosition();

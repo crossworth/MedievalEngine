@@ -1,4 +1,5 @@
 #include "SpriteAnimation.h"
+#include "Graphics/Window.h"
 
 using namespace ME;
 
@@ -54,18 +55,10 @@ sf::Sprite* SpriteAnimation::getResourcePointer() {
     return &mSprite;
 }
 
-void SpriteAnimation::draw(Window& window, sf::RenderStates* state) {
-
-}
-
-void SpriteAnimation::draw(sf::RenderWindow* renderWindow, sf::RenderStates* state) {
+void SpriteAnimation::draw(Window& window) {
     updateSprite();
-
-    if (state == nullptr) {
-        state = updateEffects();
-    }
-
-    renderWindow->draw(mSprite, *state);
+    updateEffects();
+    window.getWindowPtr()->draw(mSprite, mRenderStates);
 }
 
 void SpriteAnimation::setPosition(const Vect2f& pos) {

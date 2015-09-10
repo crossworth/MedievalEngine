@@ -54,16 +54,58 @@ public:
     virtual unsigned int getDuration() = 0;
 
     /**
-     * Get the sound/music attenuation
-     * @return float
+     * Get the sound/music attenuation factor
+     * @return float - attenuation
      */
     virtual float getAttenuation() = 0;
+
+    /**
+     * Get the minimum distance of a sound/music<br>
+     * 
+     * @see ME::Audble::getMinDistance
+     *  
+     * @return float - minimum distance
+     */
     virtual float getMinDistance() = 0;
+
+    /**
+     * If the sound/music is relative to the Listerner<br>
+     * 
+     * @see ME::Audbible::setRelativeToListener
+     * 
+     * @return bool - is relative or absolute
+     */
     virtual bool isRelativeToListener() = 0;
     virtual Vect3f getPosition() = 0;
     virtual float getVolume() = 0;
     virtual float getPitch() = 0;
+
+    /**
+     * 
+     * The attenuation is a multiplicative factor which makes the sound/music more<br>
+     * or less loud according to its distance from the listener. An attenuation<br>
+     * of 0 will produce a non-attenuated sound, i.e. its volume will always be<br>
+     * the same whether it is heard from near or from far. On the other hand, an<br>
+     * attenuation value such as 100 will make the sound fade out very quickly as<br>
+     * it gets further from the listener. The default value of the attenuation is 1.<br>
+     * 
+     * @see ME::Audbile::getAttenuation
+     * 
+     * @param float - attenuation
+     */
     virtual void setAttenuation(const float& attenuation) = 0;
+
+    /**
+     * The "minimum distance" of a sound/music is the maximum distance at which<br>
+     * it is heard at its maximum volume. Further than the minimum distance,<br>
+     * it will start to fade out according to its attenuation factor.<br>
+     * A value of 0 ("inside the head of the listener") is an invalid value<br>
+     * and is forbidden. The default value of the minimum distance is 1.<br>
+     *  
+     * @see ME::Audble::getMinDistance
+     * 
+     * @param float - distance
+     */
     virtual void setMinDistance(const float& distance) = 0;
     virtual void setRelativeToListener(const bool& relative) = 0;
     virtual void setPosition(const Vect3f& pos) = 0;

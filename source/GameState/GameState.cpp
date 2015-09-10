@@ -5,7 +5,6 @@
 using namespace ME;
 
 GameState::GameState() {
-    mIsDone        = false;
     mIsPlaying     = true;
     mCurrentStatus = GameState::Status::ON_ENABLE;
     mEngine        = nullptr;
@@ -31,7 +30,6 @@ bool GameState::isPlaying() {
 }
 
 void GameState::restart() {
-    mIsDone        = false;
     mIsPlaying     = true;
     mCurrentStatus = GameState::Status::ON_ENABLE;
 }

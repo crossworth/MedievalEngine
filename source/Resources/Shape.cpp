@@ -1,4 +1,5 @@
 #include "Shape.h"
+#include "Graphics/Window.h"
 #include "cmath"
 
 using namespace ME;
@@ -15,12 +16,8 @@ Shape::Shape(const Vect2f& size, const Color& color, const Vect2f& pos) {
 }
 
 
-void Shape::draw(Window& window, sf::RenderStates* state) {
-
-}
-
-void Shape::draw(sf::RenderWindow* renderWindow, sf::RenderStates* state) {
-    std::vector<sf::Vertex> vertexVector;
+void Shape::draw(Window& window) {
+        std::vector<sf::Vertex> vertexVector;
 
     sf::Vector2f shapeSize(getSize().x, getSize().y);
 
@@ -90,11 +87,8 @@ void Shape::draw(sf::RenderWindow* renderWindow, sf::RenderStates* state) {
         }
     }
 
-    if (state == nullptr) {
-        state = updateEffects();
-    }
-
-    renderWindow->draw(&vertexVector[0], vertexVector.size(), sf::TrianglesFan, *state);
+    updateEffects();
+    window.getWindowPtr()->draw(&vertexVector[0], vertexVector.size(), sf::TrianglesFan, mRenderStates);
 }
 
 sf::RectangleShape* Shape::getResourcePointer() {

@@ -5,7 +5,6 @@
 using namespace ME;
 
 Drawable::Drawable() : mIsEffectPlaying(true) {
-    mRenderStates  = new sf::RenderStates;
     mPaddingTop    = 0.0f;
     mPaddingBottom = 0.0f;
     mPaddingRight  = 0.0f;
@@ -13,10 +12,6 @@ Drawable::Drawable() : mIsEffectPlaying(true) {
 }
 
 Drawable::~Drawable() {
-    delete mRenderStates;
-}
-
-void Drawable::draw(Window& window, sf::RenderStates* state) {
 
 }
 
@@ -48,7 +43,6 @@ void Drawable::addEffect(Effect* effect) {
         << std::endl;
 
     mEffects.push_back(EffectPtr(effect));
-    effect->registerRenderStates(mRenderStates);
 }
 
 void Drawable::setOriginCenter() {
@@ -102,16 +96,15 @@ void Drawable::removeAllEffects() {
         << std::endl;
 }
 
-sf::RenderStates* Drawable::updateEffects() {
+void Drawable::updateEffects() {
     if(isPlayingEffects()) {
         for(int i = 0 ; i < mEffects.size(); i++) {
-            mRenderStates = mEffects[i]->update(this);
+            mEffects[i]->update(this);
             if (mEffects[i]->isDone()) {
                 mEffects.erase(mEffects.begin() + i);
             }
         }
     }
-    return mRenderStates;
 }
 
 void Drawable::setOpacity(float opacity) {
@@ -164,6 +157,11 @@ Vect2f Drawable::getOriginRelative() {
     return origin;
 }
 
-bool Drawable::requireWindowObject() {
-    return false;
+void Drawable::setRenderState(sf::RenderStates renderState) {
+    mRenderStates = renderState;
+}
+
+
+sf::RenderStates* Drawable::getRenderState() {
+    return &mRenderStates;
 }

@@ -21,11 +21,6 @@ bool Effect::isDone() {
     return mDone;
 }
 
-// TODO(Pedro): Verify if this is used
-void Effect::registerRenderStates(sf::RenderStates* states) {
-    mRenderStates = states;
-}
-
 Effect::Type Effect::getType() {
     return mType;
 }

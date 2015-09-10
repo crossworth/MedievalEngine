@@ -19,9 +19,10 @@ void LoadingScreen::create() {
 
     Vect2f windowSize = mEngine->getWindow()->getSize();
 
-    Window::fullScreen(sceneBGPtr);
+    Window::setSizeFullScreen(sceneBGPtr);
 
-    textMessageScreen = mResources->createText(Strings::get("loading_text"), Window::fontSize(0.4f), mEngine->GAME_FONT_ID);
+
+    textMessageScreen = mResources->createText(Strings::getItemArrayRandom("loading_text"), Window::fontSize(0.4f), mEngine->GAME_FONT_ID);
     textLoadingScreen = mResources->createText(Strings::get("loading"), Window::fontSize(0.45f), mEngine->GAME_FONT_ID);
 
     Text* textMessageScreenPtr = mResources->getResource<Text>(textMessageScreen);
@@ -104,6 +105,7 @@ void LoadingScreen::update() {
         mResources->getResource<Text>(textMessageScreen)->addEffect(new Fade(fadeTime, Fade::Type::FADEOUT));
 
         mResources->getResource<Text>(sceneBackgroundID)->addEffect(new Fade(fadeTime, Fade::Type::FADEOUT, [this] (void) {
+            // Can change the game state to the next one
             this->mEngine->getGameStateManager()->changeGameState("menu");
         }));
     }
