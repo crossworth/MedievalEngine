@@ -2,21 +2,14 @@
  * Medieval Engine 2015
  * Pedro Henrique - system.pedrohenrique@gmail.com
  *
- * All files should be using the ISO 8859-1 enconding
- *
  * MEDIEVAL ENGINE TODO LIST
  *
  * GENERAL
  * - Better logging (put more logging call on the methods)
  * - Comment the code
- * - CFGParser enable array's
  * - Documentation the code
  * - Resource improve on failed to load resource (open a default_failed_to_load file like Valve Engine)
  * - Memory (free all the pointers)
- *
- * EFFECTS <-- BROKEN
- * - Verify everything!!!
- * - Verify the shader class if everything works
  *
  * GUI
  * - Add focus support for the GUI elements
