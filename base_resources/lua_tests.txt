@@ -1,0 +1,104 @@
+#include <iostream>
+#include <string>
+#include "sol.hpp"
+
+using namespace std;
+
+#define EXPOSE_API static void
+
+class LuaAPI {
+public:
+    LuaAPI() {
+        LuaAPI::state.open_libraries(sol::lib::base);
+    }
+
+    static void script(const string& code) {
+        try {
+            LuaAPI::state.script(code);
+        } catch(sol::error& err) {
+          cout << err.what() << endl;
+        }
+    }
+
+    static sol::state state;
+};
+
+sol::state LuaAPI::state;
+
+
+struct Log {
+    static int classNumber;
+
+    Log() {
+        Log::classNumber++;
+    }
+
+    void l(const std::string& message) {
+        cout << "LOG: " << message << " from  class:" << Log::classNumber << endl;
+    }
+
+    static void _luaAPILog(const std::string& message) {
+        cout << "LOG: " << message << std::endl;
+    }
+
+    EXPOSE_API exposeLuaAPI() {
+        LuaAPI::state.new_userdata<Log>("Log", "l", &Log::l);
+        LuaAPI::state.set_function("log", &Log::_luaAPILog);
+    }
+
+};
+
+
+struct Resource {
+    bool _isOpen;
+    int r;
+
+    Resource() : _isOpen(false), r(0) {
+
+    }
+
+    bool load() {
+        _isOpen = true;
+        r = 1000;
+        cout << "Resource opened somehow" << endl;
+        return _isOpen;
+    }
+
+    bool isOpen() {
+        return _isOpen;
+    }
+
+    int zeroTimer() {
+        r = 0;
+        return r;
+    }
+
+
+    EXPOSE_API exposeLuaAPI() {
+        LuaAPI::state.new_userdata<Resource>("Resource", "load", &Resource::load, "is_open", &Resource::isOpen, "zero_timer", &Resource::zeroTimer);
+    }
+};
+
+
+int Log::classNumber = 0;
+
+
+int main() {
+    LuaAPI api;
+    Log::exposeLuaAPI();
+    Resource::exposeLuaAPI();
+
+//    LuaAPI::script("x = Log:new()\n"
+//                   "x:l('teste')\nx:l('a')");
+//    LuaAPI::script("x = Log:new()\n"
+//                   "x:l('teste')");
+//    LuaAPI::script("x = Log:new()\n"
+//                   "x:l('teste')");
+
+    LuaAPI::script("x = Resource:new()\n"
+                   "log(tostring(x:is_open()))\n"
+                   "x:load()\n"
+                   "log(tostring(x:is_open()))\n"
+                   );
+    return 0;
+}

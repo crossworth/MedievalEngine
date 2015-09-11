@@ -34,7 +34,6 @@ std::string Log::getTime() {
     return std::string(timeString + " ");
 }
 
-
 Log::~Log() {
     if (mLogToFile) {
         mOfstream.close();

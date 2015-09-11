@@ -5,11 +5,11 @@
 #include <ctime>
 #include <fstream>
 #include <sstream>
+#include
 
 
 namespace ME {
-    
-// TODO(Pedro): Make this thread safe
+
 class Log {
 public:
     /**

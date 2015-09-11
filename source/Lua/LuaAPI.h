@@ -6,13 +6,12 @@
 
 namespace ME {
 
-
 class LuaAPI {
 public:
     LuaAPI();
     static void script(const std::string& code);
     static sol::state state;
-    
+
 private:
     static void luaLog(const std::string& message, const std::string& type = "verbose");
 };

@@ -2,7 +2,6 @@
 
 using namespace ME;
 
-
 sol::state LuaAPI::state;
 
 LuaAPI::LuaAPI() {
@@ -18,7 +17,7 @@ LuaAPI::LuaAPI() {
 
 void LuaAPI::script(const std::string& code) {
     try {
-        LuaAPI::state.script(code);  
+        LuaAPI::state.script(code);
     } catch(sol::error& err) {
         LOG << Log::LUA_WARNING << err.what() << std::endl;
     }
