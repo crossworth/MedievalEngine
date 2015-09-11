@@ -10,6 +10,8 @@
  * - Documentation the code
  * - Resource improve on failed to load resource (open a default_failed_to_load file like Valve Engine)
  * - Memory (free all the pointers)
+ * - Debugger (show mouse position, fps, current game state, currente game state status, memory usage, music playing)
+ * - maps key's to event's
  *
  * GUI
  * - Add focus support for the GUI elements

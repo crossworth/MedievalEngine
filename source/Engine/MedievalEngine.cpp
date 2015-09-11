@@ -7,6 +7,8 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
 
     ProfileBlock();
 
+    // TODO(Pedro): change this to something like
+    // LuaAPI::loadLibries(); and avoid keeping an object since we dont use it
     LuaAPI obj;
 
     // We verify if a config argument has been passed, if so we load the engine
@@ -191,7 +193,6 @@ void MedievalEngine::init() {
     // We create the window here so We dont have any freeze on the screen
     mWindow.create(mWindowInfoInput);
 
-
     mGameStateManager.add("loading", new LoadingScreen());
     mGameStateManager.getGameState("loading")->registerEngine(this);
     mGameStateManager.setGameState("loading");
@@ -243,6 +244,11 @@ void MedievalEngine::run() {
             // critical it can decide what it should do.
             mGameStateManager.handleEvents(event);
 
+
+            // TODO(Pedro): handle the Profiler, debugger, and the lua console here
+            // to be honest it's quit simple, we just handle the console
+            // since will be getting data from here
+            // mConsole.handleEvents();
             if(event.type == Event::KeyPressed) {
                 Profiler::setOutputType(Profiler::Type::SECONDS);
             }
@@ -260,7 +266,12 @@ void MedievalEngine::run() {
             mGameStateManager.draw(mWindow);
         }
 
+        // TODO(Pedro): if profiler enable
+        // if debugger enable
         Profiler::printRecords(this);
+
+        // TODO(Pedro): draw the console
+        // mConsole.draw();
 
         mWindow.display();
     }
