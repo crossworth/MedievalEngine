@@ -33,7 +33,7 @@ public:
     void draw(Drawable *obj);
     void display();
 
-    //TODO(Pedro): create a setCursor visible even if we are using custom cursor
+    //TODO(Pedro): create a setCursorVisible even if we are using custom cursor
     // so we can call it on the cinematic
 
     static void setSizeFullScreen(Drawable* object);

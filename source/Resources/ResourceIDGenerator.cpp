@@ -2,13 +2,10 @@
 
 using namespace ME;
 
-ResourceID ResourceIDGenerator::id = 0;
+std::atomic<ResourceID> ResourceIDGenerator::id = 0;
 
 ResourceID ResourceIDGenerator::get() {
     return id++;
 }
 
-ResourceIDGenerator::ResourceIDGenerator() {
-
-}
 

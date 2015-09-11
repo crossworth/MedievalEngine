@@ -7,6 +7,8 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
 
     ProfileBlock();
 
+    LuaAPI obj;
+
     // We verify if a config argument has been passed, if so we load the engine
     // with the specified configuration file
     if (mArguments.hasArgument("config")) {

@@ -12,7 +12,7 @@
 #include "Effects/Strobe.h"
 #include "Effects/Shader.h"
 #include "GameState/GameStateManager.h"
-
+#include "Lua/LuaAPI.h"
 
 
 namespace ME {
