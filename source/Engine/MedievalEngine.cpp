@@ -153,7 +153,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
 **/
 void MedievalEngine::loadingThread() {
     ProfileBlock();
-    LOG << Log::VERBOSE << "[MedievalEngine::loadingThread]" << std::endl;
+   LOG << Log::VERBOSE << "[MedievalEngine::loadingThread]" << std::endl;
     // Here we register all our game states and call all the init create methods
 
     mGameStateManager.add("menu", new MenuScreen());

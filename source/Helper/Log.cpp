@@ -21,7 +21,6 @@ Log::Log(const bool& logToFile, const std::string& fileName) : mCout(std::cout) 
     mTempOutstream << std::endl;
     mTempOutstream << "------------------------------------------";
     mTempOutstream << std::endl;
-    mTempOutstream << Log::getTime() << std::endl;
 }
 
 std::string Log::getTime() {

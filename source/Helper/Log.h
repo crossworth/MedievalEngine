@@ -5,6 +5,7 @@
 #include <ctime>
 #include <fstream>
 #include <sstream>
+#include <mutex>
 #include <SFML/System/String.hpp>
 
 
@@ -110,7 +111,14 @@ public:
         return *this;
     }
 
+    inline std::string lock() {
+        // lock our resources to avoid crash from thread's related stuff
+        mLock.lock();
+        return "";
+    }
+
     inline Log& operator<<(std::ostream&(f)(std::ostream&)) {
+
         *mOutstream << mTempOutstream.str() + "\n";
 
         if (mCallOnUpdate != nullptr) {
@@ -118,6 +126,9 @@ public:
         }
 
         mTempOutstream.str("");
+
+        mLock.unlock();
+
         return *this;
     }
 
@@ -127,6 +138,8 @@ public:
 
     ~Log();
 private:
+    std::mutex mLock;
+
     bool mLogToFile;
     std::stringstream mTempOutstream;
     std::ostream* mOutstream;
