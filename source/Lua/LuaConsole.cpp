@@ -17,14 +17,13 @@ LuaConsole::LuaConsole() {
     mBGColor        = Color(0, 0, 0, 120);
     mNumberLines    = 1;
     mCusorBlinkTime = 500;
+    mHasScrolled    = false;
+    mStepScroll     = 30;
 
     mClockBlinkCursor.restart();
 }
 
 void LuaConsole::handleEvents(Event& evt) {
-    
-    // TODO(pedro): scrollbar just mouse scroll
-
     if (evt.type == Event::KeyPressed) {
 
         if (evt.key.code == Keyboard::KEY::F3) {
@@ -38,14 +37,43 @@ void LuaConsole::handleEvents(Event& evt) {
 
     if(isVisible()) {
 
+        // scroll the content 
+        if (evt.type == Event::MouseWheelScrolled) {
+
+            // if the scroll its vertical
+            if(evt.mouseWheelScroll.wheel == Mouse::Wheel::VerticalWheel) {
+
+                Vect2f pos = mOutput->getPosition();
+                // scroll up if delta == 1
+                // scroll down if delta == -1
+                if (evt.mouseWheelScroll.delta > 0 ) { // scroll up
+                    if (pos.y <= mBG->getPosition().y) {
+                        mHasScrolled = true;
+
+                        mOutput->setPosition(Vect2f(mBG->getPosition().x, mOutput->getPosition().y  + mStepScroll));
+                    }
+                } else { // scroll down
+                    if (pos.y + mOutput->getSize().y + mLineHeight >= mBG->getPosition().y + mBG->getSize().y ) {
+                        mHasScrolled = true;
+                        mOutput->setPosition(Vect2f(mBG->getPosition().x, mOutput->getPosition().y  - mStepScroll));                    
+                    } else {
+                        mHasScrolled = false;
+                    }
+                }
+            }
+
+        }
+
         if (evt.type == Event::TextEntered) {
 
-             // 13 = newline
+             // 13 = newline (ENTER)
              // 8  = backspace
              // 9  = tab
             if (evt.text.unicode == 13) {
                 // Remove the CMD: from the start of the string
                 mBuffer.erase(0, 4);
+                // put on the screen the command 
+                update("COMMAND: " + mBuffer + "\n");
                 // call Lua 
                 LuaAPI::script(mBuffer);
                 // Reset to the default text
@@ -92,8 +120,14 @@ void LuaConsole::handleEvents(Event& evt) {
 }
 
 void LuaConsole::update(const sf::String& buffer) {
-   mOutput->setString(buffer);
-   mOutput->setPosition(Vect2f(mBG->getPosition().x, mConsoleSize.y - mOutput->getSize().y - mLineHeight));
+    mBufferOutput = mBufferOutput + buffer;
+
+   mOutput->setString(mBufferOutput);
+
+   // if we dont have scrolled yet we will automatic update the ouput position
+    if (mHasScrolled == false) {
+        mOutput->setPosition(Vect2f(mBG->getPosition().x, mConsoleSize.y - mOutput->getSize().y - mLineHeight));
+    }
 }
 
 void LuaConsole::registerEngine(MedievalEngine* engine) {
@@ -156,7 +190,8 @@ void LuaConsole::draw(Window& window) {
         window.draw(mBG);
         window.draw(mLineEdit);
 
-        Area mBGArea = mBG->getGlobalBounds();
+        Area mBGArea   = mBG->getGlobalBounds();
+        mBGArea.height = mBGArea.height - mLineHeight;
 
         sf::View panelView;
         sf::FloatRect panelRect(mBGArea.left / mWindowSize.x,
@@ -185,4 +220,9 @@ bool LuaConsole::isVisible() {
 
 void LuaConsole::setVisible(bool visible) {
     mIsVisible = visible;
+
+    if (visible == false) {
+        mHasScrolled = false;
+        mOutput->setPosition(Vect2f(mBG->getPosition().x, mConsoleSize.y - mOutput->getSize().y - mLineHeight));
+    }
 }

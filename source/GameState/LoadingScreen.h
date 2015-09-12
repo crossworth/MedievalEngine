@@ -15,10 +15,9 @@ public:
     void update();
     void handleEvents(Event& evt);
 private:
-    ResourceID sceneBackgroundID;
-    ResourceID sceneTextLoading;
-    ResourceID textMessageScreen;
-    ResourceID textLoadingScreen;
+    Sprite* sceneBGPtr;
+    Text* textMessageScreen;
+    Text* textLoadingScreen;
 
     bool fadeTextInit;
     int counter;

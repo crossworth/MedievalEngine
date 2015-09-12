@@ -3,6 +3,7 @@
 #include "GameState/LoadingScreen.h"
 #include "GameState/MenuScreen.h"
 #include "GameState/OptionsScreen.h"
+#include "Helper/Profiler.h"
 
 
 namespace  ME {

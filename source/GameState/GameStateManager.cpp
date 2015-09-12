@@ -13,6 +13,8 @@ void GameStateManager::add(const std::string &name, GameState *gameState) {
 }
 
 void GameStateManager::changeGameState(const std::string &name) {
+    ProfileBlock();
+
     LOG << Log::VERBOSE
         << "[GameStateManager::changeGameState] Change Game State: " + name 
         << std::endl;
@@ -29,6 +31,8 @@ void GameStateManager::changeGameState(const std::string &name) {
 }
 
 void GameStateManager::setGameState(const std::string &name) {
+    ProfileBlock();
+    
     LOG << Log::VERBOSE << "[GameStateManager::setGameState] Set Game State: " + name
         << std::endl;
 

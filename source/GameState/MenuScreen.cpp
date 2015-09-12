@@ -13,6 +13,8 @@ MenuScreen::MenuScreen() {
 // maybe put all the Size specific things on the init method
 // or something like that
 void MenuScreen::create() {
+    ProfileBlock();
+    
     LOG << Log::VERBOSE << "[MenuScreen::create]" << std::endl;
 
     ResourceID bgTXT = mResources->loadTexture("menu/bg_menu.png");
@@ -150,15 +152,18 @@ void MenuScreen::create() {
 
     mExit->addEventHandle(exitEvent);
 
-}
-
-void MenuScreen::init() {
-    LOG << Log::VERBOSE << "[MenuScreen::init]" << std::endl;
 
     mFadeTime = 500;
 
     shader = new Shader("blur.frag", Shader::Type::FRAGMENT);
     shader->setParameter("blur_radius", 0.025f);
+
+}
+
+void MenuScreen::init() {
+    ProfileBlock();
+
+    // LOG << Log::VERBOSE << "[MenuScreen::init]" << std::endl;
 
     mGUI.addEffect(new Strobe(10000, 0.6f, -1));
 
@@ -187,6 +192,8 @@ void MenuScreen::onDisable(Window &window) {
 }
 
 void MenuScreen::onPlaying(Window &window) {
+    ProfileBlock();
+
     window.draw(mResources->getResource<Sprite>(bgID));
     window.draw(mResources->getResource<Sprite>(bgOptionsID));
     window.draw(mResources->getResource<Sprite>(logoID));
@@ -194,10 +201,14 @@ void MenuScreen::onPlaying(Window &window) {
 }
 
 void MenuScreen::update() {
+    ProfileBlock();
+
     mGUI.update();
 }
 
 void MenuScreen::handleEvents(Event& evt) {
+    ProfileBlock();
+
     mGUI.handleEvents(evt);
     if(evt.type == Event::Closed) {
         mEngine->close();

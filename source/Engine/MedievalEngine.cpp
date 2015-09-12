@@ -198,6 +198,8 @@ void MedievalEngine::init() {
     // Open the window only after the loading screen has been initialized
     mWindow.open();
 
+
+    // Register the engine on our console
     mConsole.registerEngine(this);
 
 
@@ -224,8 +226,10 @@ void MedievalEngine::run() {
        return;
     }
 
+
     ProfileBlock();
     while(mWindow.isOpen()) {
+
 
         if (mMusicQueue.find(mCurrentMusicQueue) != mMusicQueue.end()) {
             ProfileBlockStr("update music queue");
@@ -242,17 +246,13 @@ void MedievalEngine::run() {
             // to the current game state, so this way
             // if the current game state it's doing something
             // critical it can decide what it should do.
-            mGameStateManager.handleEvents(event);
+            
+            // If the console it's not visible we handle the game state events
+            if (!mConsole.isVisible()) {
+                mGameStateManager.handleEvents(event);
+            }
 
-
-            // TODO(Pedro): handle the Profiler, debugger, and the lua console here
-            // to be honest it's quit simple, we just handle the console
-            // since will be getting data from here
-            // mConsole.handleEvents();
-            // if(event.type == Event::KeyPressed) {
-            //     Profiler::setOutputType(Profiler::Type::SECONDS);
-            // }
-
+            // handle the console events, since it's independent
             mConsole.handleEvents(event);
         }
 
@@ -278,6 +278,7 @@ void MedievalEngine::run() {
         }
 
         mWindow.display();
+        mWindow.setTitle("FPS:" + Kit::int_str(mWindow.getFPS()));
     }
 }
 
