@@ -9,7 +9,7 @@ namespace ME {
 
 class MedievalEngine;
 
-class LuaConsole {
+class LuaConsole : public LogObserver {
 public:
     LuaConsole();
 
@@ -19,6 +19,9 @@ public:
     bool isVisible();
     void setVisible(bool visible);
     void draw(Window& window);
+
+    void update(const sf::String& buffer);
+
 private:
     bool mIsVisible;
     
@@ -27,6 +30,7 @@ private:
     sf::String mBuffer;
     
     Text* mText;
+    Text* mOutput;
     Shape* mBG;
     Shape* mLineEdit;
 

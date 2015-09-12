@@ -16,6 +16,8 @@ Log::Log(const bool& logToFile, const std::string& fileName) : mCout(std::cout) 
         mOutstream = &mCout;
     }
 
+    mCallOnUpdate = nullptr;
+
     mTempOutstream << std::endl;
     mTempOutstream << "------------------------------------------";
     mTempOutstream << std::endl;
@@ -38,4 +40,9 @@ Log::~Log() {
     if (mLogToFile) {
         mOfstream.close();
     }
+}
+
+
+void Log::setObserver(LogObserver* observer) {
+    mCallOnUpdate = observer;
 }

@@ -5,9 +5,16 @@
 #include <ctime>
 #include <fstream>
 #include <sstream>
+#include <SFML/System/String.hpp>
 
 
 namespace ME {
+
+
+class LogObserver {
+public:
+    virtual void update(const sf::String& buffer) = 0;
+};
 
 class Log {
 public:
@@ -105,10 +112,19 @@ public:
 
     inline Log& operator<<(std::ostream&(f)(std::ostream&)) {
         *mOutstream << mTempOutstream.str() + "\n";
+        mBuffer = mBuffer + sf::String(mTempOutstream.str() + "\n");
+
+        if (mCallOnUpdate != nullptr) {
+            mCallOnUpdate->update(mBuffer);
+        }
+
         mTempOutstream.str("");
         return *this;
     }
+
     static std::string getTime();
+
+    void setObserver(LogObserver* observer);
 
     ~Log();
 private:
@@ -117,6 +133,8 @@ private:
     std::ostream* mOutstream;
     std::ostream& mCout;
     std::ofstream mOfstream;
+    sf::String mBuffer;
+    LogObserver* mCallOnUpdate;
 };
 
 }

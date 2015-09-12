@@ -11,19 +11,19 @@ LuaConsole::LuaConsole() {
     cmd_check       = sf::String("");
     mBuffer         = mDefaultText;
     mText           = nullptr;
+    mOutput         = nullptr;
     mBG             = nullptr;
     mLineEdit       = nullptr;
     mBGColor        = Color(0, 0, 0, 120);
     mNumberLines    = 1;
     mCusorBlinkTime = 500;
 
-
     mClockBlinkCursor.restart();
 }
 
 void LuaConsole::handleEvents(Event& evt) {
     
-
+    // TODO(pedro): scrollbar just mouse scroll
 
     if (evt.type == Event::KeyPressed) {
 
@@ -91,6 +91,11 @@ void LuaConsole::handleEvents(Event& evt) {
     }
 }
 
+void LuaConsole::update(const sf::String& buffer) {
+   mOutput->setString(buffer);
+   mOutput->setPosition(Vect2f(mBG->getPosition().x, mConsoleSize.y - mOutput->getSize().y - mLineHeight));
+}
+
 void LuaConsole::registerEngine(MedievalEngine* engine) {
     mResources  = engine->getResourceManager();
     mWindowSize = engine->getWindow()->getSize();
@@ -102,12 +107,16 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     mMargin.y = mWindowSize.y * 0.01f;
 
     ResourceID textID;
+    ResourceID outputID;
     ResourceID bgID;
     ResourceID lineEditID;
     ResourceID fontID;
 
     fontID = mResources->loadFont("system/Inconsolata.ttf");
     
+    outputID = textID = mResources->createText(sf::String(""), Window::fontSize(0.20f), fontID);
+    mOutput  = mResources->getResource<Text>(outputID);
+
     textID = mResources->createText(mBuffer, Window::fontSize(0.25f), fontID);
     mText  = mResources->getResource<Text>(textID);
     // MAGIC NUMBER WHERE! for some reason we have to multiply the text size
@@ -126,6 +135,9 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     mLineEdit->setPosition(Vect2f(mBG->getPosition().x, mBG->getPosition().y + mBG->getSize().y - mLineHeight));
     mText->setPosition(mLineEdit->getPosition());  
 
+
+    // Get the messages from the log
+    LOG_OBJECT->setObserver(this);
 }
 
 void LuaConsole::draw(Window& window) {
@@ -140,9 +152,29 @@ void LuaConsole::draw(Window& window) {
     }
 
 
-    if (mText != nullptr && mBG != nullptr && mLineEdit != nullptr) {
+    if (mText != nullptr && mBG != nullptr && mLineEdit != nullptr && mOutput != nullptr) {
         window.draw(mBG);
         window.draw(mLineEdit);
+
+        Area mBGArea = mBG->getGlobalBounds();
+
+        sf::View panelView;
+        sf::FloatRect panelRect(mBGArea.left / mWindowSize.x,
+                                (mBGArea.top) / mWindowSize.y,
+                                (mBGArea.width) / mWindowSize.x,
+                                (mBGArea.height) / mWindowSize.y);
+
+        panelView.reset(sf::FloatRect(mBGArea.left, mBGArea.top,
+                                      mBGArea.width, mBGArea.height));
+
+        panelView.setViewport(panelRect);
+        window.getWindowPtr()->setView(panelView);
+
+        window.draw(mOutput);
+
+        window.getWindowPtr()->setView(window.getWindowPtr()->getDefaultView());
+
+        
         window.draw(mText);
     }
 }
