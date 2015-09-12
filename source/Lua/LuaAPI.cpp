@@ -10,7 +10,7 @@ LuaAPI::LuaAPI() {
 
 void LuaAPI::loadLibs() {
     try {
-        LuaAPI::state.open_libraries(sol::lib::base);
+        LuaAPI::state.open_libraries(sol::lib::base, sol::lib::string, sol::lib::table);
 
         LuaAPI::state.set_function("log", [](const std::string& message){
             LOG << Log::LUA_VERBOSE << message << std::endl;
@@ -22,11 +22,14 @@ void LuaAPI::loadLibs() {
         });
         LuaFunctions::store("log_w");
 
-
         LuaAPI::state.set_function("log_c", [](const std::string& message){
             LOG << Log::LUA_CRITICAL << message << std::endl;
         });
         LuaFunctions::store("log_c");
+
+
+
+        LuaAPI::script("function print_table (tbl, indent) if not indent then indent = 0 end for k, v in pairs(tbl) do formatting = string.rep(\"  \", indent) .. k .. \": \" if type(v) == \"table\" then print(formatting) print_table(v, indent+1) elseif type(v) == 'boolean' then log(formatting .. tostring(v)) else log(formatting .. v) end end end");
 
     } catch(sol::error& err) {
         LOG << Log::LUA_WARNING << err.what() << std::endl;

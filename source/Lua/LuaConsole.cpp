@@ -72,10 +72,15 @@ void LuaConsole::handleEvents(Event& evt) {
             if (evt.text.unicode == 13) {
                 // Remove the CMD: from the start of the string
                 mBuffer.erase(0, 4);
-                // put on the screen the command 
-                update("COMMAND: " + mBuffer + "\n");
-                // call Lua 
-                LuaAPI::script(mBuffer);
+
+                // if we have some command we execute it
+                if (mBuffer.getSize() > 0) {
+                    // put on the screen the command 
+                    update("COMMAND: " + mBuffer + "\n");
+                    // call Lua 
+                    LuaAPI::script(mBuffer);
+                }
+
                 // Reset to the default text
                 mBuffer = mDefaultText;
             } else if (evt.text.unicode == 9) {
@@ -169,7 +174,6 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     mLineEdit->setPosition(Vect2f(mBG->getPosition().x, mBG->getPosition().y + mBG->getSize().y - mLineHeight));
     mText->setPosition(mLineEdit->getPosition());  
 
-
     // Get the messages from the log
     LOG_OBJECT->setObserver(this);
 }
@@ -209,7 +213,6 @@ void LuaConsole::draw(Window& window) {
 
         window.getWindowPtr()->setView(window.getWindowPtr()->getDefaultView());
 
-        
         window.draw(mText);
     }
 }
