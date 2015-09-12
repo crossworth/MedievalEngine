@@ -5,7 +5,7 @@ using namespace ME;
 
 WindowInfo Window::mWindowInfo;
 
-Window::Window() : mIsWindowOpen(false), mHasCustomCursor(false) {
+Window::Window() : mIsWindowOpen(false), mHasCustomCursor(false), mFrame(0), mFPS(0) {
     mWindow = new sf::RenderWindow();
 }
 
@@ -224,7 +224,7 @@ void Window::create(const WindowInfo& info) {
 }
 
 unsigned int Window::getDelta() {
-    return mClock.getMilliSeconds();
+    return mFPS;
 }
 
 bool Window::isValidWindow(const WindowInfo& info) {
@@ -239,12 +239,13 @@ bool Window::isValidWindow(const WindowInfo& info) {
 
 void Window::clear() {
     mWindow->clear();
-    mClock.restart();
 }
 
 void Window::draw(Drawable* obj) {
     assert(obj != nullptr);
     obj->draw(*this);
+
+    mDrawCalls++;
 }
 
 void Window::close() {
@@ -299,20 +300,19 @@ bool Window::pollEvent(Event& evt) {
         evt.key.shift   = sfEvent.key.shift;
         evt.key.system  = sfEvent.key.system;
         break;
-    // TODO(Pedro): This is for the newer version of SFML
-    // case sf::Event::MouseWheelMoved:
-    //     evt.type             = Event::EventType::MouseWheelMoved;
-    //     evt.mouseWheel.delta = sfEvent.mouseWheel.delta;
-    //     evt.mouseWheel.x     = sfEvent.mouseWheel.x;
-    //     evt.mouseWheel.y     = sfEvent.mouseWheel.y;
-    //     break;
-    // case sf::Event::MouseWheelScrolled:
-    //     evt.type                   = Event::EventType::MouseWheelScrolled;
-    //     evt.mouseWheelScroll.wheel = static_cast<Mouse::Wheel>(sfEvent.mouseWheelScroll.wheel);
-    //     evt.mouseWheelScroll.delta = sfEvent.mouseWheelScroll.delta;
-    //     evt.mouseWheelScroll.x     = sfEvent.mouseWheelScroll.x;
-    //     evt.mouseWheelScroll.y     = sfEvent.mouseWheelScroll.y;
-    //     break;
+    case sf::Event::MouseWheelMoved:
+        evt.type             = Event::EventType::MouseWheelMoved;
+        evt.mouseWheel.delta = sfEvent.mouseWheel.delta;
+        evt.mouseWheel.x     = sfEvent.mouseWheel.x;
+        evt.mouseWheel.y     = sfEvent.mouseWheel.y;
+        break;
+    case sf::Event::MouseWheelScrolled:
+        evt.type                   = Event::EventType::MouseWheelScrolled;
+        evt.mouseWheelScroll.wheel = static_cast<Mouse::Wheel>(sfEvent.mouseWheelScroll.wheel);
+        evt.mouseWheelScroll.delta = sfEvent.mouseWheelScroll.delta;
+        evt.mouseWheelScroll.x     = sfEvent.mouseWheelScroll.x;
+        evt.mouseWheelScroll.y     = sfEvent.mouseWheelScroll.y;
+        break;
     case sf::Event::MouseButtonPressed:
         evt.type               = Event::EventType::MouseButtonPressed;
         evt.mouseButton.button = static_cast<Mouse::Button>(sfEvent.mouseButton.button);
@@ -367,8 +367,12 @@ void Window::setSize(const Vect2i& size) {
     mWindow->setSize(sf::Vector2u(size.x, size.y));
 }
 
-void Window::setTile(const std::string& title) {
+void Window::setTitle(const std::string& title) {
     mWindow->setTitle(title);
+}
+
+unsigned int Window::getDrawCalls() {
+    return mDrawCalls;
 }
 
 void Window::setIcon(const std::string& fileName) {
@@ -398,6 +402,15 @@ void Window::display() {
     }
 
     mWindow->display();
+    mDrawCalls = 0;
+
+    if(mClock.getSeconds() >= 1.f) {
+        mFPS = mFrame;
+        mFrame = 0;
+        mClock.restart();
+    }
+
+    ++mFrame;
 }
 
 sf::RenderWindow* Window::getWindowPtr() {

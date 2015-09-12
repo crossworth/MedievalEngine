@@ -112,10 +112,9 @@ public:
 
     inline Log& operator<<(std::ostream&(f)(std::ostream&)) {
         *mOutstream << mTempOutstream.str() + "\n";
-        mBuffer = mBuffer + sf::String(mTempOutstream.str() + "\n");
 
         if (mCallOnUpdate != nullptr) {
-            mCallOnUpdate->update(mBuffer);
+            mCallOnUpdate->update(sf::String(mTempOutstream.str() + "\n"));
         }
 
         mTempOutstream.str("");
@@ -133,7 +132,6 @@ private:
     std::ostream* mOutstream;
     std::ostream& mCout;
     std::ofstream mOfstream;
-    sf::String mBuffer;
     LogObserver* mCallOnUpdate;
 };
 

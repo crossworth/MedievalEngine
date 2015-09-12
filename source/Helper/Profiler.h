@@ -33,12 +33,17 @@ public:
     static void printRecords();
     static void printRecords(MedievalEngine* engine);
     static void setOutputType(const Profiler::Type& type);
+    static void setUpdateTime(unsigned int time);
 
     static void exposeLuaAPI();
+
 private:
+    static unsigned int mUpdateTime;
+    static Clock mClockSort;
     static bool mIsLuaExposed;
     static bool mIsVisible;
     static std::map<std::string, MEUInt64> Records;
+    static std::map<MEUInt64, std::string> recordsSorted;
     Profiler();
     Clock mClock;
     static Type mType;

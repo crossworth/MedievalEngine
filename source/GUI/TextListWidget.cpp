@@ -69,7 +69,8 @@ void TextListWidget::draw(Window& window) {
     // TODO(Pedro): If its visible
     winSize  = window.getWindowInfo();
 
-    Area mShapeArea = mShapeRef->getGlobalBounds();
+    Area mShapeArea   = mShapeRef->getGlobalBounds();
+    
 
     sf::View panelView;
     sf::FloatRect panelRect(mShapeArea.left / winSize->width,

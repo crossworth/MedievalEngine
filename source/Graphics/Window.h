@@ -24,7 +24,7 @@ public:
     Vect2i getSize();
     void setSize(const Vect2i &size);
 
-    void setTile(const std::string &title);
+    void setTitle(const std::string &title);
     void setIcon(const std::string &fileName);
 
     void setVisible(const bool &visible);
@@ -58,7 +58,13 @@ public:
     bool hasCustomCursor();
 
     sf::RenderWindow* getWindowPtr();
+    
     unsigned int getDelta();
+    inline unsigned int getFPS() {
+        return getDelta();
+    }
+
+    unsigned int getDrawCalls();
 
     WindowInfo* getWindowInfo();
 
@@ -67,6 +73,9 @@ protected:
     bool mIsWindowOpen;
     bool isValidWindow(const WindowInfo& info);
 private:
+    unsigned int mDrawCalls;
+    unsigned int mFPS;
+    unsigned int mFrame;
     sf::Sprite mCursor;
     sf::View mFixedView;
     bool mHasCustomCursor;

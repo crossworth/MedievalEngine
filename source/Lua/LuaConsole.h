@@ -26,8 +26,11 @@ private:
     bool mIsVisible;
     
     ResourceManager* mResources;
-    
+        
+    // buffer for the text been typed
     sf::String mBuffer;
+    // buffer for the output
+    sf::String mBufferOutput;
     
     Text* mText;
     Text* mOutput;
@@ -43,6 +46,9 @@ private:
     
     Color mBGColor;
 
+    // scroll content
+    bool mHasScrolled;
+    int mStepScroll;
 
     // to the tab autocompletion
     sf::String cmd_check;
