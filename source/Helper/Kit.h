@@ -20,7 +20,7 @@ public:
 
     static int float_int(const float& f);
     static double float_double(const float& f);
-    static std::string float_string(const float& f);
+    static std::string float_str(const float& f);
 
     static int double_int(const double& b);
     static float double_float(const double& b);

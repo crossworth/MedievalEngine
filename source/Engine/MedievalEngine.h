@@ -13,6 +13,7 @@
 #include "Effects/Shader.h"
 #include "GameState/GameStateManager.h"
 #include "Lua/LuaAPI.h"
+#include "Lua/LuaConsole.h"
 
 
 namespace ME {
@@ -50,6 +51,7 @@ private:
     bool mRunning;
     int mErrorCode;
     Window mWindow;
+    LuaConsole mConsole;
     
     WindowInfo mWindowInfoInput;
     ResourceManager mResourceManager;

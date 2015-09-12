@@ -2,18 +2,19 @@
 #define LUAAPI_H
 #include "LogInc.h"
 #include "sol.hpp"
+#include "Lua/LuaFunctions.h"
 
 
 namespace ME {
 
 class LuaAPI {
 public:
-    LuaAPI();
+    static void loadLibs();
     static void script(const std::string& code);
     static sol::state state;
 
 private:
-    static void luaLog(const std::string& message, const std::string& type = "verbose");
+    LuaAPI();
 };
 
 }

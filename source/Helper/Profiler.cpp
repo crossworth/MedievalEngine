@@ -5,7 +5,46 @@ using namespace ME;
 
 
 std::map<std::string, MEUInt64> Profiler::Records;
+
 Profiler::Type Profiler::mType = Profiler::Type::MICROSECONDS;
+
+bool Profiler::mIsVisible    = false;
+bool Profiler::mIsLuaExposed = false;
+
+
+void Profiler::exposeLuaAPI() {
+    Profiler::mIsLuaExposed = true;
+
+    LuaAPI::state.set_function("profiler_toggle", [](void){
+        if (Profiler::isVisible()) {
+            Profiler::setVisible(false);
+        } else {
+            Profiler::setVisible(true);
+        }
+    });
+
+    LuaFunctions::store("profiler_toggle");
+
+
+    LuaAPI::state.set_function("profiler_set_output_type", [](int type){
+        Profiler::Type tmpType;
+
+        switch(type) {
+            case 1:
+                tmpType = Profiler::Type::SECONDS;
+                break;
+            case 2:
+                tmpType = Profiler::Type::MILLISECONDS;
+                break;
+            default:
+                tmpType = Profiler::Type::MICROSECONDS;
+        }
+
+        Profiler::setOutputType(tmpType);
+    });
+    LuaFunctions::store("profiler_set_output_type");
+
+}
 
 Profiler::Profiler(char* functionName, char* text) {
     std::string strFunctioName = std::string(functionName);
@@ -17,6 +56,10 @@ Profiler::Profiler(char* functionName, char* text) {
         mFunctionName = mFunctionName + " " + strText;
     }
 
+    if (Profiler::mIsLuaExposed == false) {
+        Profiler::exposeLuaAPI(); // expose all Lua functions
+    }
+
     mClock.restart();
 }
 
@@ -26,6 +69,14 @@ Profiler::~Profiler() {
 
 void Profiler::setOutputType(const Profiler::Type& type) {
     Profiler::mType = type;
+}
+
+bool Profiler::isVisible() {
+    return Profiler::mIsVisible;
+}
+
+void Profiler::setVisible(bool visible) {
+    Profiler::mIsVisible = visible;
 }
 
 void Profiler::printRecords() {

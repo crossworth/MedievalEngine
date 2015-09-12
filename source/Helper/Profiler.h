@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include "Helper/Clock.h"
+#include "Lua/LuaAPI.h"
 
 
 #define ProfileBlock() ME::Profiler _me_profiler(__FUNCTION__, "")
@@ -27,10 +28,16 @@ public:
     Profiler(char* functionName, char* text = "");
     ~Profiler();
 
+    static bool isVisible();
+    static void setVisible(bool visible);
     static void printRecords();
     static void printRecords(MedievalEngine* engine);
     static void setOutputType(const Profiler::Type& type);
+
+    static void exposeLuaAPI();
 private:
+    static bool mIsLuaExposed;
+    static bool mIsVisible;
     static std::map<std::string, MEUInt64> Records;
     Profiler();
     Clock mClock;

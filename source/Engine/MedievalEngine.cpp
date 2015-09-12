@@ -7,9 +7,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
 
     ProfileBlock();
 
-    // TODO(Pedro): change this to something like
-    // LuaAPI::loadLibries(); and avoid keeping an object since we dont use it
-    LuaAPI obj;
+    LuaAPI::loadLibs();
 
     // We verify if a config argument has been passed, if so we load the engine
     // with the specified configuration file
@@ -200,6 +198,8 @@ void MedievalEngine::init() {
     // Open the window only after the loading screen has been initialized
     mWindow.open();
 
+    mConsole.registerEngine(this);
+
 
     // Set an icon and cursor if we find it on the configuration file
     std::string iconName;
@@ -249,9 +249,11 @@ void MedievalEngine::run() {
             // to be honest it's quit simple, we just handle the console
             // since will be getting data from here
             // mConsole.handleEvents();
-            if(event.type == Event::KeyPressed) {
-                Profiler::setOutputType(Profiler::Type::SECONDS);
-            }
+            // if(event.type == Event::KeyPressed) {
+            //     Profiler::setOutputType(Profiler::Type::SECONDS);
+            // }
+
+            mConsole.handleEvents(event);
         }
 
         {
@@ -266,12 +268,14 @@ void MedievalEngine::run() {
             mGameStateManager.draw(mWindow);
         }
 
-        // TODO(Pedro): if profiler enable
-        // if debugger enable
-        Profiler::printRecords(this);
 
-        // TODO(Pedro): draw the console
-        // mConsole.draw();
+        if (Profiler::isVisible()) {
+            Profiler::printRecords(this);
+        }
+
+        if (mConsole.isVisible()) {
+            mConsole.draw(mWindow);
+        }
 
         mWindow.display();
     }

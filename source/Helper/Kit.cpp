@@ -50,7 +50,7 @@ double Kit::float_double(const float& f) {
     return static_cast<double>(f);
 }
 
-std::string Kit::float_string(const float& f) {
+std::string Kit::float_str(const float& f) {
     char t[200];
     std::sprintf(t,"%f",f);
     return std::string(t);

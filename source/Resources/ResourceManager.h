@@ -46,8 +46,10 @@ T* ResourceManager::getResource(const ResourceID &id) {
     if (mResources.find(id) != mResources.end()) {
         return static_cast<T*>(mResources[id].get());
     } else {
-        LOG << Log::WARNING << ("[AssetsManager::getAsset] Asset not found ID: "
-                                + Kit::int_str(id)).c_str() << std::endl;
+        LOG << Log::WARNING 
+            << "[AssetsManager::getAsset] Asset not found ID: "
+            << Kit::int_str(id) << std::endl;
+            
         return nullptr;
     }
 }

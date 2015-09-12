@@ -15,6 +15,7 @@
  *
  * GUI
  * - Add focus support for the GUI elements
+ * - Z-index on elements? or disable events
  * - Fix size, bounds, position, rotate
  *
  * OPTIONS SCREEN
