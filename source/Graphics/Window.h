@@ -4,6 +4,7 @@
 #include "Graphics/WindowInfo.h"
 #include "Graphics/Drawable.h"
 #include "Helper/Clock.h"
+#include "Lua/LuaAPI.h"
 
 
 namespace ME {
@@ -33,8 +34,7 @@ public:
     void draw(Drawable *obj);
     void display();
 
-    //TODO(Pedro): create a setCursorVisible even if we are using custom cursor
-    // so we can call it on the cinematic
+    void setCursorVisible(const bool& visible);
 
     static void setSizeFullScreen(Drawable* object);
     // TODO(Pedro): rename this function to something more
@@ -79,6 +79,7 @@ private:
     sf::Sprite mCursor;
     sf::View mFixedView;
     bool mHasCustomCursor;
+    bool mCursorVisible;
     sf::Texture mCursorTexture;
 
     sf::RenderWindow *mWindow;

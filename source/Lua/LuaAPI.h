@@ -12,7 +12,7 @@ public:
     static void loadLibs();
     static void script(const std::string& code);
     static sol::state state;
-
+    
 private:
     LuaAPI();
 };

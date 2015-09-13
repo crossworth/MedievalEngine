@@ -5,8 +5,67 @@ using namespace ME;
 
 WindowInfo Window::mWindowInfo;
 
-Window::Window() : mIsWindowOpen(false), mHasCustomCursor(false), mFrame(0), mFPS(0) {
+Window::Window() : mIsWindowOpen(false), mHasCustomCursor(false), mFrame(0), mFPS(0), mCursorVisible(true) {
     mWindow = new sf::RenderWindow();
+
+
+    // expose some lua functions
+    LuaAPI::state.set_function("window_is_open", &Window::isOpen, this);
+    LuaFunctions::store("window_is_open");
+
+    LuaAPI::state.set_function("window_set_tile", &Window::setTitle, this);
+    LuaFunctions::store("window_set_title");
+
+    LuaAPI::state.set_function("window_set_icon", &Window::setIcon, this);
+    LuaFunctions::store("window_set_icon");
+
+    LuaAPI::state.set_function("window_set_visible", &Window::setVisible, this);
+    LuaFunctions::store("window_set_visible");
+
+    LuaAPI::state.set_function("window_set_cursor", &Window::setCursor, this);
+    LuaFunctions::store("window_set_cursor");
+
+    LuaAPI::state.set_function("window_has_custom_cursor", &Window::hasCustomCursor, this);
+    LuaFunctions::store("window_has_custom_cursor");
+
+    LuaAPI::state.set_function("window_get_delta", &Window::getDelta, this);
+    LuaFunctions::store("window_get_delta");
+
+    LuaAPI::state.set_function("window_get_fps", &Window::getFPS, this);
+    LuaFunctions::store("window_get_fps");
+
+    LuaAPI::state.set_function("window_get_draw_calls", &Window::getDrawCalls, this);
+    LuaFunctions::store("window_get_draw_calls");
+
+    LuaAPI::state.set_function("window_set_cursor_visible", &Window::setCursorVisible, this);
+    LuaFunctions::store("window_set_cursor_visible");
+
+    LuaAPI::state.set_function("window_get_position", [this]() -> sol::table {
+        Vect2i pos = this->getPosition();
+
+        sol::table result = LuaAPI::state.create_table();
+
+        result["x"] = pos.x;
+        result["y"] = pos.y;
+
+        return result;
+    });
+    LuaFunctions::store("window_get_position");
+
+
+    
+}
+
+void Window::setCursorVisible(const bool& visible) {
+    mCursorVisible = visible;
+
+    if (mWindow != nullptr && mHasCustomCursor == false) {
+        if (visible == true) {
+            mWindow->setMouseCursorVisible(true);
+        } else {
+            mWindow->setMouseCursorVisible(false);
+        }
+    }
 }
 
 void Window::setCursor(const std::string& cursor) {
@@ -21,7 +80,7 @@ void Window::setCursor(const std::string& cursor) {
         LOG << Log::VERBOSE << "[Window::setCursor] Custom cursor set: "
             << ME::ENGINE_DEFAULTS::DATA_PATH + cursor << std::endl;
     } else {
-        LOG << Log::WARNING << "[Window::setCursor] Custom not found: "
+        LOG << Log::WARNING << "[Window::setCursor] Custom cursor not found: "
             << ME::ENGINE_DEFAULTS::DATA_PATH + cursor << std::endl;
     }
 }
@@ -396,7 +455,7 @@ void Window::display() {
     // We have to draw the cursor on the display method
     // the draw method can and is called multiple times
     // the display method should be called only one time
-    if (hasCustomCursor()) {
+    if (hasCustomCursor() && mCursorVisible) {
         mWindow->setView(mFixedView);
         mWindow->draw(mCursor);
     }

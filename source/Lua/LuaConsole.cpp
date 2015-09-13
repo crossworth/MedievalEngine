@@ -24,6 +24,11 @@ LuaConsole::LuaConsole() {
 }
 
 void LuaConsole::handleEvents(Event& evt) {
+    // TODO(pedro): handle the left and right keyboard keys
+    // for navegation
+    // home and end would be really cool as well
+
+    // TODO(pedro): implement the commands history since it's a really neat feture
     if (evt.type == Event::KeyPressed) {
 
         if (evt.key.code == Keyboard::KEY::F3) {
