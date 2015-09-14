@@ -163,7 +163,7 @@ void MenuScreen::create() {
 void MenuScreen::init() {
     ProfileBlock();
 
-    // LOG << Log::VERBOSE << "[MenuScreen::init]" << std::endl;
+    LOG << Log::VERBOSE << "[MenuScreen::init]" << std::endl;
 
     mGUI.addEffect(new Strobe(10000, 0.6f, -1));
 

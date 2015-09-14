@@ -8,12 +8,11 @@ void LuaFunctions::store(const std::string& name) {
     LuaFunctions::mFunctions.push_back(name);
 }
 
-std::string LuaFunctions::getTypeHint(const std::string& name) {
+std::string LuaFunctions::autoComplete(const std::string& name) {
     // we only with functions with more than 2 chars
     if (name.length() < 3) {
         return "";
     }
-
 
     // create static variables to hold information to speed things up
     // options hold our options for a determined word

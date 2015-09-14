@@ -15,7 +15,7 @@ public:
     
     static void store(const std::string& name);
     // change name of this to something better
-    static std::string getTypeHint(const std::string& name);
+    static std::string autoComplete(const std::string& name);
 
 private:
     static std::vector<std::string> mFunctions;

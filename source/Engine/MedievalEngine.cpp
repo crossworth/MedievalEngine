@@ -268,13 +268,12 @@ void MedievalEngine::run() {
             mGameStateManager.draw(mWindow);
         }
 
+        if (mConsole.isVisible()) {
+            mConsole.draw(mWindow);
+        }
 
         if (Profiler::isVisible()) {
             Profiler::printRecords(this);
-        }
-
-        if (mConsole.isVisible()) {
-            mConsole.draw(mWindow);
         }
 
         mWindow.display();

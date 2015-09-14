@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include <iostream>
+#include <SFML/Graphics.hpp>
 #include "Helper/Clock.h"
 #include "Lua/LuaAPI.h"
 
@@ -38,6 +39,7 @@ public:
     static void exposeLuaAPI();
 
 private:
+    static sf::Text mDebugText;
     static unsigned int mUpdateTime;
     static Clock mClockSort;
     static bool mIsLuaExposed;

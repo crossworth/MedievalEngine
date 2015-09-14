@@ -65,9 +65,9 @@ namespace ENGINE_DEFAULTS {
     /**
      * The default frame limit for the Engine<br>
      * This can be changed and don't have any side effect on the game loop<br>
-     * Constant fallback to 60
+     * Constant fallback to 0 (unlimited)
      */
-    const int FRAME_LIMIT = 60;
+    const int FRAME_LIMIT = 0;
 
     /**
      * If we wait for the vertical synchronization<br>

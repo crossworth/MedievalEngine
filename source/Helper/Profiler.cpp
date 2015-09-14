@@ -12,6 +12,7 @@ Profiler::Type Profiler::mType = Profiler::Type::MICROSECONDS;
 bool Profiler::mIsVisible    = false;
 bool Profiler::mIsLuaExposed = false;
 Clock Profiler::mClockSort;
+sf::Text Profiler::mDebugText;
 
 unsigned int Profiler::mUpdateTime = 1000;
 
@@ -33,8 +34,8 @@ void Profiler::exposeLuaAPI() {
 
     LuaFunctions::store("profiler_toggle");
 
-    LuaAPI::state.set_function("profile_set_update_time", &Profiler::setUpdateTime);
-    LuaFunctions::store("profile_set_update_time");
+    LuaAPI::state.set_function("profiler_set_update_time", &Profiler::setUpdateTime);
+    LuaFunctions::store("profiler_set_update_time");
 
     LuaAPI::state.set_function("profiler_set_output_type", [](int type){
         Profiler::Type tmpType;
@@ -86,6 +87,7 @@ bool Profiler::isVisible() {
 }
 
 void Profiler::setVisible(bool visible) {
+
     Profiler::mIsVisible = visible;
 
     if (Profiler::isVisible()) {
@@ -118,6 +120,20 @@ void Profiler::printRecords() {
 }
 
 void Profiler::printRecords(MedievalEngine* engine) {
+    static bool textInitialzied = false;
+
+    if (textInitialzied == false) {
+        textInitialzied = true;
+        // We dont load our debug text on the resource manager since we dont
+        // want to create any overhead and put stuff on there
+        static sf::Font* font;
+        font = engine->getResourceManager()->getResource<Font>(Font::DEFAULT_FONT)->getResourcePointer();
+        
+        Profiler::mDebugText.setFont(*font);
+        Profiler::mDebugText.setCharacterSize(14);
+    }
+
+
     // we have a sorted by value map by swaping the key/value
 
     // resort the records every UPDATE TIME seconds or if it's size dont math the other map
@@ -125,7 +141,7 @@ void Profiler::printRecords(MedievalEngine* engine) {
         Profiler::recordsSorted.clear();
 
         // our iterator for the sorted by key map
-        auto itUnsorted  = Profiler::Records.begin();
+        auto    itUnsorted  = Profiler::Records.begin();
         auto endUnsorted = Profiler::Records.end();
 
         // simple swap
@@ -142,16 +158,7 @@ void Profiler::printRecords(MedievalEngine* engine) {
     auto it  = Profiler::recordsSorted.rbegin();
     auto end = Profiler::recordsSorted.rend();
 
-    // We dont load our debug text on the resource manager since we dont
-    // want to create any overhead and put stuff on there
-    sf::Text debugText;
-    sf::Font* font = engine->getResourceManager()->getResource<Font>(Font::DEFAULT_FONT)->getResourcePointer();
-
-    debugText.setFont(*font);
-    debugText.setCharacterSize(14);
-
     std::string finalDebugText;
-
     finalDebugText = "PROFILER - update every " + Kit::int_str(Profiler::mUpdateTime) + "u\n";
 
     // it it's at the end so we decrease the iterator
@@ -173,7 +180,8 @@ void Profiler::printRecords(MedievalEngine* engine) {
         finalDebugText = finalDebugText + "\n";
 
     }
-    debugText.setString(finalDebugText);
 
-    engine->getWindow()->getWindowPtr()->draw(debugText);
+    Profiler::mDebugText.setString(finalDebugText);
+
+    engine->getWindow()->getWindowPtr()->draw(Profiler::mDebugText);
 }

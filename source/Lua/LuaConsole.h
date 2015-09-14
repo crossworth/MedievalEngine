@@ -1,5 +1,6 @@
 #ifndef LUACONSOLE_H
 #define LUACONSOLE_H
+#include <deque>
 #include "Lua/LuaAPI.h"
 #include "Graphics/Window.h"
 #include "Resources/ResourceManager.h"
@@ -20,7 +21,8 @@ public:
     void setVisible(bool visible);
     void draw(Window& window);
 
-    void update(const sf::String& buffer);
+    void addMessage(const sf::String& buffer);
+    std::string getToken(const std::string& cmd);
 
 private:
     bool mIsVisible;
@@ -29,8 +31,10 @@ private:
         
     // buffer for the text been typed
     sf::String mBuffer;
+    std::string cmdBuffer;
     // buffer for the output
     sf::String mBufferOutput;
+    sf::View panelView;
     
     Text* mText;
     Text* mOutput;
@@ -50,11 +54,17 @@ private:
     bool mHasScrolled;
     int mStepScroll;
 
-    // to the tab autocompletion
-    sf::String cmd_check;
+    // commands history
+    std::deque<std::string> mCommands;
+    int mCommandsIndex;
+    bool mHasMakeAction;
 
-    // TODO(pedro): keep the cursor position 
+    // cursor position
+    size_t mCursorPosition;
+    size_t mCursorPadding;
+    bool mCursorMoving;
 
+    // cursor blink
     Clock mClockBlinkCursor;
     sf::String mCursor;
     sf::String mDefaultText;

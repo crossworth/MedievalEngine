@@ -26,17 +26,18 @@ void Drawable::move(const Vect2f& pos) {
 void Drawable::addEffect(Effect* effect) {
 
     // First we verify if the effect it's already added
-    for (unsigned int i = 0; i < mEffects.size(); i++) {
-        // We compare using the type here since it's a enum and I think it's faster to compare
-        // enum's than strings using the getTypeStr() method
-        // IT IS FASTER, Yes, I have compared on a little test and it's 3 times faster
-        if (mEffects[i]->getType() == effect->getType()) {
-            LOG << Log::VERBOSE
-                << "[Drawable::addEffect] Effect already " + effect->getTypeStr() + " added. Wait until it's done"
-                << std::endl;
-            return;
-        }
-    }
+    // for (unsigned int i = 0; i < mEffects.size(); i++) {
+    //     // We compare using the type here since it's a enum and I think it's faster to compare
+    //     // enum's than strings using the getTypeStr() method
+    //     // IT IS FASTER, Yes, I have compared on a little test and it's 3 times faster
+    //     if (mEffects[i]->getType() == effect->getType()) {
+    //         LOG << Log::VERBOSE
+    //             << "[Drawable::addEffect] Effect already " + effect->getTypeStr() + " added. Wait until it's done"
+    //             << std::endl;
+    //         return;
+    //     }
+    // }
+
 
     LOG << Log::VERBOSE
         << "[Drawable::addEffect] Effect " + effect->getTypeStr() + " added"

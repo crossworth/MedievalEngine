@@ -1,5 +1,7 @@
 #ifndef GAMESTATEMANAGER_H
 #define GAMESTATEMANAGER_H
+#include <mutex>
+#include <thread>
 #include "GameState/LoadingScreen.h"
 #include "GameState/MenuScreen.h"
 #include "GameState/OptionsScreen.h"
@@ -21,9 +23,14 @@ public:
     void draw(Window& window);
     void update();
     void handleEvents(Event& evt);
+
+    ~GameStateManager();
 private:
+    std::mutex mLock;
+    std::thread* mThread;
+    std::string mNextGameState;
     std::string mCurrentGameState;
-    std::map<std::string, GameState*> mGameStates;
+    std::unordered_map<std::string, GameState*> mGameStates;
 };
 
 }

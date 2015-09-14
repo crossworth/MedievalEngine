@@ -14,7 +14,7 @@ namespace ME {
 
 class LogObserver {
 public:
-    virtual void update(const sf::String& buffer) = 0;
+    virtual void addMessage(const sf::String& buffer) = 0;
 };
 
 class Log {
@@ -122,7 +122,7 @@ public:
         *mOutstream << mTempOutstream.str() + "\n";
 
         if (mCallOnUpdate != nullptr) {
-            mCallOnUpdate->update(sf::String(mTempOutstream.str() + "\n"));
+            mCallOnUpdate->addMessage(sf::String(mTempOutstream.str() + "\n"));
         }
 
         mTempOutstream.str("");
