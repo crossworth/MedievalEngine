@@ -219,6 +219,16 @@ void MedievalEngine::init() {
 
     // Initilize our loading thread
     mLoadingThread = std::thread(&MedievalEngine::loadingThread, this);
+
+    // expose Lua functions
+    LuaAPI::state.set_function("engine_close", &MedievalEngine::close, this);
+    LuaFunctions::store("engine_close");
+
+    LuaAPI::state.set_function("engine_is_running", &MedievalEngine::isRunning, this);
+    LuaFunctions::store("engine_is_running");
+
+    LuaAPI::state.set_function("engine_is_loading_thread_done", &MedievalEngine::isLoadingThreadDone, this);
+    LuaFunctions::store("engine_is_loading_thread_done");
 }
 
 void MedievalEngine::run() {
@@ -246,7 +256,7 @@ void MedievalEngine::run() {
             // to the current game state, so this way
             // if the current game state it's doing something
             // critical it can decide what it should do.
-            
+
             // If the console it's not visible we handle the game state events
             if (!mConsole.isVisible()) {
                 mGameStateManager.handleEvents(event);

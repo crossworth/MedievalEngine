@@ -27,6 +27,34 @@ LuaConsole::LuaConsole() {
     mCursorPadding = mDefaultText.getSize();
 
     mClockBlinkCursor.restart();
+
+    LuaAPI::state.set_function("console_is_visible", &LuaConsole::isVisible, this);
+    LuaFunctions::store("console_is_visible");
+
+    LuaAPI::state.set_function("console_set_visible", &LuaConsole::setVisible, this);
+    LuaFunctions::store("console_set_visible");
+
+    LuaAPI::state.set_function("console_toggle", [this]() {
+        if (this->isVisible()) {
+            this->setVisible(false);
+        } else {
+            this->setVisible(true);
+        }
+    });
+    LuaFunctions::store("console_toggle");
+
+    LuaAPI::state.set_function("console_close", [this]() {
+        this->setVisible(false);
+    });
+    LuaFunctions::store("console_close");
+
+    LuaAPI::state.set_function("console_open", [this]() {
+        this->setVisible(true);
+    });
+    LuaFunctions::store("console_open");
+
+    LuaAPI::state.set_function("console_add_message", &LuaConsole::addMessage, this);
+    LuaFunctions::store("console_add_message");
 }
 
 std::string LuaConsole::getToken(const std::string& cmd) {
@@ -44,13 +72,10 @@ void LuaConsole::handleEvents(Event& evt) {
                 setVisible(true);
             }
         }
-
-        
     }
 
     // handle the key's on the window
     if(isVisible()) {
-
         if (evt.type == Event::KeyPressed) {
 
             if (evt.key.code == Keyboard::KEY::Home) {
@@ -65,7 +90,7 @@ void LuaConsole::handleEvents(Event& evt) {
                 // if the cursor position its equals or more than 0 and
                 // the cursor position is less the the buffer size
                 // we can erase with no fear
-                if (mCursorPosition >= 0 && mCursorPosition + mCursorPadding < mBuffer.getSize()) { 
+                if (mCursorPosition >= 0 && mCursorPosition + mCursorPadding < mBuffer.getSize()) {
                     // erase at the cursor position
                     // since this is the delete key
                     mBuffer.erase(mCursorPosition + mCursorPadding);
@@ -109,7 +134,7 @@ void LuaConsole::handleEvents(Event& evt) {
             }
         }
 
-        // update the cursor positions 
+        // update the cursor positions
         if (Keyboard::isKeyPressed(Keyboard::KEY::Left)) {
             if (mCursorPosition > 0) {
                 mCursorPosition--;
@@ -129,7 +154,7 @@ void LuaConsole::handleEvents(Event& evt) {
         }
 
 
-        // scroll the content 
+        // scroll the content
         if (evt.type == Event::MouseWheelScrolled) {
 
             // if the scroll its vertical
@@ -147,13 +172,12 @@ void LuaConsole::handleEvents(Event& evt) {
                 } else { // scroll down
                     if (pos.y + mOutput->getSize().y + mLineHeight >= mBG->getPosition().y + mBG->getSize().y ) {
                         mHasScrolled = true;
-                        mOutput->setPosition(Vect2f(mBG->getPosition().x, mOutput->getPosition().y  - mStepScroll));                    
+                        mOutput->setPosition(Vect2f(mBG->getPosition().x, mOutput->getPosition().y  - mStepScroll));
                     } else {
                         mHasScrolled = false;
                     }
                 }
             }
-
         }
 
         if (evt.type == Event::TextEntered) {
@@ -167,9 +191,9 @@ void LuaConsole::handleEvents(Event& evt) {
 
                 // if we have some command we execute it
                 if (mBuffer.getSize() > 0) {
-                    // put on the screen the command 
+                    // put on the screen the command
                     addMessage("COMMAND: " + mBuffer + "\n");
-                    // call Lua 
+                    // call Lua
                     LuaAPI::script(mBuffer);
                     mCommands.push_front(mBuffer);
 
@@ -210,7 +234,7 @@ void LuaConsole::handleEvents(Event& evt) {
                     if (cmdBuffer == "") {
                         cmdBuffer =  cmd;
                     }
-                    
+
                     // store the result hint
                     sf::String result = sf::String(LuaFunctions::autoComplete(cmdBuffer));
 
@@ -221,7 +245,7 @@ void LuaConsole::handleEvents(Event& evt) {
 
                         // remove the previus text typed (but keep the rest of the string)
                         mBuffer.erase(mCursorPadding + cmdPos, mCursorPosition - cmdPos);
-                        // get the new cursor position 
+                        // get the new cursor position
                         newCursorPosition = cmdPos + result.getSize();
                         // add the new text
                         mBuffer.insert(mCursorPadding + cmdPos, result);
@@ -236,7 +260,7 @@ void LuaConsole::handleEvents(Event& evt) {
             } else if (evt.text.unicode == 8) { // backspace
                 // if the cursor position its more than 0
                 // we can erase with no fear
-                if (mCursorPosition > 0) { 
+                if (mCursorPosition > 0) {
                     // We remove the cursor position + cursor padding - 1
                     // thats means the lettler before the cursor
                     mBuffer.erase(mCursorPosition + mCursorPadding - 1);
@@ -245,14 +269,14 @@ void LuaConsole::handleEvents(Event& evt) {
                     cmdBuffer      = ""; // invalidate the command Buffer
                     // we do have an action so the history will
                     // put the value on the cursor position
-                    mHasMakeAction = true; 
+                    mHasMakeAction = true;
                 }
             } else if (evt.text.unicode == 27) { // esc
                 // do nothing
-                
+
 
             } else { // everything else
-                // just put the char to the buffer if it's not 
+                // just put the char to the buffer if it's not
                 mBuffer.insert(mCursorPosition + mCursorPadding, evt.text.unicode);
                 // increase the cursor position since we just added another lettler
                 mCursorPosition++;
@@ -264,7 +288,7 @@ void LuaConsole::handleEvents(Event& evt) {
 
             // set the string to the text
             mText->setString(mBuffer);
-        }   
+        }
     }
 }
 
@@ -294,7 +318,7 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
 
     // set the monospace font for our console
     fontID = mResources->loadFont("system/Inconsolata.ttf");
-    
+
     outputID = textID = mResources->createText(sf::String(""), Window::fontSize(0.20f), fontID);
     mOutput  = mResources->getResource<Text>(outputID);
 
@@ -302,7 +326,7 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     mText  = mResources->getResource<Text>(textID);
     // MAGIC NUMBER WHERE! for some reason we have to multiply the text size
     // by 2 for get the right size of the height
-    mLineHeight = mText->getSize().y * 2; 
+    mLineHeight = mText->getSize().y * 2;
     mText->setString(mBuffer);
     mNumberLines = 1;
 
@@ -313,12 +337,12 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     mLineEdit  = mResources->getResource<Shape>(lineEditID);
 
     mLineEdit->setPosition(Vect2f(mBG->getPosition().x, mBG->getPosition().y + mBG->getSize().y - mLineHeight));
-    mText->setPosition(mLineEdit->getPosition());  
+    mText->setPosition(mLineEdit->getPosition());
 
     Area mBGArea   = mBG->getGlobalBounds();
     mBGArea.height = mBGArea.height - mLineHeight;
 
-    
+
     // Get the messages from the log
     LOG_OBJECT->setObserver(this);
 }

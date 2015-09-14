@@ -6,20 +6,22 @@ GameStateManager::GameStateManager() {
     mThread = nullptr;
 }
 
-void GameStateManager::add(const std::string &name, GameState *gameState) {
+void GameStateManager::add(const std::string& name, GameState* gameState) {
     mGameStates[name] = gameState;
     LOG << Log::VERBOSE << "[GameStateManager::add] Game State: " + name
         << " added" << std::endl;
 }
 
-void GameStateManager::changeGameState(const std::string &name) {
+// TODO(pedro): make it inline
+void GameStateManager::changeGameState(const std::string& name) {
     ProfileBlock();
     setGameState(name);
 }
 
-void GameStateManager::setGameState(const std::string &name) {
+// TODO(pedro): make it inline
+void GameStateManager::setGameState(const std::string& name) {
     ProfileBlock();
-    
+
     if (mThread != nullptr) {
         delete mThread;
     }
@@ -40,7 +42,6 @@ void GameStateManager::setGameState(const std::string &name) {
 
             LOG << Log::VERBOSE << "[GameStateManager::setGameState] Set Game State: " + mNextGameState
                 << std::endl;
-
         } else {
             LOG << Log::WARNING
                 << "[GameStateManager::setGameState] Game State not found: " + mNextGameState
@@ -59,7 +60,7 @@ GameStateManager::~GameStateManager() {
     }
 }
 
-void GameStateManager::remove(const std::string &name) {
+void GameStateManager::remove(const std::string& name) {
     LOG << Log::VERBOSE << "[GameStateManager::remove] Remove Game State: " + name
         << std::endl;
 }
@@ -78,7 +79,7 @@ GameState* GameStateManager::getGameState(const std::string& name) {
     }
 }
 
-void GameStateManager::draw(Window &window) {
+void GameStateManager::draw(Window& window) {
     // Call the appropriate game state draw function
     // based on the current game status
     if (mGameStates[mCurrentGameState]->getCurrentStatus()
@@ -110,7 +111,7 @@ void GameStateManager::update() {
     }
 }
 
-void GameStateManager::handleEvents(Event &evt) {
+void GameStateManager::handleEvents(Event& evt) {
     mLock.lock();
     mGameStates[mCurrentGameState]->handleEvents(evt);
     mLock.unlock();

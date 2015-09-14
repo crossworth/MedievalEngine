@@ -15,23 +15,23 @@ public:
     enum Position {LEFT, RIGHT, CENTER, TOP, BOTTOM};
 public:
     Window();
-    void create(const WindowInfo &info);
+    void create(const WindowInfo& info);
     void open();
     void close();
     bool isOpen();
-    bool pollEvent(Event &evt);
+    bool pollEvent(Event& evt);
     Vect2i getPosition();
-    void setPosition(const Vect2i &pos);
+    void setPosition(const Vect2i& pos);
     Vect2i getSize();
-    void setSize(const Vect2i &size);
+    void setSize(const Vect2i& size);
 
-    void setTitle(const std::string &title);
-    void setIcon(const std::string &fileName);
+    void setTitle(const std::string& title);
+    void setIcon(const std::string& fileName);
 
-    void setVisible(const bool &visible);
+    void setVisible(const bool& visible);
 
     void clear();
-    void draw(Drawable *obj);
+    void draw(Drawable* obj);
     void display();
 
     void setCursorVisible(const bool& visible);
@@ -58,7 +58,7 @@ public:
     bool hasCustomCursor();
 
     sf::RenderWindow* getWindowPtr();
-    
+
     unsigned int getDelta();
     inline unsigned int getFPS() {
         return getDelta();
@@ -82,7 +82,7 @@ private:
     bool mCursorVisible;
     sf::Texture mCursorTexture;
 
-    sf::RenderWindow *mWindow;
+    sf::RenderWindow* mWindow;
     static WindowInfo mWindowInfo;
     Clock mClock;
 };

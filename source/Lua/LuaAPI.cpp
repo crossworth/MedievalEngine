@@ -12,6 +12,9 @@ void LuaAPI::loadLibs() {
     try {
         LuaAPI::state.open_libraries(sol::lib::base, sol::lib::string, sol::lib::table);
 
+        // inject a custom lua print table function
+        LuaAPI::script("function print_table (tbl, indent) if not indent then indent = 0 end for k, v in pairs(tbl) do formatting = string.rep(\"  \", indent) .. k .. \": \" if type(v) == \"table\" then print(formatting) print_table(v, indent+1) elseif type(v) == 'boolean' then log(formatting .. tostring(v)) else log(formatting .. v) end end end");
+        LuaFunctions::store("print_table");
 
         //TODO(pedro): override this function to accept all the types
         // including tables
@@ -31,11 +34,10 @@ void LuaAPI::loadLibs() {
         });
         LuaFunctions::store("log_c");
 
-
-
-        // inject a custom lua print table function
-        LuaAPI::script("function print_table (tbl, indent) if not indent then indent = 0 end for k, v in pairs(tbl) do formatting = string.rep(\"  \", indent) .. k .. \": \" if type(v) == \"table\" then print(formatting) print_table(v, indent+1) elseif type(v) == 'boolean' then log(formatting .. tostring(v)) else log(formatting .. v) end end end");
-        LuaFunctions::store("print_table");
+        LuaAPI::state.set_function("register_function", [](const std::string& name){
+            LuaFunctions::store(name);
+        });
+        LuaFunctions::store("register_function");
 
     } catch(sol::error& err) {
         LOG << Log::LUA_WARNING << err.what() << std::endl;
@@ -49,4 +51,3 @@ void LuaAPI::script(const std::string& code) {
         LOG << Log::LUA_WARNING << err.what() << std::endl;
     }
 }
-
