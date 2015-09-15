@@ -34,6 +34,7 @@ public:
 private:
     Log(const bool& logToFile, const std::string& fileName);
 public:
+    // TODO(pedro): inline
     static Log* getInstance(const bool& logToFile = false, const std::string& fileName = "output.log");
 
     inline Log& operator<<(const char* message) {
@@ -132,6 +133,7 @@ public:
         return *this;
     }
 
+    // TODO(pedro): inline
     static std::string getTime();
 
     void setObserver(LogObserver* observer);
