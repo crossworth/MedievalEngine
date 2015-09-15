@@ -36,7 +36,7 @@ std::string LuaFunctions::autoComplete(const std::string& name) {
 
         // serach for possibles functions
         for(; it != end; it++) {
-            if ((*it).find(name) != std::string::npos) {
+            if ((*it).find(name) == 0) {
                 options.push_back((*it));
             }
         }

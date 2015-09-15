@@ -12,13 +12,13 @@ void GameStateManager::add(const std::string& name, GameState* gameState) {
         << " added" << std::endl;
 }
 
-// TODO(pedro): make it inline
+// NOTE(pedro): making this function inline does not help with speed
 void GameStateManager::changeGameState(const std::string& name) {
     ProfileBlock();
     setGameState(name);
 }
 
-// TODO(pedro): make it inline
+// NOTE(pedro): making this function inline does not help with speed
 void GameStateManager::setGameState(const std::string& name) {
     ProfileBlock();
 
