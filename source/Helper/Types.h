@@ -110,7 +110,7 @@ const MEInt32 ME_MAX_FILE_NAME = 255;
 /**
  * Max number of files on a ME::DATFile
  */
-const MEInt32 ME_MAX_DAT_FILES = 10000;\
+const MEInt32 ME_MAX_DAT_FILES = 10000;
 
 /**
  * @brief The ME::FileEntry struct used on the ME::DATFile
@@ -134,16 +134,6 @@ struct FileHeader {
 };
 
 }
-
-
-#ifndef nullptr
-/**
- * Define a nullptr to 0 if for some reason we're not compiling on c++11<br>
- * NOTE(Pedro): We require to compile with c++11 since we use features that are not<br>
- * available before c++11
- */
-#define nullptr 0
-#endif
 
 
 #endif // FILEENTRY_H

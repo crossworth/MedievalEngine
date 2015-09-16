@@ -185,6 +185,7 @@ namespace ENGINE_DEFAULTS {
     const float AMBIENT_VOLUME = 100.f;
 }
 
+// TODO(pedro): move this to the namespace
 const bool _LOG_WRITE_TO_FILE    = false;
 const std::string _LOG_FILE_NAME = "output.log";
 

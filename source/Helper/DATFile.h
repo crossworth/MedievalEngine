@@ -13,6 +13,7 @@ const std::string FILE_HEADER_TAG = "MEDIEVALENGINE_FILE";
 // NOTE(Pedro): For some reason VC can't compile if we
 // dont define the FILE_HEADER_LENGTH as constant value
 // so We can't use strlen or length for this =(
+// TODO(pedro): Use constexpr ?
 const int FILE_HEADER_LENGTH      = 19;
 
 class DATFile {
