@@ -69,7 +69,6 @@ void CFGParser::readFile(const std::string& configFile) {
         // close the file
         file.close();
     } else {
-        // TODO(Pedro): Use the new log method
         LOG << Log::WARNING
             << "[CFGParser::readFile] Configuration file (" + this->mFileName + ") not found"
             << std::endl;
@@ -102,7 +101,6 @@ void CFGParser::saveFile(const std::string& configFile){
         // close the file
         outFile.close();
     } else {
-        // TODO(Pedro): Use the new log method
         LOG << Log::WARNING
             << "[CFGParser::saveFile] Could not save Configuration file (" + this->mFileName + ")" 
             << std::endl;
@@ -128,7 +126,6 @@ std::string CFGParser::getKey(std::string key) {
     if (keyExists(key)) {
         return mContents[key];
     } else {
-        // TODO(Pedro): Use the new log method
         LOG << Log::WARNING
             << "[CFGParser::getKey] Key (" + key + ") not found"
             << std::endl;

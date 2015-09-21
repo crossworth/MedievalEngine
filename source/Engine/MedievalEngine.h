@@ -8,6 +8,7 @@
 #include "Helper/DATFile.h"
 #include "Helper/ArgumentsParser.h"
 #include "Helper/Strings.h"
+#include "Helper/KeyMapper.h"
 #include "Effects/Fade.h"
 #include "Effects/Strobe.h"
 #include "Effects/Shader.h"

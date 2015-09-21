@@ -141,6 +141,14 @@ namespace ENGINE_DEFAULTS {
     const std::string DATFILE_SIGNATURE_VERSION = "1.0.0";
 
     /**
+     * The default Keys Mapper for the enginebr>
+     * Default to "keys.cfg"<br>
+     * NOTE(Pedro): on the loading procedure it's try to open
+     * GLOBAL_PATH + DEFAULT_KEY_MAPPER
+     */
+    const std::string DEFAULT_KEY_MAPPER = DATA_PATH + "keys.cfg";
+
+    /**
      * The default base width for the engine<br>
      * If you're creating art work on a photoshop file with
      * the size of 1920x1080 the base width should be 1920<br>

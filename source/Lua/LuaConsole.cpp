@@ -34,7 +34,7 @@ LuaConsole::LuaConsole() {
     LuaAPI::state.set_function("console_set_visible", &LuaConsole::setVisible, this);
     LuaFunctions::store("console_set_visible");
 
-    LuaAPI::state.set_function("console_toggle", [this]() {
+    LuaAPI::state.set_function("console_toggle", [this] () {
         if (this->isVisible()) {
             this->setVisible(false);
         } else {
@@ -43,12 +43,12 @@ LuaConsole::LuaConsole() {
     });
     LuaFunctions::store("console_toggle");
 
-    LuaAPI::state.set_function("console_close", [this]() {
+    LuaAPI::state.set_function("console_close", [this] () {
         this->setVisible(false);
     });
     LuaFunctions::store("console_close");
 
-    LuaAPI::state.set_function("console_open", [this]() {
+    LuaAPI::state.set_function("console_open", [this] () {
         this->setVisible(true);
     });
     LuaFunctions::store("console_open");
@@ -65,7 +65,7 @@ std::string LuaConsole::getToken(const std::string& cmd) {
 void LuaConsole::handleEvents(Event& evt) {
     if (evt.type == Event::KeyPressed) {
 
-        if (evt.key.code == Keyboard::KEY::F3) {
+        if (KeyMapper::action("toggle_console", evt)) {
             if (isVisible()) {
                 setVisible(false);
             } else {

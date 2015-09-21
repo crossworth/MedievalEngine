@@ -5,6 +5,8 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
+#include <vector>
+#include <utility>
 
 
 namespace ME{
@@ -31,6 +33,8 @@ public:
 
     static std::string int_str(const int& i);
     static bool int_bool(const bool& b);
+
+    static std::vector<std::string> explode(std::string const & s, char delim);
 
 };
 
