@@ -26,6 +26,7 @@ public:
     static Keyboard::KEY stringToKey(const std::string& keyname);
     static KeyWrapper getKeyMapped(const std::string& actionName);
 
+    // TODO(pedro): save to file the user custom keys
 private:
     static bool mInitialized;
     static std::map<std::string, KeyWrapper> mKeys;

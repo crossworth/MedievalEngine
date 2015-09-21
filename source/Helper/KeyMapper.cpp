@@ -56,7 +56,10 @@ void KeyMapper::loadKeyMapper() {
     }
 
     // the defaults keys
-    // KeyMapper::mDefaultKeys["toggle_console"] = KeyMapper::KeyWrapper { std::vector<Keyboard::KEY>(Keyboard::KEY::F3), false, false, false};
+    KeyMapper::KeyWrapper toggle_console_default = {};
+    toggle_console_default.keys.push_back(Keyboard::KEY::F3);
+
+    KeyMapper::mDefaultKeys["toggle_console"] = toggle_console_default;
 
 }
 
