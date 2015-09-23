@@ -41,6 +41,9 @@ public:
     void setRandomPlay(const bool& random);
     bool isRandomPlay();
 
+    //TODO(pedro): make an update volume function
+    // so we can update the volume at runtime
+
     // Here the loop mode works a litte bit different
     // We gonna loop all the queue and not only one music
     bool isLoopMode();

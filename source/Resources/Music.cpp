@@ -2,15 +2,17 @@
 
 using namespace ME;
 
-Music::Music(const std::string& fileName, const Audio::AudioType& type) {
+Music::Music() {
     mType = Resource::Type::MUSIC;
-    loadFromFile(fileName, type);
 }
 
-sf::Music* Music::loadFromFile(const std::string& fileName, const Audio::AudioType& type) {
+bool Music::loadFromFile(const std::string& fileName, const Audio::AudioType& type) {
     if (!mMusic.openFromFile(ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
-        LOG << ("[Music::loadFromFile] Error while opening music: " +
-                ENGINE_DEFAULTS::ASSETS_PATH + fileName).c_str() << std::endl;
+        LOG << Log::WARNING << "[Music::loadFromFile] Error while opening music: "
+            << ENGINE_DEFAULTS::ASSETS_PATH + fileName
+            << std::endl;
+    } else {
+        mIsValid = true;
     }
 
     setType(type);
@@ -31,7 +33,7 @@ sf::Music* Music::loadFromFile(const std::string& fileName, const Audio::AudioTy
             setVolume(Audible::GLOBAL_VOLUME);
     }
 
-    return &mMusic;
+    return mIsValid;
 }
 
 sf::Music* Music::getResourcePointer() {

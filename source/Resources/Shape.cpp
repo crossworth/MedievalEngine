@@ -21,10 +21,10 @@ void Shape::draw(Window& window) {
 
     sf::Vector2f shapeSize(getSize().x, getSize().y);
 
-    // Se o radius for maior que a metade do menor tamanho (width ou hight)
-    // causa problemas então a gente reseta para a melhor opção possivel
-    // Já que o tamanho máximo de radius é de 50%, criando um circulo
-    // maior do que isso causa comportamento inesperado
+    // if the radius is bigger than the half of the minimum size (width or hight)
+    // cause some troubles, so we reset to the best opition possible
+    // Since the max radius size is 50%, which makes a circle
+    // bigger than that cause undefined behaviour 
     if (mRadius > 0.0f) {
         float shapeMinSize = std::min(shapeSize.x, shapeSize.y) / 2;
         if (mRadius > shapeMinSize) {

@@ -5,13 +5,12 @@
  * MEDIEVAL ENGINE TODO LIST
  *
  * GENERAL
- * - Better logging (put more logging call on the methods) 
+ * - Better logging (put more logging call on the methods)
  * - Comment the code
  * - Documentation the code
  * - Resource improve on failed to load resource (open a default_failed_to_load file like Valve Engine)
  * - Memory (free all the pointers)
  * - Debugger (show mouse position, fps, current game state, currente game state status, memory usage, music playing)
- * - maps key's to event's <!! IMPORTANT
  * - improve all the loading resources, with a custom fail to load texture or text
  * - or event sound to show use as fallback when something don't load properly
  *

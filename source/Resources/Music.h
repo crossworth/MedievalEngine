@@ -8,9 +8,8 @@ namespace ME{
 
 class Music : public Resource, public Audible {
 public:
-    // TODO(Pedro): Remove the constructor that can fail
-    Music(const std::string& fileName, const Audio::AudioType& type = Audio::AudioType::MUSIC);
-    sf::Music* loadFromFile(const std::string& fileName, const Audio::AudioType& type = Audio::AudioType::MUSIC);
+    Music();
+    bool loadFromFile(const std::string& fileName, const Audio::AudioType& type = Audio::AudioType::MUSIC);
     sf::Music* getResourcePointer();
 
     unsigned int getDuration();

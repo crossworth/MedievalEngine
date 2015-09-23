@@ -43,13 +43,16 @@ private:
 
 template<typename T>
 T* ResourceManager::getResource(const ResourceID &id) {
+    // TODO(pedro): veriify if it's valid resource before delivery to the user
+    // if it's not valid we return a fallback
+    // resource or something
     if (mResources.find(id) != mResources.end()) {
         return static_cast<T*>(mResources[id].get());
     } else {
-        LOG << Log::WARNING 
+        LOG << Log::WARNING
             << "[AssetsManager::getAsset] Asset not found ID: "
             << Kit::int_str(id) << std::endl;
-            
+
         return nullptr;
     }
 }
