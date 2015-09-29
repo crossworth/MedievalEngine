@@ -20,7 +20,7 @@ bool Music::loadFromFile(const std::string& fileName, const Audio::AudioType& ty
     float ratio = static_cast<float>(Audible::GLOBAL_VOLUME * 0.01);
 
     switch(type) {
-    case Audio::AudioType::VOICE:
+        case Audio::AudioType::VOICE:
             setVolume(Audible::VOICE_VOLUME * ratio);
             break;
         case Audio::AudioType::MUSIC:

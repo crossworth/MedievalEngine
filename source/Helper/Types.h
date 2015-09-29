@@ -24,7 +24,7 @@ class TextWidget;
 class TextListWidget;
 class GUIEvent;
 class ButtonWidget;
-
+class Resource;
 
 /**
  * One byte variable type
@@ -95,6 +95,9 @@ typedef std::shared_ptr<GUIEvent> GUIEventPtr;
  * Define the ME::ButtonWidgetPtr with a shared pointer to a ME::ButtonWidget
  */
 typedef std::shared_ptr<ButtonWidget> ButtonWidgetPtr;
+
+
+typedef std::shared_ptr<Resource> ResourcePtr;
 
 
 /**

@@ -1,6 +1,7 @@
 #ifndef RESOURCEMANAGER_H
 #define RESOURCEMANAGER_H
 #include <unordered_map>
+#include "Helper/Types.h"
 #include "Helper/Kit.h"
 #include "Resources/Sprite.h"
 #include "Resources/Text.h"
@@ -37,7 +38,6 @@ public:
 
     ~ResourceManager();
 private:
-    typedef std::shared_ptr<Resource> ResourcePtr;
     std::unordered_map<ResourceID, ResourcePtr> mResources;
 };
 
