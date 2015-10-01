@@ -3,8 +3,8 @@
 using namespace ME;
 
 Log* Log::getInstance(const bool& logToFile, const std::string& fileName) {
-    static Log* m_instance = new Log(logToFile, fileName);
-    return m_instance;
+    static Log* mInstance = new Log(logToFile, fileName);
+    return mInstance;
 }
 
 Log::Log(const bool& logToFile, const std::string& fileName) : mCout(std::cout) {
