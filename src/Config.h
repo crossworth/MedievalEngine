@@ -33,7 +33,7 @@ namespace ENGINE_DEFAULTS {
      *  Engine version<br>
      *  Constant fallback
      */
-    const float ENGINE_VERSION = 1.3f;
+    const float ENGINE_VERSION = 1.4f;
 
     /**
      * Default window width<br>
@@ -71,7 +71,7 @@ namespace ENGINE_DEFAULTS {
 
     /**
      * If we wait for the vertical synchronization<br>
-     * Constant falback to true
+     * Constant fallback to true
      */
     const bool VSYNC = true;
 

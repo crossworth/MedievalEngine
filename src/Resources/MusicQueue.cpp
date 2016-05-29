@@ -15,16 +15,15 @@ void MusicQueue::registerEngine(MedievalEngine* engine) {
 void MusicQueue::insert(ResourceID& music) {
     // TODO(pedro): make sure the music it's open and can be played
     mMusics.push_back(music);
-
     if (mCurrentMusic == mMusics.end()) {
         mCurrentMusic = mMusics.begin();
     }
+
 }
 
 void MusicQueue::insert(const std::string& music) {
     // TODO(pedro): make sure the music it's open and can be played
     mMusics.push_back(mEngine->getResourceManager()->loadMusic(music));
-
     if (mCurrentMusic == mMusics.end()) {
         mCurrentMusic = mMusics.begin();
     }

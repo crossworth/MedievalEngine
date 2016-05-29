@@ -20,6 +20,8 @@ public:
     };
 public:
     GameState();
+    virtual ~GameState();
+
     virtual void create() = 0;
     virtual void init() = 0;
     virtual void onEnable(Window& window)  = 0;

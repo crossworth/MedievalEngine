@@ -13,7 +13,7 @@ Window::Window() : mIsWindowOpen(false), mHasCustomCursor(false), mFrame(0), mFP
     LuaAPI::state.set_function("window_is_open", &Window::isOpen, this);
     LuaFunctions::store("window_is_open");
 
-    LuaAPI::state.set_function("window_set_tile", &Window::setTitle, this);
+    LuaAPI::state.set_function("window_set_title", &Window::setTitle, this);
     LuaFunctions::store("window_set_title");
 
     LuaAPI::state.set_function("window_set_icon", &Window::setIcon, this);
@@ -297,6 +297,7 @@ bool Window::isValidWindow(const WindowInfo& info) {
 }
 
 void Window::clear() {
+    mDrawCalls = 0;
     mWindow->clear();
 }
 
@@ -455,21 +456,30 @@ void Window::display() {
     // We have to draw the cursor on the display method
     // the draw method can and is called multiple times
     // the display method should be called only one time
-    if (hasCustomCursor() && mCursorVisible) {
-        mWindow->setView(mFixedView);
-        mWindow->draw(mCursor);
+    {
+        ProfileBlockStr("set cursor and draw");  
+        if (hasCustomCursor() && mCursorVisible) {
+            mWindow->setView(mFixedView);
+            mWindow->draw(mCursor);
+        }
     }
 
-    mWindow->display();
-    mDrawCalls = 0;
-
-    if(mClock.getSeconds() >= 1.f) {
-        mFPS = mFrame;
-        mFrame = 0;
-        mClock.restart();
+    {
+        ProfileBlockStr("window internal display");  
+        mWindow->display();
     }
 
-    ++mFrame;
+    {
+        ProfileBlockStr("calc fps");  
+        if(mClock.getSeconds() >= 1.f) {
+            mFPS = mFrame;
+            mFrame = 0;
+            mClock.restart();
+        }
+
+        ++mFrame;
+    }
+    
 }
 
 sf::RenderWindow* Window::getWindowPtr() {

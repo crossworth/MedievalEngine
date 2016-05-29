@@ -122,3 +122,8 @@ void LoadingScreen::handleEvents(Event& evt) {
         mEngine->close();
     }
 }
+
+
+LoadingScreen::~LoadingScreen() {
+
+}

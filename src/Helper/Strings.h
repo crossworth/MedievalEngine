@@ -9,7 +9,7 @@ namespace ME {
 
 class Strings {
 public:
-    static bool openLanguageFile(const std::string& lenguageFile);
+    static bool openLanguageFile(const std::string& languageFile);
     static sf::String get(const std::string& name);
     static sf::String getItemArrayRandom(const std::string& name);
 private:

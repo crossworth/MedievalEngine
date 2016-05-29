@@ -10,7 +10,7 @@ class CFGParser {
 public:
     CFGParser();
     CFGParser(const std::string& configFile);
-    void readFile(const std::string& configFile);
+    bool readFile(const std::string& configFile);
     bool add(std::string key, std::string value);
     void saveFile(const std::string& configFile);
 

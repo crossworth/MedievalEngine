@@ -6,7 +6,7 @@ CFGParser::CFGParser() {
 
 }
 
-void CFGParser::readFile(const std::string& configFile) {
+bool CFGParser::readFile(const std::string& configFile) {
     // Store the configuration file name
     this->mFileName = configFile;
 
@@ -68,11 +68,14 @@ void CFGParser::readFile(const std::string& configFile) {
         }
         // close the file
         file.close();
+        return true;
     } else {
         LOG << Log::WARNING
             << "[CFGParser::readFile] Configuration file (" + this->mFileName + ") not found"
             << std::endl;
     }
+
+    return false;
 }
 
 void CFGParser::clear() {
@@ -152,7 +155,7 @@ bool CFGParser::validateLine(std::string& line){
     size_t pos = line.find_first_not_of("\t ");
 
     // error if we had only one tab on the line
-    if(pos < 0) {
+    if(pos == std::string::npos) {
         return false;
     }
 
@@ -164,7 +167,7 @@ bool CFGParser::validateLine(std::string& line){
 
     // we just remove the comment until the end
     // so we can put a comment on a line
-    if (pos >= 0) {
+    if (pos != (signed int)std::string::npos) {
        line = line.substr(0, pos);
     }
 
@@ -199,9 +202,14 @@ std::string CFGParser::mGetValue(std::string line) {
 
 
     // trim
-    size_t first = result.find_first_not_of("\t ");
-    size_t last = result.find_last_not_of(' ');
-    result = result.substr(first, (last-first+1));
+    size_t first = result.find_first_not_of("\t "); 
+    size_t last  = result.find_last_not_of(' ');
+    result       = result.substr(first, (last-first+1));
+
+    // remove \r, can cause problems on Mac and Unix, Belive me...
+    if (result[result.size() - 1] == '\r') {
+        result = result.substr(0, result.size() - 1);
+    }
 
     // Fix \n in file not been reconized
     std::string::size_type posNewLine = 0;

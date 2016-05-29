@@ -9,8 +9,9 @@ Strings::Strings() {
 
 std::map<std::string, std::string> Strings::mStrings;
 
-bool Strings::openLanguageFile(const std::string& lenguageFile) {
-    CFGParser language(lenguageFile);
+bool Strings::openLanguageFile(const std::string& languageFile) {
+    std::cout << "Tring to open file " << languageFile << std::endl;
+    CFGParser language(languageFile);
     std::map<std::string, std::string> data;
 
     data = language.getContents();
@@ -24,7 +25,7 @@ bool Strings::openLanguageFile(const std::string& lenguageFile) {
         Strings::mStrings[(*it).first] = sf::String((*it).second);
     }
 
-    // we dont need to clear this since it's going alt of scope
+    // we dont need to clear this since it's going out of scope
     // but we do anyway
     language.clear();
 

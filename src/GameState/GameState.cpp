@@ -41,3 +41,8 @@ GameState::Status GameState::getCurrentStatus() {
 void GameState::setCurrentStatus(const GameState::Status &status) {
     mCurrentStatus = status;
 }
+
+
+GameState::~GameState() {
+    
+}

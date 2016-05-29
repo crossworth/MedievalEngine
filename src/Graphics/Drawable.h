@@ -2,7 +2,7 @@
 #define DRAWABLE_H
 #include <SFML/Graphics.hpp>
 #include "LogInc.h"
-#include  "Helper/Types.h"
+#include "Helper/Types.h"
 #include "Helper/Area.h"
 #include "Helper/ColorGradient.h"
 

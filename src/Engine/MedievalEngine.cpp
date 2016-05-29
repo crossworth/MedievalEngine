@@ -14,14 +14,14 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     if (mArguments.hasArgument("config")) {
         mConfigurations.readFile(mArguments.getArgument("config"));
     } else {
-        // TODO(Pedro): if configuration file not found
-        // do something
-        mConfigurations.readFile(ENGINE_DEFAULTS::CONFIG_FILE);
+        // Read the default configuration file
+        if (!mConfigurations.readFile(ENGINE_DEFAULTS::CONFIG_FILE)) {
+
+        }
     }
 
     // Since its the creation of our engine we create a temporary window object
     // to initialize our window
-    mWindowInfoInput;
 
     std::string width;
     std::string height;
@@ -98,14 +98,23 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
         Audible::AMBIENT_VOLUME = std::min(Kit::str_float(ambientVolume), 100.f);
     }
 
+    std::cout << "l: " << language << std::endl;
+
+    mWindow.close();
+    mErrorCode = 3;
+
     // Try to open the language file specified on the configuration file
     // If we failed to load the language file or its not informed on the configuration file
     // we try to load the default language file
     if (language == "" || !Strings::openLanguageFile(ENGINE_DEFAULTS::LANG_PATH + language)) {
+        std::cout << ENGINE_DEFAULTS::LANG_PATH << " lang_path" << std::endl;
+        std::cout << language << " << language" << std::endl;
         // If we failed to open the default language file we close the engine
         if (!Strings::openLanguageFile(ENGINE_DEFAULTS::LANG_PATH + ENGINE_DEFAULTS::LANGUAGE)) {
             LOG << Log::CRITICAL
-                << "[MedievalEngine::MedievalEngine] Could not open the language pack "
+                << "[MedievalEngine::MedievalEngine] Could not get the default language pack "
+                << ENGINE_DEFAULTS::LANG_PATH + ENGINE_DEFAULTS::LANGUAGE
+                << " neither the language specific "
                 << language << std::endl;
 
             mWindow.close();
@@ -239,31 +248,35 @@ void MedievalEngine::run() {
 
     ProfileBlock();
     while(mWindow.isOpen()) {
+        ProfileBlockStr("Main game loop");
 
-
-        if (mMusicQueue.find(mCurrentMusicQueue) != mMusicQueue.end()) {
+        { 
             ProfileBlockStr("update music queue");
-            // Update the current music queue
-            // even if the music it's aready playing this should be called
-            // to update the next music and verifiy if the current music status
-            mMusicQueue[mCurrentMusicQueue].update();
+            if (mMusicQueue.find(mCurrentMusicQueue) != mMusicQueue.end()) {
+                // Update the current music queue
+                // even if the music it's aready playing this should be called
+                // to update the next music and verifiy if the current music status
+                mMusicQueue[mCurrentMusicQueue].update();
+            }
         }
 
-        Event event;
-        while(mWindow.pollEvent(event)) {
+        {
             ProfileBlockStr("poll events");
-            // We pass the handle events responsability
-            // to the current game state, so this way
-            // if the current game state it's doing something
-            // critical it can decide what it should do.
+            Event event;
+            while(mWindow.pollEvent(event)) {
+                // We pass the handle events responsability
+                // to the current game state, so this way
+                // if the current game state it's doing something
+                // critical it can decide what it should do.
 
-            // If the console it's not visible we handle the game state events
-            if (!mConsole.isVisible()) {
-                mGameStateManager.handleEvents(event);
+                // If the console it's not visible we handle the game state events
+                if (!mConsole.isVisible()) {
+                    mGameStateManager.handleEvents(event);
+                }
+
+                // handle the console events, since it's independent
+                mConsole.handleEvents(event);
             }
-
-            // handle the console events, since it's independent
-            mConsole.handleEvents(event);
         }
 
         {
@@ -271,7 +284,10 @@ void MedievalEngine::run() {
             mGameStateManager.update();
         }
 
-        mWindow.clear();
+        {
+            ProfileBlockStr("window clear");
+            mWindow.clear();
+        }
 
         {
             ProfileBlockStr("draw game state");
@@ -286,8 +302,17 @@ void MedievalEngine::run() {
             Profiler::printRecords(this);
         }
 
-        mWindow.display();
-        mWindow.setTitle("FPS:" + Kit::int_str(mWindow.getFPS()));
+        {
+            ProfileBlockStr("window display");
+            mWindow.display();
+        }
+
+        {
+            ProfileBlockStr("window set title fps");
+            // TODO(Pedro): remove this after, maybe make a flag
+            mWindow.setTitle("FPS:" + Kit::int_str(mWindow.getFPS()));
+        }
+        
     }
 }
 
@@ -322,6 +347,7 @@ void MedievalEngine::close() {
     if (mWindow.isOpen()) {
         mRunning = false;
         mWindow.close();
+        mErrorCode = 0;
 
         // Close the window and wait for the thread to finish the loading
         // if we dont the engine crash horrible

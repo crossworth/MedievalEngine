@@ -30,13 +30,6 @@
 #include "Engine/MedievalEngine.h"
 
 
-/**
- * Main entry point for the game engine
- *
- * @param  argc You know what it is
- * @param  argv If don't, get out of there
- * @return      Error code
- */
 int main(int argc, char** argv) {
 
     ProfileBlock();

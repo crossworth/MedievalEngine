@@ -26,7 +26,7 @@ public:
         MICROSECONDS  ///< MicroSeconds
     };
 public:
-    Profiler(char* functionName, char* text = "");
+    Profiler(const char* functionName, const char* text = "");
     ~Profiler();
 
     static bool isVisible();

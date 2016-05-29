@@ -3,6 +3,7 @@
 #include "Events/Event.h"
 #include "Graphics/WindowInfo.h"
 #include "Graphics/Drawable.h"
+#include "Helper/Profiler.h"
 #include "Helper/Clock.h"
 #include "Lua/LuaAPI.h"
 

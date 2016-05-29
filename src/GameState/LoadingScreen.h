@@ -7,6 +7,8 @@ namespace ME {
 class LoadingScreen : public GameState {
 public:
     LoadingScreen();
+    ~LoadingScreen();
+
     void init();
     void create();
     void onEnable(Window& window);

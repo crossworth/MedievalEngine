@@ -57,7 +57,7 @@ void Profiler::exposeLuaAPI() {
 
 }
 
-Profiler::Profiler(char* functionName, char* text) {
+Profiler::Profiler(const char* functionName, const char* text) {
     std::string strFunctioName = std::string(functionName);
     std::string strText        = std::string(text);
 

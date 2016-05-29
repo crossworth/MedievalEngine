@@ -20,7 +20,8 @@ ResourceID ResourceManager::loadTexture(const std::string& fileName) {
 
 ResourceID ResourceManager::loadFont(const std::string& fileName) {
     ResourceID fontID  = ResourceIDGenerator::get();
-    mResources[fontID] = ResourcePtr(new Font(fileName));
+    mResources[fontID] = ResourcePtr(new Font());
+    getResource<Font>(fontID)->loadFromFile(fileName);
 
     LOG << Log::VERBOSE
         << "[AssetsManager::loadFont] Font loaded ID: "
@@ -43,7 +44,8 @@ ResourceID ResourceManager::loadFont(MEByte* bytes, std::size_t size) {
 
 ResourceID ResourceManager::loadMusic(const std::string& fileName) {
     ResourceID musicID  = ResourceIDGenerator::get();
-    mResources[musicID] = ResourcePtr(new Music(fileName));
+    mResources[musicID] = ResourcePtr(new Music());
+    getResource<Music>(musicID)->loadFromFile(fileName);
 
     LOG << Log::VERBOSE
         << "[AssetsManager::loadMusic] Music loaded ID: "
