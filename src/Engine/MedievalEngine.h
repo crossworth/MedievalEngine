@@ -24,7 +24,7 @@ public:
     MedievalEngine(int argc, char** argv);
     void init();
     void run();
-    void close();
+    void close(const int& errorCode = 0);
     int getErrorCode();
     bool isRunning();
 

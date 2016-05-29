@@ -7,6 +7,17 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
 
     ProfileBlock();
 
+    if (Dir::exists(ENGINE_DEFAULTS::DATA_PATH) == false) {
+        LOG << Log::CRITICAL
+            << "[MedievalEngine::MedievalEngine] Data directory not found "
+            << ENGINE_DEFAULTS::DATA_PATH << std::endl;
+
+        this->close(4);
+        return;
+    }
+
+
+
     LuaAPI::loadLibs();
 
     // We verify if a config argument has been passed, if so we load the engine
@@ -19,6 +30,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
 
         }
     }
+
 
     // Since its the creation of our engine we create a temporary window object
     // to initialize our window
@@ -98,11 +110,6 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
         Audible::AMBIENT_VOLUME = std::min(Kit::str_float(ambientVolume), 100.f);
     }
 
-    std::cout << "l: " << language << std::endl;
-
-    mWindow.close();
-    mErrorCode = 3;
-
     // Try to open the language file specified on the configuration file
     // If we failed to load the language file or its not informed on the configuration file
     // we try to load the default language file
@@ -117,8 +124,8 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
                 << " neither the language specific "
                 << language << std::endl;
 
-            mWindow.close();
-            mErrorCode = 3;
+            this->close(3);
+            return;
         }
     }
 
@@ -131,8 +138,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
             << "[MedievalEngine::MedievalEngine] Could not open the default assets file "
             << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str() << std::endl;
 
-        mWindow.close();
-        mErrorCode = 1;
+        this->close(1);
     } else {
         // If we can open the file but the signature its different we close the engine as well
         if (mDataFiles.getName() == ENGINE_DEFAULTS::DATFILE_SIGNATURE_NAME &&
@@ -150,8 +156,8 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
             LOG << Log::CRITICAL << "[MedievalEngine::MedievalEngine] Default asset pack not recognized "
             << ENGINE_DEFAULTS::DEFAULT_DATFILE.c_str() << std::endl;
 
-            mWindow.close();
-            mErrorCode = 2;
+            this->close(2);
+            return;
         }
     }
 }
@@ -342,17 +348,21 @@ MusicQueue* MedievalEngine::getMusicQueue(const std::string& name) {
     return &mMusicQueue[name];
 }
 
-void MedievalEngine::close() {
+void MedievalEngine::close(const int& errorCode) {
     LOG << Log::VERBOSE << "[MedievalEngine::close]" << std::endl;
-    if (mWindow.isOpen()) {
-        mRunning = false;
-        mWindow.close();
-        mErrorCode = 0;
+    mRunning = false;
+    mErrorCode = errorCode;
 
-        // Close the window and wait for the thread to finish the loading
-        // if we dont the engine crash horrible
+    if (mWindow.isOpen()) {
+        mWindow.close();
+    }
+
+    // Wait for the thread to finish the loading
+    // if we dont the engine crash horrible
+    if (mLoadingThread.joinable()) {
         mLoadingThread.join();
     }
+
 }
 
 Window* MedievalEngine::getWindow() {
