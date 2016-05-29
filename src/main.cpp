@@ -37,7 +37,6 @@ int main(int argc, char** argv) {
     ME::MedievalEngine app(argc, argv);
     app.init();
     app.run();
-    app.close();
-
+    
     return app.getErrorCode();
 }
