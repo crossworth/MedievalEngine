@@ -14,6 +14,7 @@ class MedievalEngine;
 class LuaConsole : public LogObserver {
 public:
     LuaConsole();
+    ~LuaConsole();
 
     void registerEngine(MedievalEngine* engine);
 
@@ -23,7 +24,9 @@ public:
     void draw(Window& window);
 
     void addMessage(const sf::String& buffer);
-    std::string getToken(const std::string& cmd);
+    void addMessageStd(const std::string& buffer);
+
+    void setShowUnicodeKeyCodes(bool debug);
 
 private:
     bool mIsVisible;
@@ -41,15 +44,20 @@ private:
     Text* mOutput;
     Shape* mBG;
     Shape* mLineEdit;
+    Shape* mSelectedText;
 
     float mLineHeight;
-    int mNumberLines;
     
     Vect2i mWindowSize;
     Vect2i mConsoleSize;
     Vect2f mMargin;
     
     Color mBGColor;
+
+    unsigned int mLastChar;
+
+    //cusor select
+    size_t mStartSelect;
 
     // scroll content
     bool mHasScrolled;
@@ -60,15 +68,18 @@ private:
     int mCommandsIndex;
     bool mHasMakeAction;
 
+    // debug key codes
+    bool mDebugKeyCodes;
+
     // cursor position
     size_t mCursorPosition;
-    size_t mCursorPadding;
     bool mCursorMoving;
 
     // cursor blink
+    bool mCursorBlinking;
     Clock mClockBlinkCursor;
-    sf::String mCursor;
-    sf::String mDefaultText;
+    Shape* mShapeCursor;
+    size_t mFontLetterSize;
     unsigned int mCusorBlinkTime;
 };
 

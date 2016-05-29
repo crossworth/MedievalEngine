@@ -1,30 +1,33 @@
 #include "LuaConsole.h"
 #include "Engine/MedievalEngine.h"
+#include "Helper/Clipboard.h"
+#include "Helper/OS.h"
 
 using namespace ME;
 
 
 LuaConsole::LuaConsole() {
     mIsVisible      = false;
-    mCursor         = sf::String("|");
-    mDefaultText    = sf::String("CMD:");
-    mBuffer         = mDefaultText;
+    mBuffer         = "";
     cmdBuffer       = "";
+    mLastChar       = 0;
+    mFontLetterSize = 0;
     mText           = nullptr;
     mOutput         = nullptr;
     mBG             = nullptr;
     mLineEdit       = nullptr;
+    mSelectedText   = nullptr;
+    mShapeCursor    = nullptr;
     mBGColor        = Color(0, 0, 0, 120);
-    mNumberLines    = 1;
-    mCusorBlinkTime = 500;
     mCursorMoving   = false;
     mHasScrolled    = false;
+    mCursorBlinking = false;
+    mDebugKeyCodes  = false;
+    mHasMakeAction  = false;
     mStepScroll     = 30;
     mCursorPosition = 0;
     mCommandsIndex  = 0;
-    mHasMakeAction  = 0;
-
-    mCursorPadding = mDefaultText.getSize();
+    mCusorBlinkTime = 500;
 
     mClockBlinkCursor.restart();
 
@@ -53,13 +56,15 @@ LuaConsole::LuaConsole() {
     });
     LuaFunctions::store("console_open");
 
-    LuaAPI::state.set_function("console_add_message", &LuaConsole::addMessage, this);
+    LuaAPI::state.set_function("console_add_message", &LuaConsole::addMessageStd, this);
     LuaFunctions::store("console_add_message");
+
+    LuaAPI::state.set_function("console_show_unicode_key_codes", &LuaConsole::setShowUnicodeKeyCodes, this);
+    LuaFunctions::store("console_show_unicode_key_codes");
 }
 
-std::string LuaConsole::getToken(const std::string& cmd) {
-    return std::string("");
-
+void LuaConsole::setShowUnicodeKeyCodes(bool debug) {
+    mDebugKeyCodes = debug;
 }
 
 void LuaConsole::handleEvents(Event& evt) {
@@ -78,38 +83,48 @@ void LuaConsole::handleEvents(Event& evt) {
     if(isVisible()) {
         if (evt.type == Event::KeyPressed) {
 
+            // Control + V
+            if (evt.key.code == Keyboard::KEY::V && 
+                ((evt.key.control && !OS::isMacOS()) || (evt.key.system && OS::isMacOS()))) {
+                std::string text = Clipboard::getData();
+                mBuffer.insert(mCursorPosition, text);
+                mCursorPosition = mCursorPosition + text.size();
+            }
+
             if (evt.key.code == Keyboard::KEY::Home) {
                 mCursorPosition = 0;
             }
 
             if (evt.key.code == Keyboard::KEY::End) {
-                mCursorPosition = mBuffer.getSize() - mCursorPadding;
+                mCursorPosition = mBuffer.getSize();
             }
 
             if (evt.key.code == Keyboard::KEY::Delete) {
                 // if the cursor position its equals or more than 0 and
                 // the cursor position is less the the buffer size
                 // we can erase with no fear
-                if (mCursorPosition >= 0 && mCursorPosition + mCursorPadding < mBuffer.getSize()) {
+                if (mCursorPosition > 0 && mCursorPosition < mBuffer.getSize()) {
                     // erase at the cursor position
                     // since this is the delete key
-                    mBuffer.erase(mCursorPosition + mCursorPadding);
+                    mBuffer.erase(mCursorPosition);
                     mCursorMoving = true; // set the cursor to moving to get a better effect
                     // there no need to invalidade the cmdbuffer since we just deleting
+                    mText->setString(mBuffer);
                 }
             }
 
         }
 
+
         // update the history position
         if (Keyboard::isKeyPressed(Keyboard::KEY::Up)) {
             if (mCommands.size() > 0 && mCommandsIndex < mCommands.size()) {
                 if (mHasMakeAction == false) {
-                    mBuffer         = mDefaultText;
+                    mBuffer         = "";
                     mCursorPosition = 0;
                 }
 
-                mBuffer.insert(mCursorPadding + mCursorPosition, mCommands[mCommandsIndex]);
+                mBuffer.insert(mCursorPosition, mCommands[mCommandsIndex]);
                 mCursorPosition = mCommands[mCommandsIndex].length();
                 cmdBuffer = ""; // invalidate the command Buffer
                 mCommandsIndex++;
@@ -119,7 +134,7 @@ void LuaConsole::handleEvents(Event& evt) {
         if (Keyboard::isKeyPressed(Keyboard::KEY::Down)) {
             if (mCommandsIndex > 0) {
                 if (mHasMakeAction == false) {
-                    mBuffer         = mDefaultText;
+                    mBuffer         = "";
                     mCursorPosition = 0;
                 }
 
@@ -128,7 +143,7 @@ void LuaConsole::handleEvents(Event& evt) {
                     mCommandsIndex = 0;
                 }
 
-                mBuffer.insert(mCursorPadding + mCursorPosition, mCommands[mCommandsIndex]);
+                mBuffer.insert(mCursorPosition, mCommands[mCommandsIndex]);
                 mCursorPosition = mCommands[mCommandsIndex].length();
                 cmdBuffer = ""; // invalidate the command Buffer
             }
@@ -145,11 +160,23 @@ void LuaConsole::handleEvents(Event& evt) {
         }
 
         if (Keyboard::isKeyPressed(Keyboard::KEY::Right)) {
-            if (mCursorPosition + mCursorPadding < mBuffer.getSize()) {
+            if (mCursorPosition < mBuffer.getSize()) {
                 mCursorPosition++;
                 mCursorMoving  = true;
                 cmdBuffer      = ""; // invalidate the command Buffer
                 mHasMakeAction = true;
+            }
+        }
+
+        if (Keyboard::isKeyPressed(Keyboard::KEY::Escape)) {
+            // if the buffer have something we first clear it
+            // after we just close the console
+            if (mBuffer.getSize() > 0) {
+                mBuffer.clear();
+                mCursorPosition = 0;
+            } else {
+                // close the console
+                this->setVisible(false);    
             }
         }
 
@@ -181,24 +208,37 @@ void LuaConsole::handleEvents(Event& evt) {
         }
 
         if (evt.type == Event::TextEntered) {
-             // 13 = newline (ENTER)
-             // 8  = backspace
-             // 9  = tab
-             // 27 = esc
-            if (evt.text.unicode == 13) { // enter
-                // Remove the CMD: from the start of the string
-                mBuffer.erase(0, mCursorPadding);
+            if (mDebugKeyCodes) {
+                LOG << Log::VERBOSE
+                    << "[LuaConsole::handleEvents] KeyCode: " << evt.text.unicode << std::endl;
+            }
+
+
+            // 13  = Carriage Return (Enter on Windows)
+            // 10  = newline (Return MacOS)
+            // 8   = backspace
+            // 9   = tab
+            // 27  = esc
+            // 127 = Delete on Mac OS
+            // 16 = Menu on Mac OS
+
+
+            // This keys are only captured on Mac OS, Windows dont get this behaviour
+            if (evt.text.unicode == 127 || evt.text.unicode == 16) {
+                // do nothing
+
+            } else if (evt.text.unicode == 13 || evt.text.unicode == 10) { // enter
 
                 // if we have some command we execute it
                 if (mBuffer.getSize() > 0) {
                     // put on the screen the command
-                    addMessage("COMMAND: " + mBuffer + "\n");
+                    addMessage("Command: " + mBuffer + "\n");
                     // call Lua
                     LuaAPI::script(mBuffer);
                     mCommands.push_front(mBuffer);
 
                     // Reset to the default text
-                    mBuffer         = mDefaultText;
+                    mBuffer         = "";
                     mCursorPosition = 0;
                     cmdBuffer       = ""; // invalidate the command Buffer
                     mCommandsIndex  = 0;  // rest the index
@@ -208,8 +248,6 @@ void LuaConsole::handleEvents(Event& evt) {
                 // Here we handle the tab
                 // first get the command name
                 std::string cmd = mBuffer.toAnsiString();
-                // remove the CMD: from the start to get the real command
-                cmd.erase(0, mCursorPadding);
 
                 // we can get the token from
                 // (window[TAB])
@@ -244,11 +282,11 @@ void LuaConsole::handleEvents(Event& evt) {
                         size_t newCursorPosition;
 
                         // remove the previus text typed (but keep the rest of the string)
-                        mBuffer.erase(mCursorPadding + cmdPos, mCursorPosition - cmdPos);
+                        mBuffer.erase(cmdPos, mCursorPosition - cmdPos);
                         // get the new cursor position
                         newCursorPosition = cmdPos + result.getSize();
                         // add the new text
-                        mBuffer.insert(mCursorPadding + cmdPos, result);
+                        mBuffer.insert(cmdPos, result);
                         // set the new cursor position
                         mCursorPosition = newCursorPosition;
                     }
@@ -263,7 +301,7 @@ void LuaConsole::handleEvents(Event& evt) {
                 if (mCursorPosition > 0) {
                     // We remove the cursor position + cursor padding - 1
                     // thats means the lettler before the cursor
-                    mBuffer.erase(mCursorPosition + mCursorPadding - 1);
+                    mBuffer.erase(mCursorPosition - 1);
                     mCursorPosition--; // and decrese the cursor position
                     mCursorMoving  = true; // set the cursor to moving to get a better effect
                     cmdBuffer      = ""; // invalidate the command Buffer
@@ -272,30 +310,64 @@ void LuaConsole::handleEvents(Event& evt) {
                     mHasMakeAction = true;
                 }
             } else if (evt.text.unicode == 27) { // esc
-                // do nothing
-
-
+                // TODO(Pedro): Verify this on Windows, Linux
+                // On MacOS the ESC event its not passed as TextEntered
+                
             } else { // everything else
-                // just put the char to the buffer if it's not
-                mBuffer.insert(mCursorPosition + mCursorPadding, evt.text.unicode);
-                // increase the cursor position since we just added another lettler
-                mCursorPosition++;
-                cmdBuffer       = ""; // invalidate the command Buffer
-                // we do have an action so the history will
-                // put the value on the cursor position
-                mHasMakeAction = true;
-            }
+                
+                // 40  = (
+                // 41  = )
+                // 91  = [
+                // 93  = ]
+                // 123 = {
+                // 125 = }
+                // Auto complete the parenteses brackets and stuff
+                // if we are on the end of the file
+                if (mCursorPosition == mBuffer.getSize()) {
+                    if (evt.text.unicode == 40) {
+                        mBuffer.insert(mCursorPosition, ")");
+                    } else if (evt.text.unicode == 91) {
+                        mBuffer.insert(mCursorPosition, "]");
+                    } else if (evt.text.unicode == 123) {
+                        mBuffer.insert(mCursorPosition, "}");
+                    }
+                } // if mCursorPosition == mBuffer.getSize() - 1
 
-            // set the string to the text
-            mText->setString(mBuffer);
-        }
-    }
+                // nice parenteses auto-complete feature
+                // since we always put both parenteses we check if we are trying to type
+                if ((evt.text.unicode == 41 && mLastChar == 40)
+                    || (evt.text.unicode == 93 && mLastChar == 91)
+                    || (evt.text.unicode == 125 && mLastChar == 123)) {
+                    // we just update the cursor position
+                    mCursorPosition++;
+                } else {
+                    // just put the char to the buffer if it's not
+                    mBuffer.insert(mCursorPosition, evt.text.unicode);
+                    // increase the cursor position since we just added another lettler
+                    mCursorPosition++;
+                    cmdBuffer       = ""; // invalidate the command Buffer
+                    // we do have an action so the history will
+                    // put the value on the cursor position
+                    mHasMakeAction = true;
+                }
+
+
+            } // if not any of the unicodes
+            // save the last char typed
+            mLastChar = evt.text.unicode;
+        } // if event text entered
+        // set the string to the text
+        mText->setString(mBuffer);
+    } // if console is visible
 }
 
 
+void LuaConsole::addMessageStd(const std::string& buffer) {
+    this->addMessage(sf::String(buffer));
+}
+
 void LuaConsole::addMessage(const sf::String& buffer) {
     mBufferOutput = mBufferOutput + buffer;
-
 }
 
 void LuaConsole::registerEngine(MedievalEngine* engine) {
@@ -314,21 +386,29 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     ResourceID outputID;
     ResourceID bgID;
     ResourceID lineEditID;
+    ResourceID selectedTextID;
     ResourceID fontID;
+    ResourceID textCursorID;
 
     // set the monospace font for our console
-    fontID = mResources->loadFont("system/Inconsolata.ttf");
+    // TODO(Pedro): Move this font to a dat file
+    fontID = mResources->loadFont("system/Hack-Regular.ttf");
 
     outputID = textID = mResources->createText(sf::String(""), Window::fontSize(0.20f), fontID);
     mOutput  = mResources->getResource<Text>(outputID);
 
     textID = mResources->createText(mBuffer, Window::fontSize(0.25f), fontID);
     mText  = mResources->getResource<Text>(textID);
-    // MAGIC NUMBER WHERE! for some reason we have to multiply the text size
+
+    // before we set the buffer, lets get the character font width and height
+    mText->setString("A");
+    mFontLetterSize = mText->getSize().x;
+
+    // MAGIC NUMBER HERE! for some reason we have to multiply the text size
     // by 2 for get the right size of the height
     mLineHeight = mText->getSize().y * 2;
-    mText->setString(mBuffer);
-    mNumberLines = 1;
+
+    mText->setString("");
 
     bgID = mResources->createShape(mConsoleSize, mBGColor, mMargin);
     mBG  = mResources->getResource<Shape>(bgID);
@@ -339,8 +419,24 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     mLineEdit->setPosition(Vect2f(mBG->getPosition().x, mBG->getPosition().y + mBG->getSize().y - mLineHeight));
     mText->setPosition(mLineEdit->getPosition());
 
+
     Area mBGArea   = mBG->getGlobalBounds();
     mBGArea.height = mBGArea.height - mLineHeight;
+
+    // set the shape height for our cursor to be 80% of the size
+    float cursorSize = mLineHeight * 0.80f;
+    Vect2f cursorPos = mLineEdit->getPosition();
+    // add a padding to the cursor, to make it align on vertically on center
+    cursorPos.y = cursorPos.y + (mLineHeight * 0.10f);
+
+    textCursorID = mResources->createShape(Vect2f(1.5f, cursorSize), Color(255, 255, 255));
+    mShapeCursor = mResources->getResource<Shape>(textCursorID);
+    mShapeCursor->setPosition(cursorPos);
+
+    selectedTextID = mResources->createShape(Vect2f(20.f, cursorSize), Color(53, 171, 255, 153));
+    mSelectedText  = mResources->getResource<Shape>(selectedTextID);
+    mSelectedText->setPosition(Vect2f(cursorPos.x + 40.f, cursorPos.y));
+
 
 
     // Get the messages from the log
@@ -350,29 +446,40 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
 void LuaConsole::draw(Window& window) {
 
     if (mClockBlinkCursor.getMilliSeconds() > mCusorBlinkTime) {
-        // we only change to space if we are not moving the cursor
-        if (mCursor == "|" && mCursorMoving == false) {
-            mCursor = " ";
+        if (mCursorBlinking == true && mCursorMoving == false) {
+           mCursorBlinking = false;
         } else {
-            mCursor = "|";
+            mCursorBlinking = true;
         }
 
         mClockBlinkCursor.restart();
 
-        // set the cursor moving to false to get a smote effect
+        // set the cursor moving to false to get a smoth effect
         mCursorMoving = false;
     }
 
+    float lineTextWidth = mText->getSize().x;
 
-    // create a tmp buffer to hold our string with the command and the cursor
-    sf::String cursorBuffer = mBuffer;
-    // insert the cursor into the position
-    cursorBuffer.insert(mCursorPosition + mCursorPadding, mCursor);
-    mText->setString(cursorBuffer);
+    if ((lineTextWidth + mFontLetterSize) >= mLineEdit->getSize().x) {
+        float lineDiff     = (lineTextWidth + mFontLetterSize)  - mLineEdit->getSize().x;
+        Vect2f lineEditPos = mLineEdit->getPosition();
+        lineEditPos.x      = lineEditPos.x - lineDiff;
+        mText->setPosition(lineEditPos);
+    } else {
+        mText->setPosition(mLineEdit->getPosition());
+    }
+
+
+    Vect2f mShapeCursorPos = mShapeCursor->getPosition();
+    mShapeCursorPos.x      = mText->getPosition().x + (mCursorPosition * mFontLetterSize);
+
+    mShapeCursor->setPosition(mShapeCursorPos);
 
 
     window.draw(mBG);
     window.draw(mLineEdit);
+    window.draw(mSelectedText);
+    
 
     Area mBGArea   = mBG->getGlobalBounds();
     mBGArea.height = mBGArea.height - mLineHeight;
@@ -399,7 +506,30 @@ void LuaConsole::draw(Window& window) {
     window.draw(mOutput);
     window.getWindowPtr()->setView(window.getWindowPtr()->getDefaultView());
 
+
+
+    Area mLineEditArea = mLineEdit->getGlobalBounds();
+    sf::FloatRect panelRectLineEdit(mLineEditArea.left / mWindowSize.x,
+                            mLineEditArea.top / mWindowSize.y,
+                            mLineEditArea.width / mWindowSize.x,
+                            mLineEditArea.height / mWindowSize.y);
+
+
+    panelView.reset(sf::FloatRect(mLineEditArea.left, mLineEditArea.top,
+                                  mLineEditArea.width, mLineEditArea.height));
+    panelView.setViewport(panelRectLineEdit);
+
+    window.getWindowPtr()->setView(panelView);
+
     window.draw(mText);
+
+    window.getWindowPtr()->setView(window.getWindowPtr()->getDefaultView());
+ 
+
+    if (!mCursorBlinking) {
+        window.draw(mShapeCursor);
+    }
+
 }
 
 bool LuaConsole::isVisible() {
@@ -413,4 +543,9 @@ void LuaConsole::setVisible(bool visible) {
         mHasScrolled = false;
         mOutput->setPosition(Vect2f(mBG->getPosition().x, mConsoleSize.y - mOutput->getSize().y - mLineHeight));
     }
+}
+
+LuaConsole::~LuaConsole() {
+    // TODO(Pedro): make some test about memory
+    // we cant delete the pointers here for some reason
 }
