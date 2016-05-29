@@ -10,7 +10,6 @@ Strings::Strings() {
 std::map<std::string, std::string> Strings::mStrings;
 
 bool Strings::openLanguageFile(const std::string& languageFile) {
-    std::cout << "Tring to open file " << languageFile << std::endl;
     CFGParser language(languageFile);
     std::map<std::string, std::string> data;
 
