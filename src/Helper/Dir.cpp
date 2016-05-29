@@ -11,3 +11,13 @@ std::string Dir::getCurrentPath() {
     cCurrentPath[sizeof(cCurrentPath) - 1] = '\0';
     return std::string(cCurrentPath);
 }
+
+bool Dir::exists(const std::string& dirPath) {
+	struct stat info;
+
+	if(stat(dirPath.c_str(), &info) == 0 && (info.st_mode & S_IFDIR)) {
+	    return true;
+	}
+	
+	return false;
+}
