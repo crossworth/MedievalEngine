@@ -64,6 +64,7 @@ generateMakeFile () {
         printf "Enter the path for the MedievalEngine's source files:\n"
         read -e PATH_MEDIEVAL_ENGINE_SOURCE_FILES
     fi
+    PATH_MEDIEVAL_ENGINE_SOURCE_FILES=$(cd $PATH_MEDIEVAL_ENGINE_SOURCE_FILES; pwd)
 
     eval PATH_MEDIEVAL_ENGINE_SOURCE_FILES=$PATH_MEDIEVAL_ENGINE_SOURCE_FILES
 
@@ -84,7 +85,7 @@ CFLAGS     = -g -Wall -Wno-switch -O0 -std=c++14
 INCLUDES   = -I \$(PATH_SOURCE_FILES) -I ${SFML_INCLUDE_PATH} -I \$(PATH_SOURCE_FILES)/extlibs
 LFLAGS     = -L ${SFML_LIBS_PATH}
 LIBS       = -lsfml-window -lsfml-graphics -lsfml-audio -lsfml-system -lsfml-network -llua
-FRAMEWORKS = 
+FRAMEWORKS = -framework Cocoa
 
 SRC_FILES   = ${ALL_FILES}
 SRC_MAIN    = \$(PATH_SOURCE_FILES)/main.cpp
@@ -106,14 +107,15 @@ print-%  : ; @echo \$* = \$(\$*)
 
 \$(OUTPUT_FILE): \$(OBJ_FILES)
 \t\$(CC) \$^ \$(CFLAGS) \$(LFLAGS) \$(INCLUDES) \$(LIBS) \$(FRAMEWORKS) \$(SRC_MAIN) -o \$@
+\tmv \$@ \$(PATH_SOURCE_FILES)/../bin
 
 run:
-\t./\$(OUTPUT_FILE)
+\tcd \$(PATH_SOURCE_FILES)/../bin && ./\$(OUTPUT_FILE)
 
 clean:
 \tcd \$(PATH_SOURCE_FILES)
-\trm -rf \$(OUTPUT_FILE) \$(OUTPUT_FILE).dSYM a.out.dSYM
-\tfind . -type f -name '*.o' -delete")
+\trm -rf \$(PATH_SOURCE_FILES)/\$(OUTPUT_FILE) \$(PATH_SOURCE_FILES)/*.dSYM
+\tfind \$(PATH_SOURCE_FILES)/. -type f -name '*.o' -delete")
 
 
     echo "$MAKE_FILE" > "Makefile"
