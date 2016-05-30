@@ -1,6 +1,7 @@
 #ifndef MUSICQUEUE_H
 #define MUSICQUEUE_H
-#include <list>
+#include <vector>
+#include <algorithm>
 #include "Resources/ResourceIDGenerator.h"
 #include "Resources/Music.h"
 
@@ -11,6 +12,7 @@ class MedievalEngine;
 class MusicQueue : public Resource, public Audible {
 public:
     MusicQueue();
+    ~MusicQueue();
 
     void registerEngine(MedievalEngine* engine);
 
@@ -57,8 +59,8 @@ private:
     bool mIsLoopMode;
     bool mIsRandomPlay;
     MedievalEngine* mEngine;
-    std::list<ResourceID> mMusics;
-    std::list<ResourceID>::iterator mCurrentMusic;
+    std::vector<ResourceID> mMusics;
+    std::vector<ResourceID>::iterator mCurrentMusic;
     Audio::AudioStatus mStatus;
 };
 

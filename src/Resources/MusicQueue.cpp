@@ -8,6 +8,10 @@ MusicQueue::MusicQueue() {
     mIsValid      = true;
 }
 
+MusicQueue::~MusicQueue() {
+
+}
+
 void MusicQueue::registerEngine(MedievalEngine* engine) {
     mEngine = engine;
 }
@@ -137,7 +141,7 @@ void MusicQueue::update() {
 
             if (mCurrentMusic == mMusics.end()) {
                 if (isRandomPlay()) {
-                    mMusics.sort();
+                    std::random_shuffle(mMusics.begin(), mMusics.end());
                 }
 
                 mCurrentMusic = mMusics.begin();
