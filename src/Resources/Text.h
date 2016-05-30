@@ -1,5 +1,6 @@
 #ifndef TEXT_H
 #define TEXT_H
+#include "Helper/String.h"
 #include "Resources/Font.h"
 #include "Effects/Effect.h"
 
@@ -16,7 +17,7 @@ public:
 
     void setFont(Font& font);
     void setFontSize(const unsigned int& size);
-    void setString(const sf::String& text);
+    void setString(const String& text);
     void setStyle(const Text::FontStyle& style);
 
     void setTextShadow(const float& factor = 2.0f,
@@ -25,7 +26,7 @@ public:
     void removeTextShadow();
     bool isTextShadowEnable();
 
-    std::string getString();
+    String getString();
     unsigned int getFontSize();
     Text::FontStyle getStyle();
 

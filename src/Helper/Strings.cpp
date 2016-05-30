@@ -7,22 +7,22 @@ Strings::Strings() {
 
 }
 
-std::map<std::string, std::string> Strings::mStrings;
+std::map<std::string, String> Strings::mStrings;
 
 bool Strings::openLanguageFile(const std::string& languageFile) {
     CFGParser language(languageFile);
-    std::map<std::string, std::string> data;
-
-    data = language.getContents();
 
     // Clear all the String's since we just opened another it
     // file that contains it
     Strings::mStrings.clear();
+    Strings::mStrings = language.getContents();;
 
+    // test
     // TODO(Pedro): Do we need to interate end all the time?
-    for(auto it = data.begin(); it != data.end(); it++) {
-        Strings::mStrings[(*it).first] = sf::String((*it).second);
-    }
+    // for(auto it = data.begin(); it != data.end(); it++) {
+    //     Strings::mStrings[(*it).first] = (*it).second;
+    // }
+
 
     // we dont need to clear this since it's going out of scope
     // but we do anyway
@@ -37,19 +37,19 @@ bool Strings::openLanguageFile(const std::string& languageFile) {
     }
 }
 
-sf::String Strings::get(const std::string& name) {
+String Strings::get(const std::string& name) {
     // if we found a string we just return it
     // else we return the name requested
     //
     // String::get("not_found_str") will return "not_found_str"
     if (Strings::mStrings.find(name) != Strings::mStrings.end()) {
-        return Strings::mStrings[name];
+        return Strings::mStrings[name].getWideString();
     } else {
-        return sf::String(name);
+        return String(name);
     }
 }
 
-sf::String Strings::getItemArrayRandom(const std::string& name) {
+String Strings::getItemArrayRandom(const std::string& name) {
     // append the prefixe _ar_
     std::string nameTmp = name + "_ar_";
     // our counter variable
@@ -58,7 +58,7 @@ sf::String Strings::getItemArrayRandom(const std::string& name) {
     // loop through all the itens 
     for(auto it = Strings::mStrings.begin(); it != Strings::mStrings.end(); it++) {
         // if it's contain our name we increment the array
-        if (it->first.find(nameTmp) != sf::String::InvalidPos) {
+        if (it->first.find(nameTmp) != std::string::npos) {
             max++;
         }
     }
@@ -74,8 +74,8 @@ sf::String Strings::getItemArrayRandom(const std::string& name) {
     nameTmp = nameTmp + std::to_string(Random::get(max));
 
     if (Strings::mStrings.find(nameTmp) != Strings::mStrings.end()) {
-        return Strings::mStrings[nameTmp];
+        return Strings::mStrings[nameTmp].getWideString();
     } else {
-        return sf::String(nameTmp);
+        return String(nameTmp);
     }
 }

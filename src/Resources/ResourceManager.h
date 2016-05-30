@@ -24,7 +24,7 @@ public:
     ResourceID loadSound(const std::string& fileName);
 
     ResourceID createSprite(const ResourceID& texture);
-    ResourceID createText(const sf::String& text,
+    ResourceID createText(const String& text,
                     const unsigned int& fontSize,
                     const ResourceID& font);
 

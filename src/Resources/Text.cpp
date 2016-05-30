@@ -7,8 +7,8 @@ Text::Text() : mHasTextShadow(false) {
     mType = Resource::Type::TEXT;
 }
 
-std::string Text::getString() {
-    return mText.getString();
+String Text::getString() {
+    return String(mText.getString().toWideString());
 }
 
 unsigned int Text::getFontSize() {
@@ -41,8 +41,8 @@ void Text::setFontSize(const unsigned int &size) {
     mText.setCharacterSize(size);
 }
 
-void Text::setString(const sf::String& text) {
-    mText.setString(text);
+void Text::setString(const String& text) {
+    mText.setString(sf::String(text.getWideString()));
 }
 
 void Text::setTextShadow(const float& factor, const Color& color) {

@@ -1,6 +1,6 @@
 #ifndef STRINGS_H
 #define STRINGS_H
-#include <SFML/System/String.hpp>
+#include "Helper/String.h"
 #include "Helper/CFGParser.h"
 #include "Helper/Random.h"
 
@@ -10,11 +10,11 @@ namespace ME {
 class Strings {
 public:
     static bool openLanguageFile(const std::string& languageFile);
-    static sf::String get(const std::string& name);
-    static sf::String getItemArrayRandom(const std::string& name);
+    static String get(const std::string& name);
+    static String getItemArrayRandom(const std::string& name);
 private:
     Strings();
-    static std::map<std::string, std::string> mStrings;
+    static std::map<std::string, String> mStrings;
 };
 
 }

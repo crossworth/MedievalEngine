@@ -102,7 +102,7 @@ ResourceID ResourceManager::createShape(const Vect2f& size,
     return shapeID;
 }
 
-ResourceID ResourceManager::createText(const sf::String& text,
+ResourceID ResourceManager::createText(const String& text,
                                const unsigned int& fontSize,
                                const ResourceID& font) {
 

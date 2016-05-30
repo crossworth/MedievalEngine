@@ -23,7 +23,7 @@ public:
     void setVisible(bool visible);
     void draw(Window& window);
 
-    void addMessage(const sf::String& buffer);
+    void addMessage(const String& buffer);
     void addMessageStd(const std::string& buffer);
 
     void setShowUnicodeKeyCodes(bool debug);
@@ -34,10 +34,10 @@ private:
     ResourceManager* mResources;
         
     // buffer for the text been typed
-    sf::String mBuffer;
+    String mBuffer;
     std::string cmdBuffer;
     // buffer for the output
-    sf::String mBufferOutput;
+    String mBufferOutput;
     sf::View panelView;
     
     Text* mText;

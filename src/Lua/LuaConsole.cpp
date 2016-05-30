@@ -247,7 +247,7 @@ void LuaConsole::handleEvents(Event& evt) {
             } else if (evt.text.unicode == 9) { // tab
                 // Here we handle the tab
                 // first get the command name
-                std::string cmd = mBuffer.toAnsiString();
+                std::string cmd = mBuffer.getString();
 
                 // we can get the token from
                 // (window[TAB])
@@ -274,7 +274,7 @@ void LuaConsole::handleEvents(Event& evt) {
                     }
 
                     // store the result hint
-                    sf::String result = sf::String(LuaFunctions::autoComplete(cmdBuffer));
+                    String result = String(LuaFunctions::autoComplete(cmdBuffer));
 
                     // if we get an hint
                     if (result.getSize() > 0) {
@@ -363,10 +363,10 @@ void LuaConsole::handleEvents(Event& evt) {
 
 
 void LuaConsole::addMessageStd(const std::string& buffer) {
-    this->addMessage(sf::String(buffer));
+    this->addMessage(String(buffer));
 }
 
-void LuaConsole::addMessage(const sf::String& buffer) {
+void LuaConsole::addMessage(const String& buffer) {
     mBufferOutput = mBufferOutput + buffer;
 }
 
@@ -394,21 +394,21 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     // TODO(Pedro): Move this font to a dat file
     fontID = mResources->loadFont("system/Hack-Regular.ttf");
 
-    outputID = textID = mResources->createText(sf::String(""), Window::fontSize(0.20f), fontID);
+    outputID = textID = mResources->createText(String(""), Window::fontSize(0.20f), fontID);
     mOutput  = mResources->getResource<Text>(outputID);
 
     textID = mResources->createText(mBuffer, Window::fontSize(0.25f), fontID);
     mText  = mResources->getResource<Text>(textID);
 
     // before we set the buffer, lets get the character font width and height
-    mText->setString("A");
+    mText->setString(String("A"));
     mFontLetterSize = mText->getSize().x;
 
     // MAGIC NUMBER HERE! for some reason we have to multiply the text size
     // by 2 for get the right size of the height
     mLineHeight = mText->getSize().y * 2;
 
-    mText->setString("");
+    mText->setString(String(""));
 
     bgID = mResources->createShape(mConsoleSize, mBGColor, mMargin);
     mBG  = mResources->getResource<Shape>(bgID);
