@@ -35,18 +35,18 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     // Since its the creation of our engine we create a temporary window object
     // to initialize our window
 
-    std::string width;
-    std::string height;
-    std::string bitsPerPixel;
-    std::string fullScreen;
-    std::string windowName;
-    std::string language;
-    std::string globalVolume;
-    std::string voiceVolume;
-    std::string musicVolume;
-    std::string ambientVolume;
-    std::string vsync;
-    std::string frameLimit;
+    String width;
+    String height;
+    String bitsPerPixel;
+    String fullScreen;
+    String windowName;
+    String language;
+    String globalVolume;
+    String voiceVolume;
+    String musicVolume;
+    String ambientVolume;
+    String vsync;
+    String frameLimit;
 
     // Try the keys of the configuration file
     bitsPerPixel  = mConfigurations.getKey("bits_per_pixel");
@@ -66,27 +66,27 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
     // Verify each key to see if we do have a valid information if so we parse
     // to the correct type and put on the appropriate place
     if(bitsPerPixel != "") {
-        mWindowInfoInput.bitsPerPixel = Kit::str_int(bitsPerPixel);
+        mWindowInfoInput.bitsPerPixel = Kit::string_int(bitsPerPixel);
     }
 
     if(height != "") {
-        mWindowInfoInput.height = Kit::str_int(height);
+        mWindowInfoInput.height = Kit::string_int(height);
     }
 
     if(width != "") {
-        mWindowInfoInput.width = Kit::str_int(width);
+        mWindowInfoInput.width = Kit::string_int(width);
     }
 
     if(fullScreen != "") {
-        mWindowInfoInput.fullScreen = Kit::str_bool(fullScreen);
+        mWindowInfoInput.fullScreen = Kit::string_bool(fullScreen);
     }
 
     if(vsync != "") {
-        mWindowInfoInput.vsync = Kit::str_bool(vsync);
+        mWindowInfoInput.vsync = Kit::string_bool(vsync);
     }
 
     if(frameLimit != "") {
-        mWindowInfoInput.frameLimit = Kit::str_int(frameLimit);
+        mWindowInfoInput.frameLimit = Kit::string_int(frameLimit);
     }
 
     if (windowName != "") {
@@ -95,34 +95,32 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
 
     // Max volume 100.f
     if (globalVolume != "") {
-        Audible::GLOBAL_VOLUME = std::min(Kit::str_float(globalVolume), 100.f);
+        Audible::GLOBAL_VOLUME = std::min(Kit::string_float(globalVolume), 100.f);
     }
 
     if (voiceVolume != "") {
-        Audible::VOICE_VOLUME = std::min(Kit::str_float(voiceVolume), 100.f);
+        Audible::VOICE_VOLUME = std::min(Kit::string_float(voiceVolume), 100.f);
     }
 
     if (musicVolume != "") {
-        Audible::MUSIC_VOLUME = std::min(Kit::str_float(musicVolume), 100.f);
+        Audible::MUSIC_VOLUME = std::min(Kit::string_float(musicVolume), 100.f);
     }
 
     if (ambientVolume != "") {
-        Audible::AMBIENT_VOLUME = std::min(Kit::str_float(ambientVolume), 100.f);
+        Audible::AMBIENT_VOLUME = std::min(Kit::string_float(ambientVolume), 100.f);
     }
 
     // Try to open the language file specified on the configuration file
     // If we failed to load the language file or its not informed on the configuration file
     // we try to load the default language file
-    if (language == "" || !Strings::openLanguageFile(ENGINE_DEFAULTS::LANG_PATH + language)) {
-        std::cout << ENGINE_DEFAULTS::LANG_PATH << " lang_path" << std::endl;
-        std::cout << language << " << language" << std::endl;
+    if (language == "" || !Strings::openLanguageFile(ENGINE_DEFAULTS::LANG_PATH + language.getString())) {
         // If we failed to open the default language file we close the engine
         if (!Strings::openLanguageFile(ENGINE_DEFAULTS::LANG_PATH + ENGINE_DEFAULTS::LANGUAGE)) {
             LOG << Log::CRITICAL
                 << "[MedievalEngine::MedievalEngine] Could not get the default language pack "
                 << ENGINE_DEFAULTS::LANG_PATH + ENGINE_DEFAULTS::LANGUAGE
                 << " neither the language specific "
-                << language << std::endl;
+                << language.getString() << std::endl;
 
             this->close(3);
             return;
@@ -198,7 +196,7 @@ void MedievalEngine::init() {
     // and the font can be access to be load another font
     // A Log::WARNING should be emited
     if (mConfigurations.getKey("game_font") != "") {
-        GAME_FONT_ID = mResourceManager.loadFont(mConfigurations.getKey("game_font"));
+        GAME_FONT_ID = mResourceManager.loadFont(mConfigurations.getKey("game_font").getString());
     } else {
         GAME_FONT_ID = Font::DEFAULT_FONT;
     }
@@ -221,8 +219,8 @@ void MedievalEngine::init() {
     // Set an icon and cursor if we find it on the configuration file
     std::string iconName;
     std::string cursorName;
-    iconName   = mConfigurations.getKey("icon");
-    cursorName = mConfigurations.getKey("cursor");
+    iconName   = mConfigurations.getKey("icon").getString();
+    cursorName = mConfigurations.getKey("cursor").getString();
 
     if (iconName != "") {
         mWindow.setIcon(iconName);

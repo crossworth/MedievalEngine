@@ -240,11 +240,11 @@ void Window::open() {
         if (Window::mWindowInfo.fullScreen) {
             mWindow = new sf::RenderWindow(
                         sf::VideoMode(Window::mWindowInfo.width, Window::mWindowInfo.height, Window::mWindowInfo.bitsPerPixel),
-                        Window::mWindowInfo.windowName, sf::Style::Fullscreen, settings);
+                        Window::mWindowInfo.windowName.getWideString(), sf::Style::Fullscreen, settings);
         } else {
             mWindow = new sf::RenderWindow(
                         sf::VideoMode(Window::mWindowInfo.width, Window::mWindowInfo.height, Window::mWindowInfo.bitsPerPixel),
-                        Window::mWindowInfo.windowName, sf::Style::Close, settings);
+                        Window::mWindowInfo.windowName.getWideString(), sf::Style::Close, settings);
         }
 
         // We get an default view for drawing the cursor at end

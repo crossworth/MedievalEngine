@@ -9,7 +9,7 @@ class TextListWidget : public Widget {
 public:
     TextListWidget();
     void init();
-    void addText(const sf::String& text);
+    void addText(const String& text);
     void draw(Window& window);
     void update();
     void handleEvents(Event evt);
@@ -78,7 +78,7 @@ private:
     float mPadding;
     float mScrollSpeed;
     float mLineHeight;
-    sf::String mStringBuffer;
+    String mStringBuffer;
     Text* mTextRef;
     Shape* mShapeRef;
     Clock mClock;

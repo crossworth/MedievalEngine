@@ -7,7 +7,7 @@ namespace ME {
 
 class ButtonWidget : public Widget {
 public:
-    ButtonWidget(const sf::String& text,
+    ButtonWidget(const String& text,
                  Vect2f pos, ResourceID fontID = 0);
     void init();
     void draw(Window& window);
@@ -48,7 +48,7 @@ private:
     ResourceID mTextID;
     Text* mTextRef;
     Shape* mShapeRef;
-    sf::String mText;
+    String mText;
     ResourceID mFontID;
 };
 

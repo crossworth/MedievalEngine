@@ -3,7 +3,7 @@
 
 using namespace ME;
 
-TextWidget::TextWidget(const sf::String& text,
+TextWidget::TextWidget(const String& text,
                        const int& textSize,
                        const Vect2f& pos,
                        const ResourceID& fontID) {

@@ -2,7 +2,7 @@
 
 using namespace ME;
 
-ButtonWidget::ButtonWidget(const sf::String& text, Vect2f pos,  ResourceID fontID) {
+ButtonWidget::ButtonWidget(const String& text, Vect2f pos,  ResourceID fontID) {
     mType     = "ButtonWidget";
     mText     = text;
     mPos      = pos;

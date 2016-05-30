@@ -28,7 +28,8 @@ bool CFGParser::readFile(const std::string& configFile) {
             if (validateLine(line)) {
 
                 // store the line on the content
-                std::string tmpKey, tmpValue;
+                std::string tmpKey;
+                String tmpValue;
                 tmpKey           = mGetKey(line);
                 tmpValue         = mGetValue(line);
 
@@ -94,11 +95,11 @@ void CFGParser::saveFile(const std::string& configFile){
                 << " Version: " << ENGINE_DEFAULTS::ENGINE_VERSION
                 << " - CFGParser" << std::endl;
 
-        std::map<std::string, std::string>::iterator it = mContents.begin();
+        std::map<std::string, String>::iterator it = mContents.begin();
 
         while(it != mContents.end()) {
             // write all the lines to the file
-            outFile << it->first << "=" << it->second << std::endl;
+            outFile << it->first << "=" << it->second.getString() << std::endl;
             it++;
         }
         // close the file
@@ -110,13 +111,13 @@ void CFGParser::saveFile(const std::string& configFile){
     }
 }
 
-bool CFGParser::add(std::string key, std::string value) {
-    mContents[key] =  value;
+bool CFGParser::add(std::string key, String value) {
+    mContents[key] = value;
     return true;
 }
 
 bool CFGParser::keyExists(std::string& key) {
-    std::map<std::string, std::string>::iterator it;
+    std::map<std::string, String>::iterator it;
     it = mContents.find(key);
     if (it != mContents.end()) {
         return true;
@@ -125,7 +126,7 @@ bool CFGParser::keyExists(std::string& key) {
     }
 }
 
-std::string CFGParser::getKey(std::string key) {
+String CFGParser::getKey(std::string key) {
     if (keyExists(key)) {
         return mContents[key];
     } else {
@@ -134,14 +135,14 @@ std::string CFGParser::getKey(std::string key) {
             << std::endl;
     }
     // if we dont find the key we just return an empty string
-    return "";
+    return String();
 }
 
 CFGParser::CFGParser(const std::string& configFile) {
     this->readFile(configFile);
 }
 
-std::map<std::string, std::string> CFGParser::getContents() {
+std::map<std::string, String> CFGParser::getContents() {
     return mContents;
 }
 
@@ -196,7 +197,7 @@ std::string CFGParser::mGetKey(std::string line) {
     return line;
 }
 
-std::string CFGParser::mGetValue(std::string line) {
+String CFGParser::mGetValue(std::string line) {
     size_t pos         = line.find("=");
     std::string result = line.substr(pos+1, line.size());
 
@@ -217,5 +218,5 @@ std::string CFGParser::mGetValue(std::string line) {
         result.replace(posNewLine, 2, " \n");
     }
 
-    return result;
+    return String(result);
 }

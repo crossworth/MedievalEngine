@@ -6,7 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <mutex>
-#include <SFML/System/String.hpp>
+#include "Helper/String.h"
 
 
 namespace ME {
@@ -14,7 +14,7 @@ namespace ME {
 
 class LogObserver {
 public:
-    virtual void addMessage(const sf::String& buffer) = 0;
+    virtual void addMessage(const String& buffer) = 0;
 };
 
 class Log {
@@ -122,7 +122,7 @@ public:
         *mOutstream << mTempOutstream.str() + "\n";
 
         if (mCallOnUpdate != nullptr) {
-            mCallOnUpdate->addMessage(sf::String(mTempOutstream.str() + "\n"));
+            mCallOnUpdate->addMessage(String(mTempOutstream.str() + "\n"));
         }
 
         mTempOutstream.str("");

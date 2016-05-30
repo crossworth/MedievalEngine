@@ -7,16 +7,21 @@
 #include <algorithm>
 #include <vector>
 #include <utility>
+#include "Helper/String.h"
 
 
 namespace ME{
 
 class Kit {
 public:
+    static int string_int(const String& str);
     static int str_int(const std::string& str);
     static bool str_bool(const std::string& str);
+    static bool string_bool(const String& str);
     static float str_float(const std::string& str);
+    static float string_float(const String& str);
     static double str_double(const std::string& str);
+    static double string_double(const String& str);
     static std::wstring str_wstr(const std::string& str);
     static std::string wstr_str(const std::wstring& str);
 

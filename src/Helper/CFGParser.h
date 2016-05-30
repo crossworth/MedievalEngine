@@ -2,6 +2,7 @@
 #define CFGPARSER_H
 #include <algorithm>
 #include "LogInc.h"
+#include "Helper/String.h"
 
 
 namespace ME {
@@ -11,20 +12,20 @@ public:
     CFGParser();
     CFGParser(const std::string& configFile);
     bool readFile(const std::string& configFile);
-    bool add(std::string key, std::string value);
+    bool add(std::string key, String value);
     void saveFile(const std::string& configFile);
 
-    std::string getKey(std::string key);
+    String getKey(std::string key);
     bool keyExists(std::string& key);
     void clear();
 
-    std::map<std::string, std::string> getContents();
+    std::map<std::string, String> getContents();
 private:
     std::string mFileName;
-    std::map<std::string, std::string> mContents;
+    std::map<std::string, String> mContents;
     bool validateLine(std::string& line);
     std::string mGetKey(std::string line);
-    std::string mGetValue(std::string line);
+    String mGetValue(std::string line);
 
 };
 

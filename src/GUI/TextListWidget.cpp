@@ -11,7 +11,7 @@ TextListWidget::TextListWidget() : mPadding(10.f), mScrollSpeed(10.0f),
 }
 
 void TextListWidget::init() {
-    ResourceID textID   = mResources->createText("ScrollView", 22, mDefaultFontID);
+    ResourceID textID   = mResources->createText(String("ScrollView"), 22, mDefaultFontID);
     ResourceID shapeID  = mResources->createShape(Vect2f(250.f, 35.f));
     ResourceID scrollID = mResources->createShape(Vect2f(8.f, 30.f), Color(0, 0, 0, 75));
 
@@ -31,14 +31,14 @@ void TextListWidget::init() {
 
     mLineHeight = mTextRef->getSize().y;
 
-    mTextRef->setString("");
+    mTextRef->setString(String(""));
     mShapeRef->setSize(Vect2f(mShapeRef->getSize().x,
                               mLineHeight + ( 2 * mPadding )));
 
     mExpandVelocity = 4.f;
 }
 
-void TextListWidget::addText(const sf::String& text) {
+void TextListWidget::addText(const String& text) {
     mStringBuffer = mStringBuffer +  "\n" +  text;
     mTextRef->setString(mStringBuffer);
 

@@ -13,7 +13,7 @@ public:
         int height,
         int bitsPerPixel,
        bool fullScreen, 
-       std::string name,
+       String name,
        int frameLimit = ENGINE_DEFAULTS::FRAME_LIMIT, 
        bool vsync = ENGINE_DEFAULTS::VSYNC
    );
@@ -24,7 +24,7 @@ public:
     int frameLimit;
     bool vsync;
     bool fullScreen;
-    std::string windowName;
+    String windowName;
 };
 
 }

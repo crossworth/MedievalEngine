@@ -9,6 +9,10 @@ int Kit::str_int(const std::string& str) {
     return t;
 }
 
+int Kit::string_int(const String& str) {
+    return Kit::str_int(str.getString());
+}
+
 bool Kit::str_bool(const std::string& str) {
     std::string tmp = str;
     std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
@@ -18,6 +22,10 @@ bool Kit::str_bool(const std::string& str) {
     return ret;
 }
 
+bool Kit::string_bool(const String& str) {
+    return Kit::str_bool(str.getString());
+}
+
 float Kit::str_float(const std::string& str) {
     std::stringstream ss(str);
     float t;
@@ -25,11 +33,19 @@ float Kit::str_float(const std::string& str) {
     return t;
 }
 
+float Kit::string_float(const String& str) {
+    return Kit::str_float(str.getString());
+}
+
 double Kit::str_double(const std::string& str) {
     std::stringstream ss(str);
     double t;
     ss >> t;
     return t;
+}
+
+double Kit::string_double(const String& str) {
+    return Kit::str_double(str.getString());
 }
 
 std::wstring Kit::str_wstr(const std::string& str) {

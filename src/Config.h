@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include "Helper/Dir.h"
+#include "Helper/String.h"
 
 /**
  * @namespace ME

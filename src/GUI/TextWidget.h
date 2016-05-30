@@ -8,7 +8,7 @@ namespace ME {
 
 class TextWidget : public Widget {
 public:
-    TextWidget(const sf::String& text,
+    TextWidget(const String& text,
                const int& textSize,
                const Vect2f& pos = Vect2f(), const ResourceID& fontID = 0);
 
@@ -45,7 +45,7 @@ private:
     ResourceID mFontID;
     ResourceID mTextID;
     Text* mTextRef;
-    sf::String mText;
+    String mText;
     int mTextSize;
 
     bool mIsMouseOver;

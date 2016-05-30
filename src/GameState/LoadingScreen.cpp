@@ -24,6 +24,7 @@ void LoadingScreen::create() {
 
 
     ResourceID textMessageScreenID = mResources->createText(Strings::getItemArrayRandom("loading_text"), Window::fontSize(0.4f), mEngine->GAME_FONT_ID);
+    // ResourceID textLoadingScreenID = mResources->createText(sf::String("Opções"), Window::fontSize(0.45f), mEngine->GAME_FONT_ID);
     ResourceID textLoadingScreenID = mResources->createText(Strings::get("loading"), Window::fontSize(0.45f), mEngine->GAME_FONT_ID);
 
     textMessageScreen = mResources->getResource<Text>(textMessageScreenID);
@@ -93,7 +94,7 @@ void LoadingScreen::update() {
             finalDots = finalDots + ".";
         }
 
-        textLoadingScreen->setString(Strings::get("loading") + finalDots);
+        textLoadingScreen->setString(Strings::get("loading"));
         mClock.restart();
     }
 
