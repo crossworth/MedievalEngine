@@ -68,7 +68,7 @@ generateMakeFile () {
 
     eval PATH_MEDIEVAL_ENGINE_SOURCE_FILES=$PATH_MEDIEVAL_ENGINE_SOURCE_FILES
 
-    ALL_FILES=$(find -L "${PATH_MEDIEVAL_ENGINE_SOURCE_FILES}" -name \*.cpp -or -name \*.mm)
+    ALL_FILES=$(find -L "${PATH_MEDIEVAL_ENGINE_SOURCE_FILES}" -name \*.c -or -name \*.cpp -or -name \*.mm)
 
     
     ALL_FILES=$(echo $ALL_FILES | sed -e 's#'"${PATH_MEDIEVAL_ENGINE_SOURCE_FILES}"'#$(PATH_SOURCE_FILES)/#g')
@@ -89,7 +89,7 @@ FRAMEWORKS = -framework Cocoa
 
 SRC_FILES   = ${ALL_FILES}
 SRC_MAIN    = \$(PATH_SOURCE_FILES)/main.cpp
-OBJ_FILES   = \$(patsubst %.mm,%.o,\$(patsubst %.cpp,%.o,\$(SRC_FILES)))
+OBJ_FILES   = \$(patsubst %.mm,%.o,\$(patsubst %.cpp,%.o,\$(patsubst %.c,%.o,\$(SRC_FILES))))
 
 OUTPUT_FILE = MedievalEngine
 
@@ -100,6 +100,10 @@ print-%  : ; @echo \$* = \$(\$*)
 %.o : %.mm
 \t\$(CC) \$(CFLAGS) \$(INCLUDES) -c $<
 \tmv \$(shell basename \$< | sed -e 's/.mm/'.o'/g') \$(shell dirname $<)
+
+%.o: %.c
+\t\$(CC) \$(CFLAGS) \$(INCLUDES) -c $<
+\tmv \$(shell basename $< | sed -e 's/.c/'.o'/g') \$(shell dirname $<)
 
 %.o: %.cpp
 \t\$(CC) \$(CFLAGS) \$(INCLUDES) -c $<
