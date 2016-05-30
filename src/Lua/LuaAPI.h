@@ -2,7 +2,7 @@
 #define LUAAPI_H
 #include "LogInc.h"
 #include "sol.hpp"
-#include "Lua/LuaFunctions.h"
+#include "Lua/LuaExportAPI.h"
 
 
 namespace ME {

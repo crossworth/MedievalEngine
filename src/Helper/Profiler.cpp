@@ -31,11 +31,10 @@ void Profiler::exposeLuaAPI() {
             Profiler::setVisible(true);
         }
     });
-
-    LuaFunctions::store("profiler_toggle");
+    LuaExportAPI::exports("profiler_toggle", "", "void", LuaExportType::FUNCTION, "show or hide the console");
 
     LuaAPI::state.set_function("profiler_set_update_time", &Profiler::setUpdateTime);
-    LuaFunctions::store("profiler_set_update_time");
+    LuaExportAPI::exports("profiler_set_update_time", "unsigned int", "void", LuaExportType::FUNCTION, "set the update time for the profiler in Milli Seconds");
 
     LuaAPI::state.set_function("profiler_set_output_type", [](int type){
         Profiler::Type tmpType;
@@ -53,7 +52,7 @@ void Profiler::exposeLuaAPI() {
 
         Profiler::setOutputType(tmpType);
     });
-    LuaFunctions::store("profiler_set_output_type");
+    LuaExportAPI::exports("profiler_set_output_type", "int", "void", LuaExportType::FUNCTION, "change the default time unit of the profiler, pass an int with the values: 1 to seconds, 2 to milli seconds, 3 to micro seconds");
 
 }
 

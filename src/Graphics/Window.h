@@ -28,6 +28,7 @@ public:
     void setIcon(const std::string& fileName);
 
     void setVisible(const bool& visible);
+    bool isVisible();
 
     void clear();
     void draw(Drawable* obj);
@@ -58,10 +59,8 @@ public:
 
     sf::RenderWindow* getWindowPtr();
 
-    unsigned int getDelta();
-    inline unsigned int getFPS() {
-        return getDelta();
-    }
+    MEUInt64 getDelta();
+    unsigned int getFPS();
 
     unsigned int getDrawCalls();
 
@@ -84,6 +83,9 @@ private:
     sf::RenderWindow* mWindow;
     static WindowInfo mWindowInfo;
     Clock mClock;
+    MEUInt64 mLastDelta;
+    MEUInt64 mDelta;
+    bool mIsWindowVisible;
 };
 
 }

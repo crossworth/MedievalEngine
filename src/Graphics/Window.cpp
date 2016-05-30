@@ -6,41 +6,44 @@ using namespace ME;
 WindowInfo Window::mWindowInfo;
 
 Window::Window() : mIsWindowOpen(false), mFPS(0), mFrame(0), 
-    mHasCustomCursor(false), mCursorVisible(true) {
+    mHasCustomCursor(false), mCursorVisible(true), mIsWindowVisible(false) {
 
     mWindow = new sf::RenderWindow();
 
 
     // expose some lua functions
     LuaAPI::state.set_function("window_is_open", &Window::isOpen, this);
-    LuaFunctions::store("window_is_open");
+    LuaExportAPI::exports("window_is_open", "", "bool", LuaExportType::FUNCTION, "if the window is open or not, a hiden window still return true, to check if the window is visible use `window_is_visible`");
 
     LuaAPI::state.set_function("window_set_title", &Window::setTitle, this);
-    LuaFunctions::store("window_set_title");
+    LuaExportAPI::exports("window_set_title", "string", "void", LuaExportType::FUNCTION, "set the engine window title");
 
     LuaAPI::state.set_function("window_set_icon", &Window::setIcon, this);
-    LuaFunctions::store("window_set_icon");
+    LuaExportAPI::exports("window_set_icon", "string", "void", LuaExportType::FUNCTION, "set the engine window icon, must provide a path for an image file on ME::ENGINE_DEFAULTS::ASSETS_PATH folder");
 
     LuaAPI::state.set_function("window_set_visible", &Window::setVisible, this);
-    LuaFunctions::store("window_set_visible");
+    LuaExportAPI::exports("window_set_visible", "bool", "void", LuaExportType::FUNCTION, "set the window to be visible");
+
+    LuaAPI::state.set_function("window_set_visible", &Window::setVisible, this);
+    LuaExportAPI::exports("window_is_visible", "bool", "void", LuaExportType::FUNCTION, "if the window to be visible or not");
 
     LuaAPI::state.set_function("window_set_cursor", &Window::setCursor, this);
-    LuaFunctions::store("window_set_cursor");
+    LuaExportAPI::exports("window_set_cursor", "string", "void", LuaExportType::FUNCTION, "set the window cursor and hide the default window cursor, must provide a path for the a image file on ME::ENGINE_DEFAULTS::ASSETS_PATH folder");
 
     LuaAPI::state.set_function("window_has_custom_cursor", &Window::hasCustomCursor, this);
-    LuaFunctions::store("window_has_custom_cursor");
+    LuaExportAPI::exports("window_has_custom_cursor", "", "bool", LuaExportType::FUNCTION, "if the window has a custom cursor or not");
 
     LuaAPI::state.set_function("window_get_delta", &Window::getDelta, this);
-    LuaFunctions::store("window_get_delta");
+    LuaExportAPI::exports("window_get_delta", "", "MEUInt64", LuaExportType::FUNCTION, "get the delta time (the time that each frame is using to draw on screen in microseconds)");
 
     LuaAPI::state.set_function("window_get_fps", &Window::getFPS, this);
-    LuaFunctions::store("window_get_fps");
+    LuaExportAPI::exports("window_get_fps", "", "unsigned int", LuaExportType::FUNCTION, "get the fps counter");
 
     LuaAPI::state.set_function("window_get_draw_calls", &Window::getDrawCalls, this);
-    LuaFunctions::store("window_get_draw_calls");
+    LuaExportAPI::exports("window_get_draw_calls", "", "unsigned int", LuaExportType::FUNCTION, "get the number of draw made on a single frame, should be called after the last draw call");
 
     LuaAPI::state.set_function("window_set_cursor_visible", &Window::setCursorVisible, this);
-    LuaFunctions::store("window_set_cursor_visible");
+    LuaExportAPI::exports("window_set_cursor_visible", "bool", "void", LuaExportType::FUNCTION, "set the System cursor visible or not, don't have an effect if a custom cursor is set");
 
     LuaAPI::state.set_function("window_get_position", [this]() -> sol::table {
         Vect2i pos = this->getPosition();
@@ -52,7 +55,7 @@ Window::Window() : mIsWindowOpen(false), mFPS(0), mFrame(0),
 
         return result;
     });
-    LuaFunctions::store("window_get_position");
+    LuaExportAPI::exports("window_get_position", "", "table", LuaExportType::FUNCTION, "get the window position, return a table with members: x, y");
     
 }
 
@@ -258,6 +261,7 @@ void Window::open() {
         mClock.restart();
 
         LOG << Log::VERBOSE << "[Window::open] Window opened" << std::endl;
+        mIsWindowVisible = true;
     }
 }
 
@@ -282,7 +286,11 @@ void Window::create(const WindowInfo& info) {
     LOG << Log::VERBOSE << "[Window::create] Window created" << std::endl;
 }
 
-unsigned int Window::getDelta() {
+MEUInt64 Window::getDelta() {
+    return mDelta;
+}
+
+unsigned int Window::getFPS() {
     return mFPS;
 }
 
@@ -449,7 +457,13 @@ void Window::setIcon(const std::string& fileName) {
 }
 
 void Window::setVisible(const bool& visible) {
+    mIsWindowVisible = visible;
     mWindow->setVisible(visible);
+
+}
+
+bool Window::isVisible() {
+    return mIsWindowVisible;
 }
 
 void Window::display() {
@@ -465,21 +479,24 @@ void Window::display() {
     }
 
     {
-        ProfileBlockStr("window internal display");  
+        ProfileBlockStr("SFML internal display");  
         mWindow->display();
     }
 
-    {
-        ProfileBlockStr("calc fps");  
-        if(mClock.getSeconds() >= 1.f) {
-            mFPS = mFrame;
-            mFrame = 0;
-            mClock.restart();
-        }
-
-        ++mFrame;
-    }
+    // calc delta
+    mDelta = mClock.getMicroSeconds() - mLastDelta;
     
+    // calc fps
+    if(mClock.getSeconds() >= 1.f) {
+        mFPS = mFrame;
+        mFrame = 0;
+        mClock.restart();
+    }
+
+    ++mFrame;
+
+    // we have to define the new delta after the fps calc, since it can restart the clock
+    mLastDelta = mClock.getMicroSeconds();
 }
 
 sf::RenderWindow* Window::getWindowPtr() {

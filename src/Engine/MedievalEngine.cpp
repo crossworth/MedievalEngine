@@ -235,13 +235,13 @@ void MedievalEngine::init() {
 
     // expose Lua functions
     LuaAPI::state.set_function("engine_close", &MedievalEngine::close, this);
-    LuaFunctions::store("engine_close");
+    LuaExportAPI::exports("engine_close", "[int error_code]", "void", LuaExportType::FUNCTION, "close the engine from the console or game script code");
 
     LuaAPI::state.set_function("engine_is_running", &MedievalEngine::isRunning, this);
-    LuaFunctions::store("engine_is_running");
+    LuaExportAPI::exports("engine_is_running", "", "bool", LuaExportType::FUNCTION, "return if the engine is current running or not");
 
     LuaAPI::state.set_function("engine_is_loading_thread_done", &MedievalEngine::isLoadingThreadDone, this);
-    LuaFunctions::store("engine_is_loading_thread_done");
+    LuaExportAPI::exports("engine_is_loading_thread_done", "", "bool", LuaExportType::FUNCTION, "if the loading thread is done loading, meaning that the engine must be on the first game state(menu)");
 }
 
 void MedievalEngine::run() {

@@ -17,45 +17,45 @@ void LuaAPI::loadLibs() {
         LuaAPI::state.set_function("print_text", [](const std::string& message){
             LOG << message << std::endl;
         });
-        LuaFunctions::store("print_text");
+        LuaExportAPI::exports("print_text", "string", "void", LuaExportType::FUNCTION, "abstract print string to console");
 
 
         // inject a custom lua print table function verbose and non verbose
         LuaAPI::script("function print_table_verbose (tbl, indent) if not indent then indent = 0 end for k, v in pairs(tbl) do formatting = string.rep(\"  \", indent) .. k .. \": \" if type(v) == \"table\" then log(formatting) print_table_verbose(v, indent+1) elseif type(v) == 'boolean' then log(formatting .. tostring(v)) else log(formatting .. v) end end end");
-        LuaFunctions::store("print_table_verbose");
+        LuaExportAPI::exports("print_table_verbose", "table [,int]", "void", LuaExportType::FUNCTION, "print a lua table on console with verbose mode, second argument control if it should have indentation or not, pass a int as the indentation number");
 
         // non-verbose print_table (clean print)
         LuaAPI::script("function print_table (tbl, indent) if not indent then indent = 0 end for k, v in pairs(tbl) do formatting = string.rep(\"  \", indent) .. k .. \": \" if type(v) == \"table\" then print_text(formatting) print_table(v, indent+1) elseif type(v) == 'boolean' then print_text(formatting .. tostring(v)) else print_text(formatting .. v) end end end");
-        LuaFunctions::store("print_table");
+        LuaExportAPI::exports("print_table", "table [,int]", "void", LuaExportType::FUNCTION, "print a lua table on console, second argument control if it should have indentation or not, pass a int as the indentation number");
 
 
         LuaAPI::state.set_function("log_v", [](const std::string& message){
             LOG << Log::LUA_VERBOSE << message << std::endl;
         });
-        LuaFunctions::store("log_v");
+        LuaExportAPI::exports("log_v", "string", "void", LuaExportType::FUNCTION, "log a verbose message to console");
 
         LuaAPI::state.set_function("log_w", [](const std::string& message){
             LOG << Log::LUA_WARNING << message << std::endl;
         });
-        LuaFunctions::store("log_w");
+        LuaExportAPI::exports("log_w", "string", "void", LuaExportType::FUNCTION, "log a warning message to console");
 
         LuaAPI::state.set_function("log_c", [](const std::string& message){
             LOG << Log::LUA_CRITICAL << message << std::endl;
         });
-        LuaFunctions::store("log_c");
+        LuaExportAPI::exports("log_c", "string", "void", LuaExportType::FUNCTION, "log a critical message to console,");
 
         // override the print function
-        LuaAPI::script("function print(something) if (type(something) == \"table\") then print_table(something) else log_v(tostring(something)) end end");
-        LuaFunctions::store("print");
+        LuaAPI::script("function print(something) if (type(something) == \"table\") then print_table(something) else print_text(tostring(something)) end end");
+        LuaExportAPI::exports("print", "", "void", LuaExportType::FUNCTION, "print a value on console, argument could be table, variable, string, bool, integer, float");
 
         // inject a custom function to log all the data types
         LuaAPI::script("function log(something) if (type(something) == \"table\") then print_table_verbose(something) else log_v(tostring(something)) end end");
-        LuaFunctions::store("log");
+        LuaExportAPI::exports("log", "mixed", "void", LuaExportType::FUNCTION, "log a value on console, argument could be table, variable, string, bool, integer, float");
 
         LuaAPI::state.set_function("register_function", [](const std::string& name){
-            LuaFunctions::store(name);
+            LuaExportAPI::exports(name, "", "", LuaExportType::FUNCTION, "LuaAPI definied function");
         });
-        LuaFunctions::store("register_function");
+        LuaExportAPI::exports("register_function", "string", "void", LuaExportType::FUNCTION, "register an function on the LuaExportAPI for the console Prediction list, pass the function name as argument");
 
     } catch(sol::error& err) {
         LOG << Log::LUA_WARNING << err.what() << std::endl;

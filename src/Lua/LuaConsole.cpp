@@ -31,10 +31,10 @@ LuaConsole::LuaConsole() {
     mClockBlinkCursor.restart();
 
     LuaAPI::state.set_function("console_is_visible", &LuaConsole::isVisible, this);
-    LuaFunctions::store("console_is_visible");
+    LuaExportAPI::exports("console_is_visible", "", "bool", LuaExportType::FUNCTION, "if the console is open or not");
 
     LuaAPI::state.set_function("console_set_visible", &LuaConsole::setVisible, this);
-    LuaFunctions::store("console_set_visible");
+    LuaExportAPI::exports("console_set_visible", "bool", "void", LuaExportType::FUNCTION, "show or hide the console");
 
     LuaAPI::state.set_function("console_toggle", [this] () {
         if (this->isVisible()) {
@@ -43,23 +43,29 @@ LuaConsole::LuaConsole() {
             this->setVisible(true);
         }
     });
-    LuaFunctions::store("console_toggle");
+    LuaExportAPI::exports("console_toggle", "", "void", LuaExportType::FUNCTION, "show or hide the console");
 
     LuaAPI::state.set_function("console_close", [this] () {
         this->setVisible(false);
     });
-    LuaFunctions::store("console_close");
+    LuaExportAPI::exports("console_close", "", "void", LuaExportType::FUNCTION, "close the console");
 
     LuaAPI::state.set_function("console_open", [this] () {
         this->setVisible(true);
     });
-    LuaFunctions::store("console_open");
+    LuaExportAPI::exports("console_open", "", "void", LuaExportType::FUNCTION, "open the console");
 
     LuaAPI::state.set_function("console_add_message", &LuaConsole::addMessageStd, this);
-    LuaFunctions::store("console_add_message");
+    LuaExportAPI::exports("console_add_message", "", "void", LuaExportType::FUNCTION, "add an message to the console");
 
     LuaAPI::state.set_function("console_show_unicode_key_codes", &LuaConsole::setShowUnicodeKeyCodes, this);
-    LuaFunctions::store("console_show_unicode_key_codes");
+    LuaExportAPI::exports("console_show_unicode_key_codes", "", "void", LuaExportType::FUNCTION, "show the unicode codes of pressed keys on console");
+
+    LuaAPI::state.set_function("generate_function_list_file", [this] () {
+        LuaExportAPI::generateFunctionsList(ENGINE_DEFAULTS::DATA_PATH + "Lua Reference.md");
+    });
+    LuaExportAPI::exports("generate_function_list_file", "", "void", LuaExportType::FUNCTION, "generate the Lua Reference.md file on the ENGINE_DEFAULTS::DATA_PATH folder");
+    
 }
 
 void LuaConsole::setShowUnicodeKeyCodes(bool debug) {
@@ -164,6 +170,11 @@ void LuaConsole::handleEvents(Event& evt) {
                 mCursorMoving  = true;
                 cmdBuffer      = ""; // invalidate the command Buffer
                 mHasMakeAction = true;
+
+
+                Vect2f sizeSelectedText = mSelectedText->getSize();
+                sizeSelectedText.x = sizeSelectedText.x + mFontLetterSize;
+                mSelectedText->setSize(sizeSelectedText);
             }
         }
 
@@ -272,8 +283,8 @@ void LuaConsole::handleEvents(Event& evt) {
                         cmdBuffer =  cmd;
                     }
 
-                    // store the result hint
-                    String result = String(LuaFunctions::autoComplete(cmdBuffer));
+                    // save the result hint
+                    String result = String(LuaExportAPI::getPredictions(cmdBuffer));
 
                     // if we get an hint
                     if (result.getSize() > 0) {
@@ -432,9 +443,9 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     mShapeCursor = mResources->getResource<Shape>(textCursorID);
     mShapeCursor->setPosition(cursorPos);
 
-    selectedTextID = mResources->createShape(Vect2f(20.f, cursorSize), Color(53, 171, 255, 153));
+    selectedTextID = mResources->createShape(Vect2f(0.f, cursorSize), Color(53, 171, 255, 153));
     mSelectedText  = mResources->getResource<Shape>(selectedTextID);
-    mSelectedText->setPosition(Vect2f(cursorPos.x + 40.f, cursorPos.y));
+    mSelectedText->setPosition(Vect2f(cursorPos.x, cursorPos.y));
 
 
 
