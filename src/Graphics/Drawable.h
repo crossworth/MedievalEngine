@@ -56,7 +56,7 @@ public:
     virtual Area getLocalBounds() = 0;
     virtual Area getGlobalBounds() = 0;
 
-    virtual void setOpacity(float opacity);
+    virtual void setOpacity(const float& opacity);
     float getOpacity();
 
     void setRenderState(sf::RenderStates renderState);

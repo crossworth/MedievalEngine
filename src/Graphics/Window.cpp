@@ -5,7 +5,9 @@ using namespace ME;
 
 WindowInfo Window::mWindowInfo;
 
-Window::Window() : mIsWindowOpen(false), mHasCustomCursor(false), mFrame(0), mFPS(0), mCursorVisible(true) {
+Window::Window() : mIsWindowOpen(false), mFPS(0), mFrame(0), 
+    mHasCustomCursor(false), mCursorVisible(true) {
+
     mWindow = new sf::RenderWindow();
 
 
@@ -51,8 +53,6 @@ Window::Window() : mIsWindowOpen(false), mHasCustomCursor(false), mFrame(0), mFP
         return result;
     });
     LuaFunctions::store("window_get_position");
-
-
     
 }
 

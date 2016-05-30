@@ -2,8 +2,8 @@
 
 using namespace ME;
 
-MedievalEngine::MedievalEngine(int argc, char** argv) : mArguments(argc, argv),
-    mErrorCode(0), GAME_FONT_ID(0), mDoneLoading(false), mRunning(true) {
+MedievalEngine::MedievalEngine(int argc, char** argv) : GAME_FONT_ID(0), mDoneLoading(false), 
+    mRunning(true), mErrorCode(0), mArguments(argc, argv) {
 
     ProfileBlock();
 

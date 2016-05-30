@@ -108,16 +108,18 @@ void Drawable::updateEffects() {
     }
 }
 
-void Drawable::setOpacity(float opacity) {
+void Drawable::setOpacity(const float& opacity) {
+    float tmpOpacity = opacity;
+    
     if (opacity > 1.0f) {
-        opacity = 1.0f;
+        tmpOpacity = 1.0f;
     }
 
     if (opacity < 0.0f) {
-        opacity = 0.0f;
+        tmpOpacity = 0.0f;
     }
 
-    float alphaOpacity = 255.0f * opacity;
+    float alphaOpacity = 255.0f * tmpOpacity;
     setColor(Color(getColor().red, getColor().green, getColor().blue,
                    static_cast<int>(alphaOpacity)));
 }

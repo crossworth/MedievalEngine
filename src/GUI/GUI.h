@@ -40,7 +40,7 @@ public:
     Area getLocalBounds();
     Area getGlobalBounds();
 
-    void setOpacity(float opacity);
+    void setOpacity(const float& opacity);
 
     void show();
     void hide();

@@ -26,8 +26,6 @@ void GUI::draw(Window& window) {
 void GUI::handleEvents(Event evt) {
     if (this->isActive()) {
 
-        Vect2i mousePos = Mouse::getPosition(mEngine->getWindow());
-
         for(auto it = mWidgets.begin(); it != mWidgets.end(); it++) {
             if ((*it).second->isActive()) {
                 (*it).second->handleEvents(evt);
@@ -179,7 +177,7 @@ Area GUI::getGlobalBounds() {
     return Area(0.f, 0.f, 1200.f, 700.f);
 }
 
-void GUI::setOpacity(float opacity) {
+void GUI::setOpacity(const float& opacity) {
     for(auto it = mWidgets.begin(); it != mWidgets.end(); it++) {
         (*it).second->setOpacity(opacity);
     }

@@ -2,7 +2,7 @@
 
 using namespace ME;
 
-Shader::Shader(const std::string& fileName, const Shader::Type& type) : mIsShaderEnable(false), mLoadedWithoutErros(true) {
+Shader::Shader(const std::string& fileName, const Shader::Type& type) : mLoadedWithoutErros(true), mIsShaderEnable(false) {
     mType = Effect::SHADER;
 
     if (isShaderAvailable()) {

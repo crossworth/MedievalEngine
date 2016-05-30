@@ -30,7 +30,6 @@ public:
     virtual void setSize(const Vect2f& size) = 0;
     virtual void setScale(const Vect2f& scale) = 0;
     virtual Vect2f getScale() = 0;
-
     virtual void setOpacity(const float& opacity);
     virtual float getOpacity();
 

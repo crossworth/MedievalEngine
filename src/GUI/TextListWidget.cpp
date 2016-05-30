@@ -2,10 +2,10 @@
 
 using namespace ME;
 
-TextListWidget::TextListWidget() : mPadding(10.f), mScrollSpeed(10.0f),
-    mMaxiumExpandSize(250.0f, 150.0f) , mEnableTransition(false), mExpandTop(false),
-    mIsExpanded(false), mShowScrollBar(false), mScrollBarClicked(false),
-    mScrollBarHasMoved(false), mScrollBarAutoScroll(false) {
+TextListWidget::TextListWidget() : mMaxiumExpandSize(250.0f, 150.0f),
+    mEnableTransition(false), mExpandTop(false), mIsExpanded(false),
+    mExpandVelocity(4.f), mShowScrollBar(false), mScrollBarClicked(false),
+    mScrollBarHasMoved(false), mScrollBarAutoScroll(false), mPadding(10.f), mScrollSpeed(10.0f) {
 
     mType = "TextListWidget";
 }
@@ -34,8 +34,6 @@ void TextListWidget::init() {
     mTextRef->setString(String(""));
     mShapeRef->setSize(Vect2f(mShapeRef->getSize().x,
                               mLineHeight + ( 2 * mPadding )));
-
-    mExpandVelocity = 4.f;
 }
 
 void TextListWidget::addText(const String& text) {
