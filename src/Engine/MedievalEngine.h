@@ -1,19 +1,15 @@
 #ifndef MEDIEVALENGINE_H
 #define MEDIEVALENGINE_H
-#include <thread>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include <SFML/OpenGL.hpp>
-#include "Helper/Profiler.h"
 #include "Helper/DATFile.h"
 #include "Helper/ArgumentsParser.h"
 #include "Helper/Strings.h"
-#include "Helper/KeyMapper.h"
 #include "Effects/Fade.h"
 #include "Effects/Strobe.h"
 #include "Effects/Shader.h"
 #include "GameState/GameStateManager.h"
-#include "Lua/LuaAPI.h"
 #include "Lua/LuaConsole.h"
 
 

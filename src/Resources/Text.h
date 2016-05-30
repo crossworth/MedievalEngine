@@ -1,6 +1,5 @@
 #ifndef TEXT_H
 #define TEXT_H
-#include "Helper/String.h"
 #include "Resources/Font.h"
 #include "Effects/Effect.h"
 

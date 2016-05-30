@@ -1,6 +1,5 @@
 #ifndef MUSICQUEUE_H
 #define MUSICQUEUE_H
-#include <vector>
 #include <algorithm>
 #include "Resources/ResourceIDGenerator.h"
 #include "Resources/Music.h"

@@ -2,7 +2,7 @@
 #define CFGPARSER_H
 #include <algorithm>
 #include "LogInc.h"
-#include "Helper/String.h"
+
 
 
 namespace ME {

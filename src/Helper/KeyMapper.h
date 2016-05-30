@@ -1,8 +1,5 @@
 #ifndef KEYMAPPER_H
 #define KEYMAPPER_H
-#include <string>
-#include <algorithm>
-#include "Config.h"
 #include "Helper/Kit.h"
 #include "Helper/CFGParser.h"
 #include "Events/Event.h"

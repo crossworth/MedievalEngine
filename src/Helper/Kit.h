@@ -1,9 +1,6 @@
 #ifndef KIT_H
 #define KIT_H
 #include <typeinfo>
-#include <sstream>
-#include <string>
-#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <utility>

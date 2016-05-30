@@ -1,8 +1,5 @@
 #ifndef PROFILER_H
 #define PROFILER_H
-#include <map>
-#include <string>
-#include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Helper/Clock.h"
 #include "Lua/LuaAPI.h"

@@ -1,7 +1,6 @@
 #include "LuaConsole.h"
 #include "Engine/MedievalEngine.h"
 #include "Helper/Clipboard.h"
-#include "Helper/OS.h"
 
 using namespace ME;
 

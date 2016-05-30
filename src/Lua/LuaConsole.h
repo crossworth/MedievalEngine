@@ -2,7 +2,6 @@
 #define LUACONSOLE_H
 #include <deque>
 #include "Helper/KeyMapper.h"
-#include "Lua/LuaAPI.h"
 #include "Graphics/Window.h"
 #include "Resources/ResourceManager.h"
 

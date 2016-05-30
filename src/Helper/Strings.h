@@ -1,6 +1,5 @@
 #ifndef STRINGS_H
 #define STRINGS_H
-#include "Helper/String.h"
 #include "Helper/CFGParser.h"
 #include "Helper/Random.h"
 

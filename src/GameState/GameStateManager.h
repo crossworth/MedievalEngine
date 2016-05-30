@@ -1,11 +1,9 @@
 #ifndef GAMESTATEMANAGER_H
 #define GAMESTATEMANAGER_H
-#include <mutex>
 #include <thread>
 #include "GameState/LoadingScreen.h"
 #include "GameState/MenuScreen.h"
 #include "GameState/OptionsScreen.h"
-#include "Helper/Profiler.h"
 
 
 namespace  ME {
