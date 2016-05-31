@@ -1,6 +1,7 @@
 #ifndef LUACONSOLE_H
 #define LUACONSOLE_H
 #include <deque>
+#include <stack>
 #include "Helper/KeyMapper.h"
 #include "Graphics/Window.h"
 #include "Resources/ResourceManager.h"
@@ -9,6 +10,11 @@
 namespace ME {
 
 class MedievalEngine;
+
+struct ConsoleCommand {
+    String command;
+    size_t cursorPosition;
+};
 
 class LuaConsole : public LogObserver {
 public:
@@ -26,6 +32,8 @@ public:
     void addMessageStd(const std::string& buffer);
 
     void setShowUnicodeKeyCodes(bool debug);
+
+    void saveUndoCommand(const String& command, const size_t& cursorPosition);
 
 private:
     void setTextSelection(const size_t& start, const size_t& end);
@@ -60,6 +68,9 @@ private:
     Color mBGColor;
 
     unsigned int mLastChar;
+
+    // undo
+    std::stack<ConsoleCommand> mUndo;
 
     //cusor select
     size_t mStartSelect;

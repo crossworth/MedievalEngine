@@ -81,6 +81,13 @@ String LuaConsole::getTextSelected() {
     return String(mBuffer.getString().substr(mStartSelectionPosition, sizeString));
 }
 
+void LuaConsole::saveUndoCommand(const String& command, const size_t& cursorPosition) {
+    ConsoleCommand tmp;
+    tmp.command        = command;
+    tmp.cursorPosition = cursorPosition;
+    mUndo.push(tmp);
+}
+
 void LuaConsole::handleEvents(Event& evt) {
     if (evt.type == Event::KeyPressed) {
 
@@ -112,10 +119,6 @@ void LuaConsole::handleEvents(Event& evt) {
             setTextSelection(mStartSelectionPosition, mEndSelectionPosition);
         }
 
-        
-
-
-
         if (evt.type == Event::KeyPressed) {
 
             // Control + A
@@ -129,7 +132,8 @@ void LuaConsole::handleEvents(Event& evt) {
             // Control + V
             if (evt.key.code == Keyboard::KEY::V && 
                 ((evt.key.control && !OS::isMacOS()) || (evt.key.system && OS::isMacOS()))) {
-                String text = Clipboard::getData();
+                saveUndoCommand(mBuffer, mCursorPosition);
+                String text         = Clipboard::getData();
 
                 // clean the string
                 text.removeNewLine();
@@ -163,6 +167,19 @@ void LuaConsole::handleEvents(Event& evt) {
                 ((evt.key.control && !OS::isMacOS()) || (evt.key.system && OS::isMacOS()))) {
                 String text = getTextSelected();
                 Clipboard::setData(text);
+            }
+
+
+            // Control + Z
+            if (evt.key.code == Keyboard::KEY::Z && 
+                ((evt.key.control && !OS::isMacOS()) || (evt.key.system && OS::isMacOS()))) {
+                if (mUndo.size() > 0) {
+                    ConsoleCommand tmp = mUndo.top();
+                    mBuffer            = tmp.command;
+                    mCursorPosition    = tmp.cursorPosition;
+
+                    mUndo.pop();
+                }
             }
 
             if (evt.key.code == Keyboard::KEY::Home) {
@@ -202,6 +219,8 @@ void LuaConsole::handleEvents(Event& evt) {
             }
 
             if (evt.key.code == Keyboard::KEY::Delete) {
+                saveUndoCommand(mBuffer, mCursorPosition);
+
                 // if the cursor position its equals or more than 0 and
                 // the cursor position is less the the buffer size
                 // we can erase with no fear
@@ -243,6 +262,7 @@ void LuaConsole::handleEvents(Event& evt) {
                     mCursorPosition = 0;
                 }
 
+                saveUndoCommand(mBuffer, mCursorPosition);
                 mBuffer.insert(mCursorPosition, mCommands[mCommandsIndex]);
                 mCursorPosition = mCommands[mCommandsIndex].length();
                 cmdBuffer = ""; // invalidate the command Buffer
@@ -264,6 +284,7 @@ void LuaConsole::handleEvents(Event& evt) {
                     mCommandsIndex = 0;
                 }
 
+                saveUndoCommand(mBuffer, mCursorPosition);
                 mBuffer.insert(mCursorPosition, mCommands[mCommandsIndex]);
                 mCursorPosition = mCommands[mCommandsIndex].length();
                 cmdBuffer = ""; // invalidate the command Buffer
@@ -333,8 +354,9 @@ void LuaConsole::handleEvents(Event& evt) {
             // if the buffer have something we first clear it
             // after we just close the console
             if (mBuffer.getSize() > 0) {
+                saveUndoCommand(mBuffer, mCursorPosition);
+                mCursorPosition     = 0;
                 mBuffer.clear();
-                mCursorPosition = 0;
                 setNoTextSelection();
             } else {
                 // close the console
@@ -460,6 +482,9 @@ void LuaConsole::handleEvents(Event& evt) {
                 // put the value on the cursor position
                 mHasMakeAction = true;
             } else if (evt.text.unicode == 8) { // backspace
+                // save the last command
+                saveUndoCommand(mBuffer, mCursorPosition);
+
                 // if the cursor position its more than 0
                 // we can erase with no fear
                 if (mCursorPosition > 0 && !hasTextSelected()) {
@@ -492,10 +517,11 @@ void LuaConsole::handleEvents(Event& evt) {
                     setNoTextSelection();
                 }
             } else if (evt.text.unicode == 27) { // esc
-                // TODO(Pedro): Verify this on Windows, Linux
+                // TODO(Pedro): Verify this on Windows and Linux
                 // On MacOS the ESC event its not passed as TextEntered
                 
             } else { // everything else
+                saveUndoCommand(mBuffer, mCursorPosition);
 
                 // if is text selected
                 if (hasTextSelected()) {
