@@ -33,6 +33,18 @@ void String::insert(std::size_t position, const uint32_t& unicode) {
     mString.insert(position, str);
 }
 
+void String::removeNewLine() {
+    mString.erase(std::remove(mString.begin(), mString.end(), '\n'), mString.end());
+}
+
+void String::removeCarriageReturn() {
+    mString.erase(std::remove(mString.begin(), mString.end(), '\r'), mString.end());   
+}
+
+void String::removeTab() {
+    mString.erase(std::remove(mString.begin(), mString.end(), '\t'), mString.end());
+}
+
 void String::erase(std::size_t position, std::size_t count) {
     mString.erase(position, count);
 }
@@ -102,4 +114,15 @@ std::string String::wstring_to_string(const std::wstring& string) {
     setlocale(LC_ALL, curLocale.c_str());
 
     return result;
+}
+
+
+std::string String::wstring_to_UTF8(const std::wstring& string) {
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> wideToUTF8;
+    return wideToUTF8.to_bytes(string);
+}
+
+std::wstring String::UTF8_to_wstring(const std::string& string) {
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> UTF8ToWide;
+    return UTF8ToWide.from_bytes(string);
 }

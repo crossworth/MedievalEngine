@@ -1,13 +1,13 @@
 #ifndef CLIPBOARD_H
 #define CLIPBOARD_H
-#include <string>
+#include "Helper/String.h"
 
 namespace ME {
 
 class Clipboard {
 public:
-	static std::string getData();
-	static void setData(const std::string& data);
+	static String getData();
+	static void setData(const String& data);
 };
 
 }

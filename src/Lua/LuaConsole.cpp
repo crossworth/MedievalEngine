@@ -76,6 +76,11 @@ void LuaConsole::setShowUnicodeKeyCodes(bool debug) {
     mDebugKeyCodes = debug;
 }
 
+String LuaConsole::getTextSelected() {
+    size_t sizeString = mEndSelectionPosition - mStartSelectionPosition;
+    return String(mBuffer.getString().substr(mStartSelectionPosition, sizeString));
+}
+
 void LuaConsole::handleEvents(Event& evt) {
     if (evt.type == Event::KeyPressed) {
 
@@ -92,10 +97,23 @@ void LuaConsole::handleEvents(Event& evt) {
     if(isVisible()) {
         if (evt.type == Event::KeyPressed) {
 
+            // Control + A
+            if (evt.key.code == Keyboard::KEY::A && 
+                ((evt.key.control && !OS::isMacOS()) || (evt.key.system && OS::isMacOS()))) {
+                
+                setTextSelection(0, mBuffer.getSize());
+                mCursorPosition = mBuffer.getSize();
+            }
+
             // Control + V
             if (evt.key.code == Keyboard::KEY::V && 
                 ((evt.key.control && !OS::isMacOS()) || (evt.key.system && OS::isMacOS()))) {
-                std::string text = Clipboard::getData();
+                String text = Clipboard::getData();
+
+                // clean the string
+                text.removeNewLine();
+                text.removeCarriageReturn();
+                text.removeTab();
 
                 // if is text selected
                 if (hasTextSelected()) {
@@ -115,17 +133,26 @@ void LuaConsole::handleEvents(Event& evt) {
                 }
 
                 mBuffer.insert(mCursorPosition, text);
-                mCursorPosition = mCursorPosition + text.size();
+                mCursorPosition = mCursorPosition + text.getSize();
+            }
+
+
+            // Control + C
+            if (evt.key.code == Keyboard::KEY::C && 
+                ((evt.key.control && !OS::isMacOS()) || (evt.key.system && OS::isMacOS()))) {
+                String text = getTextSelected();
+                Clipboard::setData(text);
             }
 
             if (evt.key.code == Keyboard::KEY::Home) {
                 if (Keyboard::isKeyPressed(Keyboard::KEY::LShift) || Keyboard::isKeyPressed(Keyboard::KEY::RShift)) {
                     if (mIsTextSelected == false) {
-                        mStartSelect = 0;
+                        mStartSelect = mCursorPosition;
                     }
 
                     setNoTextSelection();
-                    setTextSelection(mStartSelect, mCursorPosition);
+                    // go to the first position on the string
+                    setTextSelection(mStartSelect, 0);
 
                 } else {
                     setNoTextSelection();
@@ -143,7 +170,7 @@ void LuaConsole::handleEvents(Event& evt) {
                     }
 
                     setNoTextSelection();
-                    setTextSelection(mCursorPosition, mBuffer.getSize());
+                    setTextSelection(mStartSelect, mBuffer.getSize());
 
                 } else {
                     setNoTextSelection();

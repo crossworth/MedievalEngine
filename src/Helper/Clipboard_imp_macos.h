@@ -2,9 +2,11 @@
 #define CLIPBOARD_IMP_MACOS_H
 #include <string>
 #include <iostream>
+#include <codecvt>
+#include "Helper/String.h"
 
 
-std::string MacOSXGetClipboardData();
-void MacOSXSetClipboardData(const std::string& data);
+ME::String MacOSXGetClipboardData();
+void MacOSXSetClipboardData(const ME::String& data);
 
 #endif // CLIPBOARD_IMP_MACOS_H

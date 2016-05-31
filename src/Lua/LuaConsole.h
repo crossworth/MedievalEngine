@@ -31,6 +31,7 @@ private:
     void setTextSelection(const size_t& start, const size_t& end);
     void setNoTextSelection();
     bool hasTextSelected();
+    String getTextSelected();
 
 
     bool mIsVisible;

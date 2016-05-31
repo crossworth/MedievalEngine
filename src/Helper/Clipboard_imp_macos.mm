@@ -2,7 +2,7 @@
 #include "Clipboard_imp_macos.h"
 
 
-std::string MacOSXGetClipboardData() {
+ME::String MacOSXGetClipboardData() {
 	NSPasteboard* pasteboard = [NSPasteboard generalPasteboard];
 
     if (![[pasteboard types] containsObject:NSStringPboardType]) {
@@ -14,15 +14,17 @@ std::string MacOSXGetClipboardData() {
         std::cout << "Cocoa Failed to retrieve object from pasteboard" << std::endl;
     }
 
-    return std::string([object UTF8String]);
+    return ME::String(ME::String::UTF8_to_wstring([object UTF8String]));
 }
 
 
-void MacOSXSetClipboardData(const std::string& data) {
+void MacOSXSetClipboardData(const ME::String& data) {
+    std::string tmp = ME::String::wstring_to_UTF8(data.getWideString());
+
 	NSArray* types = [NSArray arrayWithObjects:NSStringPboardType, nil];
 
     NSPasteboard* pasteboard = [NSPasteboard generalPasteboard];
     [pasteboard declareTypes:types owner:nil];
-    [pasteboard setString:[NSString stringWithUTF8String:data.c_str()]
+    [pasteboard setString:[NSString stringWithUTF8String:tmp.c_str()]
                   forType:NSStringPboardType];
 }

@@ -4,6 +4,8 @@
 #include <sstream>
 #include <cstdlib>
 #include <clocale>
+#include <codecvt>
+#include <algorithm>
 #include "Helper/OS.h"
 
 namespace ME {
@@ -13,6 +15,9 @@ public:
 
 	static std::wstring string_to_wstring(const std::string& string);
     static std::string wstring_to_string(const std::wstring& string);
+
+    static std::string wstring_to_UTF8(const std::wstring& string);
+    static std::wstring UTF8_to_wstring(const std::string& string);
 
 	String();
 	String(const std::string& string);
@@ -28,6 +33,10 @@ public:
     void insert(std::size_t position, const uint32_t& unicode);
 
     void erase(std::size_t position, std::size_t count = 1);
+
+    void removeNewLine();
+    void removeCarriageReturn();
+    void removeTab();
 
 	std::string getString() const;
 	std::wstring getWideString() const;

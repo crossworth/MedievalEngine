@@ -7,8 +7,7 @@
 
 using namespace ME;
 
-
-std::string Clipboard::getData() {
+String Clipboard::getData() {
 #ifdef _OS_MAC
 	return MacOSXGetClipboardData();
 #else
@@ -18,7 +17,7 @@ std::string Clipboard::getData() {
 }
 
 
-void Clipboard::setData(const std::string& data) {
+void Clipboard::setData(const String& data) {
 #ifdef _OS_MAC
 	MacOSXSetClipboardData(data);
 #else
