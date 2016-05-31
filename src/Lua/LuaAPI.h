@@ -2,6 +2,7 @@
 #define LUAAPI_H
 #include "LogInc.h"
 #include "sol.hpp"
+#include "Helper/String.h"
 #include "Lua/LuaExportAPI.h"
 
 

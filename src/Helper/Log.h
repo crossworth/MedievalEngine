@@ -2,6 +2,7 @@
 #define LOG_H
 #include <ctime>
 #include <fstream>
+#include <iostream>
 #include <mutex>
 #include "Helper/String.h"
 
@@ -115,8 +116,10 @@ public:
     }
 
     inline Log& operator<<(std::ostream&(f)(std::ostream&)) {
-
-        *mOutstream << mTempOutstream.str() + "\n";
+        // little cheat to get the right enconding
+        // we create a wstring and than convert to a utf8string
+        // this way we can use on SFML and on console without problems
+        *mOutstream << String::wstring_to_UTF8(String::string_to_wstring(mTempOutstream.str())) + "\n";
 
         if (mCallOnUpdate != nullptr) {
             mCallOnUpdate->addMessage(String(mTempOutstream.str() + "\n"));
