@@ -95,6 +95,27 @@ void LuaConsole::handleEvents(Event& evt) {
 
     // handle the key's on the window
     if(isVisible()) {
+
+        // update the text display position on screen when there is a lot of text
+        if ((mCursorPosition * mFontLetterSize) >= mLineEdit->getSize().x) {
+            float lineDiff     = (mCursorPosition * mFontLetterSize)  - mLineEdit->getSize().x;
+            Vect2f lineEditPos = mLineEdit->getPosition();
+            lineEditPos.x      = lineEditPos.x - lineDiff;
+            mText->setPosition(lineEditPos);
+        } else {
+            mText->setPosition(mLineEdit->getPosition());
+        }
+
+        // if we change the TextPosition, we have to change the selection position as well
+        if (hasTextSelected()) {
+            setNoTextSelection();
+            setTextSelection(mStartSelectionPosition, mEndSelectionPosition);
+        }
+
+        
+
+
+
         if (evt.type == Event::KeyPressed) {
 
             // Control + A
@@ -661,17 +682,6 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
 }
 
 void LuaConsole::draw(Window& window) {
-    float lineTextWidth = mText->getSize().x;
-
-    if ((lineTextWidth + mFontLetterSize) >= mLineEdit->getSize().x) {
-        float lineDiff     = (lineTextWidth + mFontLetterSize)  - mLineEdit->getSize().x;
-        Vect2f lineEditPos = mLineEdit->getPosition();
-        lineEditPos.x      = lineEditPos.x - lineDiff;
-        mText->setPosition(lineEditPos);
-    } else {
-        mText->setPosition(mLineEdit->getPosition());
-    }
-
 
     Vect2f mShapeCursorPos = mShapeCursor->getPosition();
     mShapeCursorPos.x      = mText->getPosition().x + (mCursorPosition * mFontLetterSize);
@@ -733,8 +743,6 @@ void LuaConsole::draw(Window& window) {
     if (!mCursorBlinking || mCursorMoving == true) {
         window.draw(mShapeCursor);
     }
-
-
     
     MEUInt32 cursorBlinkTime = mCusorBlinkTime;
 
