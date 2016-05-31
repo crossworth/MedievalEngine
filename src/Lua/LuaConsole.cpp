@@ -6,27 +6,31 @@ using namespace ME;
 
 
 LuaConsole::LuaConsole() {
-    mIsVisible      = false;
-    mBuffer         = "";
-    cmdBuffer       = "";
-    mLastChar       = 0;
-    mFontLetterSize = 0;
-    mText           = nullptr;
-    mOutput         = nullptr;
-    mBG             = nullptr;
-    mLineEdit       = nullptr;
-    mSelectedText   = nullptr;
-    mShapeCursor    = nullptr;
-    mBGColor        = Color(0, 0, 0, 120);
-    mCursorMoving   = false;
-    mHasScrolled    = false;
-    mCursorBlinking = false;
-    mDebugKeyCodes  = false;
-    mHasMakeAction  = false;
-    mStepScroll     = 30;
-    mCursorPosition = 0;
-    mCommandsIndex  = 0;
-    mCusorBlinkTime = 500;
+    mIsVisible              = false;
+    mBuffer                 = "";
+    cmdBuffer               = "";
+    mLastChar               = 0;
+    mFontLetterSize         = 0;
+    mText                   = nullptr;
+    mOutput                 = nullptr;
+    mBG                     = nullptr;
+    mLineEdit               = nullptr;
+    mShapeSelected          = nullptr;
+    mShapeCursor            = nullptr;
+    mBGColor                = Color(0, 0, 0, 120);
+    mCursorMoving           = false;
+    mHasScrolled            = false;
+    mCursorBlinking         = false;
+    mDebugKeyCodes          = false;
+    mHasMakeAction          = false;
+    mStepScroll             = 30;
+    mCursorPosition         = 0;
+    mCommandsIndex          = 0;
+    mCusorBlinkTime         = 500;
+    mStartSelect            = 0;
+    mIsTextSelected         = false;
+    mStartSelectionPosition = 0;
+    mEndSelectionPosition   = 0;
 
     mClockBlinkCursor.restart();
 
@@ -92,30 +96,92 @@ void LuaConsole::handleEvents(Event& evt) {
             if (evt.key.code == Keyboard::KEY::V && 
                 ((evt.key.control && !OS::isMacOS()) || (evt.key.system && OS::isMacOS()))) {
                 std::string text = Clipboard::getData();
+
+                // if is text selected
+                if (hasTextSelected()) {
+                    // remove all selected
+                    size_t numberPositions = mEndSelectionPosition - mStartSelectionPosition;
+                    mCursorMoving          = true;
+                    cmdBuffer              = "";
+                    mHasMakeAction         = true;
+
+                    mBuffer.erase(static_cast<int>(mStartSelectionPosition), static_cast<int>(numberPositions));
+                    
+                    // set the cursor position to the beginer of the selection
+                    mCursorPosition = mStartSelectionPosition;
+                    setNoTextSelection();
+                } else {
+                    setNoTextSelection();
+                }
+
                 mBuffer.insert(mCursorPosition, text);
                 mCursorPosition = mCursorPosition + text.size();
             }
 
             if (evt.key.code == Keyboard::KEY::Home) {
+                if (Keyboard::isKeyPressed(Keyboard::KEY::LShift) || Keyboard::isKeyPressed(Keyboard::KEY::RShift)) {
+                    if (mIsTextSelected == false) {
+                        mStartSelect = 0;
+                    }
+
+                    setNoTextSelection();
+                    setTextSelection(mStartSelect, mCursorPosition);
+
+                } else {
+                    setNoTextSelection();
+                } // if  key pressed shift
+
+
                 mCursorPosition = 0;
+                mCursorMoving = true;
             }
 
             if (evt.key.code == Keyboard::KEY::End) {
+                if (Keyboard::isKeyPressed(Keyboard::KEY::LShift) || Keyboard::isKeyPressed(Keyboard::KEY::RShift)) {
+                    if (mIsTextSelected == false) {
+                        mStartSelect = mCursorPosition;
+                    }
+
+                    setNoTextSelection();
+                    setTextSelection(mCursorPosition, mBuffer.getSize());
+
+                } else {
+                    setNoTextSelection();
+                } // if  key pressed shift
+
                 mCursorPosition = mBuffer.getSize();
+                mCursorMoving = true;
             }
 
             if (evt.key.code == Keyboard::KEY::Delete) {
                 // if the cursor position its equals or more than 0 and
                 // the cursor position is less the the buffer size
                 // we can erase with no fear
-                if (mCursorPosition > 0 && mCursorPosition < mBuffer.getSize()) {
+                if (mCursorPosition < mBuffer.getSize() && !hasTextSelected()) {
                     // erase at the cursor position
                     // since this is the delete key
                     mBuffer.erase(mCursorPosition);
                     mCursorMoving = true; // set the cursor to moving to get a better effect
                     // there no need to invalidade the cmdbuffer since we just deleting
-                    mText->setString(mBuffer);
                 }
+
+                if (hasTextSelected()) {
+                    // remove all selected
+                    size_t numberPositions = mEndSelectionPosition - mStartSelectionPosition;
+                    mCursorMoving          = true;
+                    cmdBuffer              = "";
+                    mHasMakeAction         = true;
+
+                    mBuffer.erase(static_cast<int>(mStartSelectionPosition), static_cast<int>(numberPositions));
+
+                    mCursorPosition = mStartSelectionPosition;
+                    setNoTextSelection();
+                } else {
+                    // remove only one letter and remove text selection
+                    setNoTextSelection();
+                }
+
+                mText->setString(mBuffer);
             }
 
         }
@@ -134,6 +200,8 @@ void LuaConsole::handleEvents(Event& evt) {
                 cmdBuffer = ""; // invalidate the command Buffer
                 mCommandsIndex++;
             }
+
+            setNoTextSelection();
         }
 
         if (Keyboard::isKeyPressed(Keyboard::KEY::Down)) {
@@ -152,17 +220,40 @@ void LuaConsole::handleEvents(Event& evt) {
                 mCursorPosition = mCommands[mCommandsIndex].length();
                 cmdBuffer = ""; // invalidate the command Buffer
             }
+
+            setNoTextSelection();
         }
 
         // update the cursor positions
         if (Keyboard::isKeyPressed(Keyboard::KEY::Left)) {
+            // move the cursor per si
             if (mCursorPosition > 0) {
                 mCursorPosition--;
                 mCursorMoving  = true;
                 cmdBuffer      = ""; // invalidate the command Buffer
                 mHasMakeAction = true;
-            }
-        }
+            } // if mCursorPosition > 0
+
+
+            // handle the selection
+            if (Keyboard::isKeyPressed(Keyboard::KEY::LShift) || Keyboard::isKeyPressed(Keyboard::KEY::RShift)) {
+                if (mIsTextSelected == false) {
+                    mStartSelect = mCursorPosition + 1;
+                }
+
+                setNoTextSelection();
+                setTextSelection(mStartSelect, mCursorPosition);
+
+            } else {
+                if (hasTextSelected()) {
+                    mCursorPosition = mStartSelectionPosition;
+                }
+
+                setNoTextSelection();
+            } // if  key pressed shift
+            
+
+        } // if key pressed left
 
         if (Keyboard::isKeyPressed(Keyboard::KEY::Right)) {
             if (mCursorPosition < mBuffer.getSize()) {
@@ -171,11 +262,23 @@ void LuaConsole::handleEvents(Event& evt) {
                 cmdBuffer      = ""; // invalidate the command Buffer
                 mHasMakeAction = true;
 
+            } // if mCursorPosition < mBuffer.getSize()
 
-                Vect2f sizeSelectedText = mSelectedText->getSize();
-                sizeSelectedText.x = sizeSelectedText.x + mFontLetterSize;
-                mSelectedText->setSize(sizeSelectedText);
-            }
+            if (Keyboard::isKeyPressed(Keyboard::KEY::LShift) || Keyboard::isKeyPressed(Keyboard::KEY::RShift)) {
+                if (mIsTextSelected == false) {
+                    mStartSelect = mCursorPosition - 1;
+                }
+
+                setNoTextSelection();
+                setTextSelection(mStartSelect, mCursorPosition);
+
+            } else {
+                if (hasTextSelected()) {
+                    mCursorPosition = mEndSelectionPosition;
+                }
+
+                setNoTextSelection();
+            } // if  key pressed shift
         }
 
         if (Keyboard::isKeyPressed(Keyboard::KEY::Escape)) {
@@ -184,6 +287,7 @@ void LuaConsole::handleEvents(Event& evt) {
             if (mBuffer.getSize() > 0) {
                 mBuffer.clear();
                 mCursorPosition = 0;
+                setNoTextSelection();
             } else {
                 // close the console
                 this->setVisible(false);    
@@ -253,8 +357,10 @@ void LuaConsole::handleEvents(Event& evt) {
                     cmdBuffer       = ""; // invalidate the command Buffer
                     mCommandsIndex  = 0;  // rest the index
                     mHasMakeAction = false; // reset the make action
+                    setNoTextSelection();
                 }
             } else if (evt.text.unicode == 9) { // tab
+                setNoTextSelection();
                 // Here we handle the tab
                 // first get the command name
                 std::string cmd = mBuffer.getString();
@@ -308,7 +414,7 @@ void LuaConsole::handleEvents(Event& evt) {
             } else if (evt.text.unicode == 8) { // backspace
                 // if the cursor position its more than 0
                 // we can erase with no fear
-                if (mCursorPosition > 0) {
+                if (mCursorPosition > 0 && !hasTextSelected()) {
                     // We remove the cursor position + cursor padding - 1
                     // thats means the lettler before the cursor
                     mBuffer.erase(mCursorPosition - 1);
@@ -319,12 +425,48 @@ void LuaConsole::handleEvents(Event& evt) {
                     // put the value on the cursor position
                     mHasMakeAction = true;
                 }
+
+                // if is text selected
+                if (hasTextSelected()) {
+                    // remove all selected
+                    size_t numberPositions = mEndSelectionPosition - mStartSelectionPosition;
+                    mCursorMoving          = true;
+                    cmdBuffer              = "";
+                    mHasMakeAction         = true;
+
+                    mBuffer.erase(static_cast<int>(mStartSelectionPosition), static_cast<int>(numberPositions));
+                    
+                    // set the cursor position to the beginer of the selection
+                    mCursorPosition = mStartSelectionPosition;
+                    setNoTextSelection();
+                } else {
+                    // remove only one letter and remove text selection
+                    setNoTextSelection();
+                }
             } else if (evt.text.unicode == 27) { // esc
                 // TODO(Pedro): Verify this on Windows, Linux
                 // On MacOS the ESC event its not passed as TextEntered
                 
             } else { // everything else
-                
+
+                // if is text selected
+                if (hasTextSelected()) {
+                    // remove all selected
+                    size_t numberPositions = mEndSelectionPosition - mStartSelectionPosition;
+                    mCursorMoving          = true;
+                    cmdBuffer              = "";
+                    mHasMakeAction         = true;
+
+                    mBuffer.erase(static_cast<int>(mStartSelectionPosition), static_cast<int>(numberPositions));
+                    
+                    // set the cursor position to the beginer of the selection
+                    mCursorPosition = mStartSelectionPosition;
+                    setNoTextSelection();
+                } else {
+                    // remove only one letter and remove text selection
+                    setNoTextSelection();
+                }
+
                 // 40  = (
                 // 41  = )
                 // 91  = [
@@ -355,12 +497,11 @@ void LuaConsole::handleEvents(Event& evt) {
                     mBuffer.insert(mCursorPosition, evt.text.unicode);
                     // increase the cursor position since we just added another lettler
                     mCursorPosition++;
-                    cmdBuffer       = ""; // invalidate the command Buffer
+                    cmdBuffer      = ""; // invalidate the command Buffer
                     // we do have an action so the history will
                     // put the value on the cursor position
                     mHasMakeAction = true;
                 }
-
 
             } // if not any of the unicodes
             // save the last char typed
@@ -380,6 +521,45 @@ void LuaConsole::addMessage(const String& buffer) {
     mBufferOutput = mBufferOutput + buffer;
 }
 
+void LuaConsole::setTextSelection(const size_t& start, const size_t& end) {
+    Vect2f tmpCursorPosition = mText->getPosition();
+    tmpCursorPosition.y      = mShapeCursor->getPosition().y;
+
+    
+    float diffCursorPosition = 0;
+
+    if (end < start) {
+        diffCursorPosition      = start - end;
+        tmpCursorPosition.x     = tmpCursorPosition.x + (end * mFontLetterSize);
+        mStartSelectionPosition = end;
+        mEndSelectionPosition   = start;
+    } else {
+        diffCursorPosition      = end - start;
+        tmpCursorPosition.x     = tmpCursorPosition.x + (start * mFontLetterSize);
+        mStartSelectionPosition = start;
+        mEndSelectionPosition   = end;
+    }
+    
+    mShapeSelected->setPosition(tmpCursorPosition);
+
+    Vect2f sizeSelectedText = mShapeSelected->getSize();
+    sizeSelectedText.x      = diffCursorPosition * mFontLetterSize;
+    mShapeSelected->setSize(sizeSelectedText);
+
+    mIsTextSelected = true;
+}
+
+void LuaConsole::setNoTextSelection() {
+    mIsTextSelected         = false;
+    Vect2f sizeSelectedText = mShapeSelected->getSize();
+    sizeSelectedText.x      = 0.0f;
+    mShapeSelected->setSize(sizeSelectedText);
+}
+
+bool LuaConsole::hasTextSelected() {
+    return mIsTextSelected;
+}
+
 void LuaConsole::registerEngine(MedievalEngine* engine) {
     mResources  = engine->getResourceManager();
     mWindowSize = engine->getWindow()->getSize();
@@ -396,7 +576,7 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     ResourceID outputID;
     ResourceID bgID;
     ResourceID lineEditID;
-    ResourceID selectedTextID;
+    ResourceID selectedShapeID;
     ResourceID fontID;
     ResourceID textCursorID;
 
@@ -443,9 +623,9 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     mShapeCursor = mResources->getResource<Shape>(textCursorID);
     mShapeCursor->setPosition(cursorPos);
 
-    selectedTextID = mResources->createShape(Vect2f(0.f, cursorSize), Color(53, 171, 255, 153));
-    mSelectedText  = mResources->getResource<Shape>(selectedTextID);
-    mSelectedText->setPosition(Vect2f(cursorPos.x, cursorPos.y));
+    selectedShapeID = mResources->createShape(Vect2f(0.f, cursorSize), Color(53, 171, 255, 153));
+    mShapeSelected  = mResources->getResource<Shape>(selectedShapeID);
+    mShapeSelected->setPosition(Vect2f(cursorPos.x, cursorPos.y));
 
 
 
@@ -454,20 +634,6 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
 }
 
 void LuaConsole::draw(Window& window) {
-
-    if (mClockBlinkCursor.getMilliSeconds() > mCusorBlinkTime) {
-        if (mCursorBlinking == true && mCursorMoving == false) {
-           mCursorBlinking = false;
-        } else {
-            mCursorBlinking = true;
-        }
-
-        mClockBlinkCursor.restart();
-
-        // set the cursor moving to false to get a smoth effect
-        mCursorMoving = false;
-    }
-
     float lineTextWidth = mText->getSize().x;
 
     if ((lineTextWidth + mFontLetterSize) >= mLineEdit->getSize().x) {
@@ -488,8 +654,6 @@ void LuaConsole::draw(Window& window) {
 
     window.draw(mBG);
     window.draw(mLineEdit);
-    window.draw(mSelectedText);
-    
 
     Area mBGArea   = mBG->getGlobalBounds();
     mBGArea.height = mBGArea.height - mLineHeight;
@@ -531,15 +695,40 @@ void LuaConsole::draw(Window& window) {
 
     window.getWindowPtr()->setView(panelView);
 
+    // background text selection
+    window.draw(mShapeSelected);
+    // text
     window.draw(mText);
 
     window.getWindowPtr()->setView(window.getWindowPtr()->getDefaultView());
  
 
-    if (!mCursorBlinking) {
+    if (!mCursorBlinking || mCursorMoving == true) {
         window.draw(mShapeCursor);
     }
 
+
+    
+    MEUInt32 cursorBlinkTime = mCusorBlinkTime;
+
+    // if we are moving the cursor we add a padding to the time
+    if (mCursorMoving) {
+        cursorBlinkTime = cursorBlinkTime + 500;
+    }
+
+    // we do this calculantion on the end, so we can get a better visual effect on the selection text on console
+    if (mClockBlinkCursor.getMilliSeconds() > cursorBlinkTime) {
+        if (mCursorBlinking == true && mCursorMoving == false) {
+           mCursorBlinking = false;
+        } else {
+            mCursorBlinking = true;
+        }
+
+        mClockBlinkCursor.restart();
+
+        // set the cursor moving to false to get a smoth effect
+        mCursorMoving = false;
+    }
 }
 
 bool LuaConsole::isVisible() {

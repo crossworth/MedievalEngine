@@ -28,6 +28,11 @@ public:
     void setShowUnicodeKeyCodes(bool debug);
 
 private:
+    void setTextSelection(const size_t& start, const size_t& end);
+    void setNoTextSelection();
+    bool hasTextSelected();
+
+
     bool mIsVisible;
     
     ResourceManager* mResources;
@@ -43,7 +48,7 @@ private:
     Text* mOutput;
     Shape* mBG;
     Shape* mLineEdit;
-    Shape* mSelectedText;
+    Shape* mShapeSelected;
 
     float mLineHeight;
     
@@ -57,6 +62,9 @@ private:
 
     //cusor select
     size_t mStartSelect;
+    bool mIsTextSelected;
+    size_t mStartSelectionPosition;
+    size_t mEndSelectionPosition;
 
     // scroll content
     bool mHasScrolled;

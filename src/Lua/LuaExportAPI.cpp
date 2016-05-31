@@ -35,9 +35,10 @@ bool LuaExportAPI::generateFunctionsList(const std::string& fileName) {
                 outFile << "**Function** ";
             }
 
+            outFile << "`";
             outFile << it->returnType << " ";
             outFile << it->name << "(" << it->args << ")";
-
+            outFile << "`";
         
             if (it->comments != "") {
                 outFile << " - " << it->comments;
