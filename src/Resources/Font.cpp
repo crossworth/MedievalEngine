@@ -5,7 +5,7 @@ using namespace ME;
 ResourceID Font::DEFAULT_FONT = 0;
 
 Font::Font() {
-    mType    = Resource::Type::FONT;
+    mType = Resource::Type::FONT;
 }
 
 bool Font::loadFromFile(const std::string& fileName){
@@ -35,6 +35,6 @@ sf::Font* Font::getResourcePointer() {
     return &mFont;
 }
 
-int Font::getLineSpacing(const unsigned int& size) {
+unsigned int Font::getLineSpacing(const unsigned int& size) const {
     return mFont.getLineSpacing(size);
 }

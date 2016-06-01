@@ -22,6 +22,10 @@ public:
     void setTextShadow(const float& factor = 2.0f,
                        const Color& color = Color::BLACK);
 
+
+    int getFontHeight(const unsigned int& size);
+
+
     void removeTextShadow();
     bool isTextShadowEnable();
 

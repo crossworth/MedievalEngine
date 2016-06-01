@@ -4,7 +4,9 @@
 using namespace ME;
 
 Text::Text() : mHasTextShadow(false) {
-    mType = Resource::Type::TEXT;
+    mType             = Resource::Type::TEXT;
+    mHasTextShadow    = false;
+    mTextShadowFactor = 0.0f;
 }
 
 String Text::getString() {
@@ -13,6 +15,11 @@ String Text::getString() {
 
 unsigned int Text::getFontSize() {
     return mText.getCharacterSize();
+}
+
+int Text::getFontHeight(const unsigned int& size) {
+    const sf::Font* font = mText.getFont();
+    return font->getLineSpacing(size);
 }
 
 Text::FontStyle Text::getStyle() {

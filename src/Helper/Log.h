@@ -12,7 +12,7 @@ namespace ME {
 
 class LogObserver {
 public:
-    virtual void addMessage(const String& buffer) = 0;
+    virtual void addMessage(const String& message) = 0;
 };
 
 class Log {

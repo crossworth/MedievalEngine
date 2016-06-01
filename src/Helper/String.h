@@ -26,6 +26,7 @@ public:
     String(const std::wstring& string);
 
     std::size_t getSize();
+    std::size_t length();
 
     void clear();
 

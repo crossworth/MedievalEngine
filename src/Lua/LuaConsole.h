@@ -1,22 +1,30 @@
-#ifndef LUACONSOLE_H
-#define LUACONSOLE_H
+/*
+* @Project MedievalEngine
+* @Author: Pedro Henrique - system.pedrohenrique@gmail.com
+* @Website: http://pedrohenrique.ninja
+* @Date:   2016-05-31 21:40:36
+*
+*
+* @File: LuaConsole.cpp
+* @Last Modified by:   Pedro Henrique
+* @Last Modified time: 2016-06-01 12:50:26
+*/
+
+#ifndef MEDIEVALENGINE_LUA_LUACONSOLE_H_
+#define MEDIEVALENGINE_LUA_LUACONSOLE_H_
+
 #include <deque>
 #include <stack>
+
+#include "Lua/ConsoleAction.h"
 #include "Helper/KeyMapper.h"
+#include "Helper/Clipboard.h"
 #include "Graphics/Window.h"
 #include "Resources/ResourceManager.h"
-
-#include <SFML/Graphics.hpp> // Test
-
 
 namespace ME {
 
 class MedievalEngine;
-
-struct ConsoleCommand {
-    String command;
-    size_t cursorPosition;
-};
 
 class LuaConsole : public LogObserver {
 public:
@@ -30,51 +38,59 @@ public:
     void setVisible(bool visible);
     void draw(Window& window);
 
-    void addMessage(const String& buffer);
-    void addMessageStd(const std::string& buffer);
+    void addMessage(const String& message);
+    // used by lua binding to add messages to the console output
+    void addMessageStd(const std::string& message);
 
-    void setShowUnicodeKeyCodes(bool debug);
+    void setShowUnicodeKeyCodes(bool show);
 
-    void saveUndoCommand(const String& command, const size_t& cursorPosition);
-
+    void saveConsoleAction(const String& command, const size_t& cursorPosition);
 private:
-    void calculateTextRenderArea();
+    void updateInputText();
+    void calculateVisibleTextOutput(const int& lineNumber = -1);
 
     void setTextSelection(const size_t& start, const size_t& end);
-    void setNoTextSelection();
+    void removeTextSelection();
     bool hasTextSelected();
     String getTextSelected();
 
-
-    bool mIsVisible;
-    
     ResourceManager* mResources;
-        
-    // buffer for the text been typed
-    String mBuffer;
-    std::string cmdBuffer;
-    // buffer for the output
-    String mBufferOutput;
-    sf::View panelView;
-    
-    Text* mText;
-    Text* mOutput;
-    Shape* mBG;
-    Shape* mLineEdit;
-    Shape* mShapeSelected;
+      
+    // Current command been typed
+    String mInputCommand;
 
-    float mLineHeight;
+    // all the messages that we have info
+    // we store on a vector and access as lines
+    std::vector<String> mOutputCommands;
     
+    // graphics
+    Text* mInputText;
+    Text* mOutputText;
+
+    Shape* mConsoleShape;
+    Shape* mInputLineShape;
+    Shape* mSelectedShape;
+    Shape* mCursorShape;
+
+    sf::View panelView;
+
+    // console configs
+    bool mIsConsoleVisible;
+    size_t mMaxNumberLines;
+    float mLineHeight;
+    int mFontWidth;
+    int mFontHeight;
     Vect2i mWindowSize;
     Vect2i mConsoleSize;
     Vect2f mMargin;
-    
-    Color mBGColor;
 
+    Color mBackgroundColor;
+
+    // auto special char complete (), {}, []
     unsigned int mLastChar;
 
     // undo
-    std::stack<ConsoleCommand> mUndo;
+    std::stack<ConsoleAction> mActions;
 
     //cusor select
     size_t mStartSelect;
@@ -87,30 +103,26 @@ private:
     int mStepScroll;
 
     // commands history
-    std::deque<std::string> mCommands;
-    int mCommandsIndex;
-    bool mHasMakeAction;
+    std::deque<String> mCommands;
+    int mCommandIndex;
+    bool mHasMadeAction;
 
     // debug key codes
-    bool mDebugKeyCodes;
+    bool mShowKeyCode;
 
     // cursor position
     size_t mCursorPosition;
-    bool mCursorMoving;
+    bool mShowCursor;
 
     // cursor blink
     bool mCursorBlinking;
-    Clock mClockBlinkCursor;
-    Shape* mShapeCursor;
-    size_t mFontLetterSize;
+    Clock mClockCursorBlinking;
     unsigned int mCusorBlinkTime;
 
-    // buffer size
-    size_t mConsoleOutputNumberLines;
-    size_t mFontLineSpacing;
-
+    // console current showing text
+    int mCurrentOutputLine;
 };
 
 }
 
-#endif // LUACONSOLE_H
+#endif // MEDIEVALENGINE_LUA_LUACONSOLE_H_

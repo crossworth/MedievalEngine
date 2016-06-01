@@ -12,6 +12,10 @@ std::size_t String::getSize() {
     return mString.length();
 }
 
+std::size_t String::length() {
+    return getSize();
+}
+
 void String::clear() {
     mString.clear();
 }
