@@ -6,31 +6,33 @@ using namespace ME;
 
 
 LuaConsole::LuaConsole() {
-    mIsVisible              = false;
-    mBuffer                 = "";
-    cmdBuffer               = "";
-    mLastChar               = 0;
-    mFontLetterSize         = 0;
-    mText                   = nullptr;
-    mOutput                 = nullptr;
-    mBG                     = nullptr;
-    mLineEdit               = nullptr;
-    mShapeSelected          = nullptr;
-    mShapeCursor            = nullptr;
-    mBGColor                = Color(0, 0, 0, 120);
-    mCursorMoving           = false;
-    mHasScrolled            = false;
-    mCursorBlinking         = false;
-    mDebugKeyCodes          = false;
-    mHasMakeAction          = false;
-    mStepScroll             = 30;
-    mCursorPosition         = 0;
-    mCommandsIndex          = 0;
-    mCusorBlinkTime         = 500;
-    mStartSelect            = 0;
-    mIsTextSelected         = false;
-    mStartSelectionPosition = 0;
-    mEndSelectionPosition   = 0;
+    mIsVisible                = false;
+    mBuffer                   = "";
+    cmdBuffer                 = "";
+    mLastChar                 = 0;
+    mFontLetterSize           = 0;
+    mText                     = nullptr;
+    mOutput                   = nullptr;
+    mBG                       = nullptr;
+    mLineEdit                 = nullptr;
+    mShapeSelected            = nullptr;
+    mShapeCursor              = nullptr;
+    mBGColor                  = Color(0, 0, 0, 120);
+    mCursorMoving             = false;
+    mHasScrolled              = false;
+    mCursorBlinking           = false;
+    mDebugKeyCodes            = false;
+    mHasMakeAction            = false;
+    mStepScroll               = 30;
+    mCursorPosition           = 0;
+    mCommandsIndex            = 0;
+    mCusorBlinkTime           = 500;
+    mStartSelect              = 0;
+    mIsTextSelected           = false;
+    mStartSelectionPosition   = 0;
+    mEndSelectionPosition     = 0;
+    mConsoleOutputNumberLines = 0;
+    mFontLineSpacing          = 0;
 
     mClockBlinkCursor.restart();
 
@@ -78,7 +80,7 @@ void LuaConsole::setShowUnicodeKeyCodes(bool debug) {
 
 String LuaConsole::getTextSelected() {
     size_t sizeString = mEndSelectionPosition - mStartSelectionPosition;
-    return String(mBuffer.getString().substr(mStartSelectionPosition, sizeString));
+    return mBuffer.substr(mStartSelectionPosition, sizeString);
 }
 
 void LuaConsole::saveUndoCommand(const String& command, const size_t& cursorPosition) {
@@ -95,6 +97,7 @@ void LuaConsole::handleEvents(Event& evt) {
             if (isVisible()) {
                 setVisible(false);
             } else {
+                calculateTextRenderArea();
                 setVisible(true);
             }
         }
@@ -120,6 +123,7 @@ void LuaConsole::handleEvents(Event& evt) {
         }
 
         if (evt.type == Event::KeyPressed) {
+
 
             // Control + A
             if (evt.key.code == Keyboard::KEY::A && 
@@ -377,13 +381,14 @@ void LuaConsole::handleEvents(Event& evt) {
                 if (evt.mouseWheelScroll.delta > 0 ) { // scroll up
                     if (pos.y <= mBG->getPosition().y) {
                         mHasScrolled = true;
-
+                        std::cout << "scrol step up " << mStepScroll << std::endl; 
                         mOutput->setPosition(Vect2f(mBG->getPosition().x, mOutput->getPosition().y  + mStepScroll));
                     }
                 } else { // scroll down
                     if (pos.y + mOutput->getSize().y + mLineHeight >= mBG->getPosition().y + mBG->getSize().y ) {
                         mHasScrolled = true;
                         mOutput->setPosition(Vect2f(mBG->getPosition().x, mOutput->getPosition().y  - mStepScroll));
+                        std::cout << "scrol step up " << mStepScroll << std::endl;
                     } else {
                         mHasScrolled = false;
                     }
@@ -593,6 +598,35 @@ void LuaConsole::addMessageStd(const std::string& buffer) {
 
 void LuaConsole::addMessage(const String& buffer) {
     mBufferOutput = mBufferOutput + buffer;
+
+    // set the string on the mOutputDraw
+    if(isVisible()) {
+        calculateTextRenderArea();
+    }
+}
+
+void LuaConsole::calculateTextRenderArea() {
+    std::vector<String> lines;
+    std::string tmp;
+
+    lines = mBufferOutput.explode('\n');
+
+    std::cout << "Number of lines: " << lines.size() << std::endl;
+    std::cout << "Max console: " << mConsoleOutputNumberLines << std::endl;
+    std::cout << "Font spacing: " << mFontLineSpacing << std::endl;
+
+
+    int offsetLines = 0;
+    if (lines.size() > mConsoleOutputNumberLines) {
+        offsetLines = lines.size() - mConsoleOutputNumberLines;
+    }
+
+    for(int i = offsetLines; i < lines.size(); i++) {
+        tmp = tmp + lines[i].getString() + "\n";
+    }
+
+
+    mOutput->setString(String(tmp));
 }
 
 void LuaConsole::setTextSelection(const size_t& start, const size_t& end) {
@@ -658,11 +692,15 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     // TODO(Pedro): Move this font to a dat file
     fontID = mResources->loadFont("system/Hack-Regular.ttf");
 
+    Font* font       = mResources->getResource<Font>(fontID);
+    mFontLineSpacing = font->getLineSpacing(Window::fontSize(0.20f));
+
     outputID = textID = mResources->createText(String(""), Window::fontSize(0.20f), fontID);
     mOutput  = mResources->getResource<Text>(outputID);
 
     textID = mResources->createText(mBuffer, Window::fontSize(0.25f), fontID);
     mText  = mResources->getResource<Text>(textID);
+
 
     // before we set the buffer, lets get the character font width and height
     mText->setString(String("A"));
@@ -671,6 +709,9 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     // MAGIC NUMBER HERE! for some reason we have to multiply the text size
     // by 2 for get the right size of the height
     mLineHeight = mText->getSize().y * 2;
+
+    // calcule max terminal line number
+    mConsoleOutputNumberLines = (mConsoleSize.y - mLineHeight) / mFontLineSpacing;
 
     mText->setString(String(""));
 
@@ -682,7 +723,6 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
 
     mLineEdit->setPosition(Vect2f(mBG->getPosition().x, mBG->getPosition().y + mBG->getSize().y - mLineHeight));
     mText->setPosition(mLineEdit->getPosition());
-
 
     Area mBGArea   = mBG->getGlobalBounds();
     mBGArea.height = mBGArea.height - mLineHeight;
@@ -733,14 +773,14 @@ void LuaConsole::draw(Window& window) {
 
     window.getWindowPtr()->setView(panelView);
 
-    mOutput->setString(mBufferOutput);
-
     // if we dont have scrolled yet we will automatic update the ouput position
     if (mHasScrolled == false) {
         mOutput->setPosition(Vect2f(mBG->getPosition().x, mConsoleSize.y - mOutput->getSize().y - mLineHeight));
     }
 
     window.draw(mOutput);
+
+
     window.getWindowPtr()->setView(window.getWindowPtr()->getDefaultView());
 
 
@@ -761,7 +801,7 @@ void LuaConsole::draw(Window& window) {
     // background text selection
     window.draw(mShapeSelected);
     // text
-    window.draw(mText);
+    window.draw(mText);  
 
     window.getWindowPtr()->setView(window.getWindowPtr()->getDefaultView());
  

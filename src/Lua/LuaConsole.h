@@ -6,6 +6,8 @@
 #include "Graphics/Window.h"
 #include "Resources/ResourceManager.h"
 
+#include <SFML/Graphics.hpp> // Test
+
 
 namespace ME {
 
@@ -36,6 +38,8 @@ public:
     void saveUndoCommand(const String& command, const size_t& cursorPosition);
 
 private:
+    void calculateTextRenderArea();
+
     void setTextSelection(const size_t& start, const size_t& end);
     void setNoTextSelection();
     bool hasTextSelected();
@@ -100,6 +104,11 @@ private:
     Shape* mShapeCursor;
     size_t mFontLetterSize;
     unsigned int mCusorBlinkTime;
+
+    // buffer size
+    size_t mConsoleOutputNumberLines;
+    size_t mFontLineSpacing;
+
 };
 
 }
