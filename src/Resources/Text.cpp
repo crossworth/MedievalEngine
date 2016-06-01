@@ -33,6 +33,10 @@ Text::FontStyle Text::getStyle() {
     return Text::REGULAR;
 }
 
+sf::Text* Text::getResourcePointer() {
+    return &mText;
+}
+
 void Text::setFont(Font& font) {
     mText.setFont(*font.getResourcePointer());
 }
