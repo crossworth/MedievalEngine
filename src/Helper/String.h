@@ -1,6 +1,7 @@
 #ifndef STRING_H
 #define STRING_H
 #include <string>
+#include <vector>
 #include <sstream>
 #include <cstdlib>
 #include <clocale>
@@ -12,6 +13,7 @@ namespace ME {
 
 class String {
 public:
+    static size_t npos;
 
 	static std::wstring string_to_wstring(const std::string& string);
     static std::string wstring_to_string(const std::wstring& string);
@@ -26,6 +28,11 @@ public:
     std::size_t getSize();
 
     void clear();
+
+
+    std::vector<String> explode(const char& delimiter);
+
+    String substr(size_t pos = 0, size_t len = String::npos);
 
     void insert(std::size_t position, const String& string);
     void insert(std::size_t position, const std::string& string);

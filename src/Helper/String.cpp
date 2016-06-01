@@ -2,6 +2,8 @@
 
 using namespace ME;
 
+size_t String::npos = -1;
+
 String::String() {
 	mString = "";
 }
@@ -12,6 +14,29 @@ std::size_t String::getSize() {
 
 void String::clear() {
     mString.clear();
+}
+
+std::vector<String> String::explode(const char& delimiter) {
+    std::vector<String> result;
+    std::istringstream iss(mString);
+
+    for (std::string token; std::getline(iss, token, delimiter); ) {
+        result.push_back(String(std::move(token)));
+    }
+
+    return result;
+}
+
+String String::substr(size_t pos, size_t len) {
+    std::string tmp;
+
+    if (len == String::npos) {
+        tmp = mString.substr(pos);
+    } else {
+        tmp = mString.substr(pos, len);
+    }
+
+    return String(tmp);
 }
 
 void String::insert(std::size_t position, const String& string) {
