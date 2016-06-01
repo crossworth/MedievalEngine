@@ -15,6 +15,8 @@ public:
     bool loadFromMemory(MEByte* bytes, std::size_t size);
     sf::Font* getResourcePointer();
 
+    int getLineSpacing(const unsigned int& size);
+
     /**
      * Default font - fallback font
      */

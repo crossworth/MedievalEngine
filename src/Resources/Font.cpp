@@ -34,3 +34,7 @@ bool Font::loadFromMemory(MEByte* bytes, std::size_t size){
 sf::Font* Font::getResourcePointer() {
     return &mFont;
 }
+
+int Font::getLineSpacing(const unsigned int& size) {
+    return mFont.getLineSpacing(size);
+}
