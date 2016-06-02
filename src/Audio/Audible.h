@@ -1,9 +1,11 @@
-#ifndef AUDIBLE_H
-#define AUDIBLE_H
+#ifndef MEDIEVALENGONE_AUDIO_AUDIBLE_H_
+#define MEDIEVALENGONE_AUDIO_AUDIBLE_H_
+
 #include <SFML/Audio.hpp>
+
 #include "Config.h"
 #include "Helper/Vect3.h"
-
+#include "Lua/LuaAPI.h"
 
 namespace ME{
 
@@ -46,6 +48,8 @@ public:
      * The default empty constructor
      */
     Audible();
+
+    virtual void updateVolume() = 0;
 
     /**
      * Return the duration of the sound/music
@@ -195,10 +199,13 @@ public:
      * The Ambient Volume of the engine
      */
     static float AMBIENT_VOLUME;
+
 protected:
     Audio::AudioType mAudioType;
+    static bool mIsFunctionsExported;
+    void exportFunctions();
 };
 
 }
 
-#endif // AUDIBLE_H
+#endif // MEDIEVALENGONE_AUDIO_AUDIBLE_H_

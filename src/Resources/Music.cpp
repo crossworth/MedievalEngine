@@ -6,20 +6,10 @@ Music::Music() {
     mType = Resource::Type::MUSIC;
 }
 
-bool Music::loadFromFile(const std::string& fileName, const Audio::AudioType& type) {
-    if (!mMusic.openFromFile(ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
-        LOG << Log::WARNING << "[Music::loadFromFile] Error while opening music: "
-            << ENGINE_DEFAULTS::ASSETS_PATH + fileName
-            << std::endl;
-    } else {
-        mIsValid = true;
-    }
-
-    setType(type);
-
+void Music::updateVolume() {
     float ratio = static_cast<float>(Audible::GLOBAL_VOLUME * 0.01);
 
-    switch(type) {
+    switch(mAudioType) {
         case Audio::AudioType::VOICE:
             setVolume(Audible::VOICE_VOLUME * ratio);
             break;
@@ -32,6 +22,19 @@ bool Music::loadFromFile(const std::string& fileName, const Audio::AudioType& ty
         default:
             setVolume(Audible::GLOBAL_VOLUME);
     }
+}
+
+bool Music::loadFromFile(const std::string& fileName, const Audio::AudioType& type) {
+    if (!mMusic.openFromFile(ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
+        LOG << Log::WARNING << "[Music::loadFromFile] Error while opening music: "
+            << ENGINE_DEFAULTS::ASSETS_PATH + fileName
+            << std::endl;
+    } else {
+        mIsValid = true;
+    }
+
+    setType(type);
+    updateVolume();
 
     return mIsValid;
 }

@@ -8,19 +8,11 @@ Sound::Sound(const std::string &fileName, const Audio::AudioType& type) {
     loadFromFile(fileName, type);
 }
 
-sf::Sound* Sound::loadFromFile(const std::string &fileName, const Audio::AudioType& type) {
-    if (!mSoundBuffer.loadFromFile(ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
-        LOG << Log::VERBOSE << "[Sound::loadFromFile] Error while opening sound: "
-            << ENGINE_DEFAULTS::ASSETS_PATH + fileName << std::endl;
-    }
-    mSound.setBuffer(mSoundBuffer);
-
-    setType(type);
-
+void Sound::updateVolume() {
     float ratio = static_cast<float>(Audible::GLOBAL_VOLUME * 0.01);
 
-    switch(type) {
-    case Audio::AudioType::VOICE:
+    switch(mAudioType) {
+        case Audio::AudioType::VOICE:
             setVolume(Audible::VOICE_VOLUME * ratio);
             break;
         case Audio::AudioType::MUSIC:
@@ -32,6 +24,17 @@ sf::Sound* Sound::loadFromFile(const std::string &fileName, const Audio::AudioTy
         default:
             setVolume(Audible::GLOBAL_VOLUME);
     }
+}
+
+sf::Sound* Sound::loadFromFile(const std::string &fileName, const Audio::AudioType& type) {
+    if (!mSoundBuffer.loadFromFile(ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
+        LOG << Log::VERBOSE << "[Sound::loadFromFile] Error while opening sound: "
+            << ENGINE_DEFAULTS::ASSETS_PATH + fileName << std::endl;
+    }
+    mSound.setBuffer(mSoundBuffer);
+
+    setType(type);
+    updateVolume();
 
     return &mSound;
 }

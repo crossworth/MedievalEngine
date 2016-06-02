@@ -76,6 +76,14 @@ void MusicQueue::setVolume(const float& volume) {
     mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->setVolume(volume);
 }
 
+void MusicQueue::updateVolume() {
+    std::vector<ResourceID>::iterator it = mMusics.begin();
+
+    for(; it != mMusics.end(); it++) {
+        mEngine->getResourceManager()->getResource<Music>(*it)->updateVolume();
+    }
+}
+
 void MusicQueue::setPitch(const float& pitch) {
     mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->setPitch(pitch);
 }

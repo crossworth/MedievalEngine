@@ -14,6 +14,8 @@ public:
     sf::Sound* loadFromFile(const std::string& fileName, const Audio::AudioType& type = Audio::AudioType::MUSIC);
     sf::Sound* getResourcePointer();
 
+    void updateVolume();
+
     unsigned int getDuration();
     float getAttenuation();
     float getMinDistance();

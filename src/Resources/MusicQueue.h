@@ -15,6 +15,8 @@ public:
 
     void registerEngine(MedievalEngine* engine);
 
+    void updateVolume();
+
     void insert(ResourceID& music);
     void insert(const std::string& music);
 
