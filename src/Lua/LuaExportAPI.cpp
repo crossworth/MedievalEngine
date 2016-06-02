@@ -4,7 +4,11 @@ using namespace ME;
 
 std::vector<LuaExportObject> LuaExportAPI::mExports;
 
-void LuaExportAPI::exports(const std::string& name, const std::string& args, const std::string& returnType, const LuaExportType& type, const std::string& comments) {
+void LuaExportAPI::exports(const std::string& name,
+                            const std::string& args,
+                            const std::string& returnType, 
+                            const LuaExportType& type, 
+                            const std::string& comments) {
     LuaExportObject tmp;
 
     tmp.name       = name;
@@ -90,10 +94,26 @@ std::string LuaExportAPI::getPredictions(const std::string& name) {
         // serach for possibles functions
         for(; it != end; it++) {
             if (it->name.find(name) == 0) {
-                options.push_back(it->name);
+                std::string option = it->name;
+
+                if (it->type == LuaExportType::FUNCTION) {
+                    option = option + "(" + it->args + ")";
+
+                    size_t startOptional = option.find_first_of('[');
+                    size_t endOptional   = option.find_last_of(']');
+
+                    if (startOptional != std::string::npos) {
+                        std::string optionWidthoutArgs;
+                        optionWidthoutArgs = option.substr(0, startOptional);
+                        optionWidthoutArgs = optionWidthoutArgs + option.substr(endOptional + 1);
+                        options.push_back(optionWidthoutArgs);
+                    }
+                }
+                
+                options.push_back(option);
             }
         }
-        
+
         // if we found something
         if (options.size() > 0) {
             // sort it to get better results

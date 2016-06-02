@@ -24,7 +24,11 @@ struct LuaExportObject {
 
 class LuaExportAPI {
 public:
-	static void exports(const std::string& name, const std::string& args, const std::string& returnType, const LuaExportType& type, const std::string& comments = "");
+	static void exports(const std::string& name,
+						const std::string& args,
+	 					const std::string& returnType,
+	 					const LuaExportType& type,
+	 					const std::string& comments = "");
    
     static std::string getPredictions(const std::string& name);
 

@@ -7,7 +7,7 @@
 *
 * @File: LuaConsole.cpp
 * @Last Modified by:   Pedro Henrique
-* @Last Modified time: 2016-06-01 18:59:06
+* @Last Modified time: 2016-06-02 18:05:52
 */
 
 #include "LuaConsole.h"
@@ -282,12 +282,12 @@ void LuaConsole::handleEvents(Event& evt) {
 
 
         // update the history position
-        if (Keyboard::isKeyPressed(Keyboard::KEY::Up) && mHasMadeAction == false) {
+        if (Keyboard::isKeyPressed(Keyboard::KEY::Up) && (mHasMadeAction == false || mInputCommand.getSize() == 0)) {
             // we add 1 to commandIndex to avoid going out of bounds
-            if (mCommands.size() > 0 && mCommandIndex + 1 < mCommands.size()) {
+            if (mCommands.size() > 0 && mCommandIndex < mCommands.size()) {
                 // if the command buffer is empty we show the first result of
                 // our command history, otherwise we keep increment it
-                if (mInputCommand != "") {
+                if (mInputCommand != "" && (mCommandIndex + 1) < mCommands.size())  {
                     mCommandIndex++;
                 }
 
@@ -302,7 +302,7 @@ void LuaConsole::handleEvents(Event& evt) {
             removeTextSelection();
         }
 
-        if (Keyboard::isKeyPressed(Keyboard::KEY::Down) && mHasMadeAction == false) {
+        if (Keyboard::isKeyPressed(Keyboard::KEY::Down) && (mHasMadeAction == false || mInputCommand.getSize() == 0) {
             if (mCommandIndex > 0) {
                 mInputCommand   = "";
                 mCursorPosition = 0;
@@ -457,30 +457,30 @@ void LuaConsole::handleEvents(Event& evt) {
                 // Here we handle the tab
                 // first get the command name
                 static std::string cmd = mInputCommand.getString();
-
+                static size_t cmdPos;
 
                 // if we hade made an action we need to reparse our command to get
                 // our new string
                 if (mHasMadeAction) {
                     cmd = mInputCommand.getString();
+
+                    // we can get the token from
+                    // (window[TAB])
+                    // )window[TAB]
+                    // .window[TAB]
+                    // 10*window[TAB] + / - * % & = ' "
+                    // ->window[TAB]
+                    
+                    cmdPos = cmd.find_last_of("(). *>+-/&%=\"'", mCursorPosition - 1);
+
+                    if (cmdPos == std::string::npos) {
+                        cmdPos = 0;
+                    } else {
+                        cmdPos++;
+                    }
+
+                    cmd = cmd.substr(cmdPos, mCursorPosition - cmdPos);
                 }
-
-                // we can get the token from
-                // (window[TAB])
-                // )window[TAB]
-                // .window[TAB]
-                // 10*window[TAB] + / - * % & = ' "
-                // ->window[TAB]
-                size_t cmdPos;
-                cmdPos = cmd.find_last_of("(). *>+-/&%=\"'", mCursorPosition - 1);
-
-                if (cmdPos == std::string::npos) {
-                    cmdPos = 0;
-                } else {
-                    cmdPos++;
-                }
-
-                cmd = cmd.substr(cmdPos, mCursorPosition - cmdPos);
 
                 // if the length if more/equals to 3 we try get the token
                 if (cmd.length() >= 3) {
@@ -501,6 +501,7 @@ void LuaConsole::handleEvents(Event& evt) {
                         mInputCommand.insert(cmdPos, result);
                         // set the new cursor position
                         mCursorPosition = newCursorPosition;
+                        mHasMadeAction  = false;
                     }
                 }
                 
