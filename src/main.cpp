@@ -4,6 +4,9 @@
  *
  * MEDIEVAL ENGINE TODO LIST
  *
+ * Fix space to tab on all files
+ * Fix all the header's include name
+ * 
  * GENERAL
  * - Better logging (put more logging call on the methods)
  * - Comment the code
