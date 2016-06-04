@@ -1,8 +1,11 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 #include "Events/Event.h"
+
 #include "Graphics/WindowInfo.h"
 #include "Graphics/Drawable.h"
+#include "Graphics/RenderArea.h"
+
 #include "Helper/Profiler.h"
 
 
@@ -23,6 +26,8 @@ public:
     void setPosition(const Vect2i& pos);
     Vect2i getSize();
     void setSize(const Vect2i& size);
+
+    void setRenderArea(RenderArea& renderArea);
 
     void setTitle(const std::string& title);
     void setIcon(const std::string& fileName);
@@ -56,6 +61,8 @@ public:
 
     void setCursor(const std::string& cursor);
     bool hasCustomCursor();
+
+    void resetViewState();
 
     sf::RenderWindow* getWindowPtr();
 

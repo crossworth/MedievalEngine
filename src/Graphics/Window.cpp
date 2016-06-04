@@ -466,6 +466,10 @@ bool Window::isVisible() {
     return mIsWindowVisible;
 }
 
+void Window::setRenderArea(RenderArea& renderArea) {
+    mWindow->setView(*renderArea.getView());
+}
+
 void Window::display() {
     // We have to draw the cursor on the display method
     // the draw method can and is called multiple times
@@ -501,6 +505,10 @@ void Window::display() {
 
 sf::RenderWindow* Window::getWindowPtr() {
     return mWindow;
+}
+
+void Window::resetViewState() {
+    mWindow->setView(mWindow->getDefaultView());
 }
 
 WindowInfo* Window::getWindowInfo() {

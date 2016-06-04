@@ -2,6 +2,16 @@
 
 using namespace ME;
 
+
+Area::Area() {
+    top    = 0;
+    left   = 0;
+    width  = 0;
+    height = 0;
+
+}
+
+
 Area::Area(float left, float top, float width, float height) {
     this->left   = left;
     this->top    = top;

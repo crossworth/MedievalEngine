@@ -72,8 +72,6 @@ private:
     Shape* mSelectedShape;
     Shape* mCursorShape;
 
-    sf::View panelView;
-
     // console configs
     bool mIsConsoleVisible;
     size_t mMaxNumberLines;

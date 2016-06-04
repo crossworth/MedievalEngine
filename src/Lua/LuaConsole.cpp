@@ -7,7 +7,7 @@
 *
 * @File: LuaConsole.cpp
 * @Last Modified by:   Pedro Henrique
-* @Last Modified time: 2016-06-02 18:05:52
+* @Last Modified time: 2016-06-04 11:19:58
 */
 
 #include "LuaConsole.h"
@@ -147,8 +147,6 @@ void LuaConsole::handleEvents(Event& evt) {
 
     // If the console is visible we handle the rest of the commands on it.
     if(isVisible()) {
-        // update the position of the input text 
-        updateInputText();
 
 
         if (evt.type == Event::KeyPressed) {
@@ -302,7 +300,7 @@ void LuaConsole::handleEvents(Event& evt) {
             removeTextSelection();
         }
 
-        if (Keyboard::isKeyPressed(Keyboard::KEY::Down) && (mHasMadeAction == false || mInputCommand.getSize() == 0) {
+        if (Keyboard::isKeyPressed(Keyboard::KEY::Down) && (mHasMadeAction == false || mInputCommand.getSize() == 0)) {
             if (mCommandIndex > 0) {
                 mInputCommand   = "";
                 mCursorPosition = 0;
@@ -604,6 +602,9 @@ void LuaConsole::handleEvents(Event& evt) {
         } // if event text entered
         // set the string to the text
         mInputText->setString(mInputCommand);
+
+        // update the position of the input text 
+        updateInputText();
     } // if console is visible
 }
 
@@ -612,6 +613,10 @@ void LuaConsole::addMessageStd(const std::string& message) {
 }
 
 void LuaConsole::addMessage(const String& message) {
+    // fix problems with \n been passed to the string
+    message.removeNewLine();
+    message.removeCarriageReturn();
+
     mOutputCommands.push_back(message);
 
     // set the string on the mOutputTextDraw
@@ -791,46 +796,47 @@ void LuaConsole::draw(Window& window) {
     window.draw(mConsoleShape);
     window.draw(mInputLineShape);
 
-    Area consoleShapeArea   = mConsoleShape->getGlobalBounds();
+    Area consoleShapeArea   = mConsoleShape->getGlobalBounds(); 
     consoleShapeArea.height = consoleShapeArea.height - mLineHeight;
 
-    sf::FloatRect panelRect(consoleShapeArea.left / mWindowSize.x,
+    Area consoleArea(consoleShapeArea.left / mWindowSize.x,
                             (consoleShapeArea.top) / mWindowSize.y,
                             (consoleShapeArea.width) / mWindowSize.x,
                             (consoleShapeArea.height) / mWindowSize.y);
 
-    panelView.reset(sf::FloatRect(consoleShapeArea.left, consoleShapeArea.top,
+    RenderArea consoleRenderArea;
+
+    consoleRenderArea.reset(Area(consoleShapeArea.left, consoleShapeArea.top,
                                   consoleShapeArea.width, consoleShapeArea.height));
 
-    panelView.setViewport(panelRect);
+    consoleRenderArea.setViewArea(consoleArea);
 
-    window.getWindowPtr()->setView(panelView);
+    window.setRenderArea(consoleRenderArea);
 
     window.draw(mOutputText);
 
-    window.getWindowPtr()->setView(window.getWindowPtr()->getDefaultView());
-
+    window.resetViewState();
 
     Area inputLineBackgroundArea = mInputLineShape->getGlobalBounds();
-    sf::FloatRect panelRectLineEdit(inputLineBackgroundArea.left / mWindowSize.x,
+    Area lineEditArea(inputLineBackgroundArea.left / mWindowSize.x,
                             inputLineBackgroundArea.top / mWindowSize.y,
                             inputLineBackgroundArea.width / mWindowSize.x,
                             inputLineBackgroundArea.height / mWindowSize.y);
 
+    RenderArea inputLineRenderArea;
 
-    panelView.reset(sf::FloatRect(inputLineBackgroundArea.left, inputLineBackgroundArea.top,
+    inputLineRenderArea.reset(Area(inputLineBackgroundArea.left, inputLineBackgroundArea.top,
                                   inputLineBackgroundArea.width, inputLineBackgroundArea.height));
-    panelView.setViewport(panelRectLineEdit);
+    inputLineRenderArea.setViewArea(lineEditArea);
 
-    window.getWindowPtr()->setView(panelView);
+    window.setRenderArea(inputLineRenderArea);
 
     // background text selection
     window.draw(mSelectedShape);
     // text
-    window.draw(mInputText);  
+    window.draw(mInputText);
 
-    window.getWindowPtr()->setView(window.getWindowPtr()->getDefaultView());
- 
+    window.resetViewState();
 
     if (!mCursorBlinking || mShowCursor == true) {
         window.draw(mCursorShape);

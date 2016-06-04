@@ -8,6 +8,7 @@ namespace ME {
 
 class Area {
 public:
+    Area();
     Area(float left, float top, float width, float height);
     Area(int left, int top, int width, int height);
 
