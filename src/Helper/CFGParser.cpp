@@ -54,7 +54,7 @@ bool CFGParser::readFile(const std::string& configFile) {
                         keyName = keyName + "_ar_" + std::to_string(currentIndex);
 
                         // if we found we increment the index
-                        if (mContents.find(keyName) != mContents.end()){
+                        if (mContents.find(keyName) != mContents.end()) {
                             currentIndex++;
                         }
                     }
@@ -83,7 +83,13 @@ void CFGParser::clear() {
     mContents.clear();
 }
 
-void CFGParser::saveFile(const std::string& configFile){
+void CFGParser::save() {
+    if (mFileName != "") {
+        saveFile(mFileName);
+    }
+}
+
+void CFGParser::saveFile(const std::string& configFile) {
     // configuration file output
     std::ofstream outFile;
     // try to open the file
@@ -146,7 +152,7 @@ std::map<std::string, String> CFGParser::getContents() {
     return mContents;
 }
 
-bool CFGParser::validateLine(std::string& line){
+bool CFGParser::validateLine(std::string& line) {
     // if the line is empty we just return
     if (line.empty()) {
         return false;

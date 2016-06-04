@@ -27,7 +27,12 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : GAME_FONT_ID(0), mDoneLo
     } else {
         // Read the default configuration file
         if (!mConfigurations.readFile(ENGINE_DEFAULTS::CONFIG_FILE)) {
+            LOG << Log::CRITICAL
+                << "[MedievalEngine::MedievalEngine] Could not find the configuration file "
+                << ENGINE_DEFAULTS::CONFIG_FILE << std::endl;
 
+            this->close(5);
+            return;
         }
     }
 
@@ -67,47 +72,69 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : GAME_FONT_ID(0), mDoneLo
     // to the correct type and put on the appropriate place
     if(bitsPerPixel != "") {
         mWindowInfoInput.bitsPerPixel = Kit::string_int(bitsPerPixel);
+    } else {
+        mConfigurations.add("bits_per_pixels", Kit::int_string(ENGINE_DEFAULTS::BITS_PER_PIXEL_WINDOW));
     }
 
     if(height != "") {
         mWindowInfoInput.height = Kit::string_int(height);
+    } else {
+        mConfigurations.add("height", Kit::int_string(ENGINE_DEFAULTS::HEIGHT_WINDOW));
     }
 
     if(width != "") {
         mWindowInfoInput.width = Kit::string_int(width);
+    } else {
+        mConfigurations.add("width", Kit::int_string(ENGINE_DEFAULTS::WIDTH_WINDOW));
     }
 
     if(fullScreen != "") {
         mWindowInfoInput.fullScreen = Kit::string_bool(fullScreen);
+    } else {
+        mConfigurations.add("fullscreen", Kit::bool_string(ENGINE_DEFAULTS::FULLSCREEN_WINDOW));
     }
 
     if(vsync != "") {
         mWindowInfoInput.vsync = Kit::string_bool(vsync);
+    } else {
+        mConfigurations.add("vsync", Kit::bool_string(ENGINE_DEFAULTS::VSYNC));
     }
 
     if(frameLimit != "") {
         mWindowInfoInput.frameLimit = Kit::string_int(frameLimit);
+    } else {
+        mConfigurations.add("frame_limit", Kit::int_string(ENGINE_DEFAULTS::FRAME_LIMIT));
     }
 
     if (windowName != "") {
         mWindowInfoInput.windowName = windowName;
+    } else {
+        mConfigurations.add("engine_name", String(ENGINE_DEFAULTS::ENGINE_NAME));
     }
 
     // Max volume 100.f
     if (globalVolume != "") {
         Audible::GLOBAL_VOLUME = std::min(Kit::string_float(globalVolume), 100.f);
+    } else {
+        mConfigurations.add("global_volume", Kit::float_string(Audible::GLOBAL_VOLUME));
     }
 
     if (voiceVolume != "") {
         Audible::VOICE_VOLUME = std::min(Kit::string_float(voiceVolume), 100.f);
+    } else {
+        mConfigurations.add("voice_volume", Kit::float_string(Audible::VOICE_VOLUME));
     }
 
     if (musicVolume != "") {
         Audible::MUSIC_VOLUME = std::min(Kit::string_float(musicVolume), 100.f);
+    } else {
+        mConfigurations.add("music_volume", Kit::float_string(Audible::MUSIC_VOLUME));
     }
 
     if (ambientVolume != "") {
         Audible::AMBIENT_VOLUME = std::min(Kit::string_float(ambientVolume), 100.f);
+    } else {
+        mConfigurations.add("ambient_volume", Kit::float_string(Audible::AMBIENT_VOLUME));
     }
 
     // Try to open the language file specified on the configuration file
@@ -242,6 +269,11 @@ void MedievalEngine::init() {
 
     LuaAPI::state.set_function("engine_is_loading_thread_done", &MedievalEngine::isLoadingThreadDone, this);
     LuaExportAPI::exports("engine_is_loading_thread_done", "", "bool", LuaExportType::FUNCTION, "if the loading thread is done loading, meaning that the engine must be on the first game state(menu)");
+
+    LuaAPI::state.set_function("engine_save_config_file", [this]() {
+        mConfigurations.save();
+    });
+    LuaExportAPI::exports("engine_save_config_file", "", "void", LuaExportType::FUNCTION, "save the current configuration to the config file");
 }
 
 void MedievalEngine::run() {

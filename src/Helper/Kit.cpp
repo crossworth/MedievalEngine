@@ -72,6 +72,10 @@ std::string Kit::float_str(const float& f) {
     return std::string(t);
 }
 
+String Kit::float_string(const float& f) {
+    return String(Kit::float_str(f));
+}
+
 int Kit::double_int(const double& d) {
     return static_cast<int>(d);
 }
@@ -98,10 +102,19 @@ std::string Kit::bool_str(const bool& b) {
     }
 }
 
+String Kit::bool_string(const bool& b) {
+    return String(Kit::bool_str(b));
+}
+
+
 std::string Kit::int_str(const int& i) {
     char t[200];
     std::sprintf(t,"%d",i);
     return std::string(t);
+}
+
+String Kit::int_string(const int& i) {
+    return String(Kit::int_str(i));
 }
 
 std::vector<std::string> Kit::explode(std::string const& s, char delim) {

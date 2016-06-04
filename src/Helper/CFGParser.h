@@ -13,6 +13,7 @@ public:
     CFGParser(const std::string& configFile);
     bool readFile(const std::string& configFile);
     bool add(std::string key, String value);
+    void save();
     void saveFile(const std::string& configFile);
 
     String getKey(std::string key);

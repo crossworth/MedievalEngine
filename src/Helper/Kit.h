@@ -25,6 +25,7 @@ public:
     static int float_int(const float& f);
     static double float_double(const float& f);
     static std::string float_str(const float& f);
+    static String float_string(const float& f);
 
     static int double_int(const double& b);
     static float double_float(const double& b);
@@ -32,8 +33,10 @@ public:
 
     static int bool_int(const bool& b);
     static std::string bool_str(const bool& b);
+    static String bool_string(const bool& b);
 
     static std::string int_str(const int& i);
+    static String int_string(const int& i);
     static bool int_bool(const bool& b);
 
     static std::vector<std::string> explode(std::string const & s, char delim);
