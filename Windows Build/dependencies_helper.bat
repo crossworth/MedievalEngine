@@ -2,9 +2,17 @@
 @REM @Email: system.pedrohenrique@gmail.com
 @REM @Date:   2016-06-05 23:46:25
 @REM @Last Modified by:   Pedro Henrique
-@REM Modified time: 2016-06-06 18:27:30
+@REM Modified time: 2016-06-06 19:17:43
 
 @echo off
+
+NET SESSION >nul 2>&1
+
+if %ERRORLEVEL% NEQ 0 (
+	echo You must execute this file as administrator
+	goto :end
+)
+goto :end
 
 echo.
 echo MedievalEngine Windows Dependencies Helper
@@ -15,7 +23,7 @@ echo This script will install all dependencies (Lua 5.3.2, SFML 2.3.2)
 echo ===================================================================
 echo.
 
-SET CURRENTDIR=%cd%
+SET CURRENTDIR=%~dp0
 
 if exist "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\amd64\vcvars64.bat" (
 	echo Visual Studio found, preparing to install the MedievalEngine dependencies
@@ -53,6 +61,7 @@ if exist "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\amd64\vcvar
 				mv *.dll C:\Deps\Lua\
 				mv *.lib C:\Deps\Lua\libs
 				mv *.h C:\Deps\Lua\include\
+				mv *.hpp C:\Deps\Lua\include\
 			popd
 		popd
 	popd
@@ -69,6 +78,10 @@ if exist "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\amd64\vcvar
 		popd
 	popd
 
+
+	xcopy C:\Deps\SFML\*.dll C:\Windows\System32
+	xcopy C:\Deps\Lua\*.dll C:\Windows\System32
+
 	del lua-5.3.2.tar.gz
 	del SFML-2.3.2-windows-vc14-64-bit.zip
 
@@ -82,3 +95,6 @@ if exist "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\amd64\vcvar
     echo Ops, we could not find an installation of Visual Studio 2015, try install it first.
     echo If you have installed Visual Studio 2015, maybe you're running a 32bits system, which it's not supported at this time
 )
+
+
+:end

@@ -1,2 +1,8 @@
 @echo off
-START "Debugger" /D H:\Dev\MedievalEngine\build devenv MedievalEngine.exe
+
+SET CURRENTDIR=%~dp0
+SET BIN_PATH="%CURRENTDIR%..\bin"
+
+pushd %BIN_PATH%
+	START "Debugger" devenv "MedievalEngine.exe"
+popd

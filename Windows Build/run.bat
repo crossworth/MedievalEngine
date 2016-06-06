@@ -1,2 +1,8 @@
 @echo off
-START "MedievalEngine" /D H:\Dev\MedievalEngine\bin "H:\Dev\MedievalEngine\build\MedievalEngine.exe"
+
+SET CURRENTDIR=%~dp0
+SET BIN_PATH="%CURRENTDIR%..\bin"
+
+pushd %BIN_PATH%
+	START "MedievalEngine" "MedievalEngine.exe"
+popd

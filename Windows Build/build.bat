@@ -25,22 +25,26 @@ REM variáveis no arquivo batch
 REM enabledelayedexpansion Define que as variáveis devem ser expandidas
 REM durante o tempo de execução e não de parse
 
+SET CURRENTDIR=%~dp0
+SET ENGINE_PATH="%CURRENTDIR%/.."
+SET SOURCE_DIR="%CURRENTDIR%/../src"
+SET BIN_PATH="%CURRENTDIR%/../bin"
 
 setlocal enabledelayedexpansion
 SET outexe=MedievalEngine.exe
 SET flags=/Fe%outexe% /W3 /Fo.\obj\ /Zi /MDd /EHsc /nologo /Gm /FC /fp:precise
 SET defines=/D__WIN32 /D_CRT_SECURE_NO_WARNINGS
-SET libs="sfml-graphics-d.lib" "sfml-window-d.lib" "sfml-audio-d.lib" "sfml-system-d.lib" "lua5.3.1.lib" "kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib" "advapi32.lib" "shell32.lib" "ole32.lib" "oleaut32.lib" "uuid.lib" "odbc32.lib" "odbccp32.lib" /link /MACHINE:X64 /INCREMENTAL  /LIBPATH:"C:\SFML\lib" /LIBPATH:"C:\Dev\VisualStudio\lua5.3.1\lib" /TLBID:1
-SET includes=/I"H:\Dev\MedievalEngine\source" /I"H:\Dev\MedievalEngine\deps" /I"C:\Program Files (x86)\SFML\include" /I"C:\Dev\VisualStudio\lua5.3.1\include" /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include"
+SET libs="sfml-graphics-d.lib" "sfml-window-d.lib" "sfml-audio-d.lib" "sfml-system-d.lib" "lua5.3.2.lib" "kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib" "advapi32.lib" "shell32.lib" "ole32.lib" "oleaut32.lib" "uuid.lib" "odbc32.lib" "odbccp32.lib" /link /MACHINE:X64 /INCREMENTAL  /LIBPATH:"C:\Deps\SFML\libs" /LIBPATH:"C:\Deps\Lua\libs" /TLBID:1
+SET includes=/I%SOURCE_DIR% /I%SOURCE_DIR%/extlibs /I"C:\Deps\SFML\include" /I"C:\Deps\Lua\include" /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include"
 SET sources=
 
 REM Consegue a lista de arquivos para ser compilado
-cd "H:\Dev\MedievalEngine\source"
+cd %SOURCE_DIR%
 FOR /R %%i IN (*.cpp) DO set sources=!sources! %%i
-cd "H:\Dev\MedievalEngine"
+cd %ENGINE_PATH%
 
-IF NOT EXIST "H:\Dev\MedievalEngine\build" mkdir "H:\Dev\MedievalEngine\build"
-cd "H:\Dev\MedievalEngine\build"
+IF NOT EXIST %BIN_PATH% mkdir %BIN_PATH%
+cd %BIN_PATH%
 IF NOT EXIST .\obj mkdir .\obj
 cl %flags% %defines% %includes% %sources% %libs%
-cd "H:\Dev\MedievalEngine"
+cd %ENGINE_PATH%
