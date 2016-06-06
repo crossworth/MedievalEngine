@@ -134,7 +134,7 @@ printf "MedievalEngine Mac OS X Builder and Installer Helper\n"
 printf "Pedro Henrique - system.pedrohenrique@gmail.com\n"
 printf "\n"
 printf "============================================================\n"
-printf "1 - Install all dependencies (SFML 5.3.2, Lua 2.3.2)\n"
+printf "1 - Install all dependencies (Lua 5.3.2, SFML 2.3.2)\n"
 printf "2 - Generate Makefile\n"
 printf "============================================================\n"
 
