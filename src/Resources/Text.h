@@ -23,7 +23,7 @@ public:
                        const Color& color = Color::BLACK);
 
 
-    int getFontHeight(const unsigned int& size);
+    float getFontHeight(const unsigned int& size);
 
 
     void removeTextShadow();

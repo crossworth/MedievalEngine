@@ -7,7 +7,7 @@
 *
 * @File: LuaConsole.cpp
 * @Last Modified by:   Pedro Henrique
-* @Last Modified time: 2016-06-06 18:49:55
+* @Last Modified time: 2016-06-06 19:59:34
 */
 
 #include "LuaConsole.h"
@@ -20,7 +20,7 @@ LuaConsole::LuaConsole() {
     mIsConsoleVisible       = false;
     mInputCommand           = "";
     mLastChar               = 0;
-    mFontWidth              = 0;
+    mFontWidth              = 0.0f;
     mInputText              = nullptr;
     mOutputText             = nullptr;
     mConsoleShape           = nullptr;
@@ -173,9 +173,9 @@ void LuaConsole::handleEvents(Event& evt) {
                 // if has text selected
                 if (hasTextSelected()) {
                     // remove all selected
-                    int diffCursorPosition = mEndSelectionPosition - mStartSelectionPosition;
-                    mShowCursor            = true;
-                    mHasMadeAction         = true;
+                    size_t diffCursorPosition = mEndSelectionPosition - mStartSelectionPosition;
+                    mShowCursor               = true;
+                    mHasMadeAction            = true;
 
                     mInputCommand.erase(static_cast<int>(mStartSelectionPosition), static_cast<int>(diffCursorPosition));
                     
@@ -260,9 +260,9 @@ void LuaConsole::handleEvents(Event& evt) {
 
                 if (hasTextSelected()) {
                     // remove all selected
-                    int diffCursorPosition = mEndSelectionPosition - mStartSelectionPosition;
-                    mShowCursor            = true;
-                    mHasMadeAction         = true;
+                    size_t diffCursorPosition = mEndSelectionPosition - mStartSelectionPosition;
+                    mShowCursor               = true;
+                    mHasMadeAction            = true;
 
                     mInputCommand.erase(static_cast<int>(mStartSelectionPosition), static_cast<int>(diffCursorPosition));
 
@@ -629,7 +629,7 @@ void LuaConsole::addMessage(const String& message) {
     }
 }
 
-void LuaConsole::calculateVisibleTextOutput(const int& lineNumber) {
+void LuaConsole::calculateVisibleTextOutput(const size_t& lineNumber) {
     // default go to bottom
     if (lineNumber == -1) {
         mCurrentOutputLine = mOutputCommands.size();
@@ -646,7 +646,7 @@ void LuaConsole::calculateVisibleTextOutput(const int& lineNumber) {
         mCurrentOutputLine = 0;
     }
 
-    int offsetStart = 0;
+    size_t offsetStart = 0;
 
     // if the line number is bigger we make an offset
     if (mCurrentOutputLine > mMaxNumberLines) {
@@ -660,7 +660,7 @@ void LuaConsole::calculateVisibleTextOutput(const int& lineNumber) {
     }
 
     std::string tmp;
-    for(int i = offsetStart; i < mCurrentOutputLine; i++) {
+    for(size_t i = offsetStart; i < mCurrentOutputLine; i++) {
         tmp = tmp + mOutputCommands[i].getString();
     }
 
@@ -674,12 +674,12 @@ void LuaConsole::setTextSelection(const size_t& start, const size_t& end) {
     float diffCursorPosition = 0;
 
     if (end < start) {
-        diffCursorPosition      = start - end;
+        diffCursorPosition      = static_cast<float>(start - end);
         tmpCursorPosition.x     = tmpCursorPosition.x + (end * mFontWidth);
         mStartSelectionPosition = end;
         mEndSelectionPosition   = start;
     } else {
-        diffCursorPosition      = end - start;
+        diffCursorPosition      = static_cast<float>(end - start);
         tmpCursorPosition.x     = tmpCursorPosition.x + (start * mFontWidth);
         mStartSelectionPosition = start;
         mEndSelectionPosition   = end;
@@ -734,7 +734,7 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     outputTextID = inputTextID = mResources->createText(String(""), Window::fontSize(0.20f), fontID);
     mOutputText  = mResources->getResource<Text>(outputTextID);
 
-    mFontHeight = mOutputText->getFontHeight(Window::fontSize(0.20f));
+    mFontHeight = static_cast<int>(mOutputText->getFontHeight(Window::fontSize(0.20f)));
 
     inputTextID = mResources->createText(mInputCommand, Window::fontSize(0.25f), fontID);
     mInputText  = mResources->getResource<Text>(inputTextID);
@@ -749,7 +749,7 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     mLineHeight = mInputText->getSize().y * 2;
 
     // calcule max terminal line number
-    mMaxNumberLines = (mConsoleSize.y + (mLineHeight / 2)) / mFontHeight;
+    mMaxNumberLines = static_cast<size_t>((mConsoleSize.y + (mLineHeight / 2)) / mFontHeight);
 
     // reset the input text
     mInputText->setString(String(""));

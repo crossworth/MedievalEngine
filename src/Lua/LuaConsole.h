@@ -47,7 +47,7 @@ public:
     void saveConsoleAction(const String& command, const size_t& cursorPosition);
 private:
     void updateInputText();
-    void calculateVisibleTextOutput(const int& lineNumber = -1);
+    void calculateVisibleTextOutput(const size_t& lineNumber = -1);
 
     void setTextSelection(const size_t& start, const size_t& end);
     void removeTextSelection();
@@ -76,7 +76,7 @@ private:
     bool mIsConsoleVisible;
     size_t mMaxNumberLines;
     float mLineHeight;
-    int mFontWidth;
+    float mFontWidth;
     int mFontHeight;
     Vect2i mWindowSize;
     Vect2i mConsoleSize;
@@ -118,7 +118,7 @@ private:
     unsigned int mCusorBlinkTime;
 
     // console current showing text
-    int mCurrentOutputLine;
+    size_t mCurrentOutputLine;
 };
 
 }

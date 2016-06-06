@@ -35,6 +35,6 @@ sf::Font* Font::getResourcePointer() {
     return &mFont;
 }
 
-unsigned int Font::getLineSpacing(const unsigned int& size) const {
+float Font::getLineSpacing(const unsigned int& size) const {
     return mFont.getLineSpacing(size);
 }

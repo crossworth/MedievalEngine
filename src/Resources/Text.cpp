@@ -17,7 +17,9 @@ unsigned int Text::getFontSize() {
     return mText.getCharacterSize();
 }
 
-int Text::getFontHeight(const unsigned int& size) {
+// NOTE(Pedro): On SFML documentation getLineSpacing return an int
+// but for some reason it returns a float
+float Text::getFontHeight(const unsigned int& size) {
     const sf::Font* font = mText.getFont();
     return font->getLineSpacing(size);
 }
