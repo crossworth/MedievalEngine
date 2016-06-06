@@ -22,11 +22,11 @@ void LuaAPI::loadLibs() {
 
         // inject a custom lua print table function verbose and non verbose
         LuaAPI::script("function print_table_verbose (tbl, indent) if not indent then indent = 0 end for k, v in pairs(tbl) do formatting = string.rep(\"  \", indent) .. k .. \": \" if type(v) == \"table\" then log(formatting) print_table_verbose(v, indent+1) elseif type(v) == 'boolean' then log(formatting .. tostring(v)) else log(formatting .. v) end end end");
-        LuaExportAPI::exports("print_table_verbose", "table [,int]", "void", LuaExportType::FUNCTION, "print a lua table on console with verbose mode, second argument control if it should have indentation or not, pass a int as the indentation number");
+        LuaExportAPI::exports("print_table_verbose", "table[, int]", "void", LuaExportType::FUNCTION, "print a lua table on console with verbose mode, second argument control if it should have indentation or not, pass a int as the indentation number");
 
         // non-verbose print_table (clean print)
         LuaAPI::script("function print_table (tbl, indent) if not indent then indent = 0 end for k, v in pairs(tbl) do formatting = string.rep(\"  \", indent) .. k .. \": \" if type(v) == \"table\" then print_text(formatting) print_table(v, indent+1) elseif type(v) == 'boolean' then print_text(formatting .. tostring(v)) else print_text(formatting .. v) end end end");
-        LuaExportAPI::exports("print_table", "table [,int]", "void", LuaExportType::FUNCTION, "print a lua table on console, second argument control if it should have indentation or not, pass a int as the indentation number");
+        LuaExportAPI::exports("print_table", "table[, int]", "void", LuaExportType::FUNCTION, "print a lua table on console, second argument control if it should have indentation or not, pass a int as the indentation number");
 
 
         LuaAPI::state.set_function("log_v", [](const std::string& message){
