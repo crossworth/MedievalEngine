@@ -2,7 +2,6 @@
 #define CLIPBOARD_IMP_MACOS_H
 #include <string>
 #include <iostream>
-#include <codecvt>
 #include "Helper/String.h"
 
 
