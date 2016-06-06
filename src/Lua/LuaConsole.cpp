@@ -7,7 +7,7 @@
 *
 * @File: LuaConsole.cpp
 * @Last Modified by:   Pedro Henrique
-* @Last Modified time: 2016-06-06 19:59:34
+* @Last Modified time: 2016-06-06 20:14:15
 */
 
 #include "LuaConsole.h"
@@ -155,7 +155,7 @@ void LuaConsole::handleEvents(Event& evt) {
             if (evt.key.code == Keyboard::KEY::A && 
                 ((evt.key.control && !OS::isMacOS()) || (evt.key.system && OS::isMacOS()))) {
                 
-                setTextSelection(0, mInputCommand.getSize());
+                setTextSelection(0, mInputCommand.getSize() );
                 mCursorPosition = mInputCommand.getSize();
             }
 
@@ -410,13 +410,15 @@ void LuaConsole::handleEvents(Event& evt) {
                 }
             }
         }
-
-        if (evt.type == Event::TextEntered) {
+        
+        // NOTE(Pedro): On Windows the contrl + key can change the text.unicode
+        // Eg: CTRL+C = Unicode 3 = End of Text
+        // This avoid the problem of CTRL+A not working as expected
+        if (evt.type == Event::TextEntered && !evt.key.control) {
             if (mShowKeyCode) {
                 LOG << Log::VERBOSE
                     << "[LuaConsole::handleEvents] KeyCode: " << evt.text.unicode << std::endl;
             }
-
 
             // 13  = Carriage Return (Enter on Windows)
             // 10  = newline (Return MacOS)
