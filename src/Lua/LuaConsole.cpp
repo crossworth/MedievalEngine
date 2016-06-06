@@ -7,7 +7,7 @@
 *
 * @File: LuaConsole.cpp
 * @Last Modified by:   Pedro Henrique
-* @Last Modified time: 2016-06-04 11:19:58
+* @Last Modified time: 2016-06-06 18:49:55
 */
 
 #include "LuaConsole.h"
@@ -614,10 +614,12 @@ void LuaConsole::addMessageStd(const std::string& message) {
 
 void LuaConsole::addMessage(const String& message) {
     // fix problems with \n been passed to the string
-    message.removeNewLine();
-    message.removeCarriageReturn();
+    String messageTmp(message);
+    
+    messageTmp.removeNewLine();
+    messageTmp.removeCarriageReturn();
 
-    mOutputCommands.push_back(message);
+    mOutputCommands.push_back(messageTmp);
 
     // set the string on the mOutputTextDraw
     if(isVisible()) {
