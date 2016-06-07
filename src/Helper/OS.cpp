@@ -3,6 +3,11 @@
 
 using namespace ME;
 
+#ifdef _OS_WIN
+std::string OS::NEW_LINE = "\r\n";
+#else
+std::string OS::NEW_LINE = "\n";
+#endif
 
 std::string OS::getOperationSytemName() {
 	return std::string(_OS_);

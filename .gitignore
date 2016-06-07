@@ -139,3 +139,5 @@ bld/
 .vs/
 
 *.sln
+*.db
+bin/MedievalEngine.VC.VC.opendb

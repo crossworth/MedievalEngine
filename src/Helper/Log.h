@@ -5,6 +5,7 @@
 #include <iostream>
 #include <mutex>
 #include "Helper/String.h"
+#include "Helper/OS.h"
 
 
 namespace ME {
@@ -119,10 +120,10 @@ public:
         // little cheat to get the right enconding
         // we create a wstring and than convert to a utf8string
         // this way we can use on SFML and on console without problems
-        *mOutstream << String::wstring_to_UTF8(String::string_to_wstring(mTempOutstream.str())) + "\n";
+        *mOutstream << String::wstring_to_UTF8(String::string_to_wstring(mTempOutstream.str())) + OS::NEW_LINE;
 
         if (mCallOnUpdate != nullptr) {
-            mCallOnUpdate->addMessage(String(mTempOutstream.str() + "\n"));
+            mCallOnUpdate->addMessage(String(mTempOutstream.str() + OS::NEW_LINE));
         }
 
         mTempOutstream.str("");

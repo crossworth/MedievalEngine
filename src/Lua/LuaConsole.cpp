@@ -7,7 +7,7 @@
 *
 * @File: LuaConsole.cpp
 * @Last Modified by:   Pedro Henrique
-* @Last Modified time: 2016-06-06 20:19:17
+* @Last Modified time: 2016-06-07 11:48:01
 */
 
 #include "LuaConsole.h"
@@ -438,7 +438,7 @@ void LuaConsole::handleEvents(Event& evt) {
                 // if we have some command we execute it
                 if (mInputCommand.getSize() > 0) {
                     // put on the screen the command
-                    addMessage("Command: " + mInputCommand + "\n");
+                    addMessage("Command: " + mInputCommand + OS::NEW_LINE);
                     // call Lua
                     LuaAPI::script(mInputCommand);
                     mCommands.push_front(mInputCommand);
@@ -663,7 +663,7 @@ void LuaConsole::calculateVisibleTextOutput(const size_t& lineNumber) {
 
     std::string tmp;
     for(size_t i = offsetStart; i < mCurrentOutputLine; i++) {
-        tmp = tmp + mOutputCommands[i].getString();
+        tmp = tmp + mOutputCommands[i].getString() + OS::NEW_LINE;
     }
 
     mOutputText->setString(String(tmp));

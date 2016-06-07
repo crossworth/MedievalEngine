@@ -60,6 +60,8 @@ public:
 	static bool is32Bits();
 	static bool is64Bits();
 
+
+	static std::string NEW_LINE;
 	// TODO(Pedro): get language, time, and that kind of stuff
 };
 

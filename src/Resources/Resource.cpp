@@ -3,6 +3,8 @@
 using namespace ME;
 
 Resource::Resource() {
+	// TODO(Pedro): Do we need this flag?
+	// on Text its not been updated
     mIsValid = false;
 }
 
