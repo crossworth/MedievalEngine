@@ -46,6 +46,7 @@ void Audible::exportFunctions() {
 
 	LuaAPI::state.set_function("audio_set_global_volume", [this](float volume) {
     	Audible::GLOBAL_VOLUME = volume;
+		// TODO(Pedro): set a flag to update the volume, insted of tring to update on the objects, maybe register this functions outside this class as well
     	updateVolume();
     });
     LuaExportAPI::exports("audio_set_global_volume", "", "float", LuaExportType::FUNCTION,
