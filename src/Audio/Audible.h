@@ -202,8 +202,6 @@ public:
 
 protected:
     Audio::AudioType mAudioType;
-    static bool mIsFunctionsExported;
-    void exportFunctions();
 };
 
 }

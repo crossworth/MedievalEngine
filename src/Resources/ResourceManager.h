@@ -16,6 +16,8 @@ class ResourceManager {
 public:
     ResourceManager();
 
+    static void updateAudioVolume();
+
     ResourceID loadTexture(const std::string& fileName);
     ResourceID loadFont(const std::string& fileName);
     ResourceID loadFont(MEByte* bytes, std::size_t size);
@@ -36,8 +38,8 @@ public:
     T* getResource(const ResourceID& id);
 
     ~ResourceManager();
-private:
-    std::unordered_map<ResourceID, ResourcePtr> mResources;
+protected:
+    static std::unordered_map<ResourceID, ResourcePtr> mResources;
 };
 
 template<typename T>
@@ -45,8 +47,8 @@ T* ResourceManager::getResource(const ResourceID &id) {
     // TODO(pedro): veriify if it's valid resource before delivery to the user
     // if it's not valid we return a fallback
     // resource or something
-    if (mResources.find(id) != mResources.end()) {
-        return static_cast<T*>(mResources[id].get());
+    if (ResourceManager::mResources.find(id) != ResourceManager::mResources.end()) {
+        return static_cast<T*>(ResourceManager::mResources[id].get());
     } else {
         LOG << Log::WARNING
             << "[AssetsManager::getAsset] Asset not found ID: "
