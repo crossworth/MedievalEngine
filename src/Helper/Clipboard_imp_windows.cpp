@@ -2,10 +2,16 @@
 * @Author: Pedro Henrique
 * @Date:   2016-06-06 20:20:00
 * @Last Modified by:   Pedro Henrique
-* @Last Modified time: 2016-06-06 20:54:20
+* @Last Modified time: 2016-06-07 13:54:29
 */
-#include <Windows.h>
 #include "Clipboard_imp_windows.h"
+#include "Helper/OS.h"
+
+#ifdef _OS_WIN
+
+
+#include <Windows.h>
+
 
 ME::String WindowsGetClipboardData() {
 	
@@ -67,3 +73,15 @@ void WindowsSetClipboardData(const ME::String& data) {
     SetClipboardData(CF_TEXT, stringHandle);
     CloseClipboard();
 }
+
+#else
+
+ME::String WindowsGetClipboardData() {
+    return ME::String("");
+}
+
+void WindowsSetClipboardData(const ME::String& data) {
+
+}
+
+#endif
