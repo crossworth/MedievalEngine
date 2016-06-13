@@ -6,7 +6,7 @@ CFGParser::CFGParser() {
 
 }
 
-bool CFGParser::readFile(const std::string& configFile) {
+bool CFGParser::readFile(const std::string &configFile) {
     // Store the configuration file name
     this->mFileName = configFile;
 
@@ -42,7 +42,7 @@ bool CFGParser::readFile(const std::string& configFile) {
                 // if we have found
                 if (arrayPos != std::string::npos) {
                     // current index set to zero
-                    int currentIndex = 0;
+                    uint16 currentIndex = 0;
 
                     // loop through all the elements lookin for the key
                     for(auto it = mContents.begin(); it != mContents.end(); it++) {
@@ -89,7 +89,7 @@ void CFGParser::save() {
     }
 }
 
-void CFGParser::saveFile(const std::string& configFile) {
+void CFGParser::saveFile(const std::string &configFile) {
     // configuration file output
     std::ofstream outFile;
     // try to open the file
@@ -122,7 +122,7 @@ bool CFGParser::add(std::string key, String value) {
     return true;
 }
 
-bool CFGParser::keyExists(std::string& key) {
+bool CFGParser::keyExists(std::string &key) {
     std::map<std::string, String>::iterator it;
     it = mContents.find(key);
     if (it != mContents.end()) {
@@ -144,7 +144,7 @@ String CFGParser::getKey(std::string key) {
     return String();
 }
 
-CFGParser::CFGParser(const std::string& configFile) {
+CFGParser::CFGParser(const std::string &configFile) {
     this->readFile(configFile);
 }
 
@@ -152,7 +152,7 @@ std::map<std::string, String> CFGParser::getContents() {
     return mContents;
 }
 
-bool CFGParser::validateLine(std::string& line) {
+bool CFGParser::validateLine(std::string &line) {
     // if the line is empty we just return
     if (line.empty()) {
         return false;

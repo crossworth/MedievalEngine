@@ -2,7 +2,7 @@
 
 using namespace ME;
 
-WindowInfo::WindowInfo(int width, int height, int bitsPerPixel, bool fullScreen, String name, int frameLimit, bool vsync) {
+WindowInfo::WindowInfo(uint16 width, uint16 height, uint8 bitsPerPixel, bool fullScreen, String name, uint16 frameLimit, bool vsync) {
     this->width        = width;
     this->height       = height;
     this->bitsPerPixel = bitsPerPixel;

@@ -1,14 +1,20 @@
 #ifndef RANDOM_H
 #define RANDOM_H
 #include <random>
-#include "Helper/Types.h"
+#include <atomic>
+
+#include "Helper/BasicTypes.h"
 
 namespace ME {
 
 class Random {
 public:
-    static MEInt64 get(MEInt64 from, MEInt64 to);
-    static MEInt64 get(MEInt64 to);
+    static uint64 get(uint64 from, uint64 to);
+    static uint64 get(uint64 to);
+    static uint64 unique();
+
+private:
+    static std::atomic<uint64> unique_id;
 };
 
 }

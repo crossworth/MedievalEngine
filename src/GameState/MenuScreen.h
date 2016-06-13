@@ -19,9 +19,9 @@ public:
     void handleEvents(Event& evt);
     ~MenuScreen();
 private:
-    ResourceID bgID;
-    ResourceID bgOptionsID;
-    ResourceID logoID;
+    std::string bgName;
+    std::string bgOptionsName;
+    std::string logoName;
 
     Shader* shader;
 

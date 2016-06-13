@@ -17,18 +17,28 @@ void MenuScreen::create() {
     
     LOG << Log::VERBOSE << "[MenuScreen::create]" << std::endl;
 
-    ResourceID bgTXT = mResources->loadTexture("menu/bg_menu.png");
-    bgID             = mResources->createSprite(bgTXT);
+    std::string bgTXTName = "menu_screen_bg_menu_png";
 
-    ResourceID bgOptionsTXT = mResources->loadTexture("menu/bg_options.png");
-    bgOptionsID             = mResources->createSprite(bgOptionsTXT);
+    ResourceManager::loadTexture(bgTXTName, "menu/bg_menu.png");
 
-    ResourceID logoTXT = mResources->loadTexture("menu/title_menu.png");
-    logoID             = mResources->createSprite(logoTXT);
+    bgName = "menu_screen_bg_sprite";
+    ResourceManager::createSprite(bgName, bgTXTName);
 
-    Sprite* logoSPT      = mResources->getResource<Sprite>(logoID);
-    Sprite* bgSPT        = mResources->getResource<Sprite>(bgID);
-    Sprite* bgOptionsSPT = mResources->getResource<Sprite>(bgOptionsID);
+    std::string bgOptionsTXT = "menu_screen_bg_options_png";
+    ResourceManager::loadTexture(bgOptionsTXT, "menu/bg_options.png");
+
+    bgOptionsName = "menu_screen_options_sprite";
+    ResourceManager::createSprite(bgOptionsName, bgOptionsTXT);
+
+    std::string logoTXT = "menu_screen_title_menu_png";
+    ResourceManager::loadTexture(logoTXT, "menu/title_menu.png");
+
+    logoName = "menu_screen_logo_sprite";
+    ResourceManager::createSprite(logoName, logoTXT);
+
+    Sprite* logoSPT      = ResourceManager::get<Sprite>(logoName);
+    Sprite* bgSPT        = ResourceManager::get<Sprite>(bgName);
+    Sprite* bgOptionsSPT = ResourceManager::get<Sprite>(bgOptionsName);
 
     // Set the background image to fullScreen
     Window::setSizeFullScreen(bgSPT);
@@ -48,7 +58,7 @@ void MenuScreen::create() {
     int fontSize = Window::fontSize(0.5f);
 
     // Create the new Game button Text Widget
-    mNewGame = TextWidgetPtr(new TextWidget(Strings::get("new_game"), fontSize, Vect2f(0.f, 0.f), mEngine->GAME_FONT_ID));
+    mNewGame = TextWidgetPtr(new TextWidget(Strings::get("new_game"), fontSize, Vect2f(0.f, 0.f), "game_font"));
     // Add the Widget to the GUI
     mGUI.addWidget("new_game_btn", mNewGame);
 
@@ -61,7 +71,7 @@ void MenuScreen::create() {
 
 
     // Create the new Game button Text Widget
-    mContinue = TextWidgetPtr(new TextWidget(Strings::get("continue"), fontSize, Vect2f(0.f, 0.f), mEngine->GAME_FONT_ID));
+    mContinue = TextWidgetPtr(new TextWidget(Strings::get("continue"), fontSize, Vect2f(0.f, 0.f), "game_font"));
     // Add the Widget to the GUI
     mGUI.addWidget("continue_btn", mContinue);
 
@@ -74,7 +84,7 @@ void MenuScreen::create() {
 
 
     // Create the new Game button Text Widget
-    mMultiplayer = TextWidgetPtr(new TextWidget(Strings::get("multiplayer"), fontSize, Vect2f(0.f, 0.f), mEngine->GAME_FONT_ID));
+    mMultiplayer = TextWidgetPtr(new TextWidget(Strings::get("multiplayer"), fontSize, Vect2f(0.f, 0.f), "game_font"));
     // Add the Widget to the GUI
     mGUI.addWidget("multiplayer_btn", mMultiplayer);
 
@@ -87,7 +97,7 @@ void MenuScreen::create() {
 
 
     // Create the new Game button Text Widget
-    mOptions = TextWidgetPtr(new TextWidget(Strings::get("options"), fontSize, Vect2f(0.f, 0.f), mEngine->GAME_FONT_ID));
+    mOptions = TextWidgetPtr(new TextWidget(Strings::get("options"), fontSize, Vect2f(0.f, 0.f), "game_font"));
     // Add the Widget to the GUI
     mGUI.addWidget("options_btn", mOptions);
 
@@ -120,10 +130,8 @@ void MenuScreen::create() {
     mOptions->addEventHandle(optionsEvent);
 
 
-
-
     // Create the new Game button Text Widget
-    mExit = TextWidgetPtr(new TextWidget(Strings::get("exit"), fontSize, Vect2f(0.f, 0.f), mEngine->GAME_FONT_ID));
+    mExit = TextWidgetPtr(new TextWidget(Strings::get("exit"), fontSize, Vect2f(0.f, 0.f), "game_font"));
     // Add the Widget to the GUI
     mGUI.addWidget("exit_btn", mExit);
 
@@ -173,17 +181,17 @@ void MenuScreen::init() {
     mOptions->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
     mExit->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
 
-    mResources->getResource<Sprite>(bgID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
-    mResources->getResource<Sprite>(logoID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
-    mResources->getResource<Sprite>(bgOptionsID)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN, [this] (void) {
+    ResourceManager::get<Sprite>(bgName)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
+    ResourceManager::get<Sprite>(logoName)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN));
+    ResourceManager::get<Sprite>(bgOptionsName)->addEffect(new Fade(mFadeTime, Fade::Type::FADEIN, [this] (void) {
         this->setCurrentStatus(GameState::Status::ON_PLAYING);
     }));
 }
 
 void MenuScreen::onEnable(Window &window) {
-    window.draw(mResources->getResource<Sprite>(bgID));
-    window.draw(mResources->getResource<Sprite>(bgOptionsID));
-    window.draw(mResources->getResource<Sprite>(logoID));
+    window.draw(ResourceManager::get<Sprite>(bgName));
+    window.draw(ResourceManager::get<Sprite>(bgOptionsName));
+    window.draw(ResourceManager::get<Sprite>(logoName));
     window.draw(&mGUI);
 }
 
@@ -194,9 +202,9 @@ void MenuScreen::onDisable(Window &window) {
 void MenuScreen::onPlaying(Window &window) {
     ProfileBlock();
 
-    window.draw(mResources->getResource<Sprite>(bgID));
-    window.draw(mResources->getResource<Sprite>(bgOptionsID));
-    window.draw(mResources->getResource<Sprite>(logoID));
+    window.draw(ResourceManager::get<Sprite>(bgName));
+    window.draw(ResourceManager::get<Sprite>(bgOptionsName));
+    window.draw(ResourceManager::get<Sprite>(logoName));
     window.draw(&mGUI);
 }
 

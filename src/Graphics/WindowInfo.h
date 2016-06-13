@@ -1,6 +1,7 @@
-#ifndef WINDOWINFO_H
-#define WINDOWINFO_H
+#ifndef MEDIEVALENGINE_WINDOW_WINDOWINFO_H_
+#define MEDIEVALENGINE_WINDOW_WINDOWINFO_H_
 #include "Config.h"
+#include "Helper/String.h"
 
 namespace ME {
 
@@ -9,19 +10,19 @@ public:
 
     WindowInfo();
     WindowInfo(
-        int width,
-        int height,
-        int bitsPerPixel,
+        uint16 width,
+        uint16 height,
+        uint8 bitsPerPixel,
        bool fullScreen, 
        String name,
-       int frameLimit = ENGINE_DEFAULTS::FRAME_LIMIT, 
+       uint16 frameLimit = ENGINE_DEFAULTS::FRAME_LIMIT, 
        bool vsync = ENGINE_DEFAULTS::VSYNC
    );
 
-    int width;
-    int height;
-    int bitsPerPixel;
-    int frameLimit;
+    uint16 width;
+    uint16 height;
+    uint8 bitsPerPixel;
+    uint16 frameLimit;
     bool vsync;
     bool fullScreen;
     String windowName;
@@ -29,4 +30,4 @@ public:
 
 }
 
-#endif // WINDOWINFO_H
+#endif // MEDIEVALENGINE_WINDOW_WINDOWINFO_H_

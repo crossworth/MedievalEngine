@@ -1,10 +1,7 @@
-#ifndef ENGINE_CONFIG_H
-#define ENGINE_CONFIG_H
-#include <map>
-#include <vector>
-#include <fstream>
+#ifndef MEDIEVALENGINE_CONFIG_H_
+#define MEDIEVALENGINE_CONFIG_H_
+#include "Helper/BasicTypes.h"
 #include "Helper/Dir.h"
-#include "Helper/String.h"
 
 /**
  * @namespace ME
@@ -40,19 +37,19 @@ namespace ENGINE_DEFAULTS {
      * Default window width<br>
      * Constant fallback to 700
      */
-    const int WIDTH_WINDOW = 700;
+    const uint16 WIDTH_WINDOW = 700;
 
     /**
      * Default window height<br>
      * Constant fallback to 500
      */
-    const int HEIGHT_WINDOW = 500;
+    const uint16 HEIGHT_WINDOW = 500;
 
     /**
      * Default bits per pixel<br>
      * Constant fallback to 32
      */
-    const int BITS_PER_PIXEL_WINDOW = 32;
+    const uint8 BITS_PER_PIXEL_WINDOW = 32;
 
     /**
      * If the game should be fullscreen or not<br>
@@ -68,7 +65,7 @@ namespace ENGINE_DEFAULTS {
      * This can be changed and don't have any side effect on the game loop<br>
      * Constant fallback to 0 (unlimited)
      */
-    const int FRAME_LIMIT = 0;
+    const uint16 FRAME_LIMIT = 0;
 
     /**
      * If we wait for the vertical synchronization<br>
@@ -157,7 +154,7 @@ namespace ENGINE_DEFAULTS {
      * screen size we can calcule the right scale for the Drawable objects<br>
      * This requires that the art work are relative to this size
      */
-    const int BASE_WIDTH_SIZE = 1920;
+    const uint16 BASE_WIDTH_SIZE = 1920;
 
     /**
      * The default base height for the engine<br>
@@ -167,7 +164,7 @@ namespace ENGINE_DEFAULTS {
      * screen size we can calcule the right scale for the Drawable objects<br>
      * This requires that the art work are relative to this size
      */
-    const int BASE_HEIGHT_SIZE = 1080;
+    const uint16 BASE_HEIGHT_SIZE = 1080;
 
     /**
      * The default global volume for the engine<br>
@@ -194,13 +191,9 @@ namespace ENGINE_DEFAULTS {
     const float AMBIENT_VOLUME = 100.f;
 }
 
-// TODO(pedro): move this to the namespace
-const bool _LOG_WRITE_TO_FILE    = false;
-const std::string _LOG_FILE_NAME = "output.log";
-
 }
 
 
 
 
-#endif // ENGINE_CONFIG_H
+#endif // MEDIEVALENGINE_CONFIG_H_

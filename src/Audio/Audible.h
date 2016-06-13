@@ -1,41 +1,15 @@
-#ifndef MEDIEVALENGONE_AUDIO_AUDIBLE_H_
-#define MEDIEVALENGONE_AUDIO_AUDIBLE_H_
+#ifndef MEDIEVALENGINE_AUDIO_AUDIBLE_H_
+#define MEDIEVALENGINE_AUDIO_AUDIBLE_H_
 
 #include <SFML/Audio.hpp>
 
 #include "Config.h"
+
+#include "Helper/BasicTypes.h"
 #include "Helper/Vect3.h"
-#include "Lua/LuaAPI.h"
 
 namespace ME{
 
-/**
- * @namespace ME::Audio
- * @brief The Audio namespace with all the enum's for the audio related functions
- *
- */
-namespace Audio {
-/**
- * AudioStatus
- * The current Audio Status
- */
-enum AudioStatus {
-    STOPPED, ///< Audio is stopped
-    PLAYING, ///< Audio is playing
-    PAUSED   ///< Audio is paused
-};
-
-/**
- * AudioType enum
- * The type of the sound/music
- */
-enum AudioType {
-    MUSIC,  ///< Type music
-    VOICE,  ///< Type voice
-    AMBIENT ///< Type ambient
-};
-
-}
 
 /**
  * The Audible class
@@ -43,6 +17,26 @@ enum AudioType {
  */
 class Audible {
 public:
+
+    /**
+     * AudioStatus
+     * The current Audio Status
+     */
+    enum class AudioStatus {
+        STOPPED, ///< Audio is stopped
+        PLAYING, ///< Audio is playing
+        PAUSED   ///< Audio is paused
+    };
+
+    /**
+     * AudioType enum
+     * The type of the sound/music
+     */
+    enum class AudioType {
+        MUSIC,  ///< Type music
+        VOICE,  ///< Type voice
+        AMBIENT ///< Type ambient
+    };
 
     /**
      * The default empty constructor
@@ -55,7 +49,7 @@ public:
      * Return the duration of the sound/music
      * @return  unsigned int - duration in milliseconds
      */
-    virtual unsigned int getDuration() = 0;
+    virtual uint32 getDuration() = 0;
 
     /**
      * Get the sound/music attenuation factor
@@ -114,7 +108,7 @@ public:
      *
      * @param float - attenuation
      */
-    virtual void setAttenuation(const float& attenuation) = 0;
+    virtual void setAttenuation(const float &attenuation) = 0;
 
     /**
      * The "minimum distance" of a sound/music is the maximum distance at which<br>
@@ -127,19 +121,19 @@ public:
      *
      * @param float - distance
      */
-    virtual void setMinDistance(const float& distance) = 0;
+    virtual void setMinDistance(const float &distance) = 0;
 
     /**
      * [setRelativeToListener description]
      * @param relative [description]
      */
-    virtual void setRelativeToListener(const bool& relative) = 0;
-    virtual void setPosition(const Vect3f& pos) = 0;
-    virtual void setVolume(const float& volume) = 0;
-    virtual void setPitch(const float& pitch) = 0;
-    virtual Audio::AudioStatus getStatus() = 0;
-    virtual unsigned int getPlayingOffSet() = 0;
-    virtual void setPlayingOffSet(const unsigned int offset) = 0;
+    virtual void setRelativeToListener(const bool &relative) = 0;
+    virtual void setPosition(const Vect3f &pos) = 0;
+    virtual void setVolume(const float &volume) = 0;
+    virtual void setPitch(const float &pitch) = 0;
+    virtual Audible::AudioStatus getStatus() = 0;
+    virtual uint32 getPlayingOffSet() = 0;
+    virtual void setPlayingOffSet(const uint32 &offset) = 0;
 
     /**
      * If we are looping or not the sound/music
@@ -151,7 +145,7 @@ public:
      * Set whether the sound/music should loop or not
      * @param bool - if we should loop
      */
-    virtual void setLoopMode(const bool& loop) = 0;
+    virtual void setLoopMode(const bool &loop) = 0;
 
     /**
      * Play the current sound/music
@@ -170,15 +164,15 @@ public:
 
     /**
      * Get the type of sound/music
-     * @return ME::Audio::AudioType - the type of audio
+     * @return ME::Audible::AudioType - the type of audio
      */
-    Audio::AudioType getType();
+    Audible::AudioType getType();
 
     /**
      * Set the type of sound/music
-     * @param ME::Audio::AudioType - the type of audio
+     * @param ME::Audible::AudioType - the type of audio
      */
-    void setType(const Audio::AudioType& type);
+    void setType(const Audible::AudioType &type);
 public:
     /**
      * The Global Volume of engine (volume master or volume base)
@@ -201,9 +195,9 @@ public:
     static float AMBIENT_VOLUME;
 
 protected:
-    Audio::AudioType mAudioType;
+    Audible::AudioType mAudioType;
 };
 
 }
 
-#endif // MEDIEVALENGONE_AUDIO_AUDIBLE_H_
+#endif // MEDIEVALENGINE_AUDIO_AUDIBLE_H_

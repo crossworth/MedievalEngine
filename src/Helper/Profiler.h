@@ -17,20 +17,20 @@ public:
     /**
      * The default Metric system for the profiler
      */
-    enum Type {
+    enum class Type {
         SECONDS,      ///< Seconds
         MILLISECONDS, ///< MilliSeconds
         MICROSECONDS  ///< MicroSeconds
     };
-public:
-    Profiler(const char* functionName, const char* text = "");
+    
+    Profiler(const char *functionName, const char *text = "");
     ~Profiler();
 
     static bool isVisible();
     static void setVisible(bool visible);
     static void printRecords();
-    static void printRecords(MedievalEngine* engine);
-    static void setOutputType(const Profiler::Type& type);
+    static void printRecords(MedievalEngine *engine);
+    static void setOutputType(const Profiler::Type &type);
     static void setUpdateTime(unsigned int time);
 
     static void exposeLuaAPI();
@@ -41,8 +41,8 @@ private:
     static Clock mClockSort;
     static bool mIsLuaExposed;
     static bool mIsVisible;
-    static std::map<std::string, MEUInt64> Records;
-    static std::map<MEUInt64, std::string> recordsSorted;
+    static std::map<std::string, uint64> Records;
+    static std::map<uint64, std::string> recordsSorted;
     Profiler();
     Clock mClock;
     static Type mType;

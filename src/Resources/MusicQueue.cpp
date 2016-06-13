@@ -1,5 +1,6 @@
 #include "MusicQueue.h"
-#include "Engine/MedievalEngine.h"
+
+#include "Resources/ResourceManager.h"
 
 using namespace ME;
 
@@ -8,104 +9,127 @@ MusicQueue::MusicQueue() {
     mIsValid      = true;
 }
 
-MusicQueue::~MusicQueue() {
-
-}
-
-void MusicQueue::registerEngine(MedievalEngine* engine) {
-    mEngine = engine;
-}
-
-void MusicQueue::insert(ResourceID& music) {
-    // TODO(pedro): make sure the music it's open and can be played
-    mMusics.push_back(music);
-    mCurrentMusic = mMusics.begin();
-}
-
-void MusicQueue::insert(const std::string& music) {
-    // TODO(pedro): make sure the music it's open and can be played
-    mMusics.push_back(mEngine->getResourceManager()->loadMusic(music));
-    mCurrentMusic = mMusics.begin();
-}
-
-unsigned int MusicQueue::getDuration() {
-    return mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->getDuration();
-}
-
-float MusicQueue::getAttenuation() {
-    return mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->getAttenuation();
-}
-
-float MusicQueue::getMinDistance() {
-    return mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->getMinDistance();
-}
-
-bool MusicQueue::isRelativeToListener() {
-    return mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->isRelativeToListener();
-}
-
-Vect3f MusicQueue::getPosition() {
-    return mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->getPosition();
-}
-
-float MusicQueue::getVolume() {
-    return mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->getVolume();
-}
-
-float MusicQueue::getPitch() {
-    return mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->getPitch();
-}
-
-void MusicQueue::setAttenuation(const float& attenuation) {
-    mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->setAttenuation(attenuation);
-}
-
-void MusicQueue::setMinDistance(const float& distance) {
-    mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->setMinDistance(distance);
-}
-
-void MusicQueue::setRelativeToListener(const bool& relative) {
-    mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->setRelativeToListener(relative);
-}
-
-void MusicQueue::setPosition(const Vect3f& pos) {
-    mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->setPosition(pos);
-}
-
-void MusicQueue::setVolume(const float& volume) {
-    mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->setVolume(volume);
-}
-
-void MusicQueue::updateVolume() {
-    std::vector<ResourceID>::iterator it = mMusics.begin();
-
-    for(; it != mMusics.end(); it++) {
-        mEngine->getResourceManager()->getResource<Music>(*it)->updateVolume();
+void MusicQueue::insert(const std::string &music) {
+    if (ResourceManager::loadMusic(music)) {
+        mMusics.push_back(music);
+        mCurrentMusic = mMusics.begin();
     }
 }
 
-void MusicQueue::setPitch(const float& pitch) {
-    mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->setPitch(pitch);
+uint32 MusicQueue::getDuration() {
+    if (mCurrentMusic != mMusics.end()) {
+        return ResourceManager::get<Music>(*mCurrentMusic)->getDuration();
+    }
+    return 0;
 }
 
-Audio::AudioStatus MusicQueue::getStatus() {
+float MusicQueue::getAttenuation() {
+    if (mCurrentMusic != mMusics.end()) {
+        return ResourceManager::get<Music>(*mCurrentMusic)->getAttenuation();
+    }
+    return 0.0f;
+}
+
+float MusicQueue::getMinDistance() {
+    if (mCurrentMusic != mMusics.end()) {
+        return ResourceManager::get<Music>(*mCurrentMusic)->getMinDistance();
+    }
+    return 0.0f;
+}
+
+bool MusicQueue::isRelativeToListener() {
+    if (mCurrentMusic != mMusics.end()) {
+        return ResourceManager::get<Music>(*mCurrentMusic)->isRelativeToListener();
+    }
+    return false;
+}
+
+Vect3f MusicQueue::getPosition() {
+    if (mCurrentMusic != mMusics.end()) {
+        return ResourceManager::get<Music>(*mCurrentMusic)->getPosition();
+    }
+    return Vect3f(0.0f, 0.0f, 0.0f);
+}
+
+float MusicQueue::getVolume() {
+    if (mCurrentMusic != mMusics.end()) {
+        return ResourceManager::get<Music>(*mCurrentMusic)->getVolume();
+    }
+    return 0.0f;
+}
+
+float MusicQueue::getPitch() {
+    if (mCurrentMusic != mMusics.end()) {
+        return ResourceManager::get<Music>(*mCurrentMusic)->getPitch();
+    }
+    return 0.0f;
+}
+
+void MusicQueue::setAttenuation(const float &attenuation) {
+    if (mCurrentMusic != mMusics.end()) {
+        ResourceManager::get<Music>(*mCurrentMusic)->setAttenuation(attenuation);
+    }
+}
+
+void MusicQueue::setMinDistance(const float &distance) {
+    if (mCurrentMusic != mMusics.end()) {
+        ResourceManager::get<Music>(*mCurrentMusic)->setMinDistance(distance);
+    }
+}
+
+void MusicQueue::setRelativeToListener(const bool &relative) {
+    if (mCurrentMusic != mMusics.end()) {
+        ResourceManager::get<Music>(*mCurrentMusic)->setRelativeToListener(relative);
+    }
+}
+
+void MusicQueue::setPosition(const Vect3f &pos) {
+    if (mCurrentMusic != mMusics.end()) {
+        ResourceManager::get<Music>(*mCurrentMusic)->setPosition(pos);
+    }
+}
+
+void MusicQueue::setVolume(const float &volume) {
+    if (mCurrentMusic != mMusics.end()) {
+        ResourceManager::get<Music>(*mCurrentMusic)->setVolume(volume);
+    }
+}
+
+void MusicQueue::updateVolume() {
+    for(std::vector<std::string>::iterator it = mMusics.begin(); 
+        it != mMusics.end(); it++) {
+        ResourceManager::get<Music>(*it)->updateVolume();
+    }
+}
+
+void MusicQueue::setPitch(const float &pitch) {
+    if (mCurrentMusic != mMusics.end()) {
+        ResourceManager::get<Music>(*mCurrentMusic)->setPitch(pitch);
+    }
+}
+
+Audible::AudioStatus MusicQueue::getStatus() {
     return mStatus;
 }
 
-unsigned int MusicQueue::getPlayingOffSet() {
-    return mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->getPlayingOffSet();
+uint32 MusicQueue::getPlayingOffSet() {
+    if (mCurrentMusic != mMusics.end()) {
+        return ResourceManager::get<Music>(*mCurrentMusic)->getPlayingOffSet();
+    }
+    return 0;
 }
 
-void MusicQueue::setPlayingOffSet(const unsigned int offset) {
-    mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->setPlayingOffSet(offset);
+void MusicQueue::setPlayingOffSet(const uint32 &offset) {
+    if (mCurrentMusic != mMusics.end()) {
+        ResourceManager::get<Music>(*mCurrentMusic)->setPlayingOffSet(offset);
+    }
 }
-
 
 // We set to play the queue in a random order
 // Which don't make much sense since its a QUEUE
 // But anyways, its interessant to implement this function
 // To our in game music
-void MusicQueue::setRandomPlay(const bool& random) {
+void MusicQueue::setRandomPlay(const bool &random) {
     mIsRandomPlay = random;
 }
 
@@ -113,38 +137,43 @@ bool MusicQueue::isRandomPlay() {
     return mIsRandomPlay;
 }
 
-
 // Here the loop mode works a litte bit different
 // We gonna loop all the queue and not only one music
 bool MusicQueue::isLoopMode() {
     return mIsLoopMode;
 }
 
-void MusicQueue::setLoopMode(const bool& loop) {
+void MusicQueue::setLoopMode(const bool &loop) {
     mIsLoopMode = loop;
 }
 
 void MusicQueue::play() {
-    mStatus = Audio::AudioStatus::PLAYING;
-    mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->play();
+    if (mCurrentMusic != mMusics.end()) {
+        mStatus = Audible::AudioStatus::PLAYING;
+        ResourceManager::get<Music>(*mCurrentMusic)->play();
+    }
 }
 
 void MusicQueue::pause() {
-    mStatus = Audio::AudioStatus::PAUSED;
-    mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->pause();
+    if (mCurrentMusic != mMusics.end()) {
+        mStatus = Audible::AudioStatus::PAUSED;
+        ResourceManager::get<Music>(*mCurrentMusic)->pause();
+    }
 }
 
 void MusicQueue::stop() {
-    mStatus = Audio::AudioStatus::STOPPED;
-    mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->stop();
+    if (mCurrentMusic != mMusics.end()) {
+        mStatus = Audible::AudioStatus::STOPPED;
+        ResourceManager::get<Music>(*mCurrentMusic)->stop();
+    }
 }
 
 void MusicQueue::update() {
     if (mCurrentMusic != mMusics.end()) {
-        Audio::AudioStatus status = mEngine->getResourceManager()->getResource<Music>(*mCurrentMusic)->getStatus();
+        Audible::AudioStatus status = ResourceManager::get<Music>(*mCurrentMusic)->getStatus();
 
-        if (status == Audio::AudioStatus::STOPPED) {
-            mStatus = Audio::AudioStatus::STOPPED;
+        if (status == Audible::AudioStatus::STOPPED) {
+            mStatus = Audible::AudioStatus::STOPPED;
             mCurrentMusic++;
 
             if (mCurrentMusic == mMusics.end()) {

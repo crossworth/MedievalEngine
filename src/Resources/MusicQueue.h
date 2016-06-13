@@ -1,56 +1,47 @@
-#ifndef MUSICQUEUE_H
-#define MUSICQUEUE_H
+#ifndef MEDIEVALENGINE_RESOURCES_MUSICQUEUE_H_
+#define MEDIEVALENGINE_RESOURCES_MUSICQUEUE_H_
 #include <algorithm>
-#include "Resources/ResourceIDGenerator.h"
+
 #include "Resources/Music.h"
 
 namespace ME  {
 
-class MedievalEngine;
-
 class MusicQueue : public Resource, public Audible {
 public:
     MusicQueue();
-    ~MusicQueue();
-
-    void registerEngine(MedievalEngine* engine);
 
     void updateVolume();
 
-    void insert(ResourceID& music);
-    void insert(const std::string& music);
+    void insert(const std::string &music);
 
-    unsigned int getDuration();
+    uint32 getDuration();
     float getAttenuation();
     float getMinDistance();
     bool isRelativeToListener();
     Vect3f getPosition();
     float getVolume();
     float getPitch();
-    void setAttenuation(const float& attenuation);
-    void setMinDistance(const float& distance);
-    void setRelativeToListener(const bool& relative);
-    void setPosition(const Vect3f& pos);
-    void setVolume(const float& volume);
-    void setPitch(const float& pitch);
-    Audio::AudioStatus getStatus();
-    unsigned int getPlayingOffSet();
-    void setPlayingOffSet(const unsigned int offset);
+    void setAttenuation(const float &attenuation);
+    void setMinDistance(const float &distance);
+    void setRelativeToListener(const bool &relative);
+    void setPosition(const Vect3f &pos);
+    void setVolume(const float &volume);
+    void setPitch(const float &pitch);
+    Audible::AudioStatus getStatus();
+    uint32 getPlayingOffSet();
+    void setPlayingOffSet(const uint32 &offset);
 
     // We set to play the queue in a random order
     // Which don't make much sense since its a QUEUE
     // But anyways, its interessant to implement this function
     // To our in game music
-    void setRandomPlay(const bool& random);
+    void setRandomPlay(const bool &random);
     bool isRandomPlay();
-
-    //TODO(pedro): make an update volume function
-    // so we can update the volume at runtime
 
     // Here the loop mode works a litte bit different
     // We gonna loop all the queue and not only one music
     bool isLoopMode();
-    void setLoopMode(const bool& loop);
+    void setLoopMode(const bool &loop);
     void play();
     void pause();
     void stop();
@@ -59,13 +50,14 @@ public:
 private:
     bool mIsLoopMode;
     bool mIsRandomPlay;
-    MedievalEngine* mEngine;
-    std::vector<ResourceID> mMusics;
-    std::vector<ResourceID>::iterator mCurrentMusic;
-    Audio::AudioStatus mStatus;
+
+    std::vector<std::string> mMusics;
+    std::vector<std::string>::iterator mCurrentMusic;
+
+    Audible::AudioStatus mStatus;
 };
 
 }
 
 
-#endif // MUSICQUEUE_H
+#endif // MEDIEVALENGINE_RESOURCES_MUSICQUEUE_H_

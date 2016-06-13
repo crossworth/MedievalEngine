@@ -1,4 +1,5 @@
 #include "Audible.h"
+
 #include "Resources/ResourceManager.h"
 
 using namespace ME;
@@ -13,10 +14,10 @@ Audible::Audible() {
     
 }
 
-Audio::AudioType Audible::getType() {
+Audible::AudioType Audible::getType() {
     return mAudioType;
 }
 
-void Audible::setType(const Audio::AudioType& type) {
+void Audible::setType(const Audible::AudioType &type) {
     mAudioType = type;
 }

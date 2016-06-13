@@ -53,8 +53,6 @@ private:
     void removeTextSelection();
     bool hasTextSelected();
     String getTextSelected();
-
-    ResourceManager* mResources;
       
     // Current command been typed
     String mInputCommand;

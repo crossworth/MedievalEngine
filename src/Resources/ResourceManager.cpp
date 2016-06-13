@@ -2,19 +2,22 @@
 
 using namespace ME;
 
-std::unordered_map<ResourceID, ResourcePtr> ResourceManager::mResources;
+std::unordered_map<std::string, ResourcePtr> ResourceManager::mResources;
 
-void ResourceManager::updateAudioVolume() {
-    for(unsigned long i = 0; i < ResourceManager::mResources.size(); i++) {
-        if (ResourceManager::mResources.at(i)->getType() == Resource::Type::MUSIC) {
-            ResourcePtr resource = ResourceManager::mResources.at(i);
+void ResourceManager::updateAudibleVolume() {
+    std::unordered_map<std::string, ResourcePtr>::iterator index;
+    index = ResourceManager::mResources.begin();
+
+    for(; index != ResourceManager::mResources.end(); index++) {
+        if (index->second->getType() == Resource::Type::MUSIC) {
+            ResourcePtr resource = index->second;
 
             Music *music = reinterpret_cast<Music*>(resource.get());
             music->updateVolume();
         }
 
-        if (ResourceManager::mResources.at(i)->getType() == Resource::Type::SOUND) {
-            ResourcePtr resource = ResourceManager::mResources.at(i);
+        if (index->second->getType() == Resource::Type::SOUND) {
+            ResourcePtr resource = index->second;
 
             Sound *sound = reinterpret_cast<Sound*>(resource.get());
             sound->updateVolume();
@@ -23,129 +26,189 @@ void ResourceManager::updateAudioVolume() {
 }
 
 ResourceManager::ResourceManager() {
-    LOG << Log::VERBOSE
-        << "[AssetsManager::AssetsManager] AssetsManager created" << std::endl;
+    // We dont have a constructor
 }
 
-ResourceID ResourceManager::loadTexture(const std::string& fileName) {
-    ResourceID textureID  = ResourceIDGenerator::get();
-    ResourceManager::mResources[textureID] = ResourcePtr(new Texture(fileName));
+bool ResourceManager::loadTexture(const std::string &resourceName, const std::string &fileNameOnDisk) {
+    if (ResourceManager::exists(resourceName) && ResourceManager::mResources[resourceName].get()->isValid()) {
+        return true;
+    }
 
-    LOG << Log::VERBOSE
-        << "[AssetsManager::loadTexture] Texture loaded ID: "
-        << Kit::int_str(textureID) << std::endl;
+    std::string fileNameOnDiskFallback = fileNameOnDisk.empty() ? resourceName : fileNameOnDisk;
 
-    return textureID;
+    ResourceManager::mResources[resourceName] = ResourcePtr(new Texture(fileNameOnDiskFallback));
+
+    if (ResourceManager::mResources[resourceName].get()->isValid()) {
+        LOG << Log::VERBOSE
+            << "[ResourceManager::loadTexture] Texture loaded: "
+            << fileNameOnDiskFallback << std::endl;
+        return true;
+    } else {
+        return false;
+    }
 }
 
-ResourceID ResourceManager::loadFont(const std::string& fileName) {
-    ResourceID fontID  = ResourceIDGenerator::get();
-    ResourceManager::mResources[fontID] = ResourcePtr(new Font());
-    getResource<Font>(fontID)->loadFromFile(fileName);
+bool ResourceManager::loadFont(const std::string &resourceName, const std::string &fileNameOnDisk) {
+    if (ResourceManager::exists(resourceName) && ResourceManager::mResources[resourceName].get()->isValid()) {
+        return true;
+    }
 
-    LOG << Log::VERBOSE
-        << "[AssetsManager::loadFont] Font loaded ID: "
-        << Kit::int_str(fontID) << std::endl;
+    std::string fileNameOnDiskFallback = fileNameOnDisk.empty() ? resourceName : fileNameOnDisk;
 
-    return fontID;
+    ResourceManager::mResources[resourceName] = ResourcePtr(new Font());
+    static_cast<Font*>(ResourceManager::mResources[resourceName].get())->loadFromFile(fileNameOnDiskFallback);
+
+    if (ResourceManager::mResources[resourceName].get()->isValid()) {
+        LOG << Log::VERBOSE
+            << "[ResourceManager::loadFont] Font loaded: "
+            << fileNameOnDiskFallback << std::endl;
+        return true;
+    } else {
+        return false;
+    }
 }
 
-ResourceID ResourceManager::loadFont(MEByte* bytes, std::size_t size) {
-    ResourceID fontID  = ResourceIDGenerator::get();
-    ResourceManager::mResources[fontID] = ResourcePtr(new Font());
-    getResource<Font>(fontID)->loadFromMemory(bytes, size);
+bool ResourceManager::loadFont(const std::string &resourceName, byte *bytes, const uint64 &size) {
+    if (ResourceManager::exists(resourceName) && ResourceManager::mResources[resourceName].get()->isValid()) {
+        return true;
+    }
 
-    LOG << Log::VERBOSE
-        << "[AssetsManager::loadFont] Font loaded from memory ID: "
-        << Kit::int_str(fontID) << std::endl;
+    ResourceManager::mResources[resourceName] = ResourcePtr(new Font());
+    static_cast<Font*>(ResourceManager::mResources[resourceName].get())->loadFromMemory(bytes, size);
 
-    return fontID;
+    if (ResourceManager::mResources[resourceName].get()->isValid()) {
+        LOG << Log::VERBOSE
+            << "[ResourceManager::loadFont] Font loaded from Memory: "
+            << resourceName << std::endl;
+        return true;
+    } else {
+        return false;
+    }
 }
 
-ResourceID ResourceManager::loadMusic(const std::string& fileName) {
-    ResourceID musicID  = ResourceIDGenerator::get();
-    ResourceManager::mResources[musicID] = ResourcePtr(new Music());
-    getResource<Music>(musicID)->loadFromFile(fileName);
+bool ResourceManager::loadMusic(const std::string &resourceName, const std::string &fileNameOnDisk) {
+    if (ResourceManager::exists(resourceName) && ResourceManager::mResources[resourceName].get()->isValid()) {
+        return true;
+    }
 
-    LOG << Log::VERBOSE
-        << "[AssetsManager::loadMusic] Music loaded ID: "
-        << Kit::int_str(musicID) << std::endl;
+    std::string fileNameOnDiskFallback = fileNameOnDisk.empty() ? resourceName : fileNameOnDisk;
 
-    return musicID;
+    ResourceManager::mResources[resourceName] = ResourcePtr(new Music());
+    static_cast<Music*>(ResourceManager::mResources[resourceName].get())->loadFromFile(fileNameOnDiskFallback);
+
+    if (ResourceManager::mResources[resourceName].get()->isValid()) {
+        LOG << Log::VERBOSE
+            << "[ResourceManager::loadMusic] Music loaded: "
+            << fileNameOnDiskFallback << std::endl;
+        return true;
+    } else {
+        return false;
+    }
 }
 
-ResourceID ResourceManager::loadSound(const std::string& fileName) {
-    ResourceID soundID  = ResourceIDGenerator::get();
-    ResourceManager::mResources[soundID] = ResourcePtr(new Sound(fileName));
+bool ResourceManager::loadSound(const std::string &resourceName, const std::string &fileNameOnDisk) {
+    if (ResourceManager::exists(resourceName) && ResourceManager::mResources[resourceName].get()->isValid()) {
+        return true;
+    }
 
-    LOG << Log::VERBOSE
-        << "[AssetsManager::loadSound] Sound loaded ID: "
-        << Kit::int_str(soundID) << std::endl;
+    std::string fileNameOnDiskFallback = fileNameOnDisk.empty() ? resourceName : fileNameOnDisk;
 
-    return soundID;
+    ResourceManager::mResources[resourceName] = ResourcePtr(new Sound(fileNameOnDiskFallback));
+
+    if (ResourceManager::mResources[resourceName].get()->isValid()) {
+        LOG << Log::VERBOSE
+            << "[ResourceManager::loadSound] Sound loaded: "
+            << fileNameOnDiskFallback << std::endl;
+        return true;
+    } else {
+        return false;
+    }
 }
 
-ResourceID ResourceManager::createSprite(const ResourceID& texture) {
-    ResourceID spriteID  = ResourceIDGenerator::get();
-    ResourceManager::mResources[spriteID] = ResourcePtr(new Sprite());
-    getResource<Sprite>(spriteID)->setTexture(getResource<Texture>(texture));
+bool ResourceManager::createSprite(const std::string &resourceName, const std::string &texture) {
+    if (ResourceManager::exists(resourceName) && ResourceManager::mResources[resourceName].get()->isValid()) {
+        return true;
+    }
 
-    LOG << Log::VERBOSE
-        << "[AssetsManager::createSprite] Sprite created ID: "
-        << Kit::int_str(spriteID) << std::endl;
+    ResourceManager::mResources[resourceName] = ResourcePtr(new Sprite());
+    static_cast<Sprite*>(ResourceManager::mResources[resourceName].get())->setTexture(ResourceManager::get<Texture>(texture));
 
-    return spriteID;
+    if (ResourceManager::mResources[resourceName].get()->isValid()) {
+        LOG << Log::VERBOSE
+            << "[ResourceManager::createSprite] Sprite created: "
+            << resourceName << std::endl;
+        return true;
+    } else {
+        return false;
+    }
 }
 
-ResourceID ResourceManager::createSpriteAnimation() {
-    ResourceID spriteAnID  = ResourceIDGenerator::get();
-    ResourceManager::mResources[spriteAnID] = ResourcePtr(new SpriteAnimation());
+bool ResourceManager::createSpriteAnimation(const std::string &resourceName) {
+    if (ResourceManager::exists(resourceName) && ResourceManager::mResources[resourceName].get()->isValid()) {
+        return true;
+    }
 
-    LOG << Log::VERBOSE
-        << "[AssetsManager::createSpriteAnimation] SpriteAnimation created ID: "
-        << Kit::int_str(spriteAnID) << std::endl;
+    ResourceManager::mResources[resourceName] = ResourcePtr(new SpriteAnimation());
 
-    return spriteAnID;
+    if(ResourceManager::mResources[resourceName].get()->isValid()) {
+        LOG << Log::VERBOSE
+            << "[ResourceManager::createSpriteAnimation] SpriteAnimation created: "
+            << resourceName << std::endl;
+        return true;
+    } else {
+        return false;
+    }
 }
 
-ResourceID ResourceManager::createShape(const Vect2f& size,
-                                const Color& color,
-                                const Vect2f& pos) {
+bool ResourceManager::createShape(const std::string &resourceName, const Vect2f &size,
+                                const Color &color,
+                                const Vect2f &pos) {
 
-    ResourceID shapeID  = ResourceIDGenerator::get();
-    ResourceManager::mResources[shapeID] = ResourcePtr(new Shape(size, color, pos));
+    ResourceManager::mResources[resourceName] = ResourcePtr(new Shape(size, color, pos));
 
-    LOG << Log::VERBOSE
-        << "[AssetsManager::createShape] Shape created ID: "
-        << Kit::int_str(shapeID) << std::endl;
-
-    return shapeID;
+    if (ResourceManager::mResources[resourceName].get()->isValid()) {
+        LOG << Log::VERBOSE
+            << "[ResourceManager::createShape] Shape created: "
+            << resourceName << std::endl;
+        return true;
+    } else {
+        return false;
+    }
 }
 
-ResourceID ResourceManager::createText(const String& text,
-                               const unsigned int& fontSize,
-                               const ResourceID& font) {
+bool ResourceManager::createText(const std::string &resourceName, const String &text,
+                               const unsigned int &fontSize,
+                               const std::string &font) {
 
-    ResourceID textID  = ResourceIDGenerator::get();
-    ResourceManager::mResources[textID] = ResourcePtr(new Text());
-    getResource<Text>(textID)->setFont(*getResource<Font>(font));
-    getResource<Text>(textID)->setFontSize(fontSize);
-    getResource<Text>(textID)->setString(text);
+    if (ResourceManager::exists(resourceName) && ResourceManager::mResources[resourceName].get()->isValid()) {
+        return true;
+    }
 
-    LOG << Log::VERBOSE
-        << "[AssetsManager::createText] Text created ID: "
-        << Kit::int_str(textID) << std::endl;
+    ResourceManager::mResources[resourceName] = ResourcePtr(new Text());
+    static_cast<Text*>(ResourceManager::mResources[resourceName].get())->setFont(*ResourceManager::get<Font>(font));
+    static_cast<Text*>(ResourceManager::mResources[resourceName].get())->setFontSize(fontSize);
+    static_cast<Text*>(ResourceManager::mResources[resourceName].get())->setString(text);
 
-    return textID;
+    if (ResourceManager::mResources[resourceName].get()->isValid()) {
+        LOG << Log::VERBOSE
+            << "[ResourceManager::createText] Text created: "
+            << resourceName << std::endl;
+        return true;
+    } else {
+        return false;
+    }
 }
 
-ResourceManager::~ResourceManager() {
+void ResourceManager::clear() {
     LOG << Log::VERBOSE
-        << "[AssetsManager::~AssetsManage] Cleaning everything..."
+        << "[ResourceManager::clear] Cleaning everything..."
         << std::endl;
 
-    for (unsigned int i = 0; i < ResourceManager::mResources.size(); i++) {
-        ResourceManager::mResources.at(i).reset();
+    std::unordered_map<std::string, ResourcePtr>::iterator index;
+    index = ResourceManager::mResources.begin();
+
+    for(; index != ResourceManager::mResources.end(); index++) {
+        index->second.reset();
     }
 
     ResourceManager::mResources.clear();

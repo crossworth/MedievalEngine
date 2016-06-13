@@ -12,6 +12,7 @@ sf::Sprite* Sprite::getResourcePointer() {
 }
 
 void Sprite::setTexture(Texture *texture) {
+    mIsValid = true;
     mSprite.setTexture(*texture->getResourcePointer());
 }
 

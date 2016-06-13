@@ -1,5 +1,8 @@
 #ifndef TEXTLISTWIDGET_H
 #define TEXTLISTWIDGET_H
+
+#include "Helper/Random.h"
+
 #include "GUI/Widget.h"
 
 namespace ME {
@@ -9,49 +12,49 @@ class TextListWidget : public Widget {
 public:
     TextListWidget();
     void init();
-    void addText(const String& text);
-    void draw(Window& window);
+    void addText(const String &text);
+    void draw(Window &window);
     void update();
     void handleEvents(Event evt);
-    void setScrollSpeed(float& scrollspeed);
+    void setScrollSpeed(float &scrollspeed);
     float getScrollSpeed();
-    void setSize(const Vect2f& size);
+    void setSize(const Vect2f &size);
 
-    void setScale(const Vect2f& scale);
+    void setScale(const Vect2f &scale);
     Vect2f getScale();
 
     float getOpacity();
 
     float getRotation();
-    void setRotation(const float& angle);
+    void setRotation(const float &angle);
 
     Vect2f getOrigin();
-    void setOrigin(const Vect2f& origin);
+    void setOrigin(const Vect2f &origin);
 
 
-    void setColor(const Color& color);
-    void setColor(const ColorGradient& color);
+    void setColor(const Color &color);
+    void setColor(const ColorGradient &color);
     Color getColor();
     ColorGradient getColorGradient();
     bool isColorGradient();
 
-    void setTextColor(const Color& color);
+    void setTextColor(const Color &color);
     Color getTextColor();
 
-    void setScrollBarColor(const Color& color);
+    void setScrollBarColor(const Color &color);
     Color getScrollBarColor();
 
     void setTextAutoScroll(bool scroll);
     bool isTextAutoScroll();
 
-    void setExpandeSize(const Vect2f& size);
+    void setExpandeSize(const Vect2f &size);
     Vect2f getExpandSize();
-    void setExpandVelocity(const float& velocity);
+    void setExpandVelocity(const float &velocity);
     float getExpandVelocity();
 
     bool isExpanded();
 
-    void setOpacity(const float& opacity);
+    void setOpacity(const float &opacity);
 
     Area getLocalBounds();
     Area getGlobalBounds();

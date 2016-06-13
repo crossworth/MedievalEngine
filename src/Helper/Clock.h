@@ -12,13 +12,13 @@ public:
     void restart();
 
     float getSeconds();
-    MEUInt32 getMilliSeconds();
-    MEUInt64 getMicroSeconds();
+    uint32 getMilliSeconds();
+    uint64 getMicroSeconds();
 
-    static MEUInt64 getMicroSeconds(const float& time);
-    static MEUInt32 getMilliSeconds(const float& time);
-    static MEUInt32 getMilliSeconds(const MEUInt64& time);
-    static float getSeconds(const MEUInt64& time);
+    static uint64 getMicroSeconds(const float &time);
+    static uint32 getMilliSeconds(const float &time);
+    static uint32 getMilliSeconds(const uint64 &time);
+    static float getSeconds(const uint64 &time);
 private:
     sf::Clock mClock;
 };

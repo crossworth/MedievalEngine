@@ -10,13 +10,13 @@ void Music::updateVolume() {
     float ratio = static_cast<float>(Audible::GLOBAL_VOLUME * 0.01);
 
     switch(mAudioType) {
-        case Audio::AudioType::VOICE:
+        case Audible::AudioType::VOICE:
             setVolume(Audible::VOICE_VOLUME * ratio);
             break;
-        case Audio::AudioType::MUSIC:
+        case Audible::AudioType::MUSIC:
             setVolume(Audible::MUSIC_VOLUME * ratio);
             break;
-        case Audio::AudioType::AMBIENT:
+        case Audible::AudioType::AMBIENT:
             setVolume(Audible::AMBIENT_VOLUME * ratio);
             break;
         default:
@@ -24,7 +24,7 @@ void Music::updateVolume() {
     }
 }
 
-bool Music::loadFromFile(const std::string& fileName, const Audio::AudioType& type) {
+bool Music::loadFromFile(const std::string &fileName, const Audible::AudioType &type) {
     if (!mMusic.openFromFile(ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
         LOG << Log::WARNING << "[Music::loadFromFile] Error while opening music: "
             << ENGINE_DEFAULTS::ASSETS_PATH + fileName
@@ -43,7 +43,7 @@ sf::Music* Music::getResourcePointer() {
     return &mMusic;
 }
 
-unsigned int Music::getDuration() {
+uint32 Music::getDuration() {
     return mMusic.getDuration().asMilliseconds();
 }
 
@@ -73,50 +73,50 @@ float Music::getPitch() {
     return mMusic.getPitch();
 }
 
-void Music::setAttenuation(const float& attenuation) {
+void Music::setAttenuation(const float &attenuation) {
     mMusic.setAttenuation(attenuation);
 }
 
-void Music::setMinDistance(const float& distance) {
+void Music::setMinDistance(const float &distance) {
     mMusic.setMinDistance(distance);
 }
 
-void Music::setRelativeToListener(const bool& relative) {
+void Music::setRelativeToListener(const bool &relative) {
     mMusic.setRelativeToListener(relative);
 }
 
-void Music::setPosition(const Vect3f& pos) {
+void Music::setPosition(const Vect3f &pos) {
     mMusic.setPosition(pos.x, pos.y, pos.z);
 }
 
-void Music::setVolume(const float& volume) {
+void Music::setVolume(const float &volume) {
     mMusic.setVolume(volume);
 }
 
-void Music::setPitch(const float& pitch) {
+void Music::setPitch(const float &pitch) {
     mMusic.setPitch(pitch);
 }
 
-Audio::AudioStatus Music::getStatus() {
+Audible::AudioStatus Music::getStatus() {
     switch (mMusic.getStatus()) {
     case sf::SoundSource::Paused:
-        return Audio::AudioStatus::PAUSED;
+        return Audible::AudioStatus::PAUSED;
         break;
     case sf::SoundSource::Playing:
-        return Audio::AudioStatus::PLAYING;
+        return Audible::AudioStatus::PLAYING;
         break;
     case sf::SoundSource::Stopped:
-        return Audio::AudioStatus::STOPPED;
+        return Audible::AudioStatus::STOPPED;
         break;
     }
-    return Audio::AudioStatus::STOPPED;
+    return Audible::AudioStatus::STOPPED;
 }
 
-unsigned int Music::getPlayingOffSet() {
+uint32 Music::getPlayingOffSet() {
     return mMusic.getPlayingOffset().asMilliseconds();
 }
 
-void Music::setPlayingOffSet(const unsigned int offset) {
+void Music::setPlayingOffSet(const uint32 &offset) {
     mMusic.setPlayingOffset(sf::milliseconds(offset));
 }
 
@@ -124,7 +124,7 @@ bool Music::isLoopMode() {
     return mMusic.getLoop();
 }
 
-void Music::setLoopMode(const bool& loop) {
+void Music::setLoopMode(const bool &loop) {
     mMusic.setLoop(loop);
 }
 

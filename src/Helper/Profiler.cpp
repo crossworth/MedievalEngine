@@ -4,8 +4,8 @@
 using namespace ME;
 
 
-std::map<std::string, MEUInt64> Profiler::Records;
-std::map<MEUInt64, std::string> Profiler::recordsSorted;
+std::map<std::string, uint64> Profiler::Records;
+std::map<uint64, std::string> Profiler::recordsSorted;
 
 Profiler::Type Profiler::mType = Profiler::Type::MICROSECONDS;
 
@@ -126,7 +126,7 @@ void Profiler::printRecords(MedievalEngine* engine) {
         // We dont load our debug text on the resource manager since we dont
         // want to create any overhead and put stuff on there
         static sf::Font* font;
-        font = engine->getResourceManager()->getResource<Font>(Font::DEFAULT_FONT)->getResourcePointer();
+        font = ResourceManager::get<Font>("game_font")->getResourcePointer();
         
         Profiler::mDebugText.setFont(*font);
         Profiler::mDebugText.setCharacterSize(14);

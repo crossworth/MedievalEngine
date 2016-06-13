@@ -8,7 +8,7 @@ namespace ME {
 class ButtonWidget : public Widget {
 public:
     ButtonWidget(const String& text,
-                 Vect2f pos, ResourceID fontID = 0);
+                 Vect2f pos, const std::string &fontName = "");
     void init();
     void draw(Window& window);
     void update();
@@ -44,12 +44,12 @@ public:
     Area getLocalBounds();
     Area getGlobalBounds();
 private:
-    ResourceID mShapeID;
-    ResourceID mTextID;
+    std::string mShapeName;
+    std::string mTextName;
+    std::string mFontName;
     Text* mTextRef;
     Shape* mShapeRef;
     String mText;
-    ResourceID mFontID;
 };
 
 }

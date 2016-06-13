@@ -53,7 +53,7 @@ String Strings::getItemArrayRandom(const std::string& name) {
     // append the prefixe _ar_
     std::string nameTmp = name + "_ar_";
     // our counter variable
-    MEInt64 max = 0;
+    uint64 max = 0;
 
     // loop through all the itens 
     for(auto it = Strings::mStrings.begin(); it != Strings::mStrings.end(); it++) {

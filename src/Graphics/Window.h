@@ -17,29 +17,29 @@ public:
     enum Position {LEFT, RIGHT, CENTER, TOP, BOTTOM};
 public:
     Window();
-    void create(const WindowInfo& info);
+    void create(const WindowInfo &info);
     void open();
     void close();
     bool isOpen();
-    bool pollEvent(Event& evt);
+    bool pollEvent(Event &evt);
     Vect2i getPosition();
-    void setPosition(const Vect2i& pos);
+    void setPosition(const Vect2i &pos);
     Vect2i getSize();
-    void setSize(const Vect2i& size);
+    void setSize(const Vect2i &size);
 
-    void setRenderArea(RenderArea& renderArea);
+    void setRenderArea(RenderArea &renderArea);
 
-    void setTitle(const std::string& title);
-    void setIcon(const std::string& fileName);
+    void setTitle(const std::string &title);
+    void setIcon(const std::string &fileName);
 
-    void setVisible(const bool& visible);
+    void setVisible(const bool &visible);
     bool isVisible();
 
     void clear();
     void draw(Drawable* obj);
     void display();
 
-    void setCursorVisible(const bool& visible);
+    void setCursorVisible(const bool &visible);
 
     static void setSizeFullScreen(Drawable* object);
     // TODO(Pedro): rename this function to something more
@@ -47,26 +47,26 @@ public:
     static void setRelative(Drawable* object);
 
     static void setPosition(Drawable* object,
-                            const Window::Position& posX,
-                            const Window::Position& posY,
+                            const Window::Position &posX,
+                            const Window::Position &posY,
                             Drawable* reference = nullptr
                         );
     static void setPosition(WidgetPtr object,
-                            const Window::Position& posX,
-                            const Window::Position& posY,
+                            const Window::Position &posX,
+                            const Window::Position &posY,
                             Drawable* reference = nullptr
                         );
 
-    static int fontSize(const float& size);
+    static int fontSize(const float &size);
 
-    void setCursor(const std::string& cursor);
+    void setCursor(const std::string &cursor);
     bool hasCustomCursor();
 
     void resetViewState();
 
     sf::RenderWindow* getWindowPtr();
 
-    MEUInt64 getDelta();
+    uint64 getDelta();
     unsigned int getFPS();
 
     unsigned int getDrawCalls();
@@ -76,7 +76,7 @@ public:
     ~Window();
 protected:
     bool mIsWindowOpen;
-    bool isValidWindow(const WindowInfo& info);
+    bool isValidWindow(const WindowInfo &info);
 private:
     unsigned int mDrawCalls;
     unsigned int mFPS;
@@ -90,8 +90,8 @@ private:
     sf::RenderWindow* mWindow;
     static WindowInfo mWindowInfo;
     Clock mClock;
-    MEUInt64 mLastDelta;
-    MEUInt64 mDelta;
+    uint64 mLastDelta;
+    uint64 mDelta;
     bool mIsWindowVisible;
 };
 

@@ -2,7 +2,7 @@
 
 using namespace ME;
 
-Sound::Sound(const std::string &fileName, const Audio::AudioType& type) {
+Sound::Sound(const std::string &fileName, const Audible::AudioType &type) {
     mType = Resource::Type::SOUND;
 
     loadFromFile(fileName, type);
@@ -12,13 +12,13 @@ void Sound::updateVolume() {
     float ratio = static_cast<float>(Audible::GLOBAL_VOLUME * 0.01);
 
     switch(mAudioType) {
-        case Audio::AudioType::VOICE:
+        case Audible::AudioType::VOICE:
             setVolume(Audible::VOICE_VOLUME * ratio);
             break;
-        case Audio::AudioType::MUSIC:
+        case Audible::AudioType::MUSIC:
             setVolume(Audible::MUSIC_VOLUME * ratio);
             break;
-        case Audio::AudioType::AMBIENT:
+        case Audible::AudioType::AMBIENT:
             setVolume(Audible::AMBIENT_VOLUME * ratio);
             break;
         default:
@@ -26,7 +26,7 @@ void Sound::updateVolume() {
     }
 }
 
-sf::Sound* Sound::loadFromFile(const std::string &fileName, const Audio::AudioType& type) {
+sf::Sound* Sound::loadFromFile(const std::string &fileName, const Audible::AudioType &type) {
     if (!mSoundBuffer.loadFromFile(ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
         LOG << Log::VERBOSE << "[Sound::loadFromFile] Error while opening sound: "
             << ENGINE_DEFAULTS::ASSETS_PATH + fileName << std::endl;
@@ -43,7 +43,7 @@ sf::Sound* Sound::getResourcePointer() {
     return &mSound;
 }
 
-unsigned int Sound::getDuration() {
+uint32 Sound::getDuration() {
     return mSound.getBuffer()->getDuration().asMilliseconds();
 }
 
@@ -97,26 +97,26 @@ void Sound::setPitch(const float &pitch) {
     mSound.setPitch(pitch);
 }
 
-Audio::AudioStatus Sound::getStatus() {
+Audible::AudioStatus Sound::getStatus() {
     switch (mSound.getStatus()) {
     case sf::SoundSource::Paused:
-        return Audio::AudioStatus::PAUSED;
+        return Audible::AudioStatus::PAUSED;
         break;
     case sf::SoundSource::Playing:
-        return Audio::AudioStatus::PLAYING;
+        return Audible::AudioStatus::PLAYING;
         break;
     case sf::SoundSource::Stopped:
-        return Audio::AudioStatus::STOPPED;
+        return Audible::AudioStatus::STOPPED;
         break;
     }
-    return Audio::AudioStatus::STOPPED;
+    return Audible::AudioStatus::STOPPED;
 }
 
-unsigned int Sound::getPlayingOffSet() {
+uint32 Sound::getPlayingOffSet() {
     return mSound.getPlayingOffset().asMilliseconds();
 }
 
-void Sound::setPlayingOffSet(const unsigned int offset) {
+void Sound::setPlayingOffSet(const uint32 &offset) {
     mSound.setPlayingOffset(sf::milliseconds(offset));
 }
 
@@ -124,7 +124,7 @@ bool Sound::isLoopMode() {
     return mSound.getLoop();
 }
 
-void Sound::setLoopMode(const bool& loop) {
+void Sound::setLoopMode(const bool &loop) {
     mSound.setLoop(loop);
 }
 

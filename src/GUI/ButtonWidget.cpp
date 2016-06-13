@@ -2,22 +2,24 @@
 
 using namespace ME;
 
-ButtonWidget::ButtonWidget(const String& text, Vect2f pos,  ResourceID fontID) {
+ButtonWidget::ButtonWidget(const String& text, Vect2f pos, const std::string &fontName) {
     mType     = "ButtonWidget";
     mText     = text;
     mPos      = pos;
-    mFontID   = fontID;
+    mFontName = fontName;
     mTextRef  = nullptr;
-    mShapeRef = nullptr; 
+    mShapeRef = nullptr;
 }
 
 void ButtonWidget::init() {
-    if (mFontID == 0) {
-        mTextID  = mResources->createText(mText, 22, mDefaultFontID);
-    }else {
-        mTextID  = mResources->createText(mText, 22, mFontID);
+    if (mFontName == "") {
+        mFontName = "game_font";
     }
-    mTextRef = mResources->getResource<Text>(mTextID);
+    
+    mTextName = "button_widget_" + mText;
+
+    ResourceManager::createText(mTextName, mText, 22, mFontName);
+    mTextRef = ResourceManager::get<Text>(mTextName);
 
     float width = 80.0f;
 
@@ -25,8 +27,10 @@ void ButtonWidget::init() {
         width = mTextRef->getSize().x + 20.0f;
     }
 
-    mShapeID  = mResources->createShape(Vect2f(width, 30.0f), Color(0, 0, 0), mPos);
-    mShapeRef = mResources->getResource<Shape>(mShapeID);
+    mShapeName  = "button_widget_shape_" + mText;
+
+    ResourceManager::createShape(mShapeName, Vect2f(width, 30.0f), Color(0, 0, 0), mPos);
+    mShapeRef = ResourceManager::get<Shape>(mShapeName);
     // TODO(Pedro): Get the Color's from our GUI Object
     // Like GUI::Style::BUTTON_C1 or something like that
     // So we can load a different GUI style on runtime (or compilation I guess)

@@ -80,7 +80,6 @@ WidgetPtr GUI::addWidget(const std::string& name, WidgetPtr object) {
    }
 
     mWidgets[name] = object;
-    mWidgets[name]->registerResourceManager(mEngine->getResourceManager());
     mWidgets[name]->registerWindow(mEngine->getWindow());
     mWidgets[name]->init();
 

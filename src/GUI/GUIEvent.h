@@ -2,6 +2,7 @@
 #define GUIEVENT_H
 #include "Helper/Types.h"
 #include "LogInc.h"
+#include <map>
 
 
 namespace ME {

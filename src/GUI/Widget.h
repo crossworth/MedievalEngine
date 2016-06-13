@@ -12,7 +12,6 @@ class Widget : public Drawable {
 public:
     Widget();
     void registerWindow(Window* window);
-    void registerResourceManager(ResourceManager* resource);
 
     virtual void init() = 0;
     // TODO(Pedro): Since we have a window object do we need a window object again
@@ -58,7 +57,6 @@ public:
     void removeEventHandle(GUIEventPtr event);
 
     Window* getWindow();
-    ResourceManager* getResourceManager();
 protected:
     void notify(GUIEvent::Type type, Widget* widget);
 
@@ -75,8 +73,6 @@ protected:
     ColorGradient mColorGradient;
 
     Window* mWindow;
-    ResourceManager* mResources;
-    ResourceID mDefaultFontID;
 };
 
 }

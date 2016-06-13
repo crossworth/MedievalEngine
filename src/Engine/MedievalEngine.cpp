@@ -2,8 +2,11 @@
 
 using namespace ME;
 
-MedievalEngine::MedievalEngine(int argc, char** argv) : GAME_FONT_ID(0), mDoneLoading(false), 
-    mRunning(true), mErrorCode(0), mArguments(argc, argv) {
+MedievalEngine::MedievalEngine(int argc, char **argv) : mArguments(argc, argv) {
+
+    mDoneLoading = false;
+    mRunning     = true;
+    mErrorCode   = 0;
 
     ProfileBlock();
 
@@ -15,8 +18,6 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : GAME_FONT_ID(0), mDoneLo
         this->close(4);
         return;
     }
-
-
 
     LuaAPI::loadLibs();
 
@@ -36,9 +37,6 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : GAME_FONT_ID(0), mDoneLo
         }
     }
 
-
-    // Since its the creation of our engine we create a temporary window object
-    // to initialize our window
 
     String width;
     String height;
@@ -71,19 +69,19 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : GAME_FONT_ID(0), mDoneLo
     // Verify each key to see if we do have a valid information if so we parse
     // to the correct type and put on the appropriate place
     if(bitsPerPixel != "") {
-        mWindowInfoInput.bitsPerPixel = Kit::string_int(bitsPerPixel);
+        mWindowInfoInput.bitsPerPixel = static_cast<uint8>(Kit::string_int(bitsPerPixel));
     } else {
         mConfigurations.add("bits_per_pixels", Kit::int_string(ENGINE_DEFAULTS::BITS_PER_PIXEL_WINDOW));
     }
 
     if(height != "") {
-        mWindowInfoInput.height = Kit::string_int(height);
+        mWindowInfoInput.height = static_cast<uint16>(Kit::string_int(height));
     } else {
         mConfigurations.add("height", Kit::int_string(ENGINE_DEFAULTS::HEIGHT_WINDOW));
     }
 
     if(width != "") {
-        mWindowInfoInput.width = Kit::string_int(width);
+        mWindowInfoInput.width = static_cast<uint16>(Kit::string_int(width));
     } else {
         mConfigurations.add("width", Kit::int_string(ENGINE_DEFAULTS::WIDTH_WINDOW));
     }
@@ -101,7 +99,7 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : GAME_FONT_ID(0), mDoneLo
     }
 
     if(frameLimit != "") {
-        mWindowInfoInput.frameLimit = Kit::string_int(frameLimit);
+        mWindowInfoInput.frameLimit = static_cast<uint16>(Kit::string_int(frameLimit));
     } else {
         mConfigurations.add("frame_limit", Kit::int_string(ENGINE_DEFAULTS::FRAME_LIMIT));
     }
@@ -171,8 +169,8 @@ MedievalEngine::MedievalEngine(int argc, char** argv) : GAME_FONT_ID(0), mDoneLo
 
             // Load the default engine font for the engine, its the fallback font for all the
             // string related stuff
-            Font::DEFAULT_FONT = mResourceManager.loadFont(mDataFiles.getFile("default.ttf"),
-                                                         mDataFiles.getFileEntrySize("default.ttf"));
+            ResourceManager::loadFont("default_font", mDataFiles.getFile("default.ttf"),
+                                        mDataFiles.getFileEntrySize("default.ttf"));
 
             LOG << Log::VERBOSE
                 << "[MedievalEngine::MedievalEngine] Default font loaded "
@@ -223,9 +221,7 @@ void MedievalEngine::init() {
     // and the font can be access to be load another font
     // A Log::WARNING should be emited
     if (mConfigurations.getKey("game_font") != "") {
-        GAME_FONT_ID = mResourceManager.loadFont(mConfigurations.getKey("game_font").getString());
-    } else {
-        GAME_FONT_ID = Font::DEFAULT_FONT;
+        ResourceManager::loadFont("game_font", mConfigurations.getKey("game_font").getString());
     }
 
     // We create the window here so We dont have any freeze on the screen
@@ -304,28 +300,28 @@ void MedievalEngine::init() {
     LuaAPI::state.set_function("audio_set_global_volume", [this](float volume) {
         Audible::GLOBAL_VOLUME = volume;
         // TODO(Pedro): set a flag to update the volume, insted of tring to update on the objects, maybe register this functions outside this class as well
-        ResourceManager::updateAudioVolume();
+        ResourceManager::updateAudibleVolume();
     });
     LuaExportAPI::exports("audio_set_global_volume", "", "float", LuaExportType::FUNCTION,
                             "set the engine global audio volume");
 
     LuaAPI::state.set_function("audio_set_voice_volume", [this](float volume) {
         Audible::VOICE_VOLUME = volume;
-        ResourceManager::updateAudioVolume();
+        ResourceManager::updateAudibleVolume();
     });
     LuaExportAPI::exports("audio_set_voice_volume", "", "float", LuaExportType::FUNCTION,
                             "set the engine voice audio volume");
 
     LuaAPI::state.set_function("audio_set_music_volume", [this](float volume) {
         Audible::MUSIC_VOLUME = volume;
-        ResourceManager::updateAudioVolume();
+        ResourceManager::updateAudibleVolume();
     });
     LuaExportAPI::exports("audio_set_music_volume", "", "float", LuaExportType::FUNCTION,
                             "set the engine music audio volume");
 
     LuaAPI::state.set_function("audio_set_ambient_volume", [this](float volume) {
         Audible::AMBIENT_VOLUME = volume;
-        ResourceManager::updateAudioVolume();
+        ResourceManager::updateAudibleVolume();
     });
     LuaExportAPI::exports("audio_set_ambient_volume", "", "float", LuaExportType::FUNCTION,
                             "set the engine ambient audio volume");
@@ -416,11 +412,11 @@ bool MedievalEngine::isRunning() {
     return mRunning;
 }
 
-void MedievalEngine::setCurrentMusicQueue(const std::string& name) {
+void MedievalEngine::setCurrentMusicQueue(const std::string &name) {
     mCurrentMusicQueue = name;
 }
 
-MusicQueue* MedievalEngine::getMusicQueue(const std::string& name) {
+MusicQueue* MedievalEngine::getMusicQueue(const std::string &name) {
     // If we dont find any music queue we just create one
     // and register our engine on it
     if (!(mMusicQueue.find(name) != mMusicQueue.end())) {
@@ -428,13 +424,12 @@ MusicQueue* MedievalEngine::getMusicQueue(const std::string& name) {
             << "Muisc Queue " + name + " not found, creating new Music Queue" << std::endl;
 
         mMusicQueue[name] = MusicQueue();
-        mMusicQueue[name].registerEngine(this);
     }
 
     return &mMusicQueue[name];
 }
 
-void MedievalEngine::close(const int& errorCode) {
+void MedievalEngine::close(const int &errorCode) {
     LOG << Log::VERBOSE << "[MedievalEngine::close]" << std::endl;
     mRunning = false;
     mErrorCode = errorCode;
@@ -455,9 +450,6 @@ Window* MedievalEngine::getWindow() {
     return &mWindow;
 }
 
-ResourceManager* MedievalEngine::getResourceManager() {
-    return &mResourceManager;
-}
 
 GameStateManager* MedievalEngine::getGameStateManager() {
     return &mGameStateManager;
@@ -468,5 +460,6 @@ DATFile* MedievalEngine::getDATAFileHandle() {
 }
 
 MedievalEngine::~MedievalEngine() {
+    ResourceManager::clear();
     LOG << Log::VERBOSE << "[MedievalEngine::~MedievalEngine]" << std::endl;
 }

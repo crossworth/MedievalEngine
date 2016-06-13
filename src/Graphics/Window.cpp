@@ -34,7 +34,7 @@ Window::Window() : mIsWindowOpen(false), mFPS(0), mFrame(0),
     LuaExportAPI::exports("window_has_custom_cursor", "", "bool", LuaExportType::FUNCTION, "if the window has a custom cursor or not");
 
     LuaAPI::state.set_function("window_get_delta", &Window::getDelta, this);
-    LuaExportAPI::exports("window_get_delta", "", "MEUInt64", LuaExportType::FUNCTION, "get the delta time (the time that each frame is using to draw on screen in microseconds)");
+    LuaExportAPI::exports("window_get_delta", "", "uint64", LuaExportType::FUNCTION, "get the delta time (the time that each frame is using to draw on screen in microseconds)");
 
     LuaAPI::state.set_function("window_get_fps", &Window::getFPS, this);
     LuaExportAPI::exports("window_get_fps", "", "unsigned int", LuaExportType::FUNCTION, "get the fps counter");
@@ -59,7 +59,7 @@ Window::Window() : mIsWindowOpen(false), mFPS(0), mFrame(0),
     
 }
 
-void Window::setCursorVisible(const bool& visible) {
+void Window::setCursorVisible(const bool &visible) {
     mCursorVisible = visible;
 
     if (mWindow != nullptr && mHasCustomCursor == false) {
@@ -71,7 +71,7 @@ void Window::setCursorVisible(const bool& visible) {
     }
 }
 
-void Window::setCursor(const std::string& cursor) {
+void Window::setCursor(const std::string &cursor) {
     // Try to load the cursor file, if fails just do a log and nothing more
     // We dont use our ResourceManager here for better performance and control
     // of the existence of our cursor texture and sprite
@@ -119,7 +119,7 @@ void Window::setSizeFullScreen(Drawable* object) {
     object->setSize(objectSize);
 }
 
-int Window::fontSize(const float& size) {
+int Window::fontSize(const float &size) {
     int minWin = std::min(Window::mWindowInfo.width, Window::mWindowInfo.height);
 
     float fontSize = size;
@@ -159,7 +159,7 @@ void Window::setRelative(Drawable* object) {
     object->setSize(objectSize);
 }
 
-void Window::setPosition(Drawable* object, const Window::Position& posX, const Window::Position& posY, Drawable* reference) {
+void Window::setPosition(Drawable* object, const Window::Position &posX, const Window::Position &posY, Drawable* reference) {
     // TODO(Pedro): Create a innerPadding variables to keep the current padding
     // of the elements inside the window/drawable so this way we get a more
     // CSS like style of padding and avoid using that bullshit of setting the
@@ -227,7 +227,7 @@ void Window::setPosition(Drawable* object, const Window::Position& posX, const W
     object->setPosition(position);
 }
 
-void Window::setPosition(WidgetPtr object, const Window::Position& posX, const Window::Position& posY, Drawable* reference) {
+void Window::setPosition(WidgetPtr object, const Window::Position &posX, const Window::Position &posY, Drawable* reference) {
     // We just call our setPosition function dereferencing the smartpointer
     Window::setPosition(object.get(), posX, posY, reference);
 }
@@ -265,7 +265,7 @@ void Window::open() {
     }
 }
 
-void Window::create(const WindowInfo& info) {
+void Window::create(const WindowInfo &info) {
     // If we are trying to create a Fullscreen window
     // We must verify if it's a valid window first
     // if not we just set the fullScreen to false
@@ -286,7 +286,7 @@ void Window::create(const WindowInfo& info) {
     LOG << Log::VERBOSE << "[Window::create] Window created" << std::endl;
 }
 
-MEUInt64 Window::getDelta() {
+uint64 Window::getDelta() {
     return mDelta;
 }
 
@@ -294,7 +294,7 @@ unsigned int Window::getFPS() {
     return mFPS;
 }
 
-bool Window::isValidWindow(const WindowInfo& info) {
+bool Window::isValidWindow(const WindowInfo &info) {
     // non-fullscreen windows are always valid
     if (!info.fullScreen) {
         return true;
@@ -324,7 +324,7 @@ bool Window::isOpen() {
     return mWindow->isOpen();
 }
 
-bool Window::pollEvent(Event& evt) {
+bool Window::pollEvent(Event &evt) {
     sf::Event sfEvent;
     bool ret = mWindow->pollEvent(sfEvent);
 
@@ -414,7 +414,7 @@ Vect2i Window::getPosition() {
     return Vect2i(pos.x, pos.y);
 }
 
-void Window::setPosition(const Vect2i& pos) {
+void Window::setPosition(const Vect2i &pos) {
     mWindow->setPosition(sf::Vector2i(pos.x, pos.y));
 }
 
@@ -431,11 +431,11 @@ Vect2i Window::getSize() {
     return Vect2i(size.x, size.y);
 }
 
-void Window::setSize(const Vect2i& size) {
+void Window::setSize(const Vect2i &size) {
     mWindow->setSize(sf::Vector2u(size.x, size.y));
 }
 
-void Window::setTitle(const std::string& title) {
+void Window::setTitle(const std::string &title) {
     mWindow->setTitle(title);
 }
 
@@ -443,7 +443,7 @@ unsigned int Window::getDrawCalls() {
     return mDrawCalls;
 }
 
-void Window::setIcon(const std::string& fileName) {
+void Window::setIcon(const std::string &fileName) {
     // TODO(Pedro): Verify if this work as expected since
     // it can cause a pointer dereferencing early
     // since iconImage is local variable
@@ -456,7 +456,7 @@ void Window::setIcon(const std::string& fileName) {
 
 }
 
-void Window::setVisible(const bool& visible) {
+void Window::setVisible(const bool &visible) {
     mIsWindowVisible = visible;
     mWindow->setVisible(visible);
 
@@ -466,7 +466,7 @@ bool Window::isVisible() {
     return mIsWindowVisible;
 }
 
-void Window::setRenderArea(RenderArea& renderArea) {
+void Window::setRenderArea(RenderArea &renderArea) {
     mWindow->setView(*renderArea.getView());
 }
 

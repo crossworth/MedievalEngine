@@ -1,7 +1,10 @@
-#ifndef RESOURCEMANAGER_H
-#define RESOURCEMANAGER_H
+#ifndef MEDIEVALENGINE_RESOURCES_RESOURCEMANAGER_H_
+#define MEDIEVALENGINE_RESOURCES_RESOURCEMANAGER_H_
 #include <unordered_map>
+#include <memory>
+
 #include "Helper/Kit.h"
+
 #include "Resources/Sprite.h"
 #include "Resources/Text.h"
 #include "Resources/SpriteAnimation.h"
@@ -12,52 +15,72 @@
 
 namespace ME {
 
+typedef std::shared_ptr<Resource> ResourcePtr;
+
 class ResourceManager {
 public:
-    ResourceManager();
+    static void clear();
 
-    static void updateAudioVolume();
+    static void updateAudibleVolume();
 
-    ResourceID loadTexture(const std::string& fileName);
-    ResourceID loadFont(const std::string& fileName);
-    ResourceID loadFont(MEByte* bytes, std::size_t size);
-    ResourceID loadMusic(const std::string& fileName);
-    ResourceID loadSound(const std::string& fileName);
+    static bool loadTexture(const std::string &resourceName, const std::string &fileNameOnDisk = "");
 
-    ResourceID createSprite(const ResourceID& texture);
-    ResourceID createText(const String& text,
-                    const unsigned int& fontSize,
-                    const ResourceID& font);
+    static bool loadFont(const std::string &resourceName, const std::string &fileNameOnDisk = "");
+    static bool loadFont(const std::string &resourceName, byte *bytes, const uint64 &size);
 
-    ResourceID createSpriteAnimation();
-    ResourceID createShape(const Vect2f& size = Vect2f(50.f, 50.0f),
-                     const Color& color = Color(Color::WHITE),
-                     const Vect2f& pos = Vect2f(0.0f, 0.0f));
+    static bool loadMusic(const std::string &resourceName, const std::string &fileNameOnDisk = "");
+
+    static bool loadSound(const std::string &resourceName, const std::string &fileNameOnDisk = "");
+
+    static bool createSprite(const std::string &resourceName, const std::string &texture);
+
+    static bool createText(const std::string &resourceName, const String &text,
+                    const unsigned int &fontSize,
+                    const std::string &font);
+
+    static bool createSpriteAnimation(const std::string &resourceName);
+    static bool createShape(const std::string &resourceName, const Vect2f &size = Vect2f(50.f, 50.0f),
+                     const Color &color = Color(Color::WHITE),
+                     const Vect2f &pos = Vect2f(0.0f, 0.0f));
 
     template<typename T>
-    T* getResource(const ResourceID& id);
+    static T* get(const std::string &name);
 
-    ~ResourceManager();
+    static bool inline exists(const std::string &name) {
+        return ResourceManager::mResources.find(name) != ResourceManager::mResources.end();
+    }
+
 protected:
-    static std::unordered_map<ResourceID, ResourcePtr> mResources;
+    // NOTE(Pedro): We can use an std::map if we need more memory, but the speed will pay for this change
+    static std::unordered_map<std::string, ResourcePtr> mResources;
+private:
+    ResourceManager();
 };
 
 template<typename T>
-T* ResourceManager::getResource(const ResourceID &id) {
+T* ResourceManager::get(const std::string &name) {
     // TODO(pedro): veriify if it's valid resource before delivery to the user
     // if it's not valid we return a fallback
     // resource or something
-    if (ResourceManager::mResources.find(id) != ResourceManager::mResources.end()) {
-        return static_cast<T*>(ResourceManager::mResources[id].get());
-    } else {
-        LOG << Log::WARNING
-            << "[AssetsManager::getAsset] Asset not found ID: "
-            << Kit::int_str(id) << std::endl;
 
-        return nullptr;
+    T* resourcePtr = nullptr;
+
+    if (ResourceManager::mResources.find(name) != ResourceManager::mResources.end()) {
+        resourcePtr =  static_cast<T*>(ResourceManager::mResources[name].get());
     }
+
+    if (resourcePtr == nullptr || resourcePtr->isValid() == false) {
+        LOG << Log::WARNING
+            << "[ResourceManager::get] Resource not found or is invalid: "
+            << name << std::endl;
+    }
+
+    // TODO(Pedro): load an Default Error or invalid resource
+    // and return it here
+
+    return resourcePtr;
 }
 
 }
 
-#endif // RESOURCEMANAGER_H
+#endif // MEDIEVALENGINE_RESOURCES_RESOURCEMANAGER_H_

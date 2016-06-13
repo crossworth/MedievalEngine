@@ -28,7 +28,6 @@ private:
 
     Clock mMinWaitTime;
     bool mIsStateChanging;
-    static ResourceID menuMusic;
 };
 
 }

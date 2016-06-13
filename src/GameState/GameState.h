@@ -1,6 +1,9 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 #include "GUI/GUI.h"
+#include "Effects/Fade.h"
+#include "Effects/Strobe.h"
+#include "Effects/Shader.h"
 
 
 namespace ME {
@@ -43,7 +46,6 @@ protected:
     void setCurrentStatus(const GameState::Status& status);
 
     MedievalEngine* mEngine;
-    ResourceManager* mResources;
     GameState::Status mCurrentStatus;
     GUI mGUI;
     bool mIsPlaying;

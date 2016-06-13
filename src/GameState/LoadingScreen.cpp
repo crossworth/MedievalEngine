@@ -7,28 +7,33 @@ LoadingScreen::LoadingScreen() : fadeTextInit(false), mIsStateChanging(false) {
     LOG << Log::VERBOSE << "[LoadingScreen::LoadingScreen]" << std::endl;
 }
 
-ResourceID LoadingScreen::menuMusic;
-
 void LoadingScreen::create() {
     ProfileBlock();
     LOG << Log::VERBOSE << "[LoadingScreen::create]" << std::endl;
 
-    ResourceID txtBackground     = mResources->loadTexture("menu/bg_blur.png");
-    ResourceID sceneBackgroundID = mResources->createSprite(txtBackground);
+    std::string textBackgroundName = "loading_screen_menu_bg_blur_png";
 
-    sceneBGPtr = mResources->getResource<Sprite>(sceneBackgroundID);
+    ResourceManager::loadTexture(textBackgroundName, "menu/bg_blur.png");
+
+    std::string sceneBackgroundName = "loading_screen_background_sprite";
+
+    ResourceManager::createSprite(sceneBackgroundName, textBackgroundName);
+
+    sceneBGPtr = ResourceManager::get<Sprite>(sceneBackgroundName);
 
     Vect2f windowSize = mEngine->getWindow()->getSize();
 
     Window::setSizeFullScreen(sceneBGPtr);
 
 
-    ResourceID textMessageScreenID = mResources->createText(Strings::getItemArrayRandom("loading_text"), Window::fontSize(0.4f), mEngine->GAME_FONT_ID);
-    // ResourceID textLoadingScreenID = mResources->createText(sf::String("Opções"), Window::fontSize(0.45f), mEngine->GAME_FONT_ID);
-    ResourceID textLoadingScreenID = mResources->createText(Strings::get("loading"), Window::fontSize(0.45f), mEngine->GAME_FONT_ID);
+    std::string textMessageScreenName = "loading_screen_text_message";
+    ResourceManager::createText(textMessageScreenName, Strings::getItemArrayRandom("loading_text"), Window::fontSize(0.4f), "game_font");
+    
+    std::string textLoadingScreenName = "loading_screen_loading_message";
+    ResourceManager::createText(textLoadingScreenName, Strings::get("loading"), Window::fontSize(0.45f), "game_font");
 
-    textMessageScreen = mResources->getResource<Text>(textMessageScreenID);
-    textLoadingScreen = mResources->getResource<Text>(textLoadingScreenID);
+    textMessageScreen = ResourceManager::get<Text>(textMessageScreenName);
+    textLoadingScreen = ResourceManager::get<Text>(textLoadingScreenName);
 
     textMessageScreen->setOriginCenter();
     textLoadingScreen->setOriginCenter();

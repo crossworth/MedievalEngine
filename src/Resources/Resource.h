@@ -1,13 +1,12 @@
-#ifndef RESOURCE_H
-#define RESOURCE_H
-#include <iostream>
-
+#ifndef MEDIEVALENGINE_RESOURCES_RESOURCE_H_
+#define MEDIEVALENGINE_RESOURCES_RESOURCE_H_
 
 namespace ME {
 
 class Resource {
 public:
-    enum Type {
+
+    enum class Type {
         FONT,
         MUSIC,
         SHAPE,
@@ -17,7 +16,7 @@ public:
         TEXT,
         TEXTURE
     };
-public:
+
     Resource();
     virtual ~Resource();
     Type getType();
@@ -29,4 +28,4 @@ protected:
 
 }
 
-#endif // RESOURCE_H
+#endif // MEDIEVALENGINE_RESOURCES_RESOURCE_H_

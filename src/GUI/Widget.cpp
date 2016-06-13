@@ -4,12 +4,8 @@ using namespace ME;
 
 Widget::Widget() : mIsVisible(true), mIsActive(true), mOpacity(1.f) {
     // TODO(Pedro): Create a setFont function to change the default font of widget
-    mDefaultFontID = Font::DEFAULT_FONT;
 }
 
-void Widget::registerResourceManager(ResourceManager* resource) {
-    mResources = resource;
-}
 
 void Widget::registerWindow(Window* window) {
     mWindow = window;
@@ -75,10 +71,6 @@ Window* Widget::getWindow() {
     return mWindow;
 }
 
-// TODO(Pedro): DO we need this?
-ResourceManager* Widget::getResourceManager() {
-    return mResources;
-}
 
 void Widget::addEventHandle(GUIEventPtr event) {
     LOG << Log::VERBOSE << "[Widget::addEventHandle] New GUIEvent attached to widget "

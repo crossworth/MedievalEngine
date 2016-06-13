@@ -2,13 +2,11 @@
 
 using namespace ME;
 
-ResourceID Font::DEFAULT_FONT = 0;
-
 Font::Font() {
     mType = Resource::Type::FONT;
 }
 
-bool Font::loadFromFile(const std::string& fileName){
+bool Font::loadFromFile(const std::string &fileName){
     if (!mFont.loadFromFile(ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
         LOG << Log::WARNING << "[Font::loadFromFile] Error while opening font: "
             << ENGINE_DEFAULTS::ASSETS_PATH + fileName
@@ -20,7 +18,7 @@ bool Font::loadFromFile(const std::string& fileName){
     return mIsValid;
 }
 
-bool Font::loadFromMemory(MEByte* bytes, std::size_t size){
+bool Font::loadFromMemory(byte *bytes, std::size_t size){
     if (!mFont.loadFromMemory(static_cast<void*>(bytes), size)) {
         LOG << Log::WARNING << "[Font::loadFromMemory] Error while opening font from memory"
             << std::endl;
@@ -35,6 +33,6 @@ sf::Font* Font::getResourcePointer() {
     return &mFont;
 }
 
-float Font::getLineSpacing(const unsigned int& size) const {
+float Font::getLineSpacing(const unsigned int &size) const {
     return mFont.getLineSpacing(size);
 }

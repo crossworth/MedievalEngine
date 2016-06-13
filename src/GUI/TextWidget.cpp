@@ -3,49 +3,45 @@
 
 using namespace ME;
 
-TextWidget::TextWidget(const String& text,
-                       const int& textSize,
-                       const Vect2f& pos,
-                       const ResourceID& fontID) {
+TextWidget::TextWidget(const String &text,
+                       const int &textSize,
+                       const Vect2f &pos,
+                       const std::string &fontName) {
     mType        = "TextWidget";
     mPos         = pos;
     mText        = text;
     mTextSize    = textSize;
     mIsMouseOver = false;
-    mFontID      = fontID;
+    mFontName    = fontName;
     mTextRef     = nullptr;
 
 }
 
-void TextWidget::setFont(const ResourceID& fontID) {
-    mFontID = fontID;
+void TextWidget::setFont(const std::string &fontName) {
+    mFontName = fontName;
 
     if (mTextRef != nullptr) {
-        mTextRef->setFont(*mResources->getResource<Font>(mFontID));
+        mTextRef->setFont(*ResourceManager::get<Font>(mFontName));
     }
 }
 
-ResourceID TextWidget::getFont() {
-    if (mFontID != 0) {
-        return mFontID;
-    } else {
-        return mDefaultFontID;
-    }
+std::string TextWidget::getFont() {
+    return mFontName;
 }
 
 void TextWidget::init() {
-    ResourceID textFont = mDefaultFontID;
-
-    if (mFontID != 0) {
-        textFont = mFontID;
+    if (mFontName == "") {
+        mFontName = "game_font";
     }
 
-    mTextID  = mResources->createText(mText, mTextSize, textFont);
-    mTextRef = mResources->getResource<Text>(mTextID);
+    std::string textWidgetName = std::string("text_widget_" + mText);
+
+    ResourceManager::createText(textWidgetName, mText, mTextSize, mFontName);
+    mTextRef = ResourceManager::get<Text>(textWidgetName);
     setPosition(mPos);
 }
 
-void TextWidget::setPosition(const Vect2f& pos) {
+void TextWidget::setPosition(const Vect2f &pos) {
     mTextRef->setPosition(pos);
 }
 
@@ -57,11 +53,11 @@ Vect2f TextWidget::getSize() {
     return mTextRef->getSize();
 }
 
-void TextWidget::setSize(const Vect2f& size) {
+void TextWidget::setSize(const Vect2f &size) {
     mTextRef->setSize(size);
 }
 
-void TextWidget::setScale(const Vect2f& scale) {
+void TextWidget::setScale(const Vect2f &scale) {
     mTextRef->setScale(scale);
 }
 
@@ -73,7 +69,7 @@ float TextWidget::getRotation() {
     return mTextRef->getRotation();
 }
 
-void TextWidget::setRotation(const float& angle) {
+void TextWidget::setRotation(const float &angle) {
     mTextRef->setRotation(angle);
 }
 
@@ -81,11 +77,11 @@ Vect2f TextWidget::getOrigin() {
     return mTextRef->getOrigin();
 }
 
-void TextWidget::setOrigin(const Vect2f& origin) {
+void TextWidget::setOrigin(const Vect2f &origin) {
     mTextRef->setOrigin(origin);
 }
 
-void TextWidget::setOpacity(const float& opacity) {
+void TextWidget::setOpacity(const float &opacity) {
     mTextRef->setOpacity(opacity);
 }
 
@@ -93,7 +89,7 @@ float TextWidget::getOpacity() {
     return mTextRef->getOpacity();
 }
 
-void TextWidget::setColor(const Color& color) {
+void TextWidget::setColor(const Color &color) {
     mTextRef->setColor(color);
 }
 
@@ -109,7 +105,7 @@ Area TextWidget::getGlobalBounds() {
     return mTextRef->getGlobalBounds();
 }
 
-void TextWidget::draw(Window& window) {
+void TextWidget::draw(Window &window) {
     if (mIsVisible) {
         updateEffects();
         mTextRef->setRenderState(mRenderStates);

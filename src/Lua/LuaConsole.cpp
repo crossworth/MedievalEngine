@@ -7,7 +7,7 @@
 *
 * @File: LuaConsole.cpp
 * @Last Modified by:   Pedro Henrique
-* @Last Modified time: 2016-06-07 11:48:01
+* @Last Modified time: 2016-06-13 19:32:34
 */
 
 #include "LuaConsole.h"
@@ -708,7 +708,6 @@ bool LuaConsole::hasTextSelected() {
 }
 
 void LuaConsole::registerEngine(MedievalEngine* engine) {
-    mResources  = engine->getResourceManager();
     mWindowSize = engine->getWindow()->getSize();
 
     // we se the window size a little bit smaller than the full window size
@@ -721,25 +720,26 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
 
 
     // our resources id's
-    ResourceID inputTextID;
-    ResourceID outputTextID;
-    ResourceID consoleShapeID;
-    ResourceID inputLineShapeID;
-    ResourceID selectedShapeID;
-    ResourceID cursorShapeID;
-    ResourceID fontID;
+    std::string inputTextName = "lua_console_input_text";
+    std::string outputTextName = "lua_console_output_text";
+    std::string consoleShapeName = "lua_console_shape";
+    std::string inputLineShapeName = "lua_console_input_line";
+    std::string selectedShapeName = "lua_console_selected_shape";
+    std::string cursorShapeName = "lua_console_cursor_shape";
+    std::string fontName = "lua_console_font_name";
 
     // set the monospace font for our console
     // TODO(Pedro): Move this font to a dat file
-    fontID = mResources->loadFont("system/Hack-Regular.ttf");
+    ResourceManager::loadFont(fontName, "system/Hack-Regular.ttf");
 
-    outputTextID = inputTextID = mResources->createText(String(""), Window::fontSize(0.20f), fontID);
-    mOutputText  = mResources->getResource<Text>(outputTextID);
+    ResourceManager::createText(outputTextName, String(""), Window::fontSize(0.20f), fontName);
+    mOutputText  = ResourceManager::get<Text>(outputTextName);
 
     mFontHeight = static_cast<int>(mOutputText->getFontHeight(Window::fontSize(0.20f)));
 
-    inputTextID = mResources->createText(mInputCommand, Window::fontSize(0.25f), fontID);
-    mInputText  = mResources->getResource<Text>(inputTextID);
+    
+    ResourceManager::createText(inputTextName, mInputCommand, Window::fontSize(0.25f), fontName);
+    mInputText  = ResourceManager::get<Text>(inputTextName);
 
     // before we set the buffer, lets get the character font width and height
     // this will work only with monospace fonts
@@ -756,13 +756,13 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     // reset the input text
     mInputText->setString(String(""));
 
-    consoleShapeID = mResources->createShape(mConsoleSize, mBackgroundColor, mMargin);
-    mConsoleShape  = mResources->getResource<Shape>(consoleShapeID);
+    ResourceManager::createShape(consoleShapeName, mConsoleSize, mBackgroundColor, mMargin);
+    mConsoleShape  = ResourceManager::get<Shape>(consoleShapeName);
 
     mOutputText->setPosition(Vect2f(mConsoleShape->getPosition().x, mConsoleShape->getPosition().y - mLineHeight));
 
-    inputLineShapeID = mResources->createShape(Vect2f(static_cast<float>(mConsoleSize.x),  mLineHeight), mBackgroundColor);
-    mInputLineShape  = mResources->getResource<Shape>(inputLineShapeID);
+    ResourceManager::createShape(inputLineShapeName, Vect2f(static_cast<float>(mConsoleSize.x),  mLineHeight), mBackgroundColor);
+    mInputLineShape  = ResourceManager::get<Shape>(inputLineShapeName);
 
     mInputLineShape->setPosition(Vect2f(mConsoleShape->getPosition().x, mConsoleShape->getPosition().y + mConsoleShape->getSize().y - mLineHeight));
     mInputText->setPosition(mInputLineShape->getPosition());
@@ -776,12 +776,12 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     // add a padding to the cursor, to make it align on vertically on center
     cursorPos.y = cursorPos.y + (mLineHeight * 0.10f);
 
-    cursorShapeID = mResources->createShape(Vect2f(1.5f, cursorSize), Color(255, 255, 255));
-    mCursorShape  = mResources->getResource<Shape>(cursorShapeID);
+    ResourceManager::createShape(cursorShapeName, Vect2f(1.5f, cursorSize), Color(255, 255, 255));
+    mCursorShape  = ResourceManager::get<Shape>(cursorShapeName);
     mCursorShape->setPosition(cursorPos);
 
-    selectedShapeID = mResources->createShape(Vect2f(0.f, cursorSize), Color(53, 171, 255, 153));
-    mSelectedShape  = mResources->getResource<Shape>(selectedShapeID);
+    ResourceManager::createShape(selectedShapeName, Vect2f(0.f, cursorSize), Color(53, 171, 255, 153));
+    mSelectedShape  = ResourceManager::get<Shape>(selectedShapeName);
     mSelectedShape->setPosition(Vect2f(cursorPos.x, cursorPos.y));
 
 
@@ -846,7 +846,7 @@ void LuaConsole::draw(Window& window) {
         window.draw(mCursorShape);
     }
     
-    MEUInt32 cursorBlinkTime = mCusorBlinkTime;
+    uint32 cursorBlinkTime = mCusorBlinkTime;
 
     // if we are moving the cursor we add a padding to the time
     if (mShowCursor) {

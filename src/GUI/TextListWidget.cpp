@@ -11,13 +11,18 @@ TextListWidget::TextListWidget() : mMaxiumExpandSize(250.0f, 150.0f),
 }
 
 void TextListWidget::init() {
-    ResourceID textID   = mResources->createText(String("ScrollView"), 22, mDefaultFontID);
-    ResourceID shapeID  = mResources->createShape(Vect2f(250.f, 35.f));
-    ResourceID scrollID = mResources->createShape(Vect2f(8.f, 30.f), Color(0, 0, 0, 75));
+    std::string textName = std::string("scrollview_text_"  + Kit::int_str(Random::unique()));
+    ResourceManager::createText(textName, String("ScrollView"), 22, "game_font");
 
-    mTextRef      = mResources->getResource<Text>(textID);
-    mShapeRef     = mResources->getResource<Shape>(shapeID);
-    mScrollBarRef = mResources->getResource<Shape>(scrollID);
+    std::string shapeName = std::string("scrollview_shape_"  + Kit::int_str(Random::unique()));
+    ResourceManager::createShape(shapeName, Vect2f(250.f, 35.f));
+
+    std::string scrollName = std::string("scrollview_scroll_"  + Kit::int_str(Random::unique()));
+    ResourceManager::createShape(scrollName, Vect2f(8.f, 30.f), Color(0, 0, 0, 75));
+
+    mTextRef      = ResourceManager::get<Text>(textName);
+    mShapeRef     = ResourceManager::get<Shape>(shapeName);
+    mScrollBarRef = ResourceManager::get<Shape>(scrollName);
 
     mShapeRef->setRadius(4.0f);
     mScrollBarRef->setRadius(3.0f);

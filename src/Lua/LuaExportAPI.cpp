@@ -4,11 +4,11 @@ using namespace ME;
 
 std::vector<LuaExportObject> LuaExportAPI::mExports;
 
-void LuaExportAPI::exports(const std::string& name,
-                            const std::string& args,
-                            const std::string& returnType, 
-                            const LuaExportType& type, 
-                            const std::string& comments) {
+void LuaExportAPI::exports(const std::string &name,
+                            const std::string &args,
+                            const std::string &returnType, 
+                            const LuaExportType &type, 
+                            const std::string &comments) {
     LuaExportObject tmp;
 
     tmp.name       = name;
@@ -20,7 +20,7 @@ void LuaExportAPI::exports(const std::string& name,
     LuaExportAPI::mExports.push_back(tmp);
 }
 
-bool LuaExportAPI::generateFunctionsList(const std::string& fileName) {
+bool LuaExportAPI::generateFunctionsList(const std::string &fileName) {
     std::ofstream outFile;
 
     outFile.open(fileName.c_str(), std::ios::out);
@@ -30,7 +30,7 @@ bool LuaExportAPI::generateFunctionsList(const std::string& fileName) {
                 << " Version: " << ENGINE_DEFAULTS::ENGINE_VERSION
                 << " - LuaAPI Reference" << std::endl << std::endl << std::endl;
 
-        std::vector<LuaExportObject>::iterator it = LuaExportAPI::mExports.begin();
+        auto it = LuaExportAPI::mExports.begin();
         
         while(it != LuaExportAPI::mExports.end()) {
             outFile << "* ";
@@ -65,7 +65,7 @@ bool LuaExportAPI::generateFunctionsList(const std::string& fileName) {
     return false;
 }
 
-std::string LuaExportAPI::getPredictions(const std::string& name) {
+std::string LuaExportAPI::getPredictions(const std::string &name) {
     // we only with functions with more than 2 chars
     if (name.length() < 3) {
         return "";
