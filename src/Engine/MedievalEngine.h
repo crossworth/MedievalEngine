@@ -49,8 +49,11 @@ private:
     ArgumentsParser mArguments;
     DATFile mDataFiles;
     GameStateManager mGameStateManager;
+
+    bool mFlagShowFPSTitle;
 };
 
 }
 
 #endif // MEDIEVALENGINE_MEDIEVALENGINE_H_
+
