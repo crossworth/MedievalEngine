@@ -31,25 +31,25 @@ public:
     LuaConsole();
     ~LuaConsole();
 
-    void registerEngine(MedievalEngine* engine);
+    void registerEngine(MedievalEngine *engine);
 
-    void handleEvents(Event& evt);
+    void handleEvents(Event &evt);
     bool isVisible();
     void setVisible(bool visible);
-    void draw(Window& window);
+    void draw(Window &window);
 
-    void addMessage(const String& message);
+    void addMessage(const String &message);
     // used by lua binding to add messages to the console output
-    void addMessageStd(const std::string& message);
+    void addMessageStd(const std::string &message);
 
     void setShowUnicodeKeyCodes(bool show);
 
-    void saveConsoleAction(const String& command, const size_t& cursorPosition);
+    void saveConsoleAction(const String &command, const uint32 &cursorPosition);
 private:
     void updateInputText();
-    void calculateVisibleTextOutput(const size_t& lineNumber = -1);
+    void calculateVisibleTextOutput(const int32 &lineNumber = -1);
 
-    void setTextSelection(const size_t& start, const size_t& end);
+    void setTextSelection(const int32 &start, const int32 &end);
     void removeTextSelection();
     bool hasTextSelected();
     String getTextSelected();
@@ -72,7 +72,7 @@ private:
 
     // console configs
     bool mIsConsoleVisible;
-    size_t mMaxNumberLines;
+    uint32 mMaxNumberLines;
     float mLineHeight;
     float mFontWidth;
     int mFontHeight;
@@ -89,10 +89,10 @@ private:
     std::stack<ConsoleAction> mActions;
 
     //cusor select
-    size_t mStartSelect;
+    int32 mStartSelect;
     bool mIsTextSelected;
-    size_t mStartSelectionPosition;
-    size_t mEndSelectionPosition;
+    int32 mStartSelectionPosition;
+    int32 mEndSelectionPosition;
 
     // scroll content
     bool mHasScrolled;
@@ -107,7 +107,7 @@ private:
     bool mShowKeyCode;
 
     // cursor position
-    size_t mCursorPosition;
+    int32 mCursorPosition;
     bool mShowCursor;
 
     // cursor blink
@@ -116,7 +116,7 @@ private:
     unsigned int mCusorBlinkTime;
 
     // console current showing text
-    size_t mCurrentOutputLine;
+    uint32 mCurrentOutputLine;
 };
 
 }

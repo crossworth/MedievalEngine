@@ -7,7 +7,7 @@
 *
 * @File: LuaConsole.cpp
 * @Last Modified by:   Pedro Henrique
-* @Last Modified time: 2016-06-13 19:32:34
+* @Last Modified time: 2016-06-14 12:20:48
 */
 
 #include "LuaConsole.h"
@@ -99,11 +99,11 @@ void LuaConsole::setShowUnicodeKeyCodes(bool show) {
 }
 
 String LuaConsole::getTextSelected() {
-    size_t sizeString = mEndSelectionPosition - mStartSelectionPosition;
+    int32 sizeString = mEndSelectionPosition - mStartSelectionPosition;
     return mInputCommand.substr(mStartSelectionPosition, sizeString);
 }
 
-void LuaConsole::saveConsoleAction(const String& command, const size_t& cursorPosition) {
+void LuaConsole::saveConsoleAction(const String &command, const uint32 &cursorPosition) {
     ConsoleAction tmp;
     tmp.command        = command;
     tmp.cursorPosition = cursorPosition;
@@ -129,17 +129,13 @@ void LuaConsole::updateInputText() {
     }
 }
 
-void LuaConsole::handleEvents(Event& evt) {
+void LuaConsole::handleEvents(Event &evt) {
     if (evt.type == Event::KeyPressed) {
 
         if (KeyMapper::action("toggle_console", evt)) {
             if (isVisible()) {
                 setVisible(false);
             } else {
-                if (!mHasScrolled) {
-                    calculateVisibleTextOutput();
-                }
-
                 setVisible(true);
             }
         }
@@ -147,7 +143,6 @@ void LuaConsole::handleEvents(Event& evt) {
 
     // If the console is visible we handle the rest of the commands on it.
     if(isVisible()) {
-
 
         if (evt.type == Event::KeyPressed) {
 
@@ -173,9 +168,9 @@ void LuaConsole::handleEvents(Event& evt) {
                 // if has text selected
                 if (hasTextSelected()) {
                     // remove all selected
-                    size_t diffCursorPosition = mEndSelectionPosition - mStartSelectionPosition;
-                    mShowCursor               = true;
-                    mHasMadeAction            = true;
+                    int32 diffCursorPosition = mEndSelectionPosition - mStartSelectionPosition;
+                    mShowCursor              = true;
+                    mHasMadeAction           = true;
 
                     mInputCommand.erase(static_cast<int>(mStartSelectionPosition), static_cast<int>(diffCursorPosition));
                     
@@ -260,9 +255,9 @@ void LuaConsole::handleEvents(Event& evt) {
 
                 if (hasTextSelected()) {
                     // remove all selected
-                    size_t diffCursorPosition = mEndSelectionPosition - mStartSelectionPosition;
-                    mShowCursor               = true;
-                    mHasMadeAction            = true;
+                    int32 diffCursorPosition = mEndSelectionPosition - mStartSelectionPosition;
+                    mShowCursor              = true;
+                    mHasMadeAction           = true;
 
                     mInputCommand.erase(static_cast<int>(mStartSelectionPosition), static_cast<int>(diffCursorPosition));
 
@@ -457,7 +452,7 @@ void LuaConsole::handleEvents(Event& evt) {
                 // Here we handle the tab
                 // first get the command name
                 static std::string cmd = mInputCommand.getString();
-                static size_t cmdPos;
+                static int32 cmdPos;
 
                 // if we hade made an action we need to reparse our command to get
                 // our new string
@@ -491,7 +486,7 @@ void LuaConsole::handleEvents(Event& evt) {
                     // if we get an hint
                     if (result.getSize() > 0) {
                         // tmp variable to hold the new cursor position
-                        size_t newCursorPosition;
+                        int32 newCursorPosition;
 
                         // remove the previus text typed (but keep the rest of the string)
                         mInputCommand.erase(cmdPos, mCursorPosition - cmdPos);
@@ -526,9 +521,9 @@ void LuaConsole::handleEvents(Event& evt) {
                 // if is text selected
                 if (hasTextSelected()) {
                     // remove all selected
-                    size_t diffCursorPosition = mEndSelectionPosition - mStartSelectionPosition;
-                    mShowCursor               = true;
-                    mHasMadeAction            = true;
+                    int32 diffCursorPosition = mEndSelectionPosition - mStartSelectionPosition;
+                    mShowCursor              = true;
+                    mHasMadeAction           = true;
 
                     mInputCommand.erase(static_cast<int>(mStartSelectionPosition), static_cast<int>(diffCursorPosition));
                     
@@ -549,9 +544,9 @@ void LuaConsole::handleEvents(Event& evt) {
                 // if is text selected
                 if (hasTextSelected()) {
                     // remove all selected
-                    size_t diffCursorPosition = mEndSelectionPosition - mStartSelectionPosition;
-                    mShowCursor               = true;
-                    mHasMadeAction            = true;
+                    int32 diffCursorPosition = mEndSelectionPosition - mStartSelectionPosition;
+                    mShowCursor              = true;
+                    mHasMadeAction           = true;
 
                     mInputCommand.erase(static_cast<int>(mStartSelectionPosition), static_cast<int>(diffCursorPosition));
                     
@@ -610,11 +605,11 @@ void LuaConsole::handleEvents(Event& evt) {
     } // if console is visible
 }
 
-void LuaConsole::addMessageStd(const std::string& message) {
+void LuaConsole::addMessageStd(const std::string &message) {
     this->addMessage(String(message));
 }
 
-void LuaConsole::addMessage(const String& message) {
+void LuaConsole::addMessage(const String &message) {
     // fix problems with \n been passed to the string
     String messageTmp(message);
     
@@ -631,7 +626,7 @@ void LuaConsole::addMessage(const String& message) {
     }
 }
 
-void LuaConsole::calculateVisibleTextOutput(const size_t& lineNumber) {
+void LuaConsole::calculateVisibleTextOutput(const int32 &lineNumber) {
     // default go to bottom
     if (lineNumber == -1) {
         mCurrentOutputLine = mOutputCommands.size();
@@ -648,28 +643,22 @@ void LuaConsole::calculateVisibleTextOutput(const size_t& lineNumber) {
         mCurrentOutputLine = 0;
     }
 
-    size_t offsetStart = 0;
+    uint32 offsetStart = 0;
 
     // if the line number is bigger we make an offset
     if (mCurrentOutputLine > mMaxNumberLines) {
         offsetStart = mCurrentOutputLine - mMaxNumberLines;
     }
 
-    // if the offset is at zero we dont need to change the 
-    // currentOutputLine so we add 1 again (on the call we do -1)
-    if (offsetStart == 0) {
-        mCurrentOutputLine = lineNumber + 1;
-    }
-
     std::string tmp;
-    for(size_t i = offsetStart; i < mCurrentOutputLine; i++) {
+    for(uint32 i = offsetStart; i < mCurrentOutputLine; i++) {
         tmp = tmp + mOutputCommands[i].getString() + OS::NEW_LINE;
     }
 
     mOutputText->setString(String(tmp));
 }
 
-void LuaConsole::setTextSelection(const size_t& start, const size_t& end) {
+void LuaConsole::setTextSelection(const int32 &start, const int32 &end) {
     Vect2f tmpCursorPosition = mInputText->getPosition();
     tmpCursorPosition.y      = mCursorShape->getPosition().y;
 
@@ -707,7 +696,7 @@ bool LuaConsole::hasTextSelected() {
     return mIsTextSelected;
 }
 
-void LuaConsole::registerEngine(MedievalEngine* engine) {
+void LuaConsole::registerEngine(MedievalEngine *engine) {
     mWindowSize = engine->getWindow()->getSize();
 
     // we se the window size a little bit smaller than the full window size
@@ -751,7 +740,7 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     mLineHeight = mInputText->getSize().y * 2;
 
     // calcule max terminal line number
-    mMaxNumberLines = static_cast<size_t>((mConsoleSize.y + (mLineHeight / 2)) / mFontHeight);
+    mMaxNumberLines = static_cast<uint32>((mConsoleSize.y + (mLineHeight / 2)) / mFontHeight);
 
     // reset the input text
     mInputText->setString(String(""));
@@ -789,7 +778,7 @@ void LuaConsole::registerEngine(MedievalEngine* engine) {
     LOG_OBJECT->setObserver(this);
 }
 
-void LuaConsole::draw(Window& window) {
+void LuaConsole::draw(Window &window) {
 
     Vect2f cursorShapePos = mCursorShape->getPosition();
     cursorShapePos.x      = mInputText->getPosition().x + (mCursorPosition * mFontWidth);
@@ -873,12 +862,13 @@ bool LuaConsole::isVisible() {
 }
 
 void LuaConsole::setVisible(bool visible) {
-    mIsConsoleVisible = visible;
+    calculateVisibleTextOutput();
 
-    if (visible == false) {
+    if (visible == true) {
         mHasScrolled = false;
-        calculateVisibleTextOutput();
     }
+
+    mIsConsoleVisible = visible;
 }
 
 LuaConsole::~LuaConsole() {
