@@ -4,9 +4,10 @@ using namespace ME;
 
 MedievalEngine::MedievalEngine(int argc, char **argv) : mArguments(argc, argv) {
 
-    mDoneLoading = false;
-    mRunning     = true;
-    mErrorCode   = 0;
+    mDoneLoading      = false;
+    mRunning          = true;
+    mErrorCode        = 0;
+    mFlagShowFPSTitle = false;
 
     ProfileBlock();
 
@@ -105,6 +106,10 @@ MedievalEngine::MedievalEngine(int argc, char **argv) : mArguments(argc, argv) {
     }
 
     if (windowName != "") {
+        if (windowName == "$fps") {
+            mFlagShowFPSTitle = true;
+        }
+
         mWindowInfoInput.windowName = windowName;
     } else {
         mConfigurations.add("engine_name", String(ENGINE_DEFAULTS::ENGINE_NAME));
@@ -330,12 +335,11 @@ void MedievalEngine::init() {
 
 void MedievalEngine::run() {
     if (!isRunning()) {
-       return;
+        return;
     }
 
-
     ProfileBlock();
-    while(mWindow.isOpen()) {
+    while(mWindow.isOpen() && isRunning()) {
         ProfileBlockStr("Main game loop");
 
         { 
@@ -395,9 +399,8 @@ void MedievalEngine::run() {
             mWindow.display();
         }
 
-        {
+        if (mFlagShowFPSTitle) {
             ProfileBlockStr("window set title fps");
-            // TODO(Pedro): remove this after, maybe make a flag
             mWindow.setTitle("FPS:" + Kit::int_str(mWindow.getFPS()));
         }
         
@@ -433,10 +436,6 @@ void MedievalEngine::close(const int &errorCode) {
     LOG << Log::VERBOSE << "[MedievalEngine::close]" << std::endl;
     mRunning = false;
     mErrorCode = errorCode;
-
-    if (mWindow.isOpen()) {
-        mWindow.close();
-    }
 
     // Wait for the thread to finish the loading
     // if we dont the engine crash horrible
