@@ -2,6 +2,9 @@
 
 using namespace ME;
 
+std::string Font::Default  = "";
+std::string Font::GameFont = "";
+
 Font::Font() {
     mType = Resource::Type::FONT;
 }

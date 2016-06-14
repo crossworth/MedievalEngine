@@ -126,7 +126,7 @@ void Profiler::printRecords(MedievalEngine* engine) {
         // We dont load our debug text on the resource manager since we dont
         // want to create any overhead and put stuff on there
         static sf::Font* font;
-        font = ResourceManager::get<Font>("game_font")->getResourcePointer();
+        font = ResourceManager::get<Font>(Font::GameFont)->getResourcePointer();
         
         Profiler::mDebugText.setFont(*font);
         Profiler::mDebugText.setCharacterSize(14);

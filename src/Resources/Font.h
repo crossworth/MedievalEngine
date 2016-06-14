@@ -17,6 +17,8 @@ public:
     sf::Font* getResourcePointer();
 
     float getLineSpacing(const unsigned int &size) const;
+    static std::string Default;
+    static std::string GameFont;
 private:
     sf::Font mFont;
 };

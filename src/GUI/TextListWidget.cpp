@@ -12,7 +12,7 @@ TextListWidget::TextListWidget() : mMaxiumExpandSize(250.0f, 150.0f),
 
 void TextListWidget::init() {
     std::string textName = std::string("scrollview_text_"  + Kit::int_str(Random::unique()));
-    ResourceManager::createText(textName, String("ScrollView"), 22, "game_font");
+    ResourceManager::createText(textName, String("ScrollView"), 22, Font::GameFont);
 
     std::string shapeName = std::string("scrollview_shape_"  + Kit::int_str(Random::unique()));
     ResourceManager::createShape(shapeName, Vect2f(250.f, 35.f));

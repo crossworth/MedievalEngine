@@ -7,7 +7,7 @@
 *
 * @File: LuaConsole.cpp
 * @Last Modified by:   Pedro Henrique
-* @Last Modified time: 2016-06-14 12:20:48
+* @Last Modified time: 2016-06-14 12:55:58
 */
 
 #include "LuaConsole.h"
@@ -715,11 +715,11 @@ void LuaConsole::registerEngine(MedievalEngine *engine) {
     std::string inputLineShapeName = "lua_console_input_line";
     std::string selectedShapeName = "lua_console_selected_shape";
     std::string cursorShapeName = "lua_console_cursor_shape";
-    std::string fontName = "lua_console_font_name";
+    std::string fontName = "system/Hack-Regular.ttf";
 
     // set the monospace font for our console
     // TODO(Pedro): Move this font to a dat file
-    ResourceManager::loadFont(fontName, "system/Hack-Regular.ttf");
+    ResourceManager::loadFont(fontName);
 
     ResourceManager::createText(outputTextName, String(""), Window::fontSize(0.20f), fontName);
     mOutputText  = ResourceManager::get<Text>(outputTextName);

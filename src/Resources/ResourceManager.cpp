@@ -29,39 +29,35 @@ ResourceManager::ResourceManager() {
     // We dont have a constructor
 }
 
-bool ResourceManager::loadTexture(const std::string &resourceName, const std::string &fileNameOnDisk) {
+bool ResourceManager::loadTexture(const std::string &resourceName) {
     if (ResourceManager::exists(resourceName) && ResourceManager::mResources[resourceName].get()->isValid()) {
         return true;
     }
 
-    std::string fileNameOnDiskFallback = fileNameOnDisk.empty() ? resourceName : fileNameOnDisk;
-
-    ResourceManager::mResources[resourceName] = ResourcePtr(new Texture(fileNameOnDiskFallback));
+    ResourceManager::mResources[resourceName] = ResourcePtr(new Texture(resourceName));
 
     if (ResourceManager::mResources[resourceName].get()->isValid()) {
         LOG << Log::VERBOSE
             << "[ResourceManager::loadTexture] Texture loaded: "
-            << fileNameOnDiskFallback << std::endl;
+            << resourceName << std::endl;
         return true;
     } else {
         return false;
     }
 }
 
-bool ResourceManager::loadFont(const std::string &resourceName, const std::string &fileNameOnDisk) {
+bool ResourceManager::loadFont(const std::string &resourceName) {
     if (ResourceManager::exists(resourceName) && ResourceManager::mResources[resourceName].get()->isValid()) {
         return true;
     }
 
-    std::string fileNameOnDiskFallback = fileNameOnDisk.empty() ? resourceName : fileNameOnDisk;
-
     ResourceManager::mResources[resourceName] = ResourcePtr(new Font());
-    static_cast<Font*>(ResourceManager::mResources[resourceName].get())->loadFromFile(fileNameOnDiskFallback);
+    static_cast<Font*>(ResourceManager::mResources[resourceName].get())->loadFromFile(resourceName);
 
     if (ResourceManager::mResources[resourceName].get()->isValid()) {
         LOG << Log::VERBOSE
             << "[ResourceManager::loadFont] Font loaded: "
-            << fileNameOnDiskFallback << std::endl;
+            << resourceName << std::endl;
         return true;
     } else {
         return false;
@@ -86,39 +82,35 @@ bool ResourceManager::loadFont(const std::string &resourceName, byte *bytes, con
     }
 }
 
-bool ResourceManager::loadMusic(const std::string &resourceName, const std::string &fileNameOnDisk) {
+bool ResourceManager::loadMusic(const std::string &resourceName) {
     if (ResourceManager::exists(resourceName) && ResourceManager::mResources[resourceName].get()->isValid()) {
         return true;
     }
 
-    std::string fileNameOnDiskFallback = fileNameOnDisk.empty() ? resourceName : fileNameOnDisk;
-
     ResourceManager::mResources[resourceName] = ResourcePtr(new Music());
-    static_cast<Music*>(ResourceManager::mResources[resourceName].get())->loadFromFile(fileNameOnDiskFallback);
+    static_cast<Music*>(ResourceManager::mResources[resourceName].get())->loadFromFile(resourceName);
 
     if (ResourceManager::mResources[resourceName].get()->isValid()) {
         LOG << Log::VERBOSE
             << "[ResourceManager::loadMusic] Music loaded: "
-            << fileNameOnDiskFallback << std::endl;
+            << resourceName << std::endl;
         return true;
     } else {
         return false;
     }
 }
 
-bool ResourceManager::loadSound(const std::string &resourceName, const std::string &fileNameOnDisk) {
+bool ResourceManager::loadSound(const std::string &resourceName) {
     if (ResourceManager::exists(resourceName) && ResourceManager::mResources[resourceName].get()->isValid()) {
         return true;
     }
 
-    std::string fileNameOnDiskFallback = fileNameOnDisk.empty() ? resourceName : fileNameOnDisk;
-
-    ResourceManager::mResources[resourceName] = ResourcePtr(new Sound(fileNameOnDiskFallback));
+    ResourceManager::mResources[resourceName] = ResourcePtr(new Sound(resourceName));
 
     if (ResourceManager::mResources[resourceName].get()->isValid()) {
         LOG << Log::VERBOSE
             << "[ResourceManager::loadSound] Sound loaded: "
-            << fileNameOnDiskFallback << std::endl;
+            << resourceName << std::endl;
         return true;
     } else {
         return false;

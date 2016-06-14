@@ -31,7 +31,7 @@ std::string TextWidget::getFont() {
 
 void TextWidget::init() {
     if (mFontName == "") {
-        mFontName = "game_font";
+        mFontName = Font::GameFont;
     }
 
     std::string textWidgetName = std::string("text_widget_" + mText);

@@ -174,8 +174,17 @@ MedievalEngine::MedievalEngine(int argc, char **argv) : mArguments(argc, argv) {
 
             // Load the default engine font for the engine, its the fallback font for all the
             // string related stuff
-            ResourceManager::loadFont("default_font", mDataFiles.getFile("default.ttf"),
-                                        mDataFiles.getFileEntrySize("default.ttf"));
+            if(ResourceManager::loadFont("default_font", mDataFiles.getFile("default.ttf"),
+                                        mDataFiles.getFileEntrySize("default.ttf"))) {
+                Font::Default = "default_font";    
+            } else {
+                LOG << Log::CRITICAL << "[MedievalEngine::MedievalEngine] Could not open the default font"
+                    << std::endl;   
+
+                this->close(6);
+                return;    
+            }
+            
 
             LOG << Log::VERBOSE
                 << "[MedievalEngine::MedievalEngine] Default font loaded "
@@ -226,7 +235,11 @@ void MedievalEngine::init() {
     // and the font can be access to be load another font
     // A Log::WARNING should be emited
     if (mConfigurations.getKey("game_font") != "") {
-        ResourceManager::loadFont("game_font", mConfigurations.getKey("game_font").getString());
+        if (ResourceManager::loadFont(mConfigurations.getKey("game_font").getString())) {
+            Font::GameFont = mConfigurations.getKey("game_font").getString(); 
+        } else {
+            Font::GameFont = Font::Default;
+        }
     }
 
     // We create the window here so We dont have any freeze on the screen

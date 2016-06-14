@@ -23,20 +23,20 @@ public:
 
     static void updateAudibleVolume();
 
-    static bool loadTexture(const std::string &resourceName, const std::string &fileNameOnDisk = "");
+    static bool loadTexture(const std::string &resourceName);
 
-    static bool loadFont(const std::string &resourceName, const std::string &fileNameOnDisk = "");
+    static bool loadFont(const std::string &resourceName);
     static bool loadFont(const std::string &resourceName, byte *bytes, const uint64 &size);
 
-    static bool loadMusic(const std::string &resourceName, const std::string &fileNameOnDisk = "");
+    static bool loadMusic(const std::string &resourceName);
 
-    static bool loadSound(const std::string &resourceName, const std::string &fileNameOnDisk = "");
+    static bool loadSound(const std::string &resourceName);
 
     static bool createSprite(const std::string &resourceName, const std::string &texture);
 
     static bool createText(const std::string &resourceName, const String &text,
                     const unsigned int &fontSize,
-                    const std::string &font);
+                    const std::string &font = Font::Default);
 
     static bool createSpriteAnimation(const std::string &resourceName);
     static bool createShape(const std::string &resourceName, const Vect2f &size = Vect2f(50.f, 50.0f),

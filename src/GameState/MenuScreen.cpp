@@ -17,21 +17,21 @@ void MenuScreen::create() {
     
     LOG << Log::VERBOSE << "[MenuScreen::create]" << std::endl;
 
-    std::string bgTXTName = "menu_screen_bg_menu_png";
+    std::string bgTXTName = "menu/bg_menu.png";
 
-    ResourceManager::loadTexture(bgTXTName, "menu/bg_menu.png");
+    ResourceManager::loadTexture(bgTXTName);
 
     bgName = "menu_screen_bg_sprite";
     ResourceManager::createSprite(bgName, bgTXTName);
 
-    std::string bgOptionsTXT = "menu_screen_bg_options_png";
-    ResourceManager::loadTexture(bgOptionsTXT, "menu/bg_options.png");
+    std::string bgOptionsTXT = "menu/bg_options.png";
+    ResourceManager::loadTexture(bgOptionsTXT);
 
     bgOptionsName = "menu_screen_options_sprite";
     ResourceManager::createSprite(bgOptionsName, bgOptionsTXT);
 
-    std::string logoTXT = "menu_screen_title_menu_png";
-    ResourceManager::loadTexture(logoTXT, "menu/title_menu.png");
+    std::string logoTXT = "menu/title_menu.png";
+    ResourceManager::loadTexture(logoTXT);
 
     logoName = "menu_screen_logo_sprite";
     ResourceManager::createSprite(logoName, logoTXT);
@@ -58,7 +58,7 @@ void MenuScreen::create() {
     int fontSize = Window::fontSize(0.5f);
 
     // Create the new Game button Text Widget
-    mNewGame = TextWidgetPtr(new TextWidget(Strings::get("new_game"), fontSize, Vect2f(0.f, 0.f), "game_font"));
+    mNewGame = TextWidgetPtr(new TextWidget(Strings::get("new_game"), fontSize, Vect2f(0.f, 0.f), Font::GameFont));
     // Add the Widget to the GUI
     mGUI.addWidget("new_game_btn", mNewGame);
 
@@ -71,7 +71,7 @@ void MenuScreen::create() {
 
 
     // Create the new Game button Text Widget
-    mContinue = TextWidgetPtr(new TextWidget(Strings::get("continue"), fontSize, Vect2f(0.f, 0.f), "game_font"));
+    mContinue = TextWidgetPtr(new TextWidget(Strings::get("continue"), fontSize, Vect2f(0.f, 0.f), Font::GameFont));
     // Add the Widget to the GUI
     mGUI.addWidget("continue_btn", mContinue);
 
@@ -84,7 +84,7 @@ void MenuScreen::create() {
 
 
     // Create the new Game button Text Widget
-    mMultiplayer = TextWidgetPtr(new TextWidget(Strings::get("multiplayer"), fontSize, Vect2f(0.f, 0.f), "game_font"));
+    mMultiplayer = TextWidgetPtr(new TextWidget(Strings::get("multiplayer"), fontSize, Vect2f(0.f, 0.f), Font::GameFont));
     // Add the Widget to the GUI
     mGUI.addWidget("multiplayer_btn", mMultiplayer);
 
@@ -97,7 +97,7 @@ void MenuScreen::create() {
 
 
     // Create the new Game button Text Widget
-    mOptions = TextWidgetPtr(new TextWidget(Strings::get("options"), fontSize, Vect2f(0.f, 0.f), "game_font"));
+    mOptions = TextWidgetPtr(new TextWidget(Strings::get("options"), fontSize, Vect2f(0.f, 0.f), Font::GameFont));
     // Add the Widget to the GUI
     mGUI.addWidget("options_btn", mOptions);
 
@@ -131,7 +131,7 @@ void MenuScreen::create() {
 
 
     // Create the new Game button Text Widget
-    mExit = TextWidgetPtr(new TextWidget(Strings::get("exit"), fontSize, Vect2f(0.f, 0.f), "game_font"));
+    mExit = TextWidgetPtr(new TextWidget(Strings::get("exit"), fontSize, Vect2f(0.f, 0.f), Font::GameFont));
     // Add the Widget to the GUI
     mGUI.addWidget("exit_btn", mExit);
 
