@@ -3,7 +3,6 @@
 using namespace ME;
 
 MedievalEngine::MedievalEngine(int argc, char **argv) : mArguments(argc, argv) {
-
     mDoneLoading      = false;
     mRunning          = true;
     mErrorCode        = 0;
@@ -208,9 +207,7 @@ void MedievalEngine::loadingThread() {
    LOG << Log::VERBOSE << "[MedievalEngine::loadingThread]" << std::endl;
     // Here we register all our game states and call all the init create methods
 
-    mGameStateManager.add("menu", new MenuScreen());
-    mGameStateManager.getGameState("menu")->registerEngine(this);
-
+    // mGameStates.add("menu", new MenuScreen());
 
     // Once we loaded all the gameStates and assets we set this mDoneLoading to true
     // to stop the loading screen
@@ -245,9 +242,9 @@ void MedievalEngine::init() {
     // We create the window here so We dont have any freeze on the screen
     mWindow.create(mWindowInfoInput);
 
-    mGameStateManager.add("loading", new LoadingScreen());
-    mGameStateManager.getGameState("loading")->registerEngine(this);
-    mGameStateManager.setGameState("loading");
+    mGameStates.push(new LoadingScreen());
+    // mGameStateManager.getGameState("loading")->registerEngine(this);
+    // mGameStateManager.setGameState("loading");
 
     // Open the window only after the loading screen has been initialized
     mWindow.open();
@@ -317,7 +314,6 @@ void MedievalEngine::init() {
 
     LuaAPI::state.set_function("audio_set_global_volume", [this](float volume) {
         Audible::GLOBAL_VOLUME = volume;
-        // TODO(Pedro): set a flag to update the volume, insted of tring to update on the objects, maybe register this functions outside this class as well
         ResourceManager::updateAudibleVolume();
     });
     LuaExportAPI::exports("audio_set_global_volume", "", "float", LuaExportType::FUNCTION,
@@ -376,7 +372,7 @@ void MedievalEngine::run() {
 
                 // If the console it's not visible we handle the game state events
                 if (!mConsole.isVisible()) {
-                    mGameStateManager.handleEvents(event);
+                    mGameStates.handleEvents(event);
                 }
 
                 // handle the console events, since it's independent
@@ -386,7 +382,7 @@ void MedievalEngine::run() {
 
         {
             ProfileBlockStr("update game state");
-            mGameStateManager.update();
+            mGameStates.update(mWindow.getDelta());
         }
 
         {
@@ -396,7 +392,7 @@ void MedievalEngine::run() {
 
         {
             ProfileBlockStr("draw game state");
-            mGameStateManager.draw(mWindow);
+            mGameStates.draw(mWindow);
         }
 
         if (mConsole.isVisible()) {
@@ -464,7 +460,7 @@ Window* MedievalEngine::getWindow() {
 
 
 GameStateManager* MedievalEngine::getGameStateManager() {
-    return &mGameStateManager;
+    return &mGameStates;
 }
 
 DATFile* MedievalEngine::getDATAFileHandle() {

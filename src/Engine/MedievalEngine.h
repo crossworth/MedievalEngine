@@ -48,7 +48,7 @@ private:
     CFGParser mConfigurations;
     ArgumentsParser mArguments;
     DATFile mDataFiles;
-    GameStateManager mGameStateManager;
+    GameStateManager mGameStates;
 
     bool mFlagShowFPSTitle;
 };
