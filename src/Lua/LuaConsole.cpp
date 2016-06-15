@@ -7,7 +7,7 @@
 *
 * @File: LuaConsole.cpp
 * @Last Modified by:   Pedro Henrique
-* @Last Modified time: 2016-06-14 12:55:58
+* @Last Modified time: 2016-06-15 14:10:00
 */
 
 #include "LuaConsole.h"
@@ -626,24 +626,24 @@ void LuaConsole::addMessage(const String &message) {
     }
 }
 
+void LuaConsole::calculateVisibleTextOutput() { 
+    calculateVisibleTextOutput(mOutputCommands.size());
+}
+
 void LuaConsole::calculateVisibleTextOutput(const int32 &lineNumber) {
-    // default go to bottom
-    if (lineNumber == -1) {
-        mCurrentOutputLine = mOutputCommands.size();
+    uint32 offsetStart = 0;
+
+    if (lineNumber < mMaxNumberLines) {
+        offsetStart        = 0;
+        mCurrentOutputLine = mMaxNumberLines;
     } else {
-        mCurrentOutputLine = lineNumber;    
+        mCurrentOutputLine = lineNumber;   
     }
 
     // make sure we are on our vector bounds
-    if (lineNumber >= mOutputCommands.size()) {
+    if (mCurrentOutputLine > mOutputCommands.size()) {
         mCurrentOutputLine = mOutputCommands.size();
     }
-
-    if (lineNumber < 1 && lineNumber != -1) {
-        mCurrentOutputLine = 0;
-    }
-
-    uint32 offsetStart = 0;
 
     // if the line number is bigger we make an offset
     if (mCurrentOutputLine > mMaxNumberLines) {
@@ -709,13 +709,13 @@ void LuaConsole::registerEngine(MedievalEngine *engine) {
 
 
     // our resources id's
-    std::string inputTextName = "lua_console_input_text";
-    std::string outputTextName = "lua_console_output_text";
-    std::string consoleShapeName = "lua_console_shape";
+    std::string inputTextName      = "lua_console_input_text";
+    std::string outputTextName     = "lua_console_output_text";
+    std::string consoleShapeName   = "lua_console_shape";
     std::string inputLineShapeName = "lua_console_input_line";
-    std::string selectedShapeName = "lua_console_selected_shape";
-    std::string cursorShapeName = "lua_console_cursor_shape";
-    std::string fontName = "system/Hack-Regular.ttf";
+    std::string selectedShapeName  = "lua_console_selected_shape";
+    std::string cursorShapeName    = "lua_console_cursor_shape";
+    std::string fontName           = "engine/Hack-Regular.ttf";
 
     // set the monospace font for our console
     // TODO(Pedro): Move this font to a dat file
@@ -776,6 +776,8 @@ void LuaConsole::registerEngine(MedievalEngine *engine) {
 
     // Define this call as an observer from the log
     LOG_OBJECT->setObserver(this);
+    LOG << Log::VERBOSE << "[LuaConsole::registerEngine] Register LuaConsoleObserver" << std::endl;
+    LOG << "------------------------------------------------------------------------" << std::endl;
 }
 
 void LuaConsole::draw(Window &window) {

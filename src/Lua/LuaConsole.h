@@ -47,7 +47,8 @@ public:
     void saveConsoleAction(const String &command, const uint32 &cursorPosition);
 private:
     void updateInputText();
-    void calculateVisibleTextOutput(const int32 &lineNumber = -1);
+    void calculateVisibleTextOutput();
+    void calculateVisibleTextOutput(const int32 &lineNumber);
 
     void setTextSelection(const int32 &start, const int32 &end);
     void removeTextSelection();
