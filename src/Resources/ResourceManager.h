@@ -47,7 +47,7 @@ public:
     static T* get(const std::string &name);
 
     static bool inline exists(const std::string &name) {
-        return ResourceManager::mResources.find(name) != ResourceManager::mResources.end();
+        return (ResourceManager::mResources.find(name) != ResourceManager::mResources.end());
     }
 
 protected:

@@ -25,9 +25,9 @@ void Music::updateVolume() {
 }
 
 bool Music::loadFromFile(const std::string &fileName, const Audible::AudioType &type) {
-    if (!mMusic.openFromFile(ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
+    if (!mMusic.openFromFile(ENGINE_DEFAULTS::DATA_PATH + fileName)) {
         LOG << Log::WARNING << "[Music::loadFromFile] Error while opening music: "
-            << ENGINE_DEFAULTS::ASSETS_PATH + fileName
+            << ENGINE_DEFAULTS::DATA_PATH + fileName
             << std::endl;
     } else {
         mIsValid = true;

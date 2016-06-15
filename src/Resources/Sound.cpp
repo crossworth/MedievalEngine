@@ -27,9 +27,9 @@ void Sound::updateVolume() {
 }
 
 sf::Sound* Sound::loadFromFile(const std::string &fileName, const Audible::AudioType &type) {
-    if (!mSoundBuffer.loadFromFile(ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
+    if (!mSoundBuffer.loadFromFile(ENGINE_DEFAULTS::DATA_PATH + fileName)) {
         LOG << Log::VERBOSE << "[Sound::loadFromFile] Error while opening sound: "
-            << ENGINE_DEFAULTS::ASSETS_PATH + fileName << std::endl;
+            << ENGINE_DEFAULTS::DATA_PATH + fileName << std::endl;
     }
     mSound.setBuffer(mSoundBuffer);
 

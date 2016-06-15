@@ -10,9 +10,9 @@ Font::Font() {
 }
 
 bool Font::loadFromFile(const std::string &fileName){
-    if (!mFont.loadFromFile(ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
+    if (!mFont.loadFromFile(ENGINE_DEFAULTS::DATA_PATH + fileName)) {
         LOG << Log::WARNING << "[Font::loadFromFile] Error while opening font: "
-            << ENGINE_DEFAULTS::ASSETS_PATH + fileName
+            << ENGINE_DEFAULTS::DATA_PATH + fileName
             << std::endl;
     } else {
         mIsValid = true;
