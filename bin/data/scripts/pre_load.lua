@@ -7,4 +7,16 @@
 -- or maybe something like local m = resource_get("music_file.wav") m.play()
 -- music_play(menu_m)
 
-log("This is a log call from the Loader.lua")
+local test_message = "This is a log call from the Loader.lua"
+
+-- for i=1,500000 do 
+--     print(test_message) 
+-- end
+
+
+
+function load()
+    for i=1,500000 do 
+        print(test_message) 
+    end  
+end
