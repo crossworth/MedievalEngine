@@ -77,13 +77,10 @@ void LuaAPI::do_script(const std::string& code) {
         return;
     }
 
-    LuaAPI::mLock.lock();
-
     try {
-        LuaAPI::state.script(code);
+        sol::thread runner = sol::thread::create(LuaAPI::state.lua_state());
+        runner.state().script(code);
     } catch(sol::error& err) {
         LOG << Log::LUA_WARNING << err.what() << std::endl;
     }
-
-    LuaAPI::mLock.unlock();
 }

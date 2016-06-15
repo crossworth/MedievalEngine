@@ -1,8 +1,6 @@
 #ifndef LUAAPI_H
 #define LUAAPI_H
 #include <thread>
-#include <chrono>
-#include <mutex>
 
 #include "LogInc.h"
 #include "sol.hpp"
@@ -19,7 +17,6 @@ public:
     
 private:
 	static bool mInitialized;
-	static std::mutex mLock;
     LuaAPI();
     static void do_script(const std::string& code);
 };
