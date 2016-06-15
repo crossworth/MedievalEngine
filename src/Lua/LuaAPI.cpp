@@ -4,8 +4,6 @@ using namespace ME;
 
 sol::state LuaAPI::state;
 
-std::mutex LuaAPI::mLock;
-
 bool LuaAPI::mInitialized = false;
 
 LuaAPI::LuaAPI() {
@@ -15,7 +13,7 @@ LuaAPI::LuaAPI() {
 void LuaAPI::loadLibs() {
 
     try {
-        LuaAPI::state.open_libraries(sol::lib::base, sol::lib::string, sol::lib::table);
+        LuaAPI::state.open_libraries(sol::lib::base, sol::lib::string, sol::lib::table, sol::lib::math, sol::lib::bit32, sol::lib::coroutine);
 
         // print text with no debug level (clean print)
         LuaAPI::state.set_function("print_text", [](const std::string& message){
@@ -67,20 +65,59 @@ void LuaAPI::loadLibs() {
     }
 }
 
-void LuaAPI::script(const std::string& code) {
-    std::thread scriptThread(&LuaAPI::do_script, code);
+void LuaAPI::script(const std::string &code) {
+    if (!LuaAPI::mInitialized) {
+        return;
+    }
+
+    std::thread scriptThread([code] () {
+        try {
+            sol::thread runner = sol::thread::create(LuaAPI::state.lua_state());
+            runner.state().script(code);
+        } catch(sol::error& err) {
+            LOG << Log::LUA_WARNING << err.what() << std::endl;
+        }
+    });
     scriptThread.detach();
 }
 
-void LuaAPI::do_script(const std::string& code) {
+void LuaAPI::executeScript(const std::string &fileName) {
+    if (!LuaAPI::mInitialized) {
+        return;
+    }
+
+    std::thread executeThread([fileName] () {
+        try {
+            sol::thread runner = sol::thread::create(LuaAPI::state.lua_state());
+            runner.state().script_file(ENGINE_DEFAULTS::SCRIPTS_PATH + fileName);
+        } catch(sol::error& err) {
+            LOG << Log::LUA_WARNING << err.what() << std::endl;
+        }
+    });
+    executeThread.detach();
+}
+
+void LuaAPI::scriptSync(const std::string &code) {
     if (!LuaAPI::mInitialized) {
         return;
     }
 
     try {
-        sol::thread runner = sol::thread::create(LuaAPI::state.lua_state());
-        runner.state().script(code);
+        LuaAPI::state.script(code);
     } catch(sol::error& err) {
         LOG << Log::LUA_WARNING << err.what() << std::endl;
     }
 }
+
+void LuaAPI::executeScriptSync(const std::string &fileName) {
+    if (!LuaAPI::mInitialized) {
+        return;
+    }
+
+    try {
+        LuaAPI::state.script_file(ENGINE_DEFAULTS::SCRIPTS_PATH + fileName);
+    } catch(sol::error& err) {
+        LOG << Log::LUA_WARNING << err.what() << std::endl;
+    }
+}
+
