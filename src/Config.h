@@ -31,7 +31,7 @@ namespace ENGINE_DEFAULTS {
      *  Engine version<br>
      *  Constant fallback
      */
-    const float ENGINE_VERSION = 1.4f;
+    const float ENGINE_VERSION = 1.5f;
 
     /**
      * Default window width<br>
@@ -69,9 +69,9 @@ namespace ENGINE_DEFAULTS {
 
     /**
      * If we wait for the vertical synchronization<br>
-     * Constant fallback to true
+     * Constant fallback to false
      */
-    const bool VSYNC = true;
+    const bool VSYNC = false;
 
     /**
      *  The global Path of the executable
@@ -85,22 +85,35 @@ namespace ENGINE_DEFAULTS {
     const std::string DATA_PATH = GLOBAL_PATH + "/data/";
 
     /**
-     * The default path to the assets folder<br>
+     * The default path to the States folder<br>
      * Default DATA_PATH + "assets/"
      */
-    const std::string ASSETS_PATH = DATA_PATH + "assets/";
+    const std::string STATES_PATH = DATA_PATH + "states/";
 
     /**
      * The default path to the shaders folder<br>
-     * Default ASSETS_PATH + "shaders/"
+     * Default DATA_PATH + "shaders/"
      */
-    const std::string SHADER_PATH = ASSETS_PATH + "shaders/";
+    const std::string SHADER_PATH = DATA_PATH + "shaders/";
 
     /**
      * The default path to the language folder<br>
      * Default  DATA_PATH + "lang/"
      */
     const std::string LANG_PATH = DATA_PATH + "lang/";
+
+    /**
+     * The default path to the scripts folder<br>
+     * Default  DATA_PATH + "scripts/"
+     */
+    const std::string SCRIPTS_PATH = DATA_PATH + "scripts/";
+
+
+    /**
+     * The default path to the engine folder<br>
+     * Default  DATA_PATH + "engine/"
+     */
+    const std::string ENGINE_PATH = DATA_PATH + "engine/";
 
     /**
      * The default language and fallback language file<br>
