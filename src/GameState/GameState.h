@@ -1,15 +1,12 @@
-#ifndef GAMESTATE_H
-#define GAMESTATE_H
-#include "GUI/GUI.h"
-#include "Effects/Fade.h"
-#include "Effects/Strobe.h"
-#include "Effects/Shader.h"
+#ifndef MEDIEVALENGINE_GAMESTATE_GAMESTATE_H_
+#define MEDIEVALENGINE_GAMESTATE_GAMESTATE_H_
 
+#include "Helper/BasicTypes.h"
+
+#include "Graphics/Window.h"
+#include "Events/Event.h"
 
 namespace ME {
-
-class MedievalEngine;
-class ResourceManager;
 
 class GameState {
 public:
@@ -17,40 +14,47 @@ public:
      * The ME::GameState::Status enum
      */
     enum Status {
-        ON_ENABLE,  ///< GameState on enable status
-        ON_PLAYING, ///< GameState on playing status
-        ON_DISABLE ///< GameState on disable status
+        PLAYING,  ///< GameState playing status
+        PAUSED, ///< GameState paused status
+        ON_ENTER, ///< GameState on enter status
+        ON_EXIT ///< GameState on exit status
     };
-public:
+
     GameState();
     virtual ~GameState();
 
-    virtual void create() = 0;
-    virtual void init() = 0;
-    virtual void onEnable(Window& window)  = 0;
-    virtual void onDisable(Window& window) = 0;
-    virtual void onPlaying(Window& window) = 0;
-    virtual void update() = 0;
-    virtual void handleEvents(Event& evt) = 0;
+    virtual void update(const uint64 &delta) = 0;
+    virtual void handleEvents(Event &evt) = 0;
+    virtual void draw(Window &window) = 0;
+    virtual void pause() = 0;
+    virtual void resume() = 0;
 
-    void registerEngine(MedievalEngine* engine);
+    inline bool isPlaying() {
+        return mPlaying;
+    }
 
-    void play();
-    void pause();
-    bool isPlaying();
+    inline GameState::Status getCurrentStatus() {
+        return mStatus;
+    }
 
-    void restart();
+    inline bool updateOnPause() {
+        return mUpdateOnPause;
+    }
 
-    GameState::Status getCurrentStatus();
-protected:
-    void setCurrentStatus(const GameState::Status& status);
+    inline void setUpdateOnPause(bool update) {
+        mUpdateOnPause = update;
+    }
 
-    MedievalEngine* mEngine;
-    GameState::Status mCurrentStatus;
-    GUI mGUI;
-    bool mIsPlaying;
+    inline void setGameStatus(const GameState::Status &status) {
+        mStatus = status;
+    }
+
+private:
+    GameState::Status mStatus;
+    bool mPlaying;
+    bool mUpdateOnPause;
 };
 
 }
 
-#endif // GAMESTATE_H
+#endif // MEDIEVALENGINE_GAMESTATE_GAMESTATE_H_

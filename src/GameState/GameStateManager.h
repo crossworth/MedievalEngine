@@ -1,9 +1,11 @@
-#ifndef GAMESTATEMANAGER_H
-#define GAMESTATEMANAGER_H
-#include <thread>
+#ifndef MEDIEVALENGINE_GAMESTATE_GAMESTATEMANAGER_H_
+#define MEDIEVALENGINE_GAMESTATE_GAMESTATEMANAGER_H_
+
+#include <deque>
+
 #include "GameState/LoadingScreen.h"
-#include "GameState/MenuScreen.h"
-#include "GameState/OptionsScreen.h"
+// #include "GameState/MenuScreen.h"
+// #include "GameState/OptionsScreen.h"
 
 
 namespace  ME {
@@ -11,26 +13,27 @@ namespace  ME {
 class GameStateManager {
 public:
     GameStateManager();
-    void add(const std::string& name, GameState* gameState);
-    void changeGameState(const std::string& name);
-    void setGameState(const std::string& name);
-    void remove(const std::string& name);
-    std::string getCurrentGameState();
-    GameState* getGameState(const std::string& name);
 
-    void draw(Window& window);
-    void update();
-    void handleEvents(Event& evt);
+    void push(GameState *gameState);
+    void pop();
+    GameState* getCurrentGameState();
+
+    void draw(Window &window);
+    void update(const uint64 &delta);
+    void handleEvents(Event &evt);
+
+    inline void pauseCurrent() {
+        this->getCurrentGameState()->pause();
+    }
+
+    inline void resumeCurrent() {
+        this->getCurrentGameState()->resume();
+    }
 
     ~GameStateManager();
 private:
-    std::mutex mLock;
-    std::thread* mThread;
-    std::string mNextGameState;
-    std::string mCurrentGameState;
-    std::unordered_map<std::string, GameState*> mGameStates;
+    std::deque<GameState*> mGameStates;
 };
-
 }
 
-#endif // GAMESTATEMANAGER_H
+#endif // MEDIEVALENGINE_GAMESTATE_GAMESTATEMANAGER_H_

@@ -5,42 +5,10 @@
 using namespace ME;
 
 GameState::GameState() {
-    mIsPlaying     = true;
-    mCurrentStatus = GameState::Status::ON_ENABLE;
-    mEngine        = nullptr;
+    mPlaying       = true;
+    mStatus        = GameState::Status::PLAYING;
+    mUpdateOnPause = false;
 }
-
-void GameState::registerEngine(MedievalEngine* engine) {
-    mEngine    = engine;
-    mGUI.registerEngine(mEngine);
-    create();
-}
-
-void GameState::play() {
-    mIsPlaying = true;
-}
-
-void GameState::pause() {
-    mIsPlaying = false;
-}
-
-bool GameState::isPlaying() {
-    return mIsPlaying;
-}
-
-void GameState::restart() {
-    mIsPlaying     = true;
-    mCurrentStatus = GameState::Status::ON_ENABLE;
-}
-
-GameState::Status GameState::getCurrentStatus() {
-    return mCurrentStatus;
-}
-
-void GameState::setCurrentStatus(const GameState::Status &status) {
-    mCurrentStatus = status;
-}
-
 
 GameState::~GameState() {
     
