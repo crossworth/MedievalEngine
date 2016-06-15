@@ -1,5 +1,6 @@
-#ifndef LOADINGSCREEN_H
-#define LOADINGSCREEN_H
+#ifndef MEDIEVALENGINE_GAMESTATE_LOADINGSCREEN_H_
+#define MEDIEVALENGINE_GAMESTATE_LOADINGSCREEN_H_
+
 #include "GameState/GameState.h"
 
 namespace ME {
@@ -9,27 +10,15 @@ public:
     LoadingScreen();
     ~LoadingScreen();
 
-    void init();
-    void create();
-    void onEnable(Window& window);
-    void onDisable(Window& window);
-    void onPlaying(Window& window);
-    void update();
-    void handleEvents(Event& evt);
+    void update(const uint64 &delta);
+    void handleEvents(Event &evt);
+    void draw(Window &window);
+    void pause();
+    void resume();
 private:
-    Sprite* sceneBGPtr;
-    Text* textMessageScreen;
-    Text* textLoadingScreen;
 
-    bool fadeTextInit;
-    int counter;
-
-    Clock mClock;
-
-    Clock mMinWaitTime;
-    bool mIsStateChanging;
 };
 
 }
 
-#endif // LOADINGSCREEN_H
+#endif // MEDIEVALENGINE_GAMESTATE_LOADINGSCREEN_H_

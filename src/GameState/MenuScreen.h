@@ -1,39 +1,39 @@
-#ifndef MENUSCREEN_H
-#define MENUSCREEN_H
-#include "GameState/GameState.h"
+// #ifndef MENUSCREEN_H
+// #define MENUSCREEN_H
+// #include "GameState/GameState.h"
 
 
-namespace ME {
+// namespace ME {
 
-class Shader;
+// class Shader;
 
-class MenuScreen : public GameState {
-public:
-    MenuScreen();
-    void init();
-    void create();
-    void onEnable(Window& window);
-    void onDisable(Window& window);
-    void onPlaying(Window& window);
-    void update();
-    void handleEvents(Event& evt);
-    ~MenuScreen();
-private:
-    std::string bgName;
-    std::string bgOptionsName;
-    std::string logoName;
+// class MenuScreen : public GameState {
+// public:
+//     MenuScreen();
+//     void init();
+//     void create();
+//     void onEnable(Window& window);
+//     void onDisable(Window& window);
+//     void onPlaying(Window& window);
+//     void update();
+//     void handleEvents(Event& evt);
+//     ~MenuScreen();
+// private:
+//     std::string bgName;
+//     std::string bgOptionsName;
+//     std::string logoName;
 
-    Shader* shader;
+//     Shader* shader;
 
-    unsigned int mFadeTime;
+//     unsigned int mFadeTime;
 
-    TextWidgetPtr mNewGame;
-    TextWidgetPtr mContinue;
-    TextWidgetPtr mMultiplayer;
-    TextWidgetPtr mOptions;
-    TextWidgetPtr mExit;
-};
+//     TextWidgetPtr mNewGame;
+//     TextWidgetPtr mContinue;
+//     TextWidgetPtr mMultiplayer;
+//     TextWidgetPtr mOptions;
+//     TextWidgetPtr mExit;
+// };
 
-}
+// }
 
-#endif // MENUSCREEN_H
+// #endif // MENUSCREEN_H
