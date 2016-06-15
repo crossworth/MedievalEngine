@@ -26,7 +26,7 @@ public:
      * @param ME::VoidCallback - a function to be called once the effect it's considered done
      */
     Strobe(unsigned int time, float negativeRange, unsigned int duration = 50000, VoidCallback func = EMPTY_VOID_CALLBACK);
-    void update(Drawable* object);
+    void update(Drawable *object);
 private:
     bool mIsInitialized;
     float mDirection;

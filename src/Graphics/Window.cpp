@@ -10,7 +10,6 @@ Window::Window() : mIsWindowOpen(false), mFPS(0), mFrame(0),
 
     mWindow = new sf::RenderWindow();
 
-
     // expose some lua functions
     LuaAPI::state.set_function("window_is_open", &Window::isOpen, this);
     LuaExportAPI::exports("window_is_open", "", "bool", LuaExportType::FUNCTION, "if the window is open or not, a hiden window still return true, to check if the window is visible use `window_is_visible`");
@@ -346,7 +345,7 @@ bool Window::pollEvent(Event &evt) {
         evt.type = Event::EventType::LostFocus;
         break;
     case sf::Event::GainedFocus:
-            evt.type = Event::EventType::GainedFocus;
+        evt.type = Event::EventType::GainedFocus;
         break;
     case sf::Event::TextEntered:
         evt.type         = Event::EventType::TextEntered;
@@ -444,22 +443,17 @@ unsigned int Window::getDrawCalls() {
 }
 
 void Window::setIcon(const std::string &fileName) {
-    // TODO(Pedro): Verify if this work as expected since
-    // it can cause a pointer dereferencing early
-    // since iconImage is local variable
     sf::Image iconImage;
     if (iconImage.loadFromFile(ME::ENGINE_DEFAULTS::ENGINE_PATH + fileName)) {
         mWindow->setIcon(iconImage.getSize().x,
                          iconImage.getSize().y,
                          iconImage.getPixelsPtr());
     }
-
 }
 
 void Window::setVisible(const bool &visible) {
     mIsWindowVisible = visible;
     mWindow->setVisible(visible);
-
 }
 
 bool Window::isVisible() {
