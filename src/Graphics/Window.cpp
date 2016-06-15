@@ -75,16 +75,16 @@ void Window::setCursor(const std::string &cursor) {
     // Try to load the cursor file, if fails just do a log and nothing more
     // We dont use our ResourceManager here for better performance and control
     // of the existence of our cursor texture and sprite
-    if (mCursorTexture.loadFromFile(ME::ENGINE_DEFAULTS::DATA_PATH + cursor)) {
+    if (mCursorTexture.loadFromFile(ME::ENGINE_DEFAULTS::ENGINE_PATH + cursor)) {
         mHasCustomCursor = true;
         // Disable the default system cursor
         mWindow->setMouseCursorVisible(false);
         mCursor.setTexture(mCursorTexture, true);
         LOG << Log::VERBOSE << "[Window::setCursor] Custom cursor set: "
-            << ME::ENGINE_DEFAULTS::DATA_PATH + cursor << std::endl;
+            << ME::ENGINE_DEFAULTS::ENGINE_PATH + cursor << std::endl;
     } else {
         LOG << Log::WARNING << "[Window::setCursor] Custom cursor not found: "
-            << ME::ENGINE_DEFAULTS::DATA_PATH + cursor << std::endl;
+            << ME::ENGINE_DEFAULTS::ENGINE_PATH + cursor << std::endl;
     }
 }
 
@@ -448,7 +448,7 @@ void Window::setIcon(const std::string &fileName) {
     // it can cause a pointer dereferencing early
     // since iconImage is local variable
     sf::Image iconImage;
-    if (iconImage.loadFromFile(ME::ENGINE_DEFAULTS::ASSETS_PATH + fileName)) {
+    if (iconImage.loadFromFile(ME::ENGINE_DEFAULTS::ENGINE_PATH + fileName)) {
         mWindow->setIcon(iconImage.getSize().x,
                          iconImage.getSize().y,
                          iconImage.getPixelsPtr());
