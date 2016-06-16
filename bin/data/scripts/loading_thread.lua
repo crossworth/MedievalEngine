@@ -5,7 +5,7 @@
 -- Call engine_set_loading_done(true) on the end of the file or after done loading everything
 
 function load()
-    load_image("background_loading_screen.png")
+    load_texture("background_loading_screen.png")
 
 
     -- engine_set_loading_done(true)
