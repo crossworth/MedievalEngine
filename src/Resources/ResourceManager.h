@@ -5,6 +5,8 @@
 
 #include "Helper/Kit.h"
 
+#include "Lua/LuaAPI.h"
+
 #include "Resources/Text.h"
 #include "Resources/Sound.h"
 #include "Resources/Shape.h"
@@ -19,6 +21,8 @@ typedef std::shared_ptr<Resource> ResourcePtr;
 
 class ResourceManager {
 public:
+    static void registerLuaFunctions();
+
     static void clear();
 
     static void updateAudibleVolume();

@@ -29,6 +29,11 @@ ResourceManager::ResourceManager() {
     // We dont have a constructor
 }
 
+void ResourceManager::registerLuaFunctions() {
+    LuaAPI::state.set_function("load_texture", &ResourceManager::loadTexture);
+    LuaExportAPI::exports("load_texture", "string", "bool", LuaExportType::FUNCTION, "Load a texture file");
+}
+
 bool ResourceManager::loadTexture(const std::string &resourceName) {
     if (ResourceManager::exists(resourceName) && ResourceManager::mResources[resourceName].get()->isValid()) {
         return true;
@@ -142,7 +147,7 @@ bool ResourceManager::createSpriteAnimation(const std::string &resourceName) {
 
     ResourceManager::mResources[resourceName] = ResourcePtr(new SpriteAnimation());
 
-    if(ResourceManager::mResources[resourceName].get()->isValid()) {
+    if (ResourceManager::mResources[resourceName].get()->isValid()) {
         LOG << Log::VERBOSE
             << "[ResourceManager::createSpriteAnimation] SpriteAnimation created: "
             << resourceName << std::endl;

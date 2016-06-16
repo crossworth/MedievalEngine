@@ -6,7 +6,6 @@ MedievalEngine::MedievalEngine(int argc, char **argv) : mArguments(argc, argv) {
     mDoneLoading      = false;
     mRunning          = true;
     mErrorCode        = 0;
-    mFlagShowFPSTitle = false;
 
     ProfileBlock();
 
@@ -337,15 +336,15 @@ void MedievalEngine::init() {
     LuaExportAPI::exports("audio_set_ambient_volume", "", "float", LuaExportType::FUNCTION,
                             "set the engine ambient audio volume");
 
-
-
+    ResourceManager::registerLuaFunctions();
+    
     // Initilize our loading thread
     mLoadingThread = std::thread(&MedievalEngine::loadingThread, this);
+    mLoadingThread.detach();
 }
 
 void MedievalEngine::setLoadingThreadDone() {
     // Here we call initialize the menu screen i guess
-
     mDoneLoading = true;
 }
 
@@ -446,13 +445,6 @@ void MedievalEngine::close(const int &errorCode) {
     LOG << Log::VERBOSE << "[MedievalEngine::close]" << std::endl;
     mRunning   = false;
     mErrorCode = errorCode;
-
-    // Wait for the thread to finish the loading
-    // if we dont the engine crash horrible
-    if (mLoadingThread.joinable()) {
-        mLoadingThread.join();
-    }
-
 }
 
 Window* MedievalEngine::getWindow() {
