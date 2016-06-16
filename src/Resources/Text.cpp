@@ -5,7 +5,6 @@ using namespace ME;
 
 Text::Text() : mHasTextShadow(false) {
     mType             = Resource::Type::TEXT;
-    mIsValid          = true;
     mHasTextShadow    = false;
     mTextShadowFactor = 0.0f;
 }
@@ -14,13 +13,13 @@ String Text::getString() {
     return String(mText.getString().toWideString());
 }
 
-unsigned int Text::getFontSize() {
+uint32 Text::getFontSize() {
     return mText.getCharacterSize();
 }
 
 // NOTE(Pedro): On SFML documentation getLineSpacing return an int
 // but for some reason it really returns a float
-float Text::getFontHeight(const unsigned int &size) {
+float Text::getFontHeight(const uint32 &size) {
     const sf::Font *font = mText.getFont();
     return font->getLineSpacing(size);
 }
@@ -40,6 +39,7 @@ Text::FontStyle Text::getStyle() {
         return Text::FontStyle::ITALIC;
         break;
     }
+
     return Text::FontStyle::REGULAR;
 }
 
@@ -48,10 +48,11 @@ sf::Text* Text::getResourcePointer() {
 }
 
 void Text::setFont(Font &font) {
+    mIsValid = true;
     mText.setFont(*font.getResourcePointer());
 }
 
-void Text::setFontSize(const unsigned int &size) {
+void Text::setFontSize(const uint32 &size) {
     mText.setCharacterSize(size);
 }
 
@@ -90,7 +91,7 @@ void Text::setStyle(const Text::FontStyle &style) {
     }
 }
 
-void Text::draw(Window& window) {
+void Text::draw(Window &window) {
     if (isTextShadowEnable()) {
         Color tmpColor    = getColor();
         Vect2f tmpPos     = getPosition();
@@ -143,7 +144,7 @@ Vect2f Text::getPosition() {
 }
 
 void Text::setSize(const Vect2f &size) {
-    mText.setScale(size.x/getLocalBounds().width, size.y/getLocalBounds().height);
+    mText.setScale(size.x / getLocalBounds().width, size.y / getLocalBounds().height);
 }
 
 Vect2f Text::getSize() {

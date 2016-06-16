@@ -1,8 +1,9 @@
 #ifndef MEDIEVALENGINE_RESOURCES_TEXT_H_
 #define MEDIEVALENGINE_RESOURCES_TEXT_H_
-#include "Resources/Font.h"
-#include "Effects/Effect.h"
 
+#include "Resources/Font.h"
+
+#include "Effects/Effect.h"
 
 namespace ME {
 
@@ -20,7 +21,7 @@ public:
     sf::Text* getResourcePointer();
 
     void setFont(Font &font);
-    void setFontSize(const unsigned int &size);
+    void setFontSize(const uint32 &size);
     void setString(const String &text);
     void setStyle(const Text::FontStyle&  tyle);
 
@@ -28,14 +29,14 @@ public:
                        const Color &color = Color::BLACK);
 
 
-    float getFontHeight(const unsigned int &size);
+    float getFontHeight(const uint32 &size);
 
 
     void removeTextShadow();
     bool isTextShadowEnable();
 
     String getString();
-    unsigned int getFontSize();
+    uint32 getFontSize();
     Text::FontStyle getStyle();
 
 
