@@ -68,47 +68,43 @@ MedievalEngine::MedievalEngine(int argc, char **argv) : mArguments(argc, argv) {
 
     // Verify each key to see if we do have a valid information if so we parse
     // to the correct type and put on the appropriate place
-    if(bitsPerPixel != "") {
+    if (bitsPerPixel != "") {
         mWindowInfoInput.bitsPerPixel = static_cast<uint8>(Kit::string_int(bitsPerPixel));
     } else {
         mConfigurations.add("bits_per_pixels", Kit::int_string(ENGINE_DEFAULTS::BITS_PER_PIXEL_WINDOW));
     }
 
-    if(height != "") {
+    if (height != "") {
         mWindowInfoInput.height = static_cast<uint16>(Kit::string_int(height));
     } else {
         mConfigurations.add("height", Kit::int_string(ENGINE_DEFAULTS::HEIGHT_WINDOW));
     }
 
-    if(width != "") {
+    if (width != "") {
         mWindowInfoInput.width = static_cast<uint16>(Kit::string_int(width));
     } else {
         mConfigurations.add("width", Kit::int_string(ENGINE_DEFAULTS::WIDTH_WINDOW));
     }
 
-    if(fullScreen != "") {
+    if (fullScreen != "") {
         mWindowInfoInput.fullScreen = Kit::string_bool(fullScreen);
     } else {
         mConfigurations.add("fullscreen", Kit::bool_string(ENGINE_DEFAULTS::FULLSCREEN_WINDOW));
     }
 
-    if(vsync != "") {
+    if (vsync != "") {
         mWindowInfoInput.vsync = Kit::string_bool(vsync);
     } else {
         mConfigurations.add("vsync", Kit::bool_string(ENGINE_DEFAULTS::VSYNC));
     }
 
-    if(frameLimit != "") {
+    if (frameLimit != "") {
         mWindowInfoInput.frameLimit = static_cast<uint16>(Kit::string_int(frameLimit));
     } else {
         mConfigurations.add("frame_limit", Kit::int_string(ENGINE_DEFAULTS::FRAME_LIMIT));
     }
 
     if (windowName != "") {
-        if (windowName == "$fps") {
-            mFlagShowFPSTitle = true;
-        }
-
         mWindowInfoInput.windowName = windowName;
     } else {
         mConfigurations.add("engine_name", String(ENGINE_DEFAULTS::ENGINE_NAME));
@@ -173,7 +169,7 @@ MedievalEngine::MedievalEngine(int argc, char **argv) : mArguments(argc, argv) {
 
             // Load the default engine font for the engine, its the fallback font for all the
             // string related stuff
-            if(ResourceManager::loadFont("default_font", mDataFiles.getFile("default.ttf"),
+            if (ResourceManager::loadFont("default_font", mDataFiles.getFile("default.ttf"),
                                         mDataFiles.getFileEntrySize("default.ttf"))) {
                 Font::Default = "default_font";    
             } else {
@@ -204,14 +200,14 @@ MedievalEngine::MedievalEngine(int argc, char **argv) : mArguments(argc, argv) {
 **/
 void MedievalEngine::loadingThread() {
     ProfileBlock();
-   LOG << Log::VERBOSE << "[MedievalEngine::loadingThread]" << std::endl;
-    // Here we register all our game states and call all the init create methods
+    LOG << Log::VERBOSE << "[MedievalEngine::loadingThread]" << std::endl;
 
-    // mGameStates.add("menu", new MenuScreen());
+    mGameStates.push(new LoadingScreen());
 
-    // Once we loaded all the gameStates and assets we set this mDoneLoading to true
-    // to stop the loading screen
-    mDoneLoading = true;
+    // Here we do critical loading stuff
+    if (LuaAPI::executeScript("loading_thread.lua")) {
+        LuaAPI::script("load()");
+    }
 }
 
 bool MedievalEngine::isLoadingThreadDone() {
@@ -242,13 +238,8 @@ void MedievalEngine::init() {
     // We create the window here so We dont have any freeze on the screen
     mWindow.create(mWindowInfoInput);
 
-    mGameStates.push(new LoadingScreen());
-    // mGameStateManager.getGameState("loading")->registerEngine(this);
-    // mGameStateManager.setGameState("loading");
-
     // Open the window only after the loading screen has been initialized
     mWindow.open();
-
 
     // Register the engine on our console
     mConsole.registerEngine(this);
@@ -267,9 +258,6 @@ void MedievalEngine::init() {
     if (cursorName != "") {
         mWindow.setCursor(cursorName);
     }
-
-    // Initilize our loading thread
-    mLoadingThread = std::thread(&MedievalEngine::loadingThread, this);
 
     // expose Lua functions
     LuaAPI::state.set_function("engine_close", [this] (const int &errorCode = 0) {
@@ -290,6 +278,11 @@ void MedievalEngine::init() {
     });
     LuaExportAPI::exports("engine_save_config_file", "", "void", LuaExportType::FUNCTION, "save the current configuration to the config file");
 
+
+    LuaAPI::state.set_function("engine_set_loading_done", [this]() {
+        setLoadingThreadDone();
+    });
+    LuaExportAPI::exports("engine_set_loading_done", "void", "void", LuaExportType::FUNCTION, "Set the loading thread status");
 
 
     LuaAPI::state.set_function("audio_get_global_volume", []() -> float {
@@ -343,6 +336,17 @@ void MedievalEngine::init() {
     });
     LuaExportAPI::exports("audio_set_ambient_volume", "", "float", LuaExportType::FUNCTION,
                             "set the engine ambient audio volume");
+
+
+
+    // Initilize our loading thread
+    mLoadingThread = std::thread(&MedievalEngine::loadingThread, this);
+}
+
+void MedievalEngine::setLoadingThreadDone() {
+    // Here we call initialize the menu screen i guess
+
+    mDoneLoading = true;
 }
 
 void MedievalEngine::run() {
@@ -410,12 +414,6 @@ void MedievalEngine::run() {
             ProfileBlockStr("window display");
             mWindow.display();
         }
-
-        if (mFlagShowFPSTitle) {
-            ProfileBlockStr("window set title fps");
-            mWindow.setTitle("FPS:" + Kit::int_str(mWindow.getFPS()));
-        }
-        
     }
 }
 
@@ -446,7 +444,7 @@ MusicQueue* MedievalEngine::getMusicQueue(const std::string &name) {
 
 void MedievalEngine::close(const int &errorCode) {
     LOG << Log::VERBOSE << "[MedievalEngine::close]" << std::endl;
-    mRunning = false;
+    mRunning   = false;
     mErrorCode = errorCode;
 
     // Wait for the thread to finish the loading
@@ -460,7 +458,6 @@ void MedievalEngine::close(const int &errorCode) {
 Window* MedievalEngine::getWindow() {
     return &mWindow;
 }
-
 
 GameStateManager* MedievalEngine::getGameStateManager() {
     return &mGameStates;

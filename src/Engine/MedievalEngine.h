@@ -32,6 +32,7 @@ public:
     bool isLoadingThreadDone();
 
 private:
+    void setLoadingThreadDone();
     void loadingThread();
 
     bool mDoneLoading;
@@ -49,8 +50,6 @@ private:
     ArgumentsParser mArguments;
     DATFile mDataFiles;
     GameStateManager mGameStates;
-
-    bool mFlagShowFPSTitle;
 };
 
 }
