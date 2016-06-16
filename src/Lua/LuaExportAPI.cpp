@@ -20,7 +20,7 @@ void LuaExportAPI::exports(const std::string &name,
     LuaExportAPI::mExports.push_back(tmp);
 }
 
-std::vector<std::string> LuaExportAPI::getFunctions() {
+const std::vector<std::string> LuaExportAPI::getFunctions() {
     std::vector<std::string> functionList;
 
     // create some iterators

@@ -32,7 +32,7 @@ public:
    
     static std::string getPredictions(const std::string &name);
 
-    static std::vector<std::string> getFunctions();
+    static const std::vector<std::string> getFunctions();
 
     static bool generateFunctionsList(const std::string &fileName);
 private:
