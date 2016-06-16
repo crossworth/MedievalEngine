@@ -3,7 +3,11 @@
 using namespace ME;
 
 GameStateManager::GameStateManager() {
+    LuaAPI::state.set_function("pause_game_state", &GameStateManager::pauseCurrent);
+    LuaExportAPI::exports("pause_game_state", "void", "void", LuaExportType::FUNCTION, "Pause the current game state");
 
+    LuaAPI::state.set_function("resume_game_state", &GameStateManager::resumeCurrent);
+    LuaExportAPI::exports("pause_game_state", "void", "void", LuaExportType::FUNCTION, "Resume the current game state");
 }
 
 GameStateManager::~GameStateManager() {

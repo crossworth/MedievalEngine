@@ -3,6 +3,8 @@
 
 #include <deque>
 
+#include "Lua/LuaExportAPI.h"
+
 #include "GameState/LoadingScreen.h"
 // #include "GameState/MenuScreen.h"
 // #include "GameState/OptionsScreen.h"
