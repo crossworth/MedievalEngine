@@ -10,7 +10,7 @@ Shader::Shader(const std::string& fileName, const Shader::Type& type) : mLoadedW
         std::string shaderLocation = ME::ENGINE_DEFAULTS::SHADER_PATH + fileName;
 
         if (type == Shader::Type::VERTEX) {
-            if(!mShader.loadFromFile(shaderLocation, sf::Shader::Type::Vertex)) {
+            if (!mShader.loadFromFile(shaderLocation, sf::Shader::Type::Vertex)) {
                 mLoadedWithoutErros = false;
                 LOG << Log::WARNING
                     << "[Shader::Shader] Vertex Shader not found " + shaderLocation
@@ -18,7 +18,7 @@ Shader::Shader(const std::string& fileName, const Shader::Type& type) : mLoadedW
             }
 
         } else {
-            if(!mShader.loadFromFile(shaderLocation, sf::Shader::Type::Fragment)) {
+            if (!mShader.loadFromFile(shaderLocation, sf::Shader::Type::Fragment)) {
                 mLoadedWithoutErros = false;
                 LOG << Log::WARNING
                     << "[Shader::Shader] Fragment Shader not found " + shaderLocation

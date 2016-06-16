@@ -37,12 +37,12 @@ struct member_property {
     member_property(R read, W write) : read(std::move(read)), write(std::move(write)) {}
 
     template <typename T, typename Arg>
-    void write_if(std::true_type, T& mem, Arg&& arg) {
+    void write_if (std::true_type, T& mem, Arg&& arg) {
         write(mem, arg);
     }
 
     template <typename T, typename Arg>
-    void write_if(std::false_type, T&, Arg&&) {
+    void write_if (std::false_type, T&, Arg&&) {
         // This is a fatal error if we get here...
         // Should never happen but...
         // Crash horrifically, for safety?
@@ -51,16 +51,16 @@ struct member_property {
 
     template <typename T, typename Arg>
     void operator()(T& mem, Arg&& arg) {
-        write_if(meta::Not<std::is_void<WSig>>(), mem, arg);
+        write_if (meta::Not<std::is_void<WSig>>(), mem, arg);
     }
 
     template <typename T>
-    decltype(auto) read_if(std::true_type, T& mem) {
+    decltype(auto) read_if (std::true_type, T& mem) {
         return read(mem);
     }
 
     template <typename T>
-    decltype(auto) read_if(std::false_type, T&) {
+    decltype(auto) read_if (std::false_type, T&) {
         typedef typename meta::bind_traits<WSig>::template arg_at<1> Arg;
        typedef std::add_pointer_t<std::remove_reference_t<Arg>> pret;
         // This is a fatal error if we get here...
@@ -72,7 +72,7 @@ struct member_property {
 
     template <typename T>
     decltype(auto) operator()(T& mem) {
-        return read_if(meta::Not<std::is_void<RSig>>(), mem);
+        return read_if (meta::Not<std::is_void<RSig>>(), mem);
     }
 };
 

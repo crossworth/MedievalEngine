@@ -15,7 +15,7 @@ std::string Dir::getCurrentPath() {
 bool Dir::exists(const std::string& dirPath) {
 	struct stat info;
 
-	if(stat(dirPath.c_str(), &info) == 0 && (info.st_mode & S_IFDIR)) {
+	if (stat(dirPath.c_str(), &info) == 0 && (info.st_mode & S_IFDIR)) {
 	    return true;
 	}
 	

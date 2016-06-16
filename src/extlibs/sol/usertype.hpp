@@ -73,7 +73,7 @@ template<bool releasemem = false, typename TCont>
 inline int push_upvalues(lua_State* L, TCont&& cont) {
     int n = 0;
     for(auto& c : cont) {
-        if(releasemem) {
+        if (releasemem) {
             stack::push<light_userdata_value>(L, c.release());
         }
         else {

@@ -98,7 +98,7 @@ void Drawable::removeAllEffects() {
 }
 
 void Drawable::updateEffects() {
-    if(isPlayingEffects()) {
+    if (isPlayingEffects()) {
         for(int i = 0 ; i < mEffects.size(); i++) {
             mEffects[i]->update(this);
             if (mEffects[i]->isDone()) {

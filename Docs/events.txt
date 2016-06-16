@@ -1,21 +1,21 @@
-            if(evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Space) {
+            if (evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Space) {
                 static_cast<Sound*>(mAssetsManager->getAsset(idSound))->play();
                 spriteObj->addEffect(new Strobe(3, 0.3));
             }
 
-            if(evt.key.code == sf::Keyboard::Right) {
+            if (evt.key.code == sf::Keyboard::Right) {
                 marioSptAn->move(Vect2f(5.f, 0.0f));
             }
 
-            if(evt.key.code == sf::Keyboard::Left) {
+            if (evt.key.code == sf::Keyboard::Left) {
                 marioSptAn->move(Vect2f(-5.f, 0.0f));
             }
 
-            if(evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Up) {
+            if (evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Up) {
                 spriteObj->removeEffect("strobe");
             }
 
-            if(evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Down) {
+            if (evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Down) {
                 if (spriteObj->isPlayingEffects()) {
                     spriteObj->pauseEffects();
                 } else {

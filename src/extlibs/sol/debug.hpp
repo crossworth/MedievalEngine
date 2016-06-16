@@ -32,7 +32,7 @@ inline std::string dump_types(lua_State* L) {
     std::string visual;
     std::size_t size = lua_gettop(L) + 1;
     for(std::size_t i = 1; i < size; ++i) {
-        if(i != 1) {
+        if (i != 1) {
             visual += " | ";
         }
         visual += type_name(L, stack::get<type>(L, i));

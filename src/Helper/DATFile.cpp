@@ -88,7 +88,7 @@ bool DATFile::createFile(const std::string &outputFile,
 
         for (uint32 i = 0; i < mFileEntry.size(); i++) {
 
-            if(realFileLocations.find(mFileEntry[i].name) !=
+            if (realFileLocations.find(mFileEntry[i].name) !=
                realFileLocations.end()) {
 
                 inFile.open(realFileLocations[mFileEntry[i].name].c_str(),
@@ -139,7 +139,7 @@ bool DATFile::openFile(const std::string &fileName) {
             << "Number of files (DAT): " << mHeader.filesNumber
             << std::endl;
 
-        if(mHeader.filesNumber > ME_MAX_DAT_FILES) {
+        if (mHeader.filesNumber > ME_MAX_DAT_FILES) {
             LOG << Log::WARNING << "[DATFile::openFile] "
                 << "Error while opening the file " + fileName
                 << " number of files exceeds " << ME_MAX_DAT_FILES

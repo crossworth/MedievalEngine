@@ -399,19 +399,19 @@ namespace Catch {
     public:
         Ptr() : m_p( NULL ){}
         Ptr( T* p ) : m_p( p ){
-            if( m_p )
+            if ( m_p )
                 m_p->addRef();
         }
         Ptr( Ptr const& other ) : m_p( other.m_p ){
-            if( m_p )
+            if ( m_p )
                 m_p->addRef();
         }
         ~Ptr(){
-            if( m_p )
+            if ( m_p )
                 m_p->release();
         }
         void reset() {
-            if( m_p )
+            if ( m_p )
                 m_p->release();
             m_p = NULL;
         }
@@ -452,7 +452,7 @@ namespace Catch {
             ++m_rc;
         }
         virtual void release() const {
-            if( --m_rc == 0 )
+            if ( --m_rc == 0 )
                 delete this;
         }
 
@@ -1037,7 +1037,7 @@ inline void arcSafeRelease( NSObject* obj ) {
     [obj release];
 }
 inline id performOptionalSelector( id obj, SEL sel ) {
-    if( [obj respondsToSelector: sel] )
+    if ( [obj respondsToSelector: sel] )
         return [obj performSelector: sel];
     return nil;
 }
@@ -1050,7 +1050,7 @@ inline id performOptionalSelector( id obj, SEL sel ) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 #endif
-    if( [obj respondsToSelector: sel] )
+    if ( [obj respondsToSelector: sel] )
         return [obj performSelector: sel];
 #ifdef __clang__
 #pragma clang diagnostic pop
@@ -1189,7 +1189,7 @@ template<typename T>
 struct StringMaker<T*> {
     template<typename U>
     static std::string convert( U* p ) {
-        if( !p )
+        if ( !p )
             return INTERNAL_CATCH_STRINGIFY( NULL );
         else
             return Detail::rawMemoryToString( p );
@@ -1199,7 +1199,7 @@ struct StringMaker<T*> {
 template<typename R, typename C>
 struct StringMaker<R C::*> {
     static std::string convert( R C::* p ) {
-        if( !p )
+        if ( !p )
             return INTERNAL_CATCH_STRINGIFY( NULL );
         else
             return Detail::rawMemoryToString( p );
@@ -1289,7 +1289,7 @@ std::string toString( T const& value ) {
     std::string rangeToString( InputIterator first, InputIterator last ) {
         std::ostringstream oss;
         oss << "{ ";
-        if( first != last ) {
+        if ( first != last ) {
             oss << Catch::toString( *first );
             for( ++first ; first != last ; ++first )
                 oss << ", " << Catch::toString( *first );
@@ -1525,20 +1525,20 @@ namespace Catch{
     #ifdef DEBUG
         #if defined(__ppc64__) || defined(__ppc__)
             #define CATCH_BREAK_INTO_DEBUGGER() \
-                if( Catch::isDebuggerActive() ) { \
+                if ( Catch::isDebuggerActive() ) { \
                     __asm__("li r0, 20\nsc\nnop\nli r0, 37\nli r4, 2\nsc\nnop\n" \
                     : : : "memory","r0","r3","r4" ); \
                 }
         #else
-            #define CATCH_BREAK_INTO_DEBUGGER() if( Catch::isDebuggerActive() ) {__asm__("int $3\n" : : );}
+            #define CATCH_BREAK_INTO_DEBUGGER() if ( Catch::isDebuggerActive() ) {__asm__("int $3\n" : : );}
         #endif
     #endif
 
 #elif defined(_MSC_VER)
-    #define CATCH_BREAK_INTO_DEBUGGER() if( Catch::isDebuggerActive() ) { __debugbreak(); }
+    #define CATCH_BREAK_INTO_DEBUGGER() if ( Catch::isDebuggerActive() ) { __debugbreak(); }
 #elif defined(__MINGW32__)
     extern "C" __declspec(dllimport) void __stdcall DebugBreak();
-    #define CATCH_BREAK_INTO_DEBUGGER() if( Catch::isDebuggerActive() ) { DebugBreak(); }
+    #define CATCH_BREAK_INTO_DEBUGGER() if ( Catch::isDebuggerActive() ) { DebugBreak(); }
 #endif
 
 #ifndef CATCH_BREAK_INTO_DEBUGGER
@@ -1563,7 +1563,7 @@ namespace Catch {
 // This needs to be done as a macro so the debugger will stop in the user
 // source code rather than in Catch library code
 #define INTERNAL_CATCH_REACT( resultBuilder ) \
-    if( resultBuilder.shouldDebugBreak() ) CATCH_BREAK_INTO_DEBUGGER(); \
+    if ( resultBuilder.shouldDebugBreak() ) CATCH_BREAK_INTO_DEBUGGER(); \
     resultBuilder.react();
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1580,14 +1580,14 @@ namespace Catch {
     } while( Catch::isTrue( false && (expr) ) ) // expr here is never evaluated at runtime but it forces the compiler to give it a look
 
 ///////////////////////////////////////////////////////////////////////////////
-#define INTERNAL_CATCH_IF( expr, resultDisposition, macroName ) \
+#define INTERNAL_CATCH_if ( expr, resultDisposition, macroName ) \
     INTERNAL_CATCH_TEST( expr, resultDisposition, macroName ); \
-    if( Catch::getResultCapture().getLastResult()->succeeded() )
+    if ( Catch::getResultCapture().getLastResult()->succeeded() )
 
 ///////////////////////////////////////////////////////////////////////////////
 #define INTERNAL_CATCH_ELSE( expr, resultDisposition, macroName ) \
     INTERNAL_CATCH_TEST( expr, resultDisposition, macroName ); \
-    if( !Catch::getResultCapture().getLastResult()->succeeded() )
+    if ( !Catch::getResultCapture().getLastResult()->succeeded() )
 
 ///////////////////////////////////////////////////////////////////////////////
 #define INTERNAL_CATCH_NO_THROW( expr, resultDisposition, macroName ) \
@@ -1607,7 +1607,7 @@ namespace Catch {
 #define INTERNAL_CATCH_THROWS( expr, resultDisposition, macroName ) \
     do { \
         Catch::ResultBuilder __catchResult( macroName, CATCH_INTERNAL_LINEINFO, #expr, resultDisposition ); \
-        if( __catchResult.allowThrows() ) \
+        if ( __catchResult.allowThrows() ) \
             try { \
                 expr; \
                 __catchResult.captureResult( Catch::ResultWas::DidntThrowException ); \
@@ -1624,7 +1624,7 @@ namespace Catch {
 #define INTERNAL_CATCH_THROWS_AS( expr, exceptionType, resultDisposition, macroName ) \
     do { \
         Catch::ResultBuilder __catchResult( macroName, CATCH_INTERNAL_LINEINFO, #expr, resultDisposition ); \
-        if( __catchResult.allowThrows() ) \
+        if ( __catchResult.allowThrows() ) \
             try { \
                 expr; \
                 __catchResult.captureResult( Catch::ResultWas::DidntThrowException ); \
@@ -1752,9 +1752,9 @@ namespace Catch {
 
         Totals delta( Totals const& prevTotals ) const {
             Totals diff = *this - prevTotals;
-            if( diff.assertions.failed > 0 )
+            if ( diff.assertions.failed > 0 )
                 ++diff.testCases.failed;
-            else if( diff.assertions.failedButOk > 0 )
+            else if ( diff.assertions.failedButOk > 0 )
                 ++diff.testCases.failedButOk;
             else
                 ++diff.testCases.passed;
@@ -1822,10 +1822,10 @@ namespace Catch {
 
 #ifdef CATCH_CONFIG_VARIADIC_MACROS
     #define INTERNAL_CATCH_SECTION( ... ) \
-        if( Catch::Section const& INTERNAL_CATCH_UNIQUE_NAME( catch_internal_Section ) = Catch::SectionInfo( CATCH_INTERNAL_LINEINFO, __VA_ARGS__ ) )
+        if ( Catch::Section const& INTERNAL_CATCH_UNIQUE_NAME( catch_internal_Section ) = Catch::SectionInfo( CATCH_INTERNAL_LINEINFO, __VA_ARGS__ ) )
 #else
     #define INTERNAL_CATCH_SECTION( name, desc ) \
-        if( Catch::Section const& INTERNAL_CATCH_UNIQUE_NAME( catch_internal_Section ) = Catch::SectionInfo( CATCH_INTERNAL_LINEINFO, name, desc ) )
+        if ( Catch::Section const& INTERNAL_CATCH_UNIQUE_NAME( catch_internal_Section ) = Catch::SectionInfo( CATCH_INTERNAL_LINEINFO, name, desc ) )
 #endif
 
 // #included from: internal/catch_generators.hpp
@@ -1915,7 +1915,7 @@ public:
         for( size_t index = 0; it != itEnd; ++it )
         {
             const IGenerator<T>* generator = *it;
-            if( overallIndex >= index && overallIndex < index + generator->size() )
+            if ( overallIndex >= index && overallIndex < index + generator->size() )
             {
                 return generator->getValue( overallIndex-index );
             }
@@ -2224,7 +2224,7 @@ namespace Matchers {
             virtual bool match( ExpressionT const& expr ) const
             {
                 for( std::size_t i = 0; i < m_matchers.size(); ++i )
-                    if( !m_matchers[i]->match( expr ) )
+                    if ( !m_matchers[i]->match( expr ) )
                         return false;
                 return true;
             }
@@ -2232,7 +2232,7 @@ namespace Matchers {
                 std::ostringstream oss;
                 oss << "( ";
                 for( std::size_t i = 0; i < m_matchers.size(); ++i ) {
-                    if( i != 0 )
+                    if ( i != 0 )
                         oss << " and ";
                     oss << m_matchers[i]->toString();
                 }
@@ -2258,7 +2258,7 @@ namespace Matchers {
             virtual bool match( ExpressionT const& expr ) const
             {
                 for( std::size_t i = 0; i < m_matchers.size(); ++i )
-                    if( m_matchers[i]->match( expr ) )
+                    if ( m_matchers[i]->match( expr ) )
                         return true;
                 return false;
             }
@@ -2266,7 +2266,7 @@ namespace Matchers {
                 std::ostringstream oss;
                 oss << "( ";
                 for( std::size_t i = 0; i < m_matchers.size(); ++i ) {
-                    if( i != 0 )
+                    if ( i != 0 )
                         oss << " or ";
                     oss << m_matchers[i]->toString();
                 }
@@ -2453,9 +2453,9 @@ namespace Catch {
         }
 
         Option& operator= ( Option const& _other ) {
-            if( &_other != this ) {
+            if ( &_other != this ) {
                 reset();
-                if( _other )
+                if ( _other )
                     nullableValue = new( storage ) T( *_other );
             }
             return *this;
@@ -2467,7 +2467,7 @@ namespace Catch {
         }
 
         void reset() {
-            if( nullableValue )
+            if ( nullableValue )
                 nullableValue->~T();
             nullableValue = NULL;
         }
@@ -2646,7 +2646,7 @@ namespace Catch {
             SEL sel = NSSelectorFromString( selStr );
             arcSafeRelease( selStr );
             id value = performOptionalSelector( cls, sel );
-            if( value )
+            if ( value )
                 return [(NSString*)value UTF8String];
             return "";
         }
@@ -2667,7 +2667,7 @@ namespace Catch {
                 for( u_int m = 0; m < count ; m++ ) {
                     SEL selector = method_getName(methods[m]);
                     std::string methodName = sel_getName(selector);
-                    if( startsWith( methodName, "Catch_TestCase_" ) ) {
+                    if ( startsWith( methodName, "Catch_TestCase_" ) ) {
                         std::string testCaseName = methodName.substr( 15 );
                         std::string name = Detail::getAnnotation( cls, "Name", testCaseName );
                         std::string desc = Detail::getAnnotation( cls, "Description", testCaseName );
@@ -2841,11 +2841,11 @@ namespace Catch {
 
         public:
             NamePattern( std::string const& name ) : m_name( toLower( name ) ), m_wildcard( NoWildcard ) {
-                if( startsWith( m_name, "*" ) ) {
+                if ( startsWith( m_name, "*" ) ) {
                     m_name = m_name.substr( 1 );
                     m_wildcard = WildcardAtStart;
                 }
-                if( endsWith( m_name, "*" ) ) {
+                if ( endsWith( m_name, "*" ) ) {
                     m_name = m_name.substr( 0, m_name.size()-1 );
                     m_wildcard = static_cast<WildcardPosition>( m_wildcard | WildcardAtEnd );
                 }
@@ -2901,7 +2901,7 @@ namespace Catch {
             bool matches( TestCaseInfo const& testCase ) const {
                 // All patterns in a filter must match for the filter to be a match
                 for( std::vector<Ptr<Pattern> >::const_iterator it = m_patterns.begin(), itEnd = m_patterns.end(); it != itEnd; ++it )
-                    if( !(*it)->matches( testCase ) )
+                    if ( !(*it)->matches( testCase ) )
                         return false;
                     return true;
             }
@@ -2914,7 +2914,7 @@ namespace Catch {
         bool matches( TestCaseInfo const& testCase ) const {
             // A TestSpec matches if any filter matches
             for( std::vector<Filter>::const_iterator it = m_filters.begin(), itEnd = m_filters.end(); it != itEnd; ++it )
-                if( it->matches( testCase ) )
+                if ( it->matches( testCase ) )
                     return true;
             return false;
         }
@@ -2952,7 +2952,7 @@ namespace Catch {
             m_arg = m_tagAliases->expandAliases( arg );
             for( m_pos = 0; m_pos < m_arg.size(); ++m_pos )
                 visitChar( m_arg[m_pos] );
-            if( m_mode == Name )
+            if ( m_mode == Name )
                 addPattern<TestSpec::NamePattern>();
             return *this;
         }
@@ -2962,7 +2962,7 @@ namespace Catch {
         }
     private:
         void visitChar( char c ) {
-            if( m_mode == None ) {
+            if ( m_mode == None ) {
                 switch( c ) {
                 case ' ': return;
                 case '~': m_exclusion = true; return;
@@ -2971,22 +2971,22 @@ namespace Catch {
                 default: startNewMode( Name, m_pos ); break;
                 }
             }
-            if( m_mode == Name ) {
-                if( c == ',' ) {
+            if ( m_mode == Name ) {
+                if ( c == ',' ) {
                     addPattern<TestSpec::NamePattern>();
                     addFilter();
                 }
-                else if( c == '[' ) {
-                    if( subString() == "exclude:" )
+                else if ( c == '[' ) {
+                    if ( subString() == "exclude:" )
                         m_exclusion = true;
                     else
                         addPattern<TestSpec::NamePattern>();
                     startNewMode( Tag, ++m_pos );
                 }
             }
-            else if( m_mode == QuotedName && c == '"' )
+            else if ( m_mode == QuotedName && c == '"' )
                 addPattern<TestSpec::NamePattern>();
-            else if( m_mode == Tag && c == ']' )
+            else if ( m_mode == Tag && c == ']' )
                 addPattern<TestSpec::TagPattern>();
         }
         void startNewMode( Mode mode, std::size_t start ) {
@@ -2997,13 +2997,13 @@ namespace Catch {
         template<typename T>
         void addPattern() {
             std::string token = subString();
-            if( startsWith( token, "exclude:" ) ) {
+            if ( startsWith( token, "exclude:" ) ) {
                 m_exclusion = true;
                 token = token.substr( 8 );
             }
-            if( !token.empty() ) {
+            if ( !token.empty() ) {
                 Ptr<TestSpec::Pattern> pattern = new T( token );
-                if( m_exclusion )
+                if ( m_exclusion )
                     pattern = new TestSpec::ExcludedPattern( pattern );
                 m_currentFilter.m_patterns.push_back( pattern );
             }
@@ -3011,7 +3011,7 @@ namespace Catch {
             m_mode = None;
         }
         void addFilter() {
-            if( !m_currentFilter.m_patterns.empty() ) {
+            if ( !m_currentFilter.m_patterns.empty() ) {
                 m_testSpec.m_filters.push_back( m_currentFilter );
                 m_currentFilter = TestSpec::Filter();
             }
@@ -3183,7 +3183,7 @@ namespace Catch {
         :   m_data( data ),
             m_os( Catch::cout().rdbuf() )
         {
-            if( !data.testsOrTags.empty() ) {
+            if ( !data.testsOrTags.empty() ) {
                 TestSpecParser parser( ITagAliasRegistry::get() );
                 for( std::size_t i = 0; i < data.testsOrTags.size(); ++i )
                     parser.parse( data.testsOrTags[i] );
@@ -3337,47 +3337,47 @@ namespace Tbc {
             std::string remainder = _str;
 
             while( !remainder.empty() ) {
-                if( lines.size() >= 1000 ) {
+                if ( lines.size() >= 1000 ) {
                     lines.push_back( "... message truncated due to excessive size" );
                     return;
                 }
                 std::size_t tabPos = std::string::npos;
                 std::size_t width = (std::min)( remainder.size(), _attr.width - indent );
                 std::size_t pos = remainder.find_first_of( '\n' );
-                if( pos <= width ) {
+                if ( pos <= width ) {
                     width = pos;
                 }
                 pos = remainder.find_last_of( _attr.tabChar, width );
-                if( pos != std::string::npos ) {
+                if ( pos != std::string::npos ) {
                     tabPos = pos;
-                    if( remainder[width] == '\n' )
+                    if ( remainder[width] == '\n' )
                         width--;
                     remainder = remainder.substr( 0, tabPos ) + remainder.substr( tabPos+1 );
                 }
 
-                if( width == remainder.size() ) {
+                if ( width == remainder.size() ) {
                     spliceLine( indent, remainder, width );
                 }
-                else if( remainder[width] == '\n' ) {
+                else if ( remainder[width] == '\n' ) {
                     spliceLine( indent, remainder, width );
-                    if( width <= 1 || remainder.size() != 1 )
+                    if ( width <= 1 || remainder.size() != 1 )
                         remainder = remainder.substr( 1 );
                     indent = _attr.indent;
                 }
                 else {
                     pos = remainder.find_last_of( wrappableChars, width );
-                    if( pos != std::string::npos && pos > 0 ) {
+                    if ( pos != std::string::npos && pos > 0 ) {
                         spliceLine( indent, remainder, pos );
-                        if( remainder[0] == ' ' )
+                        if ( remainder[0] == ' ' )
                             remainder = remainder.substr( 1 );
                     }
                     else {
                         spliceLine( indent, remainder, width-1 );
                         lines.back() += "-";
                     }
-                    if( lines.size() == 1 )
+                    if ( lines.size() == 1 )
                         indent = _attr.indent;
-                    if( tabPos != std::string::npos )
+                    if ( tabPos != std::string::npos )
                         indent += tabPos;
                 }
             }
@@ -3404,7 +3404,7 @@ namespace Tbc {
         inline friend std::ostream& operator << ( std::ostream& _stream, Text const& _text ) {
             for( Text::const_iterator it = _text.begin(), itEnd = _text.end();
                 it != itEnd; ++it ) {
-                if( it != _text.begin() )
+                if ( it != _text.begin() )
                     _stream << "\n";
                 _stream << *it;
             }
@@ -3477,7 +3477,7 @@ namespace Clara {
             std::stringstream ss;
             ss << _source;
             ss >> _dest;
-            if( ss.fail() )
+            if ( ss.fail() )
                 throw std::runtime_error( "Unable to convert " + _source + " to destination type" );
         }
         inline void convertInto( std::string const& _source, std::string& _dest ) {
@@ -3486,9 +3486,9 @@ namespace Clara {
         inline void convertInto( std::string const& _source, bool& _dest ) {
             std::string sourceLC = _source;
             std::transform( sourceLC.begin(), sourceLC.end(), sourceLC.begin(), ::tolower );
-            if( sourceLC == "y" || sourceLC == "1" || sourceLC == "true" || sourceLC == "yes" || sourceLC == "on" )
+            if ( sourceLC == "y" || sourceLC == "1" || sourceLC == "true" || sourceLC == "yes" || sourceLC == "on" )
                 _dest = true;
-            else if( sourceLC == "n" || sourceLC == "0" || sourceLC == "false" || sourceLC == "no" || sourceLC == "off" )
+            else if ( sourceLC == "n" || sourceLC == "0" || sourceLC == "false" || sourceLC == "no" || sourceLC == "off" )
                 _dest = false;
             else
                 throw std::runtime_error( "Expected a boolean value but did not recognise:\n  '" + _source + "'" );
@@ -3587,7 +3587,7 @@ namespace Clara {
             virtual void set( C& p, std::string const& stringValue ) const {
                 bool value;
                 convertInto( stringValue, value );
-                if( value )
+                if ( value )
                     (p.*member)();
             }
             virtual void setFlag( C& p ) const {
@@ -3604,7 +3604,7 @@ namespace Clara {
             virtual void set( C& obj, std::string const& stringValue ) const {
                 bool value;
                 convertInto( stringValue, value );
-                if( value )
+                if ( value )
                     function( obj );
             }
             virtual void setFlag( C& p ) const {
@@ -3654,21 +3654,21 @@ namespace Clara {
             while( !arg.empty() ) {
                 Parser::Token token( Parser::Token::Positional, arg );
                 arg = "";
-                if( token.data[0] == '-' ) {
-                    if( token.data.size() > 1 && token.data[1] == '-' ) {
+                if ( token.data[0] == '-' ) {
+                    if ( token.data.size() > 1 && token.data[1] == '-' ) {
                         token = Parser::Token( Parser::Token::LongOpt, token.data.substr( 2 ) );
                     }
                     else {
                         token = Parser::Token( Parser::Token::ShortOpt, token.data.substr( 1 ) );
-                        if( token.data.size() > 1 && separators.find( token.data[1] ) == std::string::npos ) {
+                        if ( token.data.size() > 1 && separators.find( token.data[1] ) == std::string::npos ) {
                             arg = "-" + token.data.substr( 1 );
                             token.data = token.data.substr( 0, 1 );
                         }
                     }
                 }
-                if( token.type != Parser::Token::Positional ) {
+                if ( token.type != Parser::Token::Positional ) {
                     std::size_t pos = token.data.find_first_of( separators );
-                    if( pos != std::string::npos ) {
+                    if ( pos != std::string::npos ) {
                         arg = token.data.substr( pos+1 );
                         token.data = token.data.substr( 0, pos );
                     }
@@ -3693,7 +3693,7 @@ namespace Clara {
             return !placeholder.empty();
         }
         void validate() const {
-            if( !boundField.isSet() )
+            if ( !boundField.isSet() )
                 throw std::logic_error( "option not bound" );
         }
     };
@@ -3727,9 +3727,9 @@ namespace Clara {
             using CommonArgProperties<ConfigT>::placeholder; // !TBD
 
             std::string dbgName() const {
-                if( !longName.empty() )
+                if ( !longName.empty() )
                     return "--" + longName;
-                if( !shortNames.empty() )
+                if ( !shortNames.empty() )
                     return "-" + shortNames[0];
                 return "positional args";
             }
@@ -3738,18 +3738,18 @@ namespace Clara {
                 bool first = true;
                 std::vector<std::string>::const_iterator it = shortNames.begin(), itEnd = shortNames.end();
                 for(; it != itEnd; ++it ) {
-                    if( first )
+                    if ( first )
                         first = false;
                     else
                         oss << ", ";
                     oss << "-" << *it;
                 }
-                if( !longName.empty() ) {
-                    if( !first )
+                if ( !longName.empty() ) {
+                    if ( !first )
                         oss << ", ";
                     oss << "--" << longName;
                 }
-                if( !placeholder.empty() )
+                if ( !placeholder.empty() )
                     oss << " <" << placeholder << ">";
                 return oss.str();
             }
@@ -3764,17 +3764,17 @@ namespace Clara {
 
         friend void addOptName( Arg& arg, std::string const& optName )
         {
-            if( optName.empty() )
+            if ( optName.empty() )
                 return;
-            if( Detail::startsWith( optName, "--" ) ) {
-                if( !arg.longName.empty() )
+            if ( Detail::startsWith( optName, "--" ) ) {
+                if ( !arg.longName.empty() )
                     throw std::logic_error( "Only one long opt may be specified. '"
                         + arg.longName
                         + "' already specified, now attempting to add '"
                         + optName + "'" );
                 arg.longName = optName.substr( 2 );
             }
-            else if( Detail::startsWith( optName, "-" ) )
+            else if ( Detail::startsWith( optName, "-" ) )
                 arg.shortNames.push_back( optName.substr( 1 ) );
             else
                 throw std::logic_error( "option must begin with - or --. Option was: '" + optName + "'" );
@@ -3870,7 +3870,7 @@ namespace Clara {
             m_highestSpecifiedArgPosition( other.m_highestSpecifiedArgPosition ),
             m_throwOnUnrecognisedTokens( other.m_throwOnUnrecognisedTokens )
         {
-            if( other.m_floatingArg.get() )
+            if ( other.m_floatingArg.get() )
                 m_floatingArg.reset( new Arg( *other.m_floatingArg ) );
         }
 
@@ -3888,7 +3888,7 @@ namespace Clara {
 
         ArgBuilder operator[]( int position ) {
             m_positionalArgs.insert( std::make_pair( position, Arg() ) );
-            if( position > m_highestSpecifiedArgPosition )
+            if ( position > m_highestSpecifiedArgPosition )
                 m_highestSpecifiedArgPosition = position;
             setPositionalArg( m_positionalArgs[position], position );
             ArgBuilder builder( &m_positionalArgs[position] );
@@ -3897,7 +3897,7 @@ namespace Clara {
 
         // Invoke this with the _ instance
         ArgBuilder operator[]( UnpositionalTag ) {
-            if( m_floatingArg.get() )
+            if ( m_floatingArg.get() )
                 throw std::logic_error( "Only one unpositional argument can be added" );
             m_floatingArg.reset( new Arg() );
             ArgBuilder builder( m_floatingArg.get() );
@@ -3930,7 +3930,7 @@ namespace Clara {
                     std::string usageCol = i < usage.size() ? usage[i] : "";
                     os << usageCol;
 
-                    if( i < desc.size() && !desc[i].empty() )
+                    if ( i < desc.size() && !desc[i].empty() )
                         os  << std::string( indent + 2 + maxWidth - usageCol.size(), ' ' )
                             << desc[i];
                     os << "\n";
@@ -3945,19 +3945,19 @@ namespace Clara {
 
         void argSynopsis( std::ostream& os ) const {
             for( int i = 1; i <= m_highestSpecifiedArgPosition; ++i ) {
-                if( i > 1 )
+                if ( i > 1 )
                     os << " ";
                 typename std::map<int, Arg>::const_iterator it = m_positionalArgs.find( i );
-                if( it != m_positionalArgs.end() )
+                if ( it != m_positionalArgs.end() )
                     os << "<" << it->second.placeholder << ">";
-                else if( m_floatingArg.get() )
+                else if ( m_floatingArg.get() )
                     os << "<" << m_floatingArg->placeholder << ">";
                 else
                     throw std::logic_error( "non consecutive positional arguments with no floating args" );
             }
             // !TBD No indication of mandatory args
-            if( m_floatingArg.get() ) {
-                if( m_highestSpecifiedArgPosition > 1 )
+            if ( m_floatingArg.get() ) {
+                if ( m_highestSpecifiedArgPosition > 1 )
                     os << " ";
                 os << "[<" << m_floatingArg->placeholder << "> ...]";
             }
@@ -3972,7 +3972,7 @@ namespace Clara {
             validate();
             os << "usage:\n  " << procName << " ";
             argSynopsis( os );
-            if( !m_options.empty() ) {
+            if ( !m_options.empty() ) {
                 os << " [options]\n\nwhere options are: \n";
                 optUsage( os, 2 );
             }
@@ -3993,7 +3993,7 @@ namespace Clara {
         std::vector<Parser::Token> parseInto( int argc, char const * const * argv, ConfigT& config ) const {
             std::string processName = argv[0];
             std::size_t lastSlash = processName.find_last_of( "/\\" );
-            if( lastSlash != std::string::npos )
+            if ( lastSlash != std::string::npos )
                 processName = processName.substr( lastSlash+1 );
             m_boundProcessName.set( config, processName );
             std::vector<Parser::Token> tokens;
@@ -4020,10 +4020,10 @@ namespace Clara {
                     Arg const& arg = *it;
 
                     try {
-                        if( ( token.type == Parser::Token::ShortOpt && arg.hasShortName( token.data ) ) ||
+                        if ( ( token.type == Parser::Token::ShortOpt && arg.hasShortName( token.data ) ) ||
                             ( token.type == Parser::Token::LongOpt && arg.hasLongName( token.data ) ) ) {
-                            if( arg.takesArg() ) {
-                                if( i == tokens.size()-1 || tokens[i+1].type != Parser::Token::Positional )
+                            if ( arg.takesArg() ) {
+                                if ( i == tokens.size()-1 || tokens[i+1].type != Parser::Token::Positional )
                                     errors.push_back( "Expected argument to option: " + token.data );
                                 else
                                     arg.boundField.set( config, tokens[++i].data );
@@ -4038,19 +4038,19 @@ namespace Clara {
                         errors.push_back( std::string( ex.what() ) + "\n- while parsing: (" + arg.commands() + ")" );
                     }
                 }
-                if( it == itEnd ) {
-                    if( token.type == Parser::Token::Positional || !m_throwOnUnrecognisedTokens )
+                if ( it == itEnd ) {
+                    if ( token.type == Parser::Token::Positional || !m_throwOnUnrecognisedTokens )
                         unusedTokens.push_back( token );
-                    else if( errors.empty() && m_throwOnUnrecognisedTokens )
+                    else if ( errors.empty() && m_throwOnUnrecognisedTokens )
                         errors.push_back( "unrecognised option: " + token.data );
                 }
             }
-            if( !errors.empty() ) {
+            if ( !errors.empty() ) {
                 std::ostringstream oss;
                 for( std::vector<std::string>::const_iterator it = errors.begin(), itEnd = errors.end();
                         it != itEnd;
                         ++it ) {
-                    if( it != errors.begin() )
+                    if ( it != errors.begin() )
                         oss << "\n";
                     oss << *it;
                 }
@@ -4064,22 +4064,22 @@ namespace Clara {
             for( std::size_t i = 0; i < tokens.size(); ++i ) {
                 Parser::Token const& token = tokens[i];
                 typename std::map<int, Arg>::const_iterator it = m_positionalArgs.find( position );
-                if( it != m_positionalArgs.end() )
+                if ( it != m_positionalArgs.end() )
                     it->second.boundField.set( config, token.data );
                 else
                     unusedTokens.push_back( token );
-                if( token.type == Parser::Token::Positional )
+                if ( token.type == Parser::Token::Positional )
                     position++;
             }
             return unusedTokens;
         }
         std::vector<Parser::Token> populateFloatingArgs( std::vector<Parser::Token> const& tokens, ConfigT& config ) const {
-            if( !m_floatingArg.get() )
+            if ( !m_floatingArg.get() )
                 return tokens;
             std::vector<Parser::Token> unusedTokens;
             for( std::size_t i = 0; i < tokens.size(); ++i ) {
                 Parser::Token const& token = tokens[i];
-                if( token.type == Parser::Token::Positional )
+                if ( token.type == Parser::Token::Positional )
                     m_floatingArg->boundField.set( config, token.data );
                 else
                     unusedTokens.push_back( token );
@@ -4089,7 +4089,7 @@ namespace Clara {
 
         void validate() const
         {
-            if( m_options.empty() && m_positionalArgs.empty() && !m_floatingArg.get() )
+            if ( m_options.empty() && m_positionalArgs.empty() && !m_floatingArg.get() )
                 throw std::logic_error( "No options or arguments specified" );
 
             for( typename std::vector<Arg>::const_iterator  it = m_options.begin(),
@@ -4128,37 +4128,37 @@ namespace Catch {
 
     inline void abortAfterFirst( ConfigData& config ) { config.abortAfter = 1; }
     inline void abortAfterX( ConfigData& config, int x ) {
-        if( x < 1 )
+        if ( x < 1 )
             throw std::runtime_error( "Value after -x or --abortAfter must be greater than zero" );
         config.abortAfter = x;
     }
     inline void addTestOrTags( ConfigData& config, std::string const& _testSpec ) { config.testsOrTags.push_back( _testSpec ); }
 
     inline void addWarning( ConfigData& config, std::string const& _warning ) {
-        if( _warning == "NoAssertions" )
+        if ( _warning == "NoAssertions" )
             config.warnings = static_cast<WarnAbout::What>( config.warnings | WarnAbout::NoAssertions );
         else
             throw std::runtime_error( "Unrecognised warning: '" + _warning + "'" );
     }
     inline void setOrder( ConfigData& config, std::string const& order ) {
-        if( startsWith( "declared", order ) )
+        if ( startsWith( "declared", order ) )
             config.runOrder = RunTests::InDeclarationOrder;
-        else if( startsWith( "lexical", order ) )
+        else if ( startsWith( "lexical", order ) )
             config.runOrder = RunTests::InLexicographicalOrder;
-        else if( startsWith( "random", order ) )
+        else if ( startsWith( "random", order ) )
             config.runOrder = RunTests::InRandomOrder;
         else
             throw std::runtime_error( "Unrecognised ordering: '" + order + "'" );
     }
     inline void setRngSeed( ConfigData& config, std::string const& seed ) {
-        if( seed == "time" ) {
+        if ( seed == "time" ) {
             config.rngSeed = static_cast<unsigned int>( std::time(0) );
         }
         else {
             std::stringstream ss;
             ss << seed;
             ss >> config.rngSeed;
-            if( ss.fail() )
+            if ( ss.fail() )
                 throw std::runtime_error( "Argment to --rng-seed should be the word 'time' or a number" );
         }
     }
@@ -4173,13 +4173,13 @@ namespace Catch {
     }
     inline void loadTestNamesFromFile( ConfigData& config, std::string const& _filename ) {
         std::ifstream f( _filename.c_str() );
-        if( !f.is_open() )
+        if ( !f.is_open() )
             throw std::domain_error( "Unable to load input file: " + _filename );
 
         std::string line;
         while( std::getline( f, line ) ) {
             line = trim(line);
-            if( !line.empty() && !startsWith( line, "#" ) )
+            if ( !line.empty() && !startsWith( line, "#" ) )
                 addTestOrTags( config, "\"" + line + "\"," );
         }
     }
@@ -4358,47 +4358,47 @@ namespace Tbc {
             std::string remainder = _str;
 
             while( !remainder.empty() ) {
-                if( lines.size() >= 1000 ) {
+                if ( lines.size() >= 1000 ) {
                     lines.push_back( "... message truncated due to excessive size" );
                     return;
                 }
                 std::size_t tabPos = std::string::npos;
                 std::size_t width = (std::min)( remainder.size(), _attr.width - indent );
                 std::size_t pos = remainder.find_first_of( '\n' );
-                if( pos <= width ) {
+                if ( pos <= width ) {
                     width = pos;
                 }
                 pos = remainder.find_last_of( _attr.tabChar, width );
-                if( pos != std::string::npos ) {
+                if ( pos != std::string::npos ) {
                     tabPos = pos;
-                    if( remainder[width] == '\n' )
+                    if ( remainder[width] == '\n' )
                         width--;
                     remainder = remainder.substr( 0, tabPos ) + remainder.substr( tabPos+1 );
                 }
 
-                if( width == remainder.size() ) {
+                if ( width == remainder.size() ) {
                     spliceLine( indent, remainder, width );
                 }
-                else if( remainder[width] == '\n' ) {
+                else if ( remainder[width] == '\n' ) {
                     spliceLine( indent, remainder, width );
-                    if( width <= 1 || remainder.size() != 1 )
+                    if ( width <= 1 || remainder.size() != 1 )
                         remainder = remainder.substr( 1 );
                     indent = _attr.indent;
                 }
                 else {
                     pos = remainder.find_last_of( wrappableChars, width );
-                    if( pos != std::string::npos && pos > 0 ) {
+                    if ( pos != std::string::npos && pos > 0 ) {
                         spliceLine( indent, remainder, pos );
-                        if( remainder[0] == ' ' )
+                        if ( remainder[0] == ' ' )
                             remainder = remainder.substr( 1 );
                     }
                     else {
                         spliceLine( indent, remainder, width-1 );
                         lines.back() += "-";
                     }
-                    if( lines.size() == 1 )
+                    if ( lines.size() == 1 )
                         indent = _attr.indent;
-                    if( tabPos != std::string::npos )
+                    if ( tabPos != std::string::npos )
                         indent += tabPos;
                 }
             }
@@ -4425,7 +4425,7 @@ namespace Tbc {
         inline friend std::ostream& operator << ( std::ostream& _stream, Text const& _text ) {
             for( Text::const_iterator it = _text.begin(), itEnd = _text.end();
                 it != itEnd; ++it ) {
-                if( it != _text.begin() )
+                if ( it != _text.begin() )
                     _stream << "\n";
                 _stream << *it;
             }
@@ -4583,7 +4583,7 @@ namespace Catch
             infoMessages( _infoMessages ),
             totals( _totals )
         {
-            if( assertionResult.hasMessage() ) {
+            if ( assertionResult.hasMessage() ) {
                 // Copy message into messages list.
                 // !TBD This should have been done earlier, somewhere
                 MessageBuilder builder( assertionResult.getTestMacroName(), assertionResult.getSourceInfo(), assertionResult.getResultType() );
@@ -4765,7 +4765,7 @@ namespace Catch {
     inline std::size_t listTests( Config const& config ) {
 
         TestSpec testSpec = config.testSpec();
-        if( config.testSpec().hasFilters() )
+        if ( config.testSpec().hasFilters() )
             Catch::cout() << "Matching test cases:\n";
         else {
             Catch::cout() << "All available test cases:\n";
@@ -4790,11 +4790,11 @@ namespace Catch {
             Colour colourGuard( colour );
 
             Catch::cout() << Text( testCaseInfo.name, nameAttr ) << std::endl;
-            if( !testCaseInfo.tags.empty() )
+            if ( !testCaseInfo.tags.empty() )
                 Catch::cout() << Text( testCaseInfo.tagsAsString, tagsAttr ) << std::endl;
         }
 
-        if( !config.testSpec().hasFilters() )
+        if ( !config.testSpec().hasFilters() )
             Catch::cout() << pluralise( matchedTests, "test case" ) << "\n" << std::endl;
         else
             Catch::cout() << pluralise( matchedTests, "matching test case" ) << "\n" << std::endl;
@@ -4803,7 +4803,7 @@ namespace Catch {
 
     inline std::size_t listTestsNamesOnly( Config const& config ) {
         TestSpec testSpec = config.testSpec();
-        if( !config.testSpec().hasFilters() )
+        if ( !config.testSpec().hasFilters() )
             testSpec = TestSpecParser( ITagAliasRegistry::get() ).parse( "*" ).testSpec();
         std::size_t matchedTests = 0;
         std::vector<TestCase> matchedTestCases;
@@ -4838,7 +4838,7 @@ namespace Catch {
 
     inline std::size_t listTags( Config const& config ) {
         TestSpec testSpec = config.testSpec();
-        if( config.testSpec().hasFilters() )
+        if ( config.testSpec().hasFilters() )
             Catch::cout() << "Tags for matching test cases:\n";
         else {
             Catch::cout() << "All available tags:\n";
@@ -4859,7 +4859,7 @@ namespace Catch {
                 std::string tagName = *tagIt;
                 std::string lcaseTagName = toLower( tagName );
                 std::map<std::string, TagInfo>::iterator countIt = tagCounts.find( lcaseTagName );
-                if( countIt == tagCounts.end() )
+                if ( countIt == tagCounts.end() )
                     countIt = tagCounts.insert( std::make_pair( lcaseTagName, TagInfo() ) ).first;
                 countIt->second.add( tagName );
             }
@@ -4906,13 +4906,13 @@ namespace Catch {
 
     inline Option<std::size_t> list( Config const& config ) {
         Option<std::size_t> listedCount;
-        if( config.listTests() )
+        if ( config.listTests() )
             listedCount = listedCount.valueOr(0) + listTests( config );
-        if( config.listTestNamesOnly() )
+        if ( config.listTestNamesOnly() )
             listedCount = listedCount.valueOr(0) + listTestsNamesOnly( config );
-        if( config.listTags() )
+        if ( config.listTags() )
             listedCount = listedCount.valueOr(0) + listTags( config );
-        if( config.listReporters() )
+        if ( config.listReporters() )
             listedCount = listedCount.valueOr(0) + listReporters( config );
         return listedCount;
     }
@@ -4954,7 +4954,7 @@ namespace SectionTracking {
         TrackedSection* acquireChild( std::string const& childName );
 
         void enter() {
-            if( m_runState == NotStarted )
+            if ( m_runState == NotStarted )
                 m_runState = Executing;
         }
         void leave();
@@ -4980,7 +4980,7 @@ namespace SectionTracking {
             : NULL;
     }
     inline TrackedSection* TrackedSection::acquireChild( std::string const& childName ) {
-        if( TrackedSection* child = findChild( childName ) )
+        if ( TrackedSection* child = findChild( childName ) )
             return child;
         m_children.insert( std::make_pair( childName, TrackedSection( childName, this ) ) );
         return findChild( childName );
@@ -4989,7 +4989,7 @@ namespace SectionTracking {
         for( TrackedSections::const_iterator it = m_children.begin(), itEnd = m_children.end();
                 it != itEnd;
                 ++it )
-            if( it->second.runState() != Completed ) {
+            if ( it->second.runState() != Completed ) {
                 m_runState = ExecutingChildren;
                 return;
             }
@@ -5006,7 +5006,7 @@ namespace SectionTracking {
 
         bool enterSection( std::string const& name ) {
             TrackedSection* child = m_currentSection->acquireChild( name );
-            if( m_completedASectionThisRun || child->runState() == TrackedSection::Completed )
+            if ( m_completedASectionThisRun || child->runState() == TrackedSection::Completed )
                 return false;
 
             m_currentSection = child;
@@ -5073,7 +5073,7 @@ namespace Catch {
         IResultCapture* resultCapture = context.getResultCapture();
         resultCapture->handleFatalErrorCondition( message );
 
-        if( Catch::alwaysTrue() ) // avoids "no return" warnings
+        if ( Catch::alwaysTrue() ) // avoids "no return" warnings
             exit( exitCode );
     }
 
@@ -5110,7 +5110,7 @@ namespace Catch {
 
         static void handleSignal( int sig ) {
             for( std::size_t i = 0; i < sizeof(signalDefs)/sizeof(SignalDefs); ++i )
-                if( sig == signalDefs[i].id )
+                if ( sig == signalDefs[i].id )
                     fatal( signalDefs[i].name, -sig );
             fatal( "<unknown signal>", -sig );
         }
@@ -5123,7 +5123,7 @@ namespace Catch {
             reset();
         }
         void reset() {
-            if( m_isSet ) {
+            if ( m_isSet ) {
                 for( std::size_t i = 0; i < sizeof(signalDefs)/sizeof(SignalDefs); ++i )
                     signal( signalDefs[i].id, SIG_DFL );
                 m_isSet = false;
@@ -5247,14 +5247,14 @@ namespace Catch {
     private: // IResultCapture
 
         virtual void assertionEnded( AssertionResult const& result ) {
-            if( result.getResultType() == ResultWas::Ok ) {
+            if ( result.getResultType() == ResultWas::Ok ) {
                 m_totals.assertions.passed++;
             }
-            else if( !result.isOk() ) {
+            else if ( !result.isOk() ) {
                 m_totals.assertions.failed++;
             }
 
-            if( m_reporter->assertionEnded( AssertionStats( result, m_messages, m_totals ) ) )
+            if ( m_reporter->assertionEnded( AssertionStats( result, m_messages, m_totals ) ) )
                 m_messages.clear();
 
             // Reset working state
@@ -5270,7 +5270,7 @@ namespace Catch {
             std::ostringstream oss;
             oss << sectionInfo.name << "@" << sectionInfo.lineInfo;
 
-            if( !m_testCaseTracker->enterSection( oss.str() ) )
+            if ( !m_testCaseTracker->enterSection( oss.str() ) )
                 return false;
 
             m_lastAssertionInfo.lineInfo = sectionInfo.lineInfo;
@@ -5282,7 +5282,7 @@ namespace Catch {
             return true;
         }
         bool testForMissingAssertions( Counts& assertions ) {
-            if( assertions.total() != 0 ||
+            if ( assertions.total() != 0 ||
                     !m_config->warnAboutMissingAssertions() ||
                     m_testCaseTracker->currentSectionHasChildren() )
                 return false;
@@ -5292,7 +5292,7 @@ namespace Catch {
         }
 
         virtual void sectionEnded( SectionInfo const& info, Counts const& prevAssertions, double _durationInSeconds ) {
-            if( std::uncaught_exception() ) {
+            if ( std::uncaught_exception() ) {
                 m_unfinishedSections.push_back( UnfinishedSections( info, prevAssertions, _durationInSeconds ) );
                 return;
             }
@@ -5375,7 +5375,7 @@ namespace Catch {
 
                 Timer timer;
                 timer.start();
-                if( m_reporter->getPreferences().shouldRedirectStdOut ) {
+                if ( m_reporter->getPreferences().shouldRedirectStdOut ) {
                     StreamRedirect coutRedir( Catch::cout(), redirectedCout );
                     StreamRedirect cerrRedir( Catch::cerr(), redirectedCerr );
                     invokeActiveTestCase();
@@ -5397,7 +5397,7 @@ namespace Catch {
             Counts assertions = m_totals.assertions - prevAssertions;
             bool missingAssertions = testForMissingAssertions( assertions );
 
-            if( testCaseInfo.okToFail() ) {
+            if ( testCaseInfo.okToFail() ) {
                 std::swap( assertions.failedButOk, assertions.failed );
                 m_totals.assertions.failed -= assertions.failedButOk;
                 m_totals.assertions.failedButOk += assertions.failedButOk;
@@ -5461,7 +5461,7 @@ namespace Catch {
     };
 
     IResultCapture& getResultCapture() {
-        if( IResultCapture* capture = getCurrentContext().getResultCapture() )
+        if ( IResultCapture* capture = getCurrentContext().getResultCapture() )
             return *capture;
         else
             throw std::logic_error( "No result capture instance" );
@@ -5524,7 +5524,7 @@ namespace Catch {
             context.testGroupStarting( "all tests", 1, 1 ); // deprecated?
 
             TestSpec testSpec = m_config->testSpec();
-            if( !testSpec.hasFilters() )
+            if ( !testSpec.hasFilters() )
                 testSpec = TestSpecParser( ITagAliasRegistry::get() ).parse( "~[.]" ).testSpec(); // All not hidden tests
 
             std::vector<TestCase> testCases;
@@ -5535,9 +5535,9 @@ namespace Catch {
                     it != itEnd;
                     ++it ) {
                 testsRunForGroup++;
-                if( m_testsAlreadyRun.find( *it ) == m_testsAlreadyRun.end() ) {
+                if ( m_testsAlreadyRun.find( *it ) == m_testsAlreadyRun.end() ) {
 
-                    if( context.aborting() )
+                    if ( context.aborting() )
                         break;
 
                     totals += context.runTest( *it );
@@ -5559,9 +5559,9 @@ namespace Catch {
     private:
         void openStream() {
             // Open output file, if specified
-            if( !m_config->getFilename().empty() ) {
+            if ( !m_config->getFilename().empty() ) {
                 m_ofs.open( m_config->getFilename().c_str() );
-                if( m_ofs.fail() ) {
+                if ( m_ofs.fail() ) {
                     std::ostringstream oss;
                     oss << "Unable to open file: '" << m_config->getFilename() << "'";
                     throw std::domain_error( oss.str() );
@@ -5575,7 +5575,7 @@ namespace Catch {
                 : m_config->getReporterName();
 
             m_reporter = getRegistryHub().getReporterRegistry().create( reporterName, m_config.get() );
-            if( !m_reporter ) {
+            if ( !m_reporter ) {
                 std::ostringstream oss;
                 oss << "No reporter registered with name: '" << reporterName << "'";
                 throw std::domain_error( oss.str() );
@@ -5598,7 +5598,7 @@ namespace Catch {
 
         Session()
         : m_cli( makeCommandLineParser() ) {
-            if( alreadyInstantiated ) {
+            if ( alreadyInstantiated ) {
                 std::string msg = "Only one instance of Catch::Session can ever be used";
                 Catch::cerr() << msg << std::endl;
                 throw std::logic_error( msg );
@@ -5620,7 +5620,7 @@ namespace Catch {
             try {
                 m_cli.setThrowOnUnrecognisedTokens( unusedOptionBehaviour == OnUnusedOptions::Fail );
                 m_unusedTokens = m_cli.parseInto( argc, argv, m_configData );
-                if( m_configData.showHelp )
+                if ( m_configData.showHelp )
                     showHelp( m_configData.processName );
                 m_config.reset();
             }
@@ -5646,13 +5646,13 @@ namespace Catch {
         int run( int argc, char* const argv[] ) {
 
             int returnCode = applyCommandLine( argc, argv );
-            if( returnCode == 0 )
+            if ( returnCode == 0 )
                 returnCode = run();
             return returnCode;
         }
 
         int run() {
-            if( m_configData.showHelp )
+            if ( m_configData.showHelp )
                 return 0;
 
             try
@@ -5664,7 +5664,7 @@ namespace Catch {
                 Runner runner( m_config );
 
                 // Handle list request
-                if( Option<std::size_t> listed = list( config() ) )
+                if ( Option<std::size_t> listed = list( config() ) )
                     return static_cast<int>( *listed );
 
                 return static_cast<int>( runner.runTests().assertions.failed );
@@ -5685,7 +5685,7 @@ namespace Catch {
             return m_configData;
         }
         Config& config() {
-            if( !m_config )
+            if ( !m_config )
                 m_config = new Config( m_configData );
             return *m_config;
         }
@@ -5729,16 +5729,16 @@ namespace Catch {
 
         virtual void registerTest( TestCase const& testCase ) {
             std::string name = testCase.getTestCaseInfo().name;
-            if( name == "" ) {
+            if ( name == "" ) {
                 std::ostringstream oss;
                 oss << "Anonymous test case " << ++m_unnamedCount;
                 return registerTest( testCase.withName( oss.str() ) );
             }
 
-            if( m_functions.find( testCase ) == m_functions.end() ) {
+            if ( m_functions.find( testCase ) == m_functions.end() ) {
                 m_functions.insert( testCase );
                 m_functionsInOrder.push_back( testCase );
-                if( !testCase.isHidden() )
+                if ( !testCase.isHidden() )
                     m_nonHiddenFunctions.push_back( testCase );
             }
             else {
@@ -5768,7 +5768,7 @@ namespace Catch {
                     it != itEnd;
                     ++it ) {
                 bool includeTest = testSpec.matches( *it ) && ( config.allowThrows() || !it->throws() );
-                if( includeTest != negated )
+                if ( includeTest != negated )
                     matchingTestCases.push_back( *it );
             }
             sortTests( config, matchingTestCases );
@@ -5818,11 +5818,11 @@ namespace Catch {
 
     inline std::string extractClassName( std::string const& classOrQualifiedMethodName ) {
         std::string className = classOrQualifiedMethodName;
-        if( startsWith( className, "&" ) )
+        if ( startsWith( className, "&" ) )
         {
             std::size_t lastColons = className.rfind( "::" );
             std::size_t penultimateColons = className.rfind( "::", lastColons-1 );
-            if( penultimateColons == std::string::npos )
+            if ( penultimateColons == std::string::npos )
                 penultimateColons = 1;
             className = className.substr( penultimateColons, lastColons-penultimateColons );
         }
@@ -5871,7 +5871,7 @@ namespace Catch {
 
         virtual IStreamingReporter* create( std::string const& name, Ptr<IConfig> const& config ) const {
             FactoryMap::const_iterator it =  m_factories.find( name );
-            if( it == m_factories.end() )
+            if ( it == m_factories.end() )
                 return NULL;
             return it->second->create( ReporterConfig( config ) );
         }
@@ -5940,7 +5940,7 @@ namespace Catch {
         }
 
         std::string tryTranslators( std::vector<const IExceptionTranslator*>::const_iterator it ) const {
-            if( it == m_translators.end() )
+            if ( it == m_translators.end() )
                 return "Unknown exception";
 
             try {
@@ -5998,7 +5998,7 @@ namespace Catch {
         // Single, global, instance
         inline RegistryHub*& getTheRegistryHub() {
             static RegistryHub* theRegistryHub = NULL;
-            if( !theRegistryHub )
+            if ( !theRegistryHub )
                 theRegistryHub = new RegistryHub();
             return theRegistryHub;
         }
@@ -6085,8 +6085,8 @@ namespace Catch {
         int overflow( int c ) {
             sync();
 
-            if( c != EOF ) {
-                if( pbase() == epptr() )
+            if ( c != EOF ) {
+                if ( pbase() == epptr() )
                     m_writer( std::string( 1, static_cast<char>( c ) ) );
                 else
                     sputc( static_cast<char>( c ) );
@@ -6095,7 +6095,7 @@ namespace Catch {
         }
 
         int sync() {
-            if( pbase() != pptr() ) {
+            if ( pbase() != pptr() ) {
                 m_writer( std::string( pbase(), static_cast<std::string::size_type>( pptr() - pbase() ) ) );
                 setp( pbase(), epptr() );
             }
@@ -6121,7 +6121,7 @@ namespace Catch {
     {}
 
     void Stream::release() {
-        if( isOwned ) {
+        if ( isOwned ) {
             delete streamBuf;
             streamBuf = NULL;
             isOwned = false;
@@ -6193,7 +6193,7 @@ namespace Catch {
 
         IGeneratorsForTest& getGeneratorsForCurrentTest() {
             IGeneratorsForTest* generators = findGeneratorsForCurrentTest();
-            if( !generators ) {
+            if ( !generators ) {
                 std::string testName = getResultCapture()->getCurrentTestName();
                 generators = createGeneratorsForTest();
                 m_generatorsByTestName.insert( std::make_pair( testName, generators ) );
@@ -6212,7 +6212,7 @@ namespace Catch {
         Context* currentContext = NULL;
     }
     IMutableContext& getCurrentMutableContext() {
-        if( !currentContext )
+        if ( !currentContext )
             currentContext = new Context();
         return *currentContext;
     }
@@ -6221,9 +6221,9 @@ namespace Catch {
     }
 
     Stream createStream( std::string const& streamName ) {
-        if( streamName == "stdout" ) return Stream( Catch::cout().rdbuf(), false );
-        if( streamName == "stderr" ) return Stream( Catch::cerr().rdbuf(), false );
-        if( streamName == "debug" ) return Stream( new StreamBufImpl<OutputDebugWriter>, true );
+        if ( streamName == "stdout" ) return Stream( Catch::cout().rdbuf(), false );
+        if ( streamName == "stderr" ) return Stream( Catch::cerr().rdbuf(), false );
+        if ( streamName == "debug" ) return Stream( new StreamBufImpl<OutputDebugWriter>, true );
 
         throw std::domain_error( "Unknown stream: " + streamName );
     }
@@ -6392,7 +6392,7 @@ namespace Catch {
 
     Colour::Colour( Code _colourCode ) : m_moved( false ) { use( _colourCode ); }
     Colour::Colour( Colour const& _other ) : m_moved( false ) { const_cast<Colour&>( _other ).m_moved = true; }
-    Colour::~Colour(){ if( !m_moved ) use( None ); }
+    Colour::~Colour(){ if ( !m_moved ) use( None ); }
 
     void Colour::use( Code _colourCode ) {
         static IColourImpl* impl = isDebuggerActive()
@@ -6420,7 +6420,7 @@ namespace Catch {
         {}
 
         bool moveNext() {
-            if( ++m_currentIndex == m_size ) {
+            if ( ++m_currentIndex == m_size ) {
                 m_currentIndex = 0;
                 return false;
             }
@@ -6446,7 +6446,7 @@ namespace Catch {
 
         IGeneratorInfo& getGeneratorInfo( std::string const& fileInfo, std::size_t size ) {
             std::map<std::string, IGeneratorInfo*>::const_iterator it = m_generatorsByName.find( fileInfo );
-            if( it == m_generatorsByName.end() ) {
+            if ( it == m_generatorsByName.end() ) {
                 IGeneratorInfo* info = new GeneratorInfo( size );
                 m_generatorsByName.insert( std::make_pair( fileInfo, info ) );
                 m_generatorsInOrder.push_back( info );
@@ -6459,7 +6459,7 @@ namespace Catch {
             std::vector<IGeneratorInfo*>::const_iterator it = m_generatorsInOrder.begin();
             std::vector<IGeneratorInfo*>::const_iterator itEnd = m_generatorsInOrder.end();
             for(; it != itEnd; ++it ) {
-                if( (*it)->moveNext() )
+                if ( (*it)->moveNext() )
                     return true;
             }
             return false;
@@ -6524,13 +6524,13 @@ namespace Catch {
     }
 
     std::string AssertionResult::getExpression() const {
-        if( isFalseTest( m_info.resultDisposition ) )
+        if ( isFalseTest( m_info.resultDisposition ) )
             return "!" + m_info.capturedExpression;
         else
             return m_info.capturedExpression;
     }
     std::string AssertionResult::getExpressionInMacro() const {
-        if( m_info.macroName.empty() )
+        if ( m_info.macroName.empty() )
             return m_info.capturedExpression;
         else
             return m_info.macroName + "( " + m_info.capturedExpression + " )";
@@ -6563,15 +6563,15 @@ namespace Catch {
 namespace Catch {
 
     inline TestCaseInfo::SpecialProperties parseSpecialTag( std::string const& tag ) {
-        if( startsWith( tag, "." ) ||
+        if ( startsWith( tag, "." ) ||
             tag == "hide" ||
             tag == "!hide" )
             return TestCaseInfo::IsHidden;
-        else if( tag == "!throws" )
+        else if ( tag == "!throws" )
             return TestCaseInfo::Throws;
-        else if( tag == "!shouldfail" )
+        else if ( tag == "!shouldfail" )
             return TestCaseInfo::ShouldFail;
-        else if( tag == "!mayfail" )
+        else if ( tag == "!mayfail" )
             return TestCaseInfo::MayFail;
         else
             return TestCaseInfo::None;
@@ -6580,7 +6580,7 @@ namespace Catch {
         return parseSpecialTag( tag ) == TestCaseInfo::None && tag.size() > 0 && !isalnum( tag[0] );
     }
     inline void enforceNotReservedTag( std::string const& tag, SourceLineInfo const& _lineInfo ) {
-        if( isReservedTag( tag ) ) {
+        if ( isReservedTag( tag ) ) {
             {
                 Colour colourGuard( Colour::Red );
                 Catch::cerr()
@@ -6609,18 +6609,18 @@ namespace Catch {
         bool inTag = false;
         for( std::size_t i = 0; i < _descOrTags.size(); ++i ) {
             char c = _descOrTags[i];
-            if( !inTag ) {
-                if( c == '[' )
+            if ( !inTag ) {
+                if ( c == '[' )
                     inTag = true;
                 else
                     desc += c;
             }
             else {
-                if( c == ']' ) {
+                if ( c == ']' ) {
                     TestCaseInfo::SpecialProperties prop = parseSpecialTag( tag );
-                    if( prop == TestCaseInfo::IsHidden )
+                    if ( prop == TestCaseInfo::IsHidden )
                         isHidden = true;
-                    else if( prop == TestCaseInfo::None )
+                    else if ( prop == TestCaseInfo::None )
                         enforceNotReservedTag( tag, _lineInfo );
 
                     tags.insert( tag );
@@ -6631,7 +6631,7 @@ namespace Catch {
                     tag += c;
             }
         }
-        if( isHidden ) {
+        if ( isHidden ) {
             tags.insert( "hide" );
             tags.insert( "." );
         }
@@ -6760,7 +6760,7 @@ namespace Catch {
             << version.minorVersion << "."
             << version.patchNumber;
 
-        if( !version.branchName.empty() ) {
+        if ( !version.branchName.empty() ) {
             os  << "-" << version.branchName
                 << "." << version.buildNumber;
         }
@@ -6890,11 +6890,11 @@ namespace Catch
     }
 
     bool LegacyReporterAdapter::assertionEnded( AssertionStats const& assertionStats ) {
-        if( assertionStats.assertionResult.getResultType() != ResultWas::Ok ) {
+        if ( assertionStats.assertionResult.getResultType() != ResultWas::Ok ) {
             for( std::vector<MessageInfo>::const_iterator it = assertionStats.infoMessages.begin(), itEnd = assertionStats.infoMessages.end();
                     it != itEnd;
                     ++it ) {
-                if( it->type == ResultWas::Info ) {
+                if ( it->type == ResultWas::Info ) {
                     ResultBuilder rb( it->macroName.c_str(), it->lineInfo, "", ResultDisposition::Normal );
                     rb << it->message;
                     rb.setResultType( ResultWas::Info );
@@ -6907,7 +6907,7 @@ namespace Catch
         return true;
     }
     void LegacyReporterAdapter::sectionEnded( SectionStats const& sectionStats ) {
-        if( sectionStats.missingAssertions )
+        if ( sectionStats.missingAssertions )
             m_legacyReporter->NoAssertionsInSection( sectionStats.sectionInfo.name );
         m_legacyReporter->EndSection( sectionStats.sectionInfo.name, sectionStats.assertions );
     }
@@ -6919,7 +6919,7 @@ namespace Catch
                 testCaseStats.stdErr );
     }
     void LegacyReporterAdapter::testGroupEnded( TestGroupStats const& testGroupStats ) {
-        if( testGroupStats.aborting )
+        if ( testGroupStats.aborting )
             m_legacyReporter->Aborted();
         m_legacyReporter->EndGroup( testGroupStats.groupInfo.name, testGroupStats.totals );
     }
@@ -7020,7 +7020,7 @@ namespace Catch {
         while( i != std::string::npos ) {
             replaced = true;
             str = str.substr( 0, i ) + withThis + str.substr( i+replaceThis.size() );
-            if( i < str.size()-withThis.size() )
+            if ( i < str.size()-withThis.size() )
                 i = str.find( replaceThis, i+withThis.size() );
             else
                 i = std::string::npos;
@@ -7035,7 +7035,7 @@ namespace Catch {
 
     std::ostream& operator << ( std::ostream& os, pluralise const& pluraliser ) {
         os << pluraliser.m_count << " " << pluraliser.m_label;
-        if( pluraliser.m_count != 1 )
+        if ( pluraliser.m_count != 1 )
             os << "s";
         return os;
     }
@@ -7071,7 +7071,7 @@ namespace Catch {
     void throwLogicError( std::string const& message, SourceLineInfo const& locationInfo ) {
         std::ostringstream oss;
         oss << locationInfo << ": Internal Catch error: '" << message << "'";
-        if( alwaysTrue() )
+        if ( alwaysTrue() )
             throw std::logic_error( oss.str() );
     }
 }
@@ -7098,7 +7098,7 @@ namespace Catch {
     }
 
     Section::~Section() {
-        if( m_sectionIncluded )
+        if ( m_sectionIncluded )
             getResultCapture().sectionEnded( m_info, m_assertions, m_timer.getElapsedSeconds() );
     }
 
@@ -7151,7 +7151,7 @@ namespace Catch {
             // Call sysctl.
 
             size = sizeof(info);
-            if( sysctl(mib, sizeof(mib) / sizeof(*mib), &info, &size, NULL, 0) != 0 ) {
+            if ( sysctl(mib, sizeof(mib) / sizeof(*mib), &info, &size, NULL, 0) != 0 ) {
                 Catch::cerr() << "\n** Call to sysctl failed - unable to determine if debugger is active **\n" << std::endl;
                 return false;
             }
@@ -7227,7 +7227,7 @@ namespace Detail {
     {
         // Reverse order for little endian architectures
         int i = 0, end = static_cast<int>( size ), inc = 1;
-        if( Endianness::which() == Endianness::Little ) {
+        if ( Endianness::which() == Endianness::Little ) {
             i = end-1;
             end = inc = -1;
         }
@@ -7243,7 +7243,7 @@ namespace Detail {
 
 std::string toString( std::string const& value ) {
     std::string s = value;
-    if( getCurrentContext().getConfig()->showInvisibles() ) {
+    if ( getCurrentContext().getConfig()->showInvisibles() ) {
         for(size_t i = 0; i < s.size(); ++i ) {
             std::string subs;
             switch( s[i] ) {
@@ -7251,7 +7251,7 @@ std::string toString( std::string const& value ) {
             case '\t': subs = "\\t"; break;
             default: break;
             }
-            if( !subs.empty() ) {
+            if ( !subs.empty() ) {
                 s = s.substr( 0, i ) + subs + s.substr( i+1 );
                 ++i;
             }
@@ -7289,7 +7289,7 @@ std::string toString( wchar_t* const value )
 std::string toString( int value ) {
     std::ostringstream oss;
     oss << value;
-    if( value >= 255 )
+    if ( value >= 255 )
         oss << " (0x" << std::hex << value << ")";
     return oss.str();
 }
@@ -7297,7 +7297,7 @@ std::string toString( int value ) {
 std::string toString( unsigned long value ) {
     std::ostringstream oss;
     oss << value;
-    if( value >= 255 )
+    if ( value >= 255 )
         oss << " (0x" << std::hex << value << ")";
     return oss.str();
 }
@@ -7314,8 +7314,8 @@ std::string fpToString( T value, int precision ) {
         << value;
     std::string d = oss.str();
     std::size_t i = d.find_last_not_of( '0' );
-    if( i != std::string::npos && i != d.size()-1 ) {
-        if( d[i] == '.' )
+    if ( i != std::string::npos && i != d.size()-1 ) {
+        if ( d[i] == '.' )
             i++;
         d = d.substr( 0, i+1 );
     }
@@ -7355,12 +7355,12 @@ std::string toString( std::nullptr_t ) {
 
 #ifdef __OBJC__
     std::string toString( NSString const * const& nsstring ) {
-        if( !nsstring )
+        if ( !nsstring )
             return "nil";
         return "@" + toString([nsstring UTF8String]);
     }
     std::string toString( NSString * CATCH_ARC_STRONG const& nsstring ) {
-        if( !nsstring )
+        if ( !nsstring )
             return "nil";
         return "@" + toString([nsstring UTF8String]);
     }
@@ -7426,15 +7426,15 @@ namespace Catch {
         AssertionResult result = build();
         getResultCapture().assertionEnded( result );
 
-        if( !result.isOk() ) {
-            if( getCurrentContext().getConfig()->shouldDebugBreak() )
+        if ( !result.isOk() ) {
+            if ( getCurrentContext().getConfig()->shouldDebugBreak() )
                 m_shouldDebugBreak = true;
-            if( getCurrentContext().getRunner()->aborting() || (m_assertionInfo.resultDisposition & ResultDisposition::Normal) )
+            if ( getCurrentContext().getRunner()->aborting() || (m_assertionInfo.resultDisposition & ResultDisposition::Normal) )
                 m_shouldThrow = true;
         }
     }
     void ResultBuilder::react() {
-        if( m_shouldThrow )
+        if ( m_shouldThrow )
             throw Catch::TestFailureException();
     }
 
@@ -7448,17 +7448,17 @@ namespace Catch {
         AssertionResultData data = m_data;
 
         // Flip bool results if testFalse is set
-        if( m_exprComponents.testFalse ) {
-            if( data.resultType == ResultWas::Ok )
+        if ( m_exprComponents.testFalse ) {
+            if ( data.resultType == ResultWas::Ok )
                 data.resultType = ResultWas::ExpressionFailed;
-            else if( data.resultType == ResultWas::ExpressionFailed )
+            else if ( data.resultType == ResultWas::ExpressionFailed )
                 data.resultType = ResultWas::Ok;
         }
 
         data.message = m_stream.oss.str();
         data.reconstructedExpression = reconstructExpression();
-        if( m_exprComponents.testFalse ) {
-            if( m_exprComponents.op == "" )
+        if ( m_exprComponents.testFalse ) {
+            if ( m_exprComponents.op == "" )
                 data.reconstructedExpression = "!" + data.reconstructedExpression;
             else
                 data.reconstructedExpression = "!(" + data.reconstructedExpression + ")";
@@ -7466,12 +7466,12 @@ namespace Catch {
         return AssertionResult( m_assertionInfo, data );
     }
     std::string ResultBuilder::reconstructExpression() const {
-        if( m_exprComponents.op == "" )
+        if ( m_exprComponents.op == "" )
             return m_exprComponents.lhs.empty() ? m_assertionInfo.capturedExpression : m_exprComponents.op + m_exprComponents.lhs;
-        else if( m_exprComponents.op == "matches" )
+        else if ( m_exprComponents.op == "matches" )
             return m_exprComponents.lhs + " " + m_exprComponents.rhs;
-        else if( m_exprComponents.op != "!" ) {
-            if( m_exprComponents.lhs.size() + m_exprComponents.rhs.size() < 40 &&
+        else if ( m_exprComponents.op != "!" ) {
+            if ( m_exprComponents.lhs.size() + m_exprComponents.rhs.size() < 40 &&
                 m_exprComponents.lhs.find("\n") == std::string::npos &&
                 m_exprComponents.rhs.find("\n") == std::string::npos )
                 return m_exprComponents.lhs + " " + m_exprComponents.op + " " + m_exprComponents.rhs;
@@ -7517,7 +7517,7 @@ namespace Catch {
 
     Option<TagAlias> TagAliasRegistry::find( std::string const& alias ) const {
         std::map<std::string, TagAlias>::const_iterator it = m_registry.find( alias );
-        if( it != m_registry.end() )
+        if ( it != m_registry.end() )
             return it->second;
         else
             return Option<TagAlias>();
@@ -7529,7 +7529,7 @@ namespace Catch {
                 it != itEnd;
                 ++it ) {
             std::size_t pos = expandedTestSpec.find( it->first );
-            if( pos != std::string::npos ) {
+            if ( pos != std::string::npos ) {
                 expandedTestSpec =  expandedTestSpec.substr( 0, pos ) +
                                     it->second.tag +
                                     expandedTestSpec.substr( pos + it->first.size() );
@@ -7540,12 +7540,12 @@ namespace Catch {
 
     void TagAliasRegistry::add( char const* alias, char const* tag, SourceLineInfo const& lineInfo ) {
 
-        if( !startsWith( alias, "[@" ) || !endsWith( alias, "]" ) ) {
+        if ( !startsWith( alias, "[@" ) || !endsWith( alias, "]" ) ) {
             std::ostringstream oss;
             oss << "error: tag alias, \"" << alias << "\" is not of the form [@alias name].\n" << lineInfo;
             throw std::domain_error( oss.str().c_str() );
         }
-        if( !m_registry.insert( std::make_pair( alias, TagAlias( tag, lineInfo ) ) ).second ) {
+        if ( !m_registry.insert( std::make_pair( alias, TagAlias( tag, lineInfo ) ) ).second ) {
             std::ostringstream oss;
             oss << "error: tag alias, \"" << alias << "\" already registered.\n"
                 << "\tFirst seen at " << find(alias)->lineInfo << "\n"
@@ -7700,18 +7700,18 @@ namespace Catch {
         virtual void sectionStarting( SectionInfo const& sectionInfo ) {
             SectionStats incompleteStats( sectionInfo, Counts(), 0, false );
             Ptr<SectionNode> node;
-            if( m_sectionStack.empty() ) {
-                if( !m_rootSection )
+            if ( m_sectionStack.empty() ) {
+                if ( !m_rootSection )
                     m_rootSection = new SectionNode( incompleteStats );
                 node = m_rootSection;
             }
             else {
                 SectionNode& parentNode = *m_sectionStack.back();
                 SectionNode::ChildSections::const_iterator it =
-                    std::find_if(   parentNode.childSections.begin(),
+                    std::find_if (   parentNode.childSections.begin(),
                                     parentNode.childSections.end(),
                                     BySectionInfo( sectionInfo ) );
-                if( it == parentNode.childSections.end() ) {
+                if ( it == parentNode.childSections.end() ) {
                     node = new SectionNode( incompleteStats );
                     parentNode.childSections.push_back( node );
                 }
@@ -7780,7 +7780,7 @@ namespace Catch {
     template<char C>
     char const* getLineOfChars() {
         static char line[CATCH_CONFIG_CONSOLE_WIDTH] = {0};
-        if( !*line ) {
+        if ( !*line ) {
             memset( line, C, CATCH_CONFIG_CONSOLE_WIDTH-1 );
             line[CATCH_CONFIG_CONSOLE_WIDTH-1] = 0;
         }
@@ -7876,7 +7876,7 @@ namespace Catch {
             }
 
             ~ScopedElement() {
-                if( m_writer )
+                if ( m_writer )
                     m_writer->endElement();
             }
 
@@ -7931,7 +7931,7 @@ namespace Catch {
         XmlWriter& endElement() {
             newlineIfNecessary();
             m_indent = m_indent.substr( 0, m_indent.size()-2 );
-            if( m_tagIsOpen ) {
+            if ( m_tagIsOpen ) {
                 stream() << "/>\n";
                 m_tagIsOpen = false;
             }
@@ -7943,7 +7943,7 @@ namespace Catch {
         }
 
         XmlWriter& writeAttribute( std::string const& name, std::string const& attribute ) {
-            if( !name.empty() && !attribute.empty() ) {
+            if ( !name.empty() && !attribute.empty() ) {
                 stream() << " " << name << "=\"";
                 writeEncodedText( attribute );
                 stream() << "\"";
@@ -7958,16 +7958,16 @@ namespace Catch {
 
         template<typename T>
         XmlWriter& writeAttribute( std::string const& name, T const& attribute ) {
-            if( !name.empty() )
+            if ( !name.empty() )
                 stream() << " " << name << "=\"" << attribute << "\"";
             return *this;
         }
 
         XmlWriter& writeText( std::string const& text, bool indent = true ) {
-            if( !text.empty() ){
+            if ( !text.empty() ){
                 bool tagWasOpen = m_tagIsOpen;
                 ensureTagClosed();
-                if( tagWasOpen && indent )
+                if ( tagWasOpen && indent )
                     stream() << m_indent;
                 writeEncodedText( text );
                 m_needsNewline = true;
@@ -8001,14 +8001,14 @@ namespace Catch {
         }
 
         void ensureTagClosed() {
-            if( m_tagIsOpen ) {
+            if ( m_tagIsOpen ) {
                 stream() << ">\n";
                 m_tagIsOpen = false;
             }
         }
 
         void newlineIfNecessary() {
-            if( m_needsNewline ) {
+            if ( m_needsNewline ) {
                 stream() << "\n";
                 m_needsNewline = false;
             }
@@ -8075,7 +8075,7 @@ namespace Catch {
             StreamingReporterBase::testRunStarting( testInfo );
             m_xml.setStream( stream );
             m_xml.startElement( "Catch" );
-            if( !m_config->name().empty() )
+            if ( !m_config->name().empty() )
                 m_xml.writeAttribute( "name", m_config->name() );
         }
 
@@ -8095,7 +8095,7 @@ namespace Catch {
 
         virtual void sectionStarting( SectionInfo const& sectionInfo ) {
             StreamingReporterBase::sectionStarting( sectionInfo );
-            if( m_sectionDepth++ > 0 ) {
+            if ( m_sectionDepth++ > 0 ) {
                 m_xml.startElement( "Section" )
                     .writeAttribute( "name", trim( sectionInfo.name ) )
                     .writeAttribute( "description", sectionInfo.description );
@@ -8108,11 +8108,11 @@ namespace Catch {
             const AssertionResult& assertionResult = assertionStats.assertionResult;
 
             // Print any info messages in <Info> tags.
-            if( assertionStats.assertionResult.getResultType() != ResultWas::Ok ) {
+            if ( assertionStats.assertionResult.getResultType() != ResultWas::Ok ) {
                 for( std::vector<MessageInfo>::const_iterator it = assertionStats.infoMessages.begin(), itEnd = assertionStats.infoMessages.end();
                         it != itEnd;
                         ++it ) {
-                    if( it->type == ResultWas::Info ) {
+                    if ( it->type == ResultWas::Info ) {
                         m_xml.scopedElement( "Info" )
                             .writeText( it->message );
                     } else if ( it->type == ResultWas::Warning ) {
@@ -8123,11 +8123,11 @@ namespace Catch {
             }
 
             // Drop out if result was successful but we're not printing them.
-            if( !m_config->includeSuccessfulResults() && isOk(assertionResult.getResultType()) )
+            if ( !m_config->includeSuccessfulResults() && isOk(assertionResult.getResultType()) )
                 return true;
 
             // Print the expression if there is one.
-            if( assertionResult.hasExpression() ) {
+            if ( assertionResult.hasExpression() ) {
                 m_xml.startElement( "Expression" )
                     .writeAttribute( "success", assertionResult.succeeded() )
                     .writeAttribute( "type", assertionResult.getTestMacroName() )
@@ -8169,7 +8169,7 @@ namespace Catch {
                     break;
             }
 
-            if( assertionResult.hasExpression() )
+            if ( assertionResult.hasExpression() )
                 m_xml.endElement();
 
             return true;
@@ -8177,7 +8177,7 @@ namespace Catch {
 
         virtual void sectionEnded( SectionStats const& sectionStats ) {
             StreamingReporterBase::sectionEnded( sectionStats );
-            if( --m_sectionDepth > 0 ) {
+            if ( --m_sectionDepth > 0 ) {
                 XmlWriter::ScopedElement e = m_xml.scopedElement( "OverallResults" );
                 e.writeAttribute( "successes", sectionStats.assertions.passed );
                 e.writeAttribute( "failures", sectionStats.assertions.failed );
@@ -8272,7 +8272,7 @@ namespace Catch {
         }
 
         virtual bool assertionEnded( AssertionStats const& assertionStats ) {
-            if( assertionStats.assertionResult.getResultType() == ResultWas::ThrewException )
+            if ( assertionStats.assertionResult.getResultType() == ResultWas::ThrewException )
                 unexpectedExceptions++;
             return CumulativeReporterBase::assertionEnded( assertionStats );
         }
@@ -8301,7 +8301,7 @@ namespace Catch {
             xml.writeAttribute( "failures", stats.totals.assertions.failed-unexpectedExceptions );
             xml.writeAttribute( "tests", stats.totals.assertions.total() );
             xml.writeAttribute( "hostname", "tbd" ); // !TBD
-            if( m_config->showDurations() == ShowDurations::Never )
+            if ( m_config->showDurations() == ShowDurations::Never )
                 xml.writeAttribute( "time", "" );
             else
                 xml.writeAttribute( "time", suiteTime );
@@ -8328,8 +8328,8 @@ namespace Catch {
 
             std::string className = stats.testInfo.className;
 
-            if( className.empty() ) {
-                if( rootSection.childSections.empty() )
+            if ( className.empty() ) {
+                if ( rootSection.childSections.empty() )
                     className = "global";
             }
             writeSection( className, "", rootSection );
@@ -8339,14 +8339,14 @@ namespace Catch {
                             std::string const& rootName,
                             SectionNode const& sectionNode ) {
             std::string name = trim( sectionNode.stats.sectionInfo.name );
-            if( !rootName.empty() )
+            if ( !rootName.empty() )
                 name = rootName + "/" + name;
 
-            if( !sectionNode.assertions.empty() ||
+            if ( !sectionNode.assertions.empty() ||
                 !sectionNode.stdOut.empty() ||
                 !sectionNode.stdErr.empty() ) {
                 XmlWriter::ScopedElement e = xml.scopedElement( "testcase" );
-                if( className.empty() ) {
+                if ( className.empty() ) {
                     xml.writeAttribute( "classname", name );
                     xml.writeAttribute( "name", "root" );
                 }
@@ -8358,9 +8358,9 @@ namespace Catch {
 
                 writeAssertions( sectionNode );
 
-                if( !sectionNode.stdOut.empty() )
+                if ( !sectionNode.stdOut.empty() )
                     xml.scopedElement( "system-out" ).writeText( trim( sectionNode.stdOut ), false );
-                if( !sectionNode.stdErr.empty() )
+                if ( !sectionNode.stdErr.empty() )
                     xml.scopedElement( "system-err" ).writeText( trim( sectionNode.stdErr ), false );
             }
             for( SectionNode::ChildSections::const_iterator
@@ -8368,7 +8368,7 @@ namespace Catch {
                     itEnd = sectionNode.childSections.end();
                     it != itEnd;
                     ++it )
-                if( className.empty() )
+                if ( className.empty() )
                     writeSection( name, "", **it );
                 else
                     writeSection( className, name, **it );
@@ -8383,7 +8383,7 @@ namespace Catch {
         }
         void writeAssertion( AssertionStats const& stats ) {
             AssertionResult const& result = stats.assertionResult;
-            if( !result.isOk() ) {
+            if ( !result.isOk() ) {
                 std::string elementName;
                 switch( result.getResultType() ) {
                     case ResultWas::ThrewException:
@@ -8417,14 +8417,14 @@ namespace Catch {
                 xml.writeAttribute( "type", result.getTestMacroName() );
 
                 std::ostringstream oss;
-                if( !result.getMessage().empty() )
+                if ( !result.getMessage().empty() )
                     oss << result.getMessage() << "\n";
                 for( std::vector<MessageInfo>::const_iterator
                         it = stats.infoMessages.begin(),
                         itEnd = stats.infoMessages.end();
                             it != itEnd;
                             ++it )
-                    if( it->type == ResultWas::Info )
+                    if ( it->type == ResultWas::Info )
                         oss << it->message << "\n";
 
                 oss << "at " << result.getSourceInfo();
@@ -8477,8 +8477,8 @@ namespace Catch {
             bool printInfoMessages = true;
 
             // Drop out if result was successful and we're not printing those
-            if( !m_config->includeSuccessfulResults() && result.isOk() ) {
-                if( result.getResultType() != ResultWas::Warning )
+            if ( !m_config->includeSuccessfulResults() && result.isOk() ) {
+                if ( result.getResultType() != ResultWas::Warning )
                     return false;
                 printInfoMessages = false;
             }
@@ -8496,22 +8496,22 @@ namespace Catch {
             StreamingReporterBase::sectionStarting( _sectionInfo );
         }
         virtual void sectionEnded( SectionStats const& _sectionStats ) {
-            if( _sectionStats.missingAssertions ) {
+            if ( _sectionStats.missingAssertions ) {
                 lazyPrint();
                 Colour colour( Colour::ResultError );
-                if( m_sectionStack.size() > 1 )
+                if ( m_sectionStack.size() > 1 )
                     stream << "\nNo assertions in section";
                 else
                     stream << "\nNo assertions in test case";
                 stream << " '" << _sectionStats.sectionInfo.name << "'\n" << std::endl;
             }
-            if( m_headerPrinted ) {
-                if( m_config->showDurations() == ShowDurations::Always )
+            if ( m_headerPrinted ) {
+                if ( m_config->showDurations() == ShowDurations::Always )
                     stream << "Completed in " << _sectionStats.durationInSeconds << "s" << std::endl;
                 m_headerPrinted = false;
             }
             else {
-                if( m_config->showDurations() == ShowDurations::Always )
+                if ( m_config->showDurations() == ShowDurations::Always )
                     stream << _sectionStats.sectionInfo.name << " completed in " << _sectionStats.durationInSeconds << "s" << std::endl;
             }
             StreamingReporterBase::sectionEnded( _sectionStats );
@@ -8522,7 +8522,7 @@ namespace Catch {
             m_headerPrinted = false;
         }
         virtual void testGroupEnded( TestGroupStats const& _testGroupStats ) {
-            if( currentGroupInfo.used ) {
+            if ( currentGroupInfo.used ) {
                 printSummaryDivider();
                 stream << "Summary for group '" << _testGroupStats.groupInfo.name << "':\n";
                 printTotals( _testGroupStats.totals );
@@ -8555,14 +8555,14 @@ namespace Catch {
                     case ResultWas::Ok:
                         colour = Colour::Success;
                         passOrFail = "PASSED";
-                        //if( result.hasMessage() )
-                        if( _stats.infoMessages.size() == 1 )
+                        //if ( result.hasMessage() )
+                        if ( _stats.infoMessages.size() == 1 )
                             messageLabel = "with message";
-                        if( _stats.infoMessages.size() > 1 )
+                        if ( _stats.infoMessages.size() > 1 )
                             messageLabel = "with messages";
                         break;
                     case ResultWas::ExpressionFailed:
-                        if( result.isOk() ) {
+                        if ( result.isOk() ) {
                             colour = Colour::Success;
                             passOrFail = "FAILED - but was ok";
                         }
@@ -8570,9 +8570,9 @@ namespace Catch {
                             colour = Colour::Error;
                             passOrFail = "FAILED";
                         }
-                        if( _stats.infoMessages.size() == 1 )
+                        if ( _stats.infoMessages.size() == 1 )
                             messageLabel = "with message";
-                        if( _stats.infoMessages.size() > 1 )
+                        if ( _stats.infoMessages.size() > 1 )
                             messageLabel = "with messages";
                         break;
                     case ResultWas::ThrewException:
@@ -8599,9 +8599,9 @@ namespace Catch {
                     case ResultWas::ExplicitFailure:
                         passOrFail = "FAILED";
                         colour = Colour::Error;
-                        if( _stats.infoMessages.size() == 1 )
+                        if ( _stats.infoMessages.size() == 1 )
                             messageLabel = "explicitly with message";
-                        if( _stats.infoMessages.size() > 1 )
+                        if ( _stats.infoMessages.size() > 1 )
                             messageLabel = "explicitly with messages";
                         break;
                     // These cases are here to prevent compiler warnings
@@ -8616,8 +8616,8 @@ namespace Catch {
 
             void print() const {
                 printSourceInfo();
-                if( stats.totals.assertions.total() > 0 ) {
-                    if( result.isOk() )
+                if ( stats.totals.assertions.total() > 0 ) {
+                    if ( result.isOk() )
                         stream << "\n";
                     printResultType();
                     printOriginalExpression();
@@ -8631,13 +8631,13 @@ namespace Catch {
 
         private:
             void printResultType() const {
-                if( !passOrFail.empty() ) {
+                if ( !passOrFail.empty() ) {
                     Colour colourGuard( colour );
                     stream << passOrFail << ":\n";
                 }
             }
             void printOriginalExpression() const {
-                if( result.hasExpression() ) {
+                if ( result.hasExpression() ) {
                     Colour colourGuard( Colour::OriginalExpression );
                     stream  << "  ";
                     stream << result.getExpressionInMacro();
@@ -8645,20 +8645,20 @@ namespace Catch {
                 }
             }
             void printReconstructedExpression() const {
-                if( result.hasExpandedExpression() ) {
+                if ( result.hasExpandedExpression() ) {
                     stream << "with expansion:\n";
                     Colour colourGuard( Colour::ReconstructedExpression );
                     stream << Text( result.getExpandedExpression(), TextAttributes().setIndent(2) ) << "\n";
                 }
             }
             void printMessage() const {
-                if( !messageLabel.empty() )
+                if ( !messageLabel.empty() )
                     stream << messageLabel << ":" << "\n";
                 for( std::vector<MessageInfo>::const_iterator it = messages.begin(), itEnd = messages.end();
                         it != itEnd;
                         ++it ) {
                     // If this assertion is a warning ignore any INFO messages
-                    if( printInfoMessages || it->type != ResultWas::Info )
+                    if ( printInfoMessages || it->type != ResultWas::Info )
                         stream << Text( it->message, TextAttributes().setIndent(2) ) << "\n";
                 }
             }
@@ -8680,12 +8680,12 @@ namespace Catch {
 
         void lazyPrint() {
 
-            if( !currentTestRunInfo.used )
+            if ( !currentTestRunInfo.used )
                 lazyPrintRunInfo();
-            if( !currentGroupInfo.used )
+            if ( !currentGroupInfo.used )
                 lazyPrintGroupInfo();
 
-            if( !m_headerPrinted ) {
+            if ( !m_headerPrinted ) {
                 printTestCaseAndSectionHeader();
                 m_headerPrinted = true;
             }
@@ -8697,13 +8697,13 @@ namespace Catch {
                     << " is a Catch v"  << libraryVersion << " host application.\n"
                     << "Run with -? for options\n\n";
 
-            if( m_config->rngSeed() != 0 )
+            if ( m_config->rngSeed() != 0 )
                 stream << "Randomness seeded to: " << m_config->rngSeed() << "\n\n";
 
             currentTestRunInfo.used = true;
         }
         void lazyPrintGroupInfo() {
-            if( !currentGroupInfo->name.empty() && currentGroupInfo->groupsCounts > 1 ) {
+            if ( !currentGroupInfo->name.empty() && currentGroupInfo->groupsCounts > 1 ) {
                 printClosedHeader( "Group: " + currentGroupInfo->name );
                 currentGroupInfo.used = true;
             }
@@ -8712,7 +8712,7 @@ namespace Catch {
             assert( !m_sectionStack.empty() );
             printOpenHeader( currentTestCaseInfo->name );
 
-            if( m_sectionStack.size() > 1 ) {
+            if ( m_sectionStack.size() > 1 ) {
                 Colour colourGuard( Colour::Headers );
 
                 std::vector<SectionInfo>::const_iterator
@@ -8724,7 +8724,7 @@ namespace Catch {
 
             SourceLineInfo lineInfo = m_sectionStack.front().lineInfo;
 
-            if( !lineInfo.empty() ){
+            if ( !lineInfo.empty() ){
                 stream << getLineOfChars<'-'>() << "\n";
                 Colour colourGuard( Colour::FileName );
                 stream << lineInfo << "\n";
@@ -8748,7 +8748,7 @@ namespace Catch {
         // subsequent lines
         void printHeaderString( std::string const& _string, std::size_t indent = 0 ) {
             std::size_t i = _string.find( ": " );
-            if( i != std::string::npos )
+            if ( i != std::string::npos )
                 i+=2;
             else
                 i = 0;
@@ -8784,10 +8784,10 @@ namespace Catch {
         };
 
         void printTotals( Totals const& totals ) {
-            if( totals.testCases.total() == 0 ) {
+            if ( totals.testCases.total() == 0 ) {
                 stream << Colour( Colour::Warning ) << "No tests ran\n";
             }
-            else if( totals.assertions.total() > 0 && totals.assertions.allPassed() ) {
+            else if ( totals.assertions.total() > 0 && totals.assertions.allPassed() ) {
                 stream << Colour( Colour::ResultSuccess ) << "All tests passed";
                 stream << " ("
                         << pluralise( totals.assertions.passed, "assertion" ) << " in "
@@ -8817,14 +8817,14 @@ namespace Catch {
         void printSummaryRow( std::string const& label, std::vector<SummaryColumn> const& cols, std::size_t row ) {
             for( std::vector<SummaryColumn>::const_iterator it = cols.begin(); it != cols.end(); ++it ) {
                 std::string value = it->rows[row];
-                if( it->label.empty() ) {
+                if ( it->label.empty() ) {
                     stream << label << ": ";
-                    if( value != "0" )
+                    if ( value != "0" )
                         stream << value;
                     else
                         stream << Colour( Colour::Warning ) << "- none -";
                 }
-                else if( value != "0" ) {
+                else if ( value != "0" ) {
                     stream  << Colour( Colour::LightGrey ) << " | ";
                     stream  << Colour( it->colour )
                             << value << " " << it->label;
@@ -8838,16 +8838,16 @@ namespace Catch {
             return ( ratio == 0 && number > 0 ) ? 1 : ratio;
         }
         static std::size_t& findMax( std::size_t& i, std::size_t& j, std::size_t& k ) {
-            if( i > j && i > k )
+            if ( i > j && i > k )
                 return i;
-            else if( j > k )
+            else if ( j > k )
                 return j;
             else
                 return k;
         }
 
         void printTotalsDivider( Totals const& totals ) {
-            if( totals.testCases.total() > 0 ) {
+            if ( totals.testCases.total() > 0 ) {
                 std::size_t failedRatio = makeRatio( totals.testCases.failed, totals.testCases.total() );
                 std::size_t failedButOkRatio = makeRatio( totals.testCases.failedButOk, totals.testCases.total() );
                 std::size_t passedRatio = makeRatio( totals.testCases.passed, totals.testCases.total() );
@@ -8858,7 +8858,7 @@ namespace Catch {
 
                 stream << Colour( Colour::Error ) << std::string( failedRatio, '=' );
                 stream << Colour( Colour::ResultExpectedFailure ) << std::string( failedButOkRatio, '=' );
-                if( totals.testCases.allPassed() )
+                if ( totals.testCases.allPassed() )
                     stream << Colour( Colour::ResultSuccess ) << std::string( passedRatio, '=' );
                 else
                     stream << Colour( Colour::Success ) << std::string( passedRatio, '=' );
@@ -8916,8 +8916,8 @@ namespace Catch {
             bool printInfoMessages = true;
 
             // Drop out if result was successful and we're not printing those
-            if( !m_config->includeSuccessfulResults() && result.isOk() ) {
-                if( result.getResultType() != ResultWas::Warning )
+            if ( !m_config->includeSuccessfulResults() && result.isOk() ) {
+                if ( result.getResultType() != ResultWas::Warning )
                     return false;
                 printInfoMessages = false;
             }
@@ -8964,7 +8964,7 @@ namespace Catch {
                             printRemainingMessages();
                         break;
                     case ResultWas::ExpressionFailed:
-                        if( result.isOk() )
+                        if ( result.isOk() )
                             printResultType( Colour::ResultSuccess, failedString() + std::string( " - but was ok" ) );
                         else
                             printResultType( Colour::Error, failedString() );
@@ -9035,7 +9035,7 @@ namespace Catch {
             }
 
             void printResultType( Colour::Code colour, std::string passOrFail ) const {
-                if( !passOrFail.empty() ) {
+                if ( !passOrFail.empty() ) {
                     {
                         Colour colourGuard( colour );
                         stream << " " << passOrFail;
@@ -9049,7 +9049,7 @@ namespace Catch {
             }
 
             void printExpressionWas() {
-                if( result.hasExpression() ) {
+                if ( result.hasExpression() ) {
                     stream << ";";
                     {
                         Colour colour( dimColour() );
@@ -9060,13 +9060,13 @@ namespace Catch {
             }
 
             void printOriginalExpression() const {
-                if( result.hasExpression() ) {
+                if ( result.hasExpression() ) {
                     stream << " " << result.getExpression();
                 }
             }
 
             void printReconstructedExpression() const {
-                if( result.hasExpandedExpression() ) {
+                if ( result.hasExpandedExpression() ) {
                     {
                         Colour colour( dimColour() );
                         stream << " for: ";
@@ -9097,7 +9097,7 @@ namespace Catch {
 
                 for(; itMessage != itEnd; ) {
                     // If this assertion is a warning ignore any INFO messages
-                    if( printInfoMessages || itMessage->type != ResultWas::Info ) {
+                    if ( printInfoMessages || itMessage->type != ResultWas::Info ) {
                         stream << " '" << itMessage->message << "'";
                         if ( ++itMessage != itEnd ) {
                             Colour colourGuard( dimColour() );
@@ -9128,10 +9128,10 @@ namespace Catch {
         }
 
         void printTotals( const Totals& totals ) const {
-            if( totals.testCases.total() == 0 ) {
+            if ( totals.testCases.total() == 0 ) {
                 stream << "No tests ran.";
             }
-            else if( totals.testCases.failed == totals.testCases.total() ) {
+            else if ( totals.testCases.failed == totals.testCases.total() ) {
                 Colour colour( Colour::ResultError );
                 const std::string qualify_assertions_failed =
                     totals.assertions.failed == totals.assertions.total() ?
@@ -9142,13 +9142,13 @@ namespace Catch {
                     "failed " << qualify_assertions_failed <<
                                  pluralise( totals.assertions.failed, "assertion" ) << ".";
             }
-            else if( totals.assertions.total() == 0 ) {
+            else if ( totals.assertions.total() == 0 ) {
                 stream <<
                     "Passed " << bothOrAll( totals.testCases.total() )
                               << pluralise( totals.testCases.total(), "test case" )
                               << " (no assertions).";
             }
-            else if( totals.assertions.failed ) {
+            else if ( totals.assertions.failed ) {
                 Colour colour( Colour::ResultError );
                 stream <<
                     "Failed " << pluralise( totals.testCases.failed, "test case"  ) << ", "
@@ -9274,7 +9274,7 @@ int main (int argc, char * const argv[]) {
 
 #define CATCH_CHECK( expr ) INTERNAL_CATCH_TEST( expr, Catch::ResultDisposition::ContinueOnFailure, "CATCH_CHECK" )
 #define CATCH_CHECK_FALSE( expr ) INTERNAL_CATCH_TEST( expr, Catch::ResultDisposition::ContinueOnFailure | Catch::ResultDisposition::FalseTest, "CATCH_CHECK_FALSE" )
-#define CATCH_CHECKED_IF( expr ) INTERNAL_CATCH_IF( expr, Catch::ResultDisposition::ContinueOnFailure, "CATCH_CHECKED_IF" )
+#define CATCH_CHECKED_if ( expr ) INTERNAL_CATCH_if ( expr, Catch::ResultDisposition::ContinueOnFailure, "CATCH_CHECKED_IF" )
 #define CATCH_CHECKED_ELSE( expr ) INTERNAL_CATCH_ELSE( expr, Catch::ResultDisposition::ContinueOnFailure, "CATCH_CHECKED_ELSE" )
 #define CATCH_CHECK_NOFAIL( expr ) INTERNAL_CATCH_TEST( expr, Catch::ResultDisposition::ContinueOnFailure | Catch::ResultDisposition::SuppressFail, "CATCH_CHECK_NOFAIL" )
 
@@ -9339,7 +9339,7 @@ int main (int argc, char * const argv[]) {
 
 #define CHECK( expr ) INTERNAL_CATCH_TEST( expr, Catch::ResultDisposition::ContinueOnFailure, "CHECK" )
 #define CHECK_FALSE( expr ) INTERNAL_CATCH_TEST( expr, Catch::ResultDisposition::ContinueOnFailure | Catch::ResultDisposition::FalseTest, "CHECK_FALSE" )
-#define CHECKED_IF( expr ) INTERNAL_CATCH_IF( expr, Catch::ResultDisposition::ContinueOnFailure, "CHECKED_IF" )
+#define CHECKED_if ( expr ) INTERNAL_CATCH_if ( expr, Catch::ResultDisposition::ContinueOnFailure, "CHECKED_IF" )
 #define CHECKED_ELSE( expr ) INTERNAL_CATCH_ELSE( expr, Catch::ResultDisposition::ContinueOnFailure, "CHECKED_ELSE" )
 #define CHECK_NOFAIL( expr ) INTERNAL_CATCH_TEST( expr, Catch::ResultDisposition::ContinueOnFailure | Catch::ResultDisposition::SuppressFail, "CHECK_NOFAIL" )
 

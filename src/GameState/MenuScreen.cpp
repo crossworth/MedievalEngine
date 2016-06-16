@@ -218,7 +218,7 @@
 //     ProfileBlock();
 
 //     mGUI.handleEvents(evt);
-//     if(evt.type == Event::Closed) {
+//     if (evt.type == Event::Closed) {
 //         mEngine->close();
 //     }
 // }

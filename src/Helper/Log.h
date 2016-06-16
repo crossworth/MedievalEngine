@@ -74,7 +74,7 @@ public:
     }
 
     inline Log& operator<<(const bool& boolean) {
-        if(boolean) {
+        if (boolean) {
             mTempOutstream << "true";
         } else {
             mTempOutstream << "false";

@@ -162,7 +162,7 @@ bool CFGParser::validateLine(std::string &line) {
     size_t pos = line.find_first_not_of("\t ");
 
     // error if we had only one tab on the line
-    if(pos == std::string::npos) {
+    if (pos == std::string::npos) {
         return false;
     }
 

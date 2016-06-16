@@ -67,7 +67,7 @@ public:
     template<typename... Args>
     void open_libraries(Args&&... args) {
         static_assert(meta::are_same<lib, Args...>::value, "all types must be libraries");
-        if(sizeof...(args) == 0) {
+        if (sizeof...(args) == 0) {
             luaL_openlibs(L);
             return;
         }
@@ -147,13 +147,13 @@ public:
     }
 
     void script(const std::string& code) {
-        if(luaL_dostring(L, code.c_str())) {
+        if (luaL_dostring(L, code.c_str())) {
             lua_error(L);
         }
     }
 
     void script_file(const std::string& filename) {
-        if(luaL_dofile(L, filename.c_str())) {
+        if (luaL_dofile(L, filename.c_str())) {
             lua_error(L);
         }
     }
