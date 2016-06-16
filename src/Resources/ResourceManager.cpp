@@ -32,6 +32,9 @@ ResourceManager::ResourceManager() {
 void ResourceManager::registerLuaFunctions() {
     LuaAPI::state.set_function("load_texture", &ResourceManager::loadTexture);
     LuaExportAPI::exports("load_texture", "string", "bool", LuaExportType::FUNCTION, "Load a texture file");
+
+    LuaAPI::state.set_function("create_sprite", &ResourceManager::createSprite);
+    LuaExportAPI::exports("create_sprite", "string resourceName, string textureName", "bool", LuaExportType::FUNCTION, "Create a sprite");
 }
 
 bool ResourceManager::loadTexture(const std::string &resourceName) {
@@ -123,6 +126,10 @@ bool ResourceManager::loadSound(const std::string &resourceName) {
 }
 
 bool ResourceManager::createSprite(const std::string &resourceName, const std::string &texture) {
+    if (!ResourceManager::exists(texture)) {
+        return false;
+    }
+
     if (ResourceManager::exists(resourceName) && ResourceManager::mResources[resourceName].get()->isValid()) {
         return true;
     }
@@ -174,7 +181,7 @@ bool ResourceManager::createShape(const std::string &resourceName, const Vect2f 
 }
 
 bool ResourceManager::createText(const std::string &resourceName, const String &text,
-                               const unsigned int &fontSize,
+                               const uint32 &fontSize,
                                const std::string &font) {
 
     if (ResourceManager::exists(resourceName) && ResourceManager::mResources[resourceName].get()->isValid()) {

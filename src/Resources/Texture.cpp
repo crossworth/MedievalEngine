@@ -12,9 +12,12 @@ sf::Texture* Texture::getResourcePointer() {
 }
 
 sf::Texture* Texture::loadFromFile(const std::string &fileName) {
+	mIsValid = true;
+
     if (!mTexture.loadFromFile(ENGINE_DEFAULTS::DATA_PATH + fileName)) {
         LOG << ("[Texture::loadFromFile] Error while opening texture: " +
                 ENGINE_DEFAULTS::DATA_PATH + fileName).c_str() << std::endl;
+        mIsValid = false;
     }
     return &mTexture;
 }

@@ -39,7 +39,7 @@ public:
     static bool createSprite(const std::string &resourceName, const std::string &texture);
 
     static bool createText(const std::string &resourceName, const String &text,
-                    const unsigned int &fontSize,
+                    const uint32 &fontSize,
                     const std::string &font = Font::Default);
 
     static bool createSpriteAnimation(const std::string &resourceName);

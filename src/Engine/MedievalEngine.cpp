@@ -57,7 +57,7 @@ MedievalEngine::MedievalEngine(int argc, char **argv) : mArguments(argc, argv) {
     fullScreen    = mConfigurations.getKey("fullscreen");
     vsync         = mConfigurations.getKey("vsync");
     frameLimit    = mConfigurations.getKey("frame_limit");
-    windowName    = mConfigurations.getKey("engine_name");
+    windowName    = mConfigurations.getKey("game_name");
     language      = mConfigurations.getKey("language");
     globalVolume  = mConfigurations.getKey("global_volume");
     voiceVolume   = mConfigurations.getKey("voice_volume");
@@ -106,7 +106,7 @@ MedievalEngine::MedievalEngine(int argc, char **argv) : mArguments(argc, argv) {
     if (windowName != "") {
         mWindowInfoInput.windowName = windowName;
     } else {
-        mConfigurations.add("engine_name", String(ENGINE_DEFAULTS::ENGINE_NAME));
+        mConfigurations.add("game_name", String(ENGINE_DEFAULTS::ENGINE_NAME));
     }
 
     // Max volume 100.f
@@ -337,7 +337,7 @@ void MedievalEngine::init() {
                             "set the engine ambient audio volume");
 
     ResourceManager::registerLuaFunctions();
-    
+
     // Initilize our loading thread
     mLoadingThread = std::thread(&MedievalEngine::loadingThread, this);
     mLoadingThread.detach();
