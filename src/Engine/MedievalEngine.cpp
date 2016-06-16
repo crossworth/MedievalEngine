@@ -339,7 +339,6 @@ void MedievalEngine::init() {
     });
     LuaExportAPI::exports("audio_set_ambient_volume", "", "float", LuaExportType::FUNCTION,
                             "set the engine ambient audio volume");
-    
 }
 
 void MedievalEngine::run() {
@@ -442,6 +441,8 @@ MusicQueue* MedievalEngine::getMusicQueue(const std::string &name) {
 }
 
 void MedievalEngine::close(const int &errorCode) {
+    LuaAPI::removeFunctions(LuaExportAPI::getFunctions());
+    
     LOG << Log::VERBOSE << "[MedievalEngine::close]" << std::endl;
     mRunning = false;
     mErrorCode = errorCode;

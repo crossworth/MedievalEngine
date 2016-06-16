@@ -118,6 +118,8 @@ private:
 
     // console current showing text
     uint32 mCurrentOutputLine;
+
+    bool mEngineRunning;
 };
 
 }

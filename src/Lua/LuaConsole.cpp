@@ -7,7 +7,7 @@
 *
 * @File: LuaConsole.cpp
 * @Last Modified by:   Pedro Henrique
-* @Last Modified time: 2016-06-15 14:10:00
+* @Last Modified time: 2016-06-15 22:12:20
 */
 
 #include "LuaConsole.h"
@@ -44,7 +44,6 @@ LuaConsole::LuaConsole() {
     mMaxNumberLines         = 0;
     mFontHeight             = 0;
     mCurrentOutputLine      = 0;
-
 
     /**
     *   ======== LUA API ========
@@ -434,9 +433,11 @@ void LuaConsole::handleEvents(Event &evt) {
                 if (mInputCommand.getSize() > 0) {
                     // put on the screen the command
                     addMessage("Command: " + mInputCommand + OS::NEW_LINE);
+                    mCommands.push_front(mInputCommand);
+
+
                     // call Lua
                     LuaAPI::script(mInputCommand);
-                    mCommands.push_front(mInputCommand);
 
                     // Reset to the default text
                     mInputCommand   = "";
@@ -610,6 +611,7 @@ void LuaConsole::addMessageStd(const std::string &message) {
 }
 
 void LuaConsole::addMessage(const String &message) {
+
     // fix problems with \n been passed to the string
     String messageTmp(message);
     
@@ -655,7 +657,9 @@ void LuaConsole::calculateVisibleTextOutput(const int32 &lineNumber) {
         tmp = tmp + mOutputCommands[i].getString() + OS::NEW_LINE;
     }
 
-    mOutputText->setString(String(tmp));
+    if (mOutputText) {
+        mOutputText->setString(String(tmp));
+    }
 }
 
 void LuaConsole::setTextSelection(const int32 &start, const int32 &end) {
@@ -874,6 +878,5 @@ void LuaConsole::setVisible(bool visible) {
 }
 
 LuaConsole::~LuaConsole() {
-    // TODO(Pedro): make some test about memory
-    // we cant delete the pointers here for some reason
+    LOG_OBJECT->removeObserver();
 }

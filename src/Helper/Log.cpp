@@ -45,3 +45,7 @@ Log::~Log() {
 void Log::setObserver(LogObserver* observer) {
     mCallOnUpdate = observer;
 }
+
+void Log::removeObserver() {
+    mCallOnUpdate = nullptr;
+}

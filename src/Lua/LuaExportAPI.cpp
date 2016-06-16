@@ -20,6 +20,22 @@ void LuaExportAPI::exports(const std::string &name,
     LuaExportAPI::mExports.push_back(tmp);
 }
 
+std::vector<std::string> LuaExportAPI::getFunctions() {
+    std::vector<std::string> functionList;
+
+    // create some iterators
+    auto it  = LuaExportAPI::mExports.begin();
+    auto end = LuaExportAPI::mExports.end();
+
+    for(; it != end; it++) {
+        if (it->type == LuaExportType::FUNCTION) {
+            functionList.push_back(it->name);
+        }
+    }
+
+    return functionList;
+}
+
 bool LuaExportAPI::generateFunctionsList(const std::string &fileName) {
     std::ofstream outFile;
 

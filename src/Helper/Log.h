@@ -136,6 +136,7 @@ public:
     static std::string getTime();
 
     void setObserver(LogObserver* observer);
+    void removeObserver();
 
     ~Log();
 private:

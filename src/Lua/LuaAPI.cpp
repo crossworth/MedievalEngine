@@ -109,6 +109,15 @@ void LuaAPI::scriptSync(const std::string &code) {
     }
 }
 
+void LuaAPI::removeFunctions(const std::vector<std::string> &functions) {
+    for (auto it = functions.begin(); it != functions.end(); it++) {
+        std::cout << "Func:" << *it << std::endl;
+        LuaAPI::state.set_function(*it, [] () {
+
+        });
+    }
+}
+
 void LuaAPI::executeScriptSync(const std::string &fileName) {
     if (!LuaAPI::mInitialized) {
         return;
