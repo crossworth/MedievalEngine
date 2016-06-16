@@ -14,8 +14,14 @@ namespace ME {
 
 class Window {
 public:
-    enum Position {LEFT, RIGHT, CENTER, TOP, BOTTOM};
-public:
+    enum class Position : char {
+        LEFT, 
+        RIGHT, 
+        CENTER, 
+        TOP, 
+        BOTTOM
+    };
+
     Window();
     void create(const WindowInfo &info);
     void open();
@@ -36,17 +42,17 @@ public:
     bool isVisible();
 
     void clear();
-    void draw(Drawable* obj);
+    void draw(Drawable *obj);
     void display();
 
     void setCursorVisible(const bool &visible);
 
-    static void setSizeFullScreen(Drawable* object);
+    static void setSizeFullScreen(Drawable *object);
     // TODO(Pedro): rename this function to something more
     // easy to understand like setSizeRelative
-    static void setRelative(Drawable* object);
+    static void setRelative(Drawable *object);
 
-    static void setPosition(Drawable* object,
+    static void setPosition(Drawable *object,
                             const Window::Position &posX,
                             const Window::Position &posY,
                             Drawable* reference = nullptr
@@ -54,7 +60,7 @@ public:
     static void setPosition(WidgetPtr object,
                             const Window::Position &posX,
                             const Window::Position &posY,
-                            Drawable* reference = nullptr
+                            Drawable *reference = nullptr
                         );
 
     static int fontSize(const float &size);
@@ -93,6 +99,7 @@ private:
     uint64 mLastDelta;
     uint64 mDelta;
     bool mIsWindowVisible;
+    bool mFlagShowFPSTitle;
 };
 
 }

@@ -6,7 +6,7 @@ using namespace ME;
 WindowInfo Window::mWindowInfo;
 
 Window::Window() : mIsWindowOpen(false), mFPS(0), mFrame(0), 
-    mHasCustomCursor(false), mCursorVisible(true), mIsWindowVisible(false) {
+    mHasCustomCursor(false), mCursorVisible(true), mIsWindowVisible(false), mFlagShowFPSTitle(false) {
 
     mWindow = new sf::RenderWindow();
 
@@ -95,7 +95,7 @@ Window::~Window() {
     delete mWindow;
 }
 
-void Window::setSizeFullScreen(Drawable* object) {
+void Window::setSizeFullScreen(Drawable *object) {
     Vect2f objectSize;
     // Get the real object size
     objectSize.x = object->getLocalBounds().width;
@@ -138,7 +138,7 @@ int Window::fontSize(const float &size) {
     return static_cast<int>(minWin * fontSize);
 }
 
-void Window::setRelative(Drawable* object) {
+void Window::setRelative(Drawable *object) {
     // This function just scale an image to base width and size of the textures
     // definied on the configuration file
     //
@@ -158,7 +158,7 @@ void Window::setRelative(Drawable* object) {
     object->setSize(objectSize);
 }
 
-void Window::setPosition(Drawable* object, const Window::Position &posX, const Window::Position &posY, Drawable* reference) {
+void Window::setPosition(Drawable *object, const Window::Position &posX, const Window::Position &posY, Drawable *reference) {
     // TODO(Pedro): Create a innerPadding variables to keep the current padding
     // of the elements inside the window/drawable so this way we get a more
     // CSS like style of padding and avoid using that bullshit of setting the
@@ -226,7 +226,7 @@ void Window::setPosition(Drawable* object, const Window::Position &posX, const W
     object->setPosition(position);
 }
 
-void Window::setPosition(WidgetPtr object, const Window::Position &posX, const Window::Position &posY, Drawable* reference) {
+void Window::setPosition(WidgetPtr object, const Window::Position &posX, const Window::Position &posY, Drawable *reference) {
     // We just call our setPosition function dereferencing the smartpointer
     Window::setPosition(object.get(), posX, posY, reference);
 }
@@ -236,7 +236,7 @@ void Window::open() {
         sf::ContextSettings settings;
         // Default antialiasing Level
         // We don't provide a way to change this
-        // since it's relave inexpensive
+        // since it's relative inexpensive
         settings.antialiasingLevel = 8;
 
         if (Window::mWindowInfo.fullScreen) {
@@ -308,11 +308,16 @@ void Window::clear() {
     mWindow->clear();
 }
 
-void Window::draw(Drawable* obj) {
+void Window::draw(Drawable *obj) {
     assert(obj != nullptr);
     obj->draw(*this);
 
     mDrawCalls++;
+
+    if (mFlagShowFPSTitle) {
+        ProfileBlockStr("window set title fps");
+        mWindow.setTitle("FPS:" + Kit::int_str(mWindow.getFPS()));
+    }
 }
 
 void Window::close() {
@@ -435,6 +440,10 @@ void Window::setSize(const Vect2i &size) {
 }
 
 void Window::setTitle(const std::string &title) {
+    if (title == "$fps") {
+        mFlagShowFPSTitle = true;
+    }
+
     mWindow->setTitle(title);
 }
 
