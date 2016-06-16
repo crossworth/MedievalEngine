@@ -7,7 +7,7 @@
 *
 * @File: LuaConsole.cpp
 * @Last Modified by:   Pedro Henrique
-* @Last Modified time: 2016-06-15 22:12:20
+* @Last Modified time: 2016-06-16 13:46:27
 */
 
 #include "LuaConsole.h"
@@ -141,7 +141,7 @@ void LuaConsole::handleEvents(Event &evt) {
     }
 
     // If the console is visible we handle the rest of the commands on it.
-    if(isVisible()) {
+    if (isVisible()) {
 
         if (evt.type == Event::KeyPressed) {
 
@@ -384,7 +384,7 @@ void LuaConsole::handleEvents(Event &evt) {
         if (evt.type == Event::MouseWheelScrolled) {
 
             // if the scroll its vertical
-            if(evt.mouseWheelScroll.wheel == Mouse::Wheel::VerticalWheel) {
+            if (evt.mouseWheelScroll.wheel == Mouse::Wheel::VerticalWheel) {
 
                 Vect2f pos = mOutputText->getPosition();
                 // scroll up if delta == 1
@@ -621,7 +621,7 @@ void LuaConsole::addMessage(const String &message) {
     mOutputCommands.push_back(messageTmp);
 
     // set the string on the mOutputTextDraw
-    if(isVisible()) {
+    if (isVisible()) {
         if (!mHasScrolled) {
             calculateVisibleTextOutput();
         }
@@ -726,6 +726,7 @@ void LuaConsole::registerEngine(MedievalEngine *engine) {
     ResourceManager::loadFont(fontName);
 
     ResourceManager::createText(outputTextName, String(""), Window::fontSize(0.20f), fontName);
+
     mOutputText  = ResourceManager::get<Text>(outputTextName);
 
     mFontHeight = static_cast<int>(mOutputText->getFontHeight(Window::fontSize(0.20f)));
