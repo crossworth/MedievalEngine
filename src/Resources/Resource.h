@@ -5,8 +5,7 @@ namespace ME {
 
 class Resource {
 public:
-
-    enum class Type {
+    enum class Type : char {
         FONT,
         MUSIC,
         SHAPE,
@@ -14,7 +13,8 @@ public:
         SPRITE,
         SPRITEANIMATION,
         TEXT,
-        TEXTURE
+        TEXTURE,
+        SCRIPT
     };
 
     Resource();

@@ -19,34 +19,34 @@ unsigned int Text::getFontSize() {
 
 // NOTE(Pedro): On SFML documentation getLineSpacing return an int
 // but for some reason it returns a float
-float Text::getFontHeight(const unsigned int& size) {
-    const sf::Font* font = mText.getFont();
+float Text::getFontHeight(const unsigned int &size) {
+    const sf::Font *font = mText.getFont();
     return font->getLineSpacing(size);
 }
 
 Text::FontStyle Text::getStyle() {
     switch (mText.getStyle()) {
     case sf::Text::Style::Bold:
-        return Text::BOLD;
+        return Text::FontStyle::BOLD;
         break;
     case sf::Text::Style::Regular:
-        return Text::REGULAR;
+        return Text::FontStyle::REGULAR;
         break;
     case sf::Text::Style::Underlined:
-        return Text::UNDERLINE;
+        return Text::FontStyle::UNDERLINE;
         break;
     case sf::Text::Style::Italic:
-        return Text::ITALIC;
+        return Text::FontStyle::ITALIC;
         break;
     }
-    return Text::REGULAR;
+    return Text::FontStyle::REGULAR;
 }
 
 sf::Text* Text::getResourcePointer() {
     return &mText;
 }
 
-void Text::setFont(Font& font) {
+void Text::setFont(Font &font) {
     mText.setFont(*font.getResourcePointer());
 }
 
@@ -54,11 +54,11 @@ void Text::setFontSize(const unsigned int &size) {
     mText.setCharacterSize(size);
 }
 
-void Text::setString(const String& text) {
+void Text::setString(const String &text) {
     mText.setString(sf::String(text.getWideString()));
 }
 
-void Text::setTextShadow(const float& factor, const Color& color) {
+void Text::setTextShadow(const float &factor, const Color &color) {
     mHasTextShadow    = true;
     mTextShadow       = color;
     mTextShadowFactor = factor;
@@ -72,15 +72,15 @@ bool Text::isTextShadowEnable() {
     return mHasTextShadow;
 }
 
-void Text::setStyle(const Text::FontStyle& style) {
+void Text::setStyle(const Text::FontStyle &style) {
     switch (style) {
-    case Text::BOLD:
+    case Text::FontStyle::BOLD:
         mText.setStyle(sf::Text::Style::Bold);
         break;
-    case Text::ITALIC:
+    case Text::FontStyle::ITALIC:
         mText.setStyle(sf::Text::Style::Italic);
         break;
-    case Text::UNDERLINE:
+    case Text::FontStyle::UNDERLINE:
         mText.setStyle(sf::Text::Style::Underlined);
         break;
     default:
@@ -109,7 +109,7 @@ void Text::draw(Window& window) {
     window.getWindowPtr()->draw(mText, mRenderStates);
 }
 
-void Text::move(const Vect2f& pos) {
+void Text::move(const Vect2f &pos) {
     mText.move(pos.x, pos.y);
 }
 
@@ -117,11 +117,11 @@ float Text::getRotation() {
     return mText.getRotation();
 }
 
-void Text::setRotation(const float& angle) {
+void Text::setRotation(const float &angle) {
     mText.setRotation(angle);
 }
 
-void Text::rotate(const float& angle) {
+void Text::rotate(const float &angle) {
     mText.rotate(angle);
 }
 
@@ -129,11 +129,11 @@ Vect2f Text::getOrigin() {
     return Vect2f(mText.getOrigin().x, mText.getOrigin().y);
 }
 
-void Text::setOrigin(const Vect2f& origin) {
+void Text::setOrigin(const Vect2f &origin) {
     mText.setOrigin(origin.x, origin.y);
 }
 
-void Text::setPosition(const Vect2f& pos) {
+void Text::setPosition(const Vect2f &pos) {
     mText.setPosition(pos.x, pos.y);
 }
 
@@ -141,7 +141,7 @@ Vect2f Text::getPosition() {
     return Vect2f(mText.getPosition().x, mText.getPosition().y);
 }
 
-void Text::setSize(const Vect2f& size) {
+void Text::setSize(const Vect2f &size) {
     mText.setScale(size.x/getLocalBounds().width, size.y/getLocalBounds().height);
 }
 
@@ -152,7 +152,7 @@ Vect2f Text::getSize() {
     return size;
 }
 
-void Text::setScale(const Vect2f& scale) {
+void Text::setScale(const Vect2f &scale) {
     mText.setScale(sf::Vector2f(scale.x, scale.y));
 }
 
@@ -160,7 +160,7 @@ Vect2f Text::getScale() {
     return Vect2f(mText.getScale().x, mText.getScale().y);
 }
 
-void Text::setColor(const Color& color) {
+void Text::setColor(const Color &color) {
     sf::Color mColor(color.red, color.green, color.blue, color.alpha);
     mText.setColor(mColor);
 }

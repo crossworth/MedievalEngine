@@ -1,17 +1,17 @@
 #ifndef MEDIEVALENGINE_RESOURCES_RESOURCEMANAGER_H_
 #define MEDIEVALENGINE_RESOURCES_RESOURCEMANAGER_H_
-#include <unordered_map>
 #include <memory>
+#include <unordered_map>
 
 #include "Helper/Kit.h"
 
-#include "Resources/Sprite.h"
 #include "Resources/Text.h"
-#include "Resources/SpriteAnimation.h"
-#include "Resources/MusicQueue.h"
 #include "Resources/Sound.h"
 #include "Resources/Shape.h"
-
+#include "Resources/Script.h"
+#include "Resources/Sprite.h"
+#include "Resources/MusicQueue.h"
+#include "Resources/SpriteAnimation.h"
 
 namespace ME {
 

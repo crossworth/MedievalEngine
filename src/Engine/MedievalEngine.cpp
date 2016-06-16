@@ -272,7 +272,11 @@ void MedievalEngine::init() {
     mLoadingThread = std::thread(&MedievalEngine::loadingThread, this);
 
     // expose Lua functions
-    LuaAPI::state.set_function("engine_close", &MedievalEngine::close, this);
+    LuaAPI::state.set_function("engine_close", [this] (const int &errorCode = 0) {
+        LuaAPI::unloadFunctions(LuaExportAPI::getFunctions());
+        LOG_OBJECT->removeObserver();
+        close(errorCode);
+    });
     LuaExportAPI::exports("engine_close", "[int error_code]", "void", LuaExportType::FUNCTION, "close the engine from the console or game script code");
 
     LuaAPI::state.set_function("engine_is_running", &MedievalEngine::isRunning, this);
@@ -441,8 +445,6 @@ MusicQueue* MedievalEngine::getMusicQueue(const std::string &name) {
 }
 
 void MedievalEngine::close(const int &errorCode) {
-    LuaAPI::removeFunctions(LuaExportAPI::getFunctions());
-    
     LOG << Log::VERBOSE << "[MedievalEngine::close]" << std::endl;
     mRunning = false;
     mErrorCode = errorCode;

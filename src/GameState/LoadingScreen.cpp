@@ -4,8 +4,9 @@ using namespace ME;
 
 
 LoadingScreen::LoadingScreen() {
-    LuaAPI::executeScriptSync("pre_load.lua");
-    LuaAPI::script("load()");
+    if(LuaAPI::executeScript("pre_loader.lua")) {
+    	LuaAPI::script("load()");
+    }
 }
 
 LoadingScreen::~LoadingScreen() {
