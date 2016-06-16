@@ -4,9 +4,7 @@ using namespace ME;
 
 
 LoadingScreen::LoadingScreen() {
-    if(LuaAPI::executeScript("pre_loader.lua")) {
-    	LuaAPI::script("load()");
-    }
+
 }
 
 LoadingScreen::~LoadingScreen() {
@@ -14,7 +12,9 @@ LoadingScreen::~LoadingScreen() {
 }
 
 void LoadingScreen::update(const uint64 &delta) {
-
+	if (LuaAPI::executeScript("loading_thread.lua")) {
+        LuaAPI::script("load()");
+    }
 }
 
 void LoadingScreen::handleEvents(Event &evt) {

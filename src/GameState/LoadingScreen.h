@@ -15,8 +15,8 @@ public:
     void draw(Window &window);
     void pause();
     void resume();
-private:
 
+private:
 };
 
 }
