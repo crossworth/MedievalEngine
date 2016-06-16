@@ -1,57 +1,61 @@
-#ifndef SHAPE_H
-#define SHAPE_H
+#ifndef MEDIEVALENGINE_RESOURCES_SHAPE_H_
+#define MEDIEVALENGINE_RESOURCES_SHAPE_H_
+
+#include "Helper/Math.h"
+
 #include "Resources/Resource.h"
+
 #include "Effects/Effect.h"
 
 namespace ME {
 
 class Shape : public Resource, public Drawable {
 public:
-    Shape(const Vect2f& size, const Color& color, const Vect2f& pos);
+    Shape(const Vect2f &size, const Color &color, const Vect2f &pos);
 
-    void draw(Window& window);
+    void draw(Window &window);
 
     sf::RectangleShape* getResourcePointer();
 
-    void setPosition(const Vect2f& pos);
+    void setPosition(const Vect2f &pos);
     Vect2f getPosition();
-    void move(const Vect2f& pos);
+    void move(const Vect2f &pos);
 
-    void setSize(const Vect2f& size);
+    void setSize(const Vect2f &size);
     Vect2f getSize();
 
-    void setScale(const Vect2f& scale);
+    void setScale(const Vect2f &scale);
     Vect2f getScale();
 
-    void setColor(const Color& color);
+    void setColor(const Color &color);
     Color getColor();
 
-    void setColor(const ColorGradient& color);
+    void setColor(const ColorGradient &color);
     ColorGradient getColorGradient();
 
     bool isColorGradient();
 
-    void setRadius(const float& radius);
+    void setRadius(const float &radius);
     float getRadius();
 
-    void setBorderColor(const Color& color);
+    void setBorderColor(const Color &color);
     Color getBorderColor();
 
-    void setBorderSize(const float& size);
+    void setBorderSize(const float &size);
     float getBorderSize();
 
     float getRotation();
-    void setRotation(const float& angle);
-    void rotate(const float& angle);
+    void setRotation(const float &angle);
+    void rotate(const float &angle);
 
     Vect2f getOrigin();
-    void setOrigin(const Vect2f& origin);
+    void setOrigin(const Vect2f &origin);
 
     Area getLocalBounds();
     Area getGlobalBounds();
 private:
     bool mIsGradientColor;
-    int mNumberPoints;
+    uint32 mNumberPoints;
     float mRadius;
     ColorGradient mGradientColor;
     sf::RectangleShape mShape;
@@ -59,4 +63,4 @@ private:
 
 }
 
-#endif // SHAPE_H
+#endif // MEDIEVALENGINE_RESOURCES_SHAPE_H_

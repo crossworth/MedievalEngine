@@ -4,20 +4,21 @@
 
 using namespace ME;
 
-Shape::Shape(const Vect2f& size, const Color& color, const Vect2f& pos) {
-    mType = Resource::Type::SHAPE;
+Shape::Shape(const Vect2f &size, const Color &color, const Vect2f &pos) {
+    mType            = Resource::Type::SHAPE;
+    mRadius          = 0.0f;
+    mIsValid         = true;
+    mNumberPoints    = 30;
+    mIsGradientColor = false;
 
     setSize(size);
     setColor(color);
     setPosition(pos);
-    mIsGradientColor = false;
-    mRadius          = 0.0f;
-    mNumberPoints    = 30;
 }
 
 
-void Shape::draw(Window& window) {
-        std::vector<sf::Vertex> vertexVector;
+void Shape::draw(Window &window) {
+    std::vector<sf::Vertex> vertexVector;
 
     sf::Vector2f shapeSize(getSize().x, getSize().y);
 
@@ -32,12 +33,12 @@ void Shape::draw(Window& window) {
         }
     }
 
-    for(int i = 0; i < mNumberPoints * 4; i++) {
-
-        float deltaAngle = 90.0f / (mNumberPoints - 1);
+    uint32 numberPointsTotal = mNumberPoints * 4;
+    for(uint32 i = 0; i < numberPointsTotal; i++) {
         sf::Vector2f center;
-        unsigned int centerIndex = i / mNumberPoints;
-        static const float PI = 3.141592654f;
+
+        float deltaAngle      = 90.0f / (mNumberPoints - 1);
+        uint32 centerIndex    = i / mNumberPoints;
 
         switch(centerIndex) {
             case 0:
@@ -61,14 +62,14 @@ void Shape::draw(Window& window) {
         sf::Vector2f shapePos  = mShape.getPosition();
 
         float posX = mRadius * std::cos(deltaAngle *
-                     (i - centerIndex) * PI / 180) + center.x + shapePos.x;
+                     (i - centerIndex) * Math::PI / 180) + center.x + shapePos.x;
 
         float posY = -mRadius * std::sin(deltaAngle *
-                     (i - centerIndex) * PI / 180) + center.y + shapePos.y;
+                     (i - centerIndex) * Math::PI / 180) + center.y + shapePos.y;
 
         sf::Vector2f vertexPos = sf::Vector2f(posX, posY);
 
-        if(mIsGradientColor) {
+        if (mIsGradientColor) {
             if (posY < (mShape.getPosition().y + (mShape.getSize().y / 2))) {
                 vertexVector.push_back(sf::Vertex(vertexPos,
                                        sf::Color(mGradientColor.top.red,
@@ -95,7 +96,7 @@ sf::RectangleShape* Shape::getResourcePointer() {
     return &mShape;
 }
 
-void Shape::setPosition(const Vect2f& pos) {
+void Shape::setPosition(const Vect2f &pos) {
     mShape.setPosition(sf::Vector2f(pos.x, pos.y));
 }
 
@@ -103,11 +104,11 @@ Vect2f Shape::getPosition() {
     return Vect2f(mShape.getPosition().x, mShape.getPosition().y);
 }
 
-void Shape::move(const Vect2f& pos) {
+void Shape::move(const Vect2f &pos) {
     mShape.move(sf::Vector2f(pos.x, pos.y));
 }
 
-void Shape::setSize(const Vect2f& size) {
+void Shape::setSize(const Vect2f &size) {
     mShape.setSize(sf::Vector2f(size.x, size.y));
 }
 
@@ -119,11 +120,11 @@ Vect2f Shape::getScale() {
     return Vect2f(mShape.getScale().x, mShape.getScale().y);
 }
 
-void Shape::setScale(const Vect2f& scale) {
+void Shape::setScale(const Vect2f &scale) {
     mShape.setScale(sf::Vector2f(scale.x, scale.y));
 }
 
-void Shape::setColor(const Color& color) {
+void Shape::setColor(const Color &color) {
     mShape.setFillColor(sf::Color(color.red, color.green,
                                   color.blue, color.alpha));
     mIsGradientColor = false;
@@ -134,7 +135,7 @@ Color Shape::getColor() {
                  mShape.getFillColor().b, mShape.getFillColor().a);
 }
 
-void Shape::setColor(const ColorGradient& color) {
+void Shape::setColor(const ColorGradient &color) {
     mIsGradientColor = true;
     mGradientColor   = color;
 }
@@ -147,7 +148,7 @@ bool Shape::isColorGradient() {
     return mIsGradientColor;
 }
 
-void Shape::setRadius(const float& radius) {
+void Shape::setRadius(const float &radius) {
     mRadius = radius;
 }
 
@@ -155,7 +156,7 @@ float Shape::getRadius() {
     return mRadius;
 }
 
-void Shape::setBorderColor(const Color& color) {
+void Shape::setBorderColor(const Color &color) {
     mShape.setOutlineColor(sf::Color(color.red, color.green,
                                      color.blue, color.alpha));
 }
@@ -165,7 +166,7 @@ Color Shape::getBorderColor() {
                  mShape.getOutlineColor().b, mShape.getOutlineColor().a);
 }
 
-void Shape::setBorderSize(const float& size) {
+void Shape::setBorderSize(const float &size) {
     mShape.setOutlineThickness(size);
 }
 
@@ -177,11 +178,11 @@ float Shape::getRotation() {
     return mShape.getRotation();
 }
 
-void Shape::setRotation(const float& angle) {
+void Shape::setRotation(const float &angle) {
     mShape.setRotation(angle);
 }
 
-void Shape::rotate(const float& angle) {
+void Shape::rotate(const float &angle) {
     mShape.rotate(angle);
 }
 
@@ -189,7 +190,7 @@ Vect2f Shape::getOrigin() {
     return Vect2f(mShape.getOrigin().x, mShape.getOrigin().y);
 }
 
-void Shape::setOrigin(const Vect2f& origin) {
+void Shape::setOrigin(const Vect2f &origin) {
     mShape.setOrigin(origin.x, origin.y);
 }
 

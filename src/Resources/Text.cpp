@@ -5,6 +5,7 @@ using namespace ME;
 
 Text::Text() : mHasTextShadow(false) {
     mType             = Resource::Type::TEXT;
+    mIsValid          = true;
     mHasTextShadow    = false;
     mTextShadowFactor = 0.0f;
 }
@@ -18,7 +19,7 @@ unsigned int Text::getFontSize() {
 }
 
 // NOTE(Pedro): On SFML documentation getLineSpacing return an int
-// but for some reason it returns a float
+// but for some reason it really returns a float
 float Text::getFontHeight(const unsigned int &size) {
     const sf::Font *font = mText.getFont();
     return font->getLineSpacing(size);
