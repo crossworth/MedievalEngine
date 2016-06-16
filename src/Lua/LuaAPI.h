@@ -18,7 +18,7 @@ class LuaAPI {
 public:
     static void loadLibs();
 
-    static void unloadFunctions(std::vector<std::string> &functions);
+    static void unloadFunctions(const std::vector<std::string> &functions);
 
     static void script(const std::string &code);
     static bool executeScript(const std::string &fileName);

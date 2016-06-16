@@ -13,11 +13,14 @@ LuaAPI::LuaAPI() {
 
 }
 
-void LuaAPI::unloadFunctions(std::vector<std::string> &functions) {
+void LuaAPI::unloadFunctions(const std::vector<std::string> &functions) {
     std::string unload_command = "";
+    // we have to make a copy here be able to create our iterator
+    // C++ const stuff...
+    std::vector<std::string> functionsCopy = functions;
 
-    std::vector<std::string>::iterator it = functions.begin();
-    for(; it != functions.end(); it++) {
+    std::vector<std::string>::iterator it = functionsCopy.begin();
+    for(; it != functionsCopy.end(); it++) {
         unload_command += *it + " = nil ";
     }
 
