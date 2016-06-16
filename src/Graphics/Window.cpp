@@ -316,7 +316,7 @@ void Window::draw(Drawable *obj) {
 
     if (mFlagShowFPSTitle) {
         ProfileBlockStr("window set title fps");
-        mWindow.setTitle("FPS:" + Kit::int_str(mWindow.getFPS()));
+        mWindow->setTitle("FPS:" + Kit::int_str(getFPS()));
     }
 }
 
@@ -494,7 +494,7 @@ void Window::display() {
     mDelta = mClock.getMicroSeconds() - mLastDelta;
     
     // calc fps
-    if(mClock.getSeconds() >= 1.f) {
+    if (mClock.getSeconds() >= 1.f) {
         mFPS = mFrame;
         mFrame = 0;
         mClock.restart();
