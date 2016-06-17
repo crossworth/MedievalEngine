@@ -60,6 +60,10 @@ public:
 
     }
 
+    void lua_force_close() {
+        lua_close(L);
+    }
+
     lua_State* lua_state() const {
         return L;
     }
