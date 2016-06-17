@@ -7,7 +7,7 @@
 *
 * @File: LuaConsole.cpp
 * @Last Modified by:   Pedro Henrique
-* @Last Modified time: 2016-06-16 13:46:27
+* @Last Modified time: 2016-06-17 00:44:30
 */
 
 #include "LuaConsole.h"
@@ -436,8 +436,8 @@ void LuaConsole::handleEvents(Event &evt) {
                     mCommands.push_front(mInputCommand);
 
 
-                    // call Lua
-                    LuaAPI::script(mInputCommand);
+                    // call Lua ASync
+                    LuaAPI::scriptASync(mInputCommand);
 
                     // Reset to the default text
                     mInputCommand   = "";

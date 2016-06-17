@@ -31,11 +31,47 @@ ResourceManager::ResourceManager() {
 
 void ResourceManager::registerLuaFunctions() {
     LuaAPI::state.set_function("load_texture", &ResourceManager::loadTexture);
-    LuaExportAPI::exports("load_texture", "string", "bool", LuaExportType::FUNCTION, "Load a texture file");
+    LuaExportAPI::exports("load_texture", "string", "bool", LuaExportType::FUNCTION, "load a texture file");
+
+    LuaAPI::state.set_function("load_font", [](const std::string &resourceName) -> bool {
+        return ResourceManager::loadFont(resourceName);
+    });
+    LuaExportAPI::exports("load_font", "string", "bool", LuaExportType::FUNCTION, "load a font file");
+
+    LuaAPI::state.set_function("load_music", &ResourceManager::loadMusic);
+    LuaExportAPI::exports("load_music", "string", "bool", LuaExportType::FUNCTION, "load a music file");
+
+    LuaAPI::state.set_function("load_sound", &ResourceManager::loadSound);
+    LuaExportAPI::exports("load_sound", "string", "bool", LuaExportType::FUNCTION, "load a sound file");
 
     LuaAPI::state.set_function("create_sprite", &ResourceManager::createSprite);
-    LuaExportAPI::exports("create_sprite", "string resourceName, string textureName", "bool", LuaExportType::FUNCTION, "Create a sprite");
-}
+    LuaExportAPI::exports("create_sprite", "string resourceName, string textureName", "bool", LuaExportType::FUNCTION, "create a sprite");
+
+    // TODO(Pedro): check if this really works
+    // LuaAPI::state.set_function("create_text", [](std::string resourceName, std::string text, unsigned int fontSize, std::string fontName = "") -> bool {
+
+    // });
+    LuaAPI::state.set_function("create_text", &ResourceManager::createText);
+    LuaExportAPI::exports("create_text", "string resource_name, string text, int font_size, string font_name", "bool", LuaExportType::FUNCTION, "create a text");
+
+    LuaAPI::state.set_function("create_sprite_animation", &ResourceManager::createSpriteAnimation);
+    LuaExportAPI::exports("create_sprite_animation", "string", "bool", LuaExportType::FUNCTION, "Create a Sprite animation");
+
+    LuaAPI::state.set_function("create_shape", &ResourceManager::createShape);
+    LuaExportAPI::exports("create_shape", "string resource_name, Vect2f size, Color background_color, Vect2f position", "bool", LuaExportType::FUNCTION, "create a Shape");
+
+    LuaAPI::state.set_function("resource_exists", &ResourceManager::exists);
+    LuaExportAPI::exports("resource_exists", "string", "bool", LuaExportType::FUNCTION, "check if a resources is loaded on the ResourceManager");
+
+
+
+    LuaAPI::state.set_function("sprite_set_position", [](const std::string &resourceName, const float &x, const float &y) {
+        ResourceManager::get<Sprite>(resourceName)->setPosition(Vect2f(x, y));
+    });
+    LuaExportAPI::exports("sprite_set_position", "string sprite_name, float x, float y", "void", LuaExportType::FUNCTION, "set the position of a Sprite");
+
+}   
+
 
 bool ResourceManager::loadTexture(const std::string &resourceName) {
     if (ResourceManager::exists(resourceName) && ResourceManager::mResources[resourceName].get()->isValid()) {

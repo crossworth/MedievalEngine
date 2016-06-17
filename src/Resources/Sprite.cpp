@@ -16,7 +16,7 @@ void Sprite::setTexture(Texture *texture) {
     mSprite.setTexture(*texture->getResourcePointer());
 }
 
-void Sprite::draw(Window& window) {
+void Sprite::draw(Window &window) {
     updateEffects();
     window.getWindowPtr()->draw(mSprite, mRenderStates);
 }
@@ -54,7 +54,7 @@ Vect2f Sprite::getPosition() {
 }
 
 void Sprite::setSize(const Vect2f &size) {
-    mSprite.setScale(size.x/getLocalBounds().width, size.y/getLocalBounds().height);
+    mSprite.setScale(size.x / getLocalBounds().width, size.y / getLocalBounds().height);
 }
 
 Vect2f Sprite::getSize() {
