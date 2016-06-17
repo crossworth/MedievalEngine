@@ -34,7 +34,7 @@
 
 
 int main(int argc, char** argv) {
-
+	LuaAPIInit();
     ProfileBlock();
 
     ME::MedievalEngine app(argc, argv);
