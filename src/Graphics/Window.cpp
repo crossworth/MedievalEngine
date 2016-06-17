@@ -55,6 +55,12 @@ Window::Window() : mIsWindowOpen(false), mFPS(0), mFrame(0),
         return result;
     });
     LuaExportAPI::exports("window_get_position", "", "table", LuaExportType::FUNCTION, "get the window position, return a table with members: x, y");
+
+
+    LuaAPI::state.set_function("window_draw", [this](const std::string &resource) {
+        draw(ResourceManager::get<Sprite>(resource));
+    });
+    LuaExportAPI::exports("window_draw", "string", "void", LuaExportType::FUNCTION, "draw a resource on screen");
     
 }
 
@@ -261,6 +267,11 @@ void Window::open() {
 
         LOG << Log::VERBOSE << "[Window::open] Window opened" << std::endl;
         mIsWindowVisible = true;
+
+        sf::Event sfEvent;
+        mWindow->clear();
+        mWindow->pollEvent(sfEvent);
+        mWindow->display();
     }
 }
 
@@ -325,7 +336,11 @@ void Window::close() {
 }
 
 bool Window::isOpen() {
-    return mWindow->isOpen();
+    if (mIsWindowOpen == false) {
+        return false;
+    } else {
+        return mWindow->isOpen();    
+    }
 }
 
 bool Window::pollEvent(Event &evt) {
@@ -444,7 +459,14 @@ void Window::setTitle(const std::string &title) {
         mFlagShowFPSTitle = true;
     }
 
-    mWindow->setTitle(title);
+    // NOTE(Pedro): For some reason there is a bug on MacOS
+    // If we set the title right after the Window been open
+    // We get a message
+    // CoreAnimation: warning, deleted thread with uncommitted CATransaction;
+    // set CA_DEBUG_TRANSACTIONS=1 in environment to log backtraces.
+    if (isOpen()) {
+        mWindow->setTitle(title);
+    }
 }
 
 unsigned int Window::getDrawCalls() {
