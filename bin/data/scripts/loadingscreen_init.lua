@@ -1,28 +1,24 @@
+-- @File: loadingscreen_init.lua
 -- @Author: Pedro Henrique
 -- @Date:   2016-06-16 15:34:27
 -- @Last Modified by:   Pedro Henrique
--- @Last Modified time: 2016-06-16 16:07:28
+-- @Last Modified time: 2016-06-17 01:34:01
 
-local sprite = require "core.sprite"
+local Vect2  = require "core.vect2"
+local Sprite = require "core.sprite"
+local Window = require "core.window"
 
 loadingscreen = {}
 
 
 
-sprite.set_name("teste class lua")
-sprite.print_name()
+-- -- Sprite(sprite_name, texture_location)
+loadingscreen.backgroundSprite = Sprite("loading_background", "states/loading/background.png")
+loadingscreen.backgroundSprite:set_position(Vect2(0.0, 0.0))
 
 
-sprite.set_name("teste class lua2")
-sprite.print_name()
 
--- -- Example safe load texture and create sprite
--- if load_texture("states/loading/background.png") and create_sprite("loading_background", "states/loading/background.png") then
--- 	print("create sprite ok")
--- else
--- 	print("create sprite not ok")
--- end
+loadingscreen.init = true
 
--- loadingscreen.backgroundSprite = sprite.get("loading_background")
-
--- loadingscreen.backgroundSprite.setPosition(Vect2f(0.0, 0.0))
+print("loadingscreen_init.lua")
+Window.set_title("$fps")

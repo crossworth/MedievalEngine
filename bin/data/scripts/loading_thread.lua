@@ -10,5 +10,3 @@ function load()
     -- fake load some data here
     engine_set_loading_done(true)
 end
-
-
