@@ -18,8 +18,6 @@ MedievalEngine::MedievalEngine(int argc, char **argv) : mArguments(argc, argv) {
         return;
     }
 
-    LuaAPI::loadLibs();
-
     // We verify if a config argument has been passed, if so we load the engine
     // with the specified configuration file
     if (mArguments.hasArgument("config")) {
@@ -201,12 +199,11 @@ void MedievalEngine::loadingThread() {
     ProfileBlock();
     LOG << Log::VERBOSE << "[MedievalEngine::loadingThread]" << std::endl;
 
-    mGameStates.push(new LoadingScreen());
-
     // Here we do critical loading stuff
-    if (LuaAPI::executeScript("loading_thread.lua")) {
-        LuaAPI::script("load()");
+    if (LuaAPI::executeScriptSync("loading_thread.lua")) {
+        LuaAPI::scriptASync("load()");
     }
+    mGameStates.push(new LoadingScreen());
 }
 
 bool MedievalEngine::isLoadingThreadDone() {
@@ -236,7 +233,7 @@ void MedievalEngine::init() {
 
     // We create the window here so We dont have any freeze on the screen
     mWindow.create(mWindowInfoInput);
-
+    
     // Open the window only after the loading screen has been initialized
     mWindow.open();
 
