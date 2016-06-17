@@ -1,5 +1,5 @@
-#ifndef SPRITEANIMATION_H
-#define SPRITEANIMATION_H
+#ifndef MEDIEVALENGINE_RESOURCES_SPRITEANIMATION_H_
+#define MEDIEVALENGINE_RESOURCES_SPRITEANIMATION_H_
 #include <utility>
 #include "Resources/Texture.h"
 #include "Effects/Effect.h"
@@ -54,4 +54,4 @@ private:
 
 }
 
-#endif // SPRITEANIMATION_H
+#endif // MEDIEVALENGINE_RESOURCES_SPRITEANIMATION_H_
