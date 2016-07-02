@@ -174,7 +174,7 @@ bool CFGParser::validateLine(std::string &line) {
 
     // we just remove the comment until the end
     // so we can put a comment on a line
-    if (pos != (signed int)std::string::npos) {
+    if (pos != std::string::npos) {
        line = line.substr(0, pos);
     }
 
@@ -197,7 +197,7 @@ std::string CFGParser::mGetKey(std::string line) {
 
     line = line.substr(0, pos);
     pos  = line.find(" ");
-    if (pos != (signed int)std::string::npos) {
+    if (pos != std::string::npos) {
         line = line.substr(0,pos);
     }
     return line;
@@ -205,7 +205,7 @@ std::string CFGParser::mGetKey(std::string line) {
 
 String CFGParser::mGetValue(std::string line) {
     size_t pos         = line.find("=");
-    std::string result = line.substr(pos+1, line.size());
+    std::string result = line.substr(pos + 1, line.size());
 
 
     // trim

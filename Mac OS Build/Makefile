@@ -3,7 +3,7 @@
 
 PATH_SOURCE_FILES = /Volumes/Arquivos/Projects/MedievalEngine/src
 
-CC         = clang++
+CC         = clang++-3.7
 CFLAGS     = -g -Wall -Wno-switch -O0 -std=c++14
 INCLUDES   = -I $(PATH_SOURCE_FILES) -I /usr/local/lib  -I $(PATH_SOURCE_FILES)/extlibs
 LFLAGS     = -L /usr/local/lib 
@@ -16,9 +16,15 @@ OBJ_FILES   = $(patsubst %.mm,%.o,$(patsubst %.cpp,%.o,$(patsubst %.c,%.o,$(SRC_
 
 OUTPUT_FILE = MedievalEngine
 
-all: $(OUTPUT_FILE) run
+all: ctimeStart $(OUTPUT_FILE) cTimeEnd run
 
 print-%  : ; @echo $* = $($*)
+
+ctimeStart:
+	ctime -begin build_time.ctm
+
+cTimeEnd:
+	ctime -end build_time.ctm
 
 %.o : %.mm
 	$(CC) $(CFLAGS) $(INCLUDES) -c $<

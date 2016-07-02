@@ -3,9 +3,9 @@
 using namespace ME;
 
 MedievalEngine::MedievalEngine(int argc, char **argv) : mArguments(argc, argv) {
-    mDoneLoading      = false;
-    mRunning          = true;
-    mErrorCode        = 0;
+    mDoneLoading = false;
+    mRunning     = true;
+    mErrorCode   = 0;
 
     ProfileBlock();
 
@@ -203,7 +203,6 @@ void MedievalEngine::loadingThread() {
     if (LuaAPI::executeScriptSync("loading_thread.lua")) {
         LuaAPI::scriptASync("load()");
     }
-    mGameStates.push(new LoadingScreen());
 }
 
 bool MedievalEngine::isLoadingThreadDone() {
@@ -335,9 +334,10 @@ void MedievalEngine::init() {
 
     ResourceManager::registerLuaFunctions();
 
+    mGameStates.push(new LoadingScreen());
+
     // Initilize our loading thread
     mLoadingThread = std::thread(&MedievalEngine::loadingThread, this);
-    mLoadingThread.detach();
 }
 
 void MedievalEngine::setLoadingThreadDone() {
@@ -442,6 +442,10 @@ void MedievalEngine::close(const int &errorCode) {
     LOG << Log::VERBOSE << "[MedievalEngine::close]" << std::endl;
     mRunning   = false;
     mErrorCode = errorCode;
+
+    if (mLoadingThread.joinable()) {
+        mLoadingThread.join();
+    }
 }
 
 Window* MedievalEngine::getWindow() {
